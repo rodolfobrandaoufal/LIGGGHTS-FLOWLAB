@@ -1,0 +1,12 @@
+# Build output
+/build/
+
+# Compiled objects
+*.o
+
+# LIGGGHTS run logs
+log.liggghts
+
+# Simulation output
+*.h5
+*.h5.xdmf
