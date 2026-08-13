@@ -106,9 +106,10 @@ namespace ContactModels
         const double wr1 = sidata.wr1;
         const double wr2 = sidata.wr2;
         const double wr3 = sidata.wr3;
-        const double wrmag = sqrt(wr1*wr1+wr2*wr2+wr3*wr3);
-        if (wrmag > 0.)
+        const double wrsq = wr1*wr1+wr2*wr2+wr3*wr3;
+        if (wrsq > 0.)
         {
+          const double wrmag = sqrt(wrsq);
           const double kn = sidata.kn;
           const double enx = sidata.en[0];
           const double eny = sidata.en[1];

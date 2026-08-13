@@ -80,6 +80,17 @@ class Update : protected Pointers {
   class Min *minimize;
   char *minimize_style;
 
+  int gpu_dem_mode;              // 0 off, 1 auto, 2 strict
+  char *gpu_dem_mode_style;      // textual GPU_DEM execution policy
+  int gpu_dem_precision;         // 0 double, 1 mixed, 2 single
+  char *gpu_dem_precision_style; // textual GPU_DEM precision policy
+  int gpu_dem_neighbor;          // 0 auto, 1 verlet, 2 cell_direct
+  char *gpu_dem_neighbor_style;  // textual GPU_DEM neighbor policy
+  int gpu_dem_device;            // -1 auto, otherwise CUDA device ordinal
+  char *gpu_dem_device_style;    // textual GPU_DEM device policy
+  int gpu_dem_streams;           // 0 off, 1 on
+  char *gpu_dem_streams_style;   // textual GPU_DEM stream policy
+
   Update(class LAMMPS *);
   ~Update();
   void init();
@@ -90,6 +101,12 @@ class Update : protected Pointers {
   void reset_timestep(bigint);
   void update_time();
   bigint memory_usage();
+  void set_gpu_dem_mode(int, const char *);
+  void set_gpu_dem_precision(int, const char *);
+  void set_gpu_dem_neighbor(int, const char *);
+  void set_gpu_dem_device(int, const char *);
+  void set_gpu_dem_streams(int, const char *);
+  void check_gpu_dem_run_support();
 
   void set_force_dt_reset(bool value)
   { force_dt_reset_ = value; }

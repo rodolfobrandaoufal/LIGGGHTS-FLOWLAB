@@ -95,6 +95,21 @@ void FixNVE::init()
 
 void FixNVE::initial_integrate(int vflag)
 {
+#ifdef LIGGGHTS_USE_SOA_NVE
+  double **x = atom->x;
+  double **v = atom->v;
+  double **f = atom->f;
+  double *rmass = atom->rmass;
+  double *mass = atom->mass;
+  int *type = atom->type;
+  int *mask = atom->mask;
+  int nlocal = atom->nlocal;
+  if (igroup == atom->firstgroup) nlocal = atom->nfirst;
+
+  soa_.load_from_aos(x, v, f, rmass, mass, type, nlocal);
+  soa_.initial_integrate_nve(dtv, dtf, mask, groupbit, nlocal);
+  soa_.store_xv_to_aos(x, v, nlocal);
+#else
   double dtfm;
 
   // update v and x of atoms in group
@@ -133,12 +148,27 @@ void FixNVE::initial_integrate(int vflag)
         x[i][2] += dtv * v[i][2];
       }
   }
+#endif
 }
 
 /* ---------------------------------------------------------------------- */
 
 void FixNVE::final_integrate()
 {
+#ifdef LIGGGHTS_USE_SOA_NVE
+  double **v = atom->v;
+  double **f = atom->f;
+  double *rmass = atom->rmass;
+  double *mass = atom->mass;
+  int *type = atom->type;
+  int *mask = atom->mask;
+  int nlocal = atom->nlocal;
+  if (igroup == atom->firstgroup) nlocal = atom->nfirst;
+
+  soa_.load_from_aos(atom->x, v, f, rmass, mass, type, nlocal);
+  soa_.final_integrate_nve(dtf, mask, groupbit, nlocal);
+  soa_.store_v_to_aos(v, nlocal);
+#else
   double dtfm;
 
   // update v of atoms in group
@@ -170,6 +200,7 @@ void FixNVE::final_integrate()
         v[i][2] += dtfm * f[i][2];
       }
   }
+#endif
 }
 
 /* ---------------------------------------------------------------------- */

@@ -162,7 +162,13 @@ class FixNeighlistMesh : public Fix
 
     bool otherList_;
 private:
-    void checkBin(AtomVecEllipsoid::Bonus *bonus, std::vector<int>& neighbors, int& nchecked, double contactDistanceFactor, int *mask, int nlocal, int iBin, int iTri, bool haveNonSpherical, int *ellipsoid, double *shape);
+    static inline void incrementPackedInt(double *values, int index)
+    {
+      Fix::ubuf current(values[index]);
+      values[index] = Fix::ubuf(current.i + 1).d;
+    }
+
+    void checkBin(AtomVecEllipsoid::Bonus *bonus, std::vector<int>& neighbors, int& nchecked, double *nneighs, double contactDistanceFactor, int *mask, int nlocal, int iBin, int iTri, bool haveNonSpherical, int *ellipsoid);
 };
 
 } /* namespace LAMMPS_NS */

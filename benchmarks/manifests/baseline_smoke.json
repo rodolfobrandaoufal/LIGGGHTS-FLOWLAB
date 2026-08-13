@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "description": "Initial smoke and baseline cases for the measured modernization core.",
+  "repeats": 5,
+  "default_ranks": [1],
+  "output": {
+    "preserve_raw_logs": true,
+    "parsed_csv": "benchmarks/parsed_csv/baseline_smoke.csv"
+  },
+  "required_metadata": [
+    "source_revision_or_patch_id",
+    "compiler",
+    "compiler_flags",
+    "mpi_version",
+    "cpu_model",
+    "rank_layout",
+    "thread_layout",
+    "input_file",
+    "random_seed",
+    "output_cadence"
+  ],
+  "cases": [
+    {
+      "id": "packing_hertz_history",
+      "input": "examples/LIGGGHTS/Tutorials_public/packing/in.packing",
+      "ranks": [1, 2, 4],
+      "variables": {},
+      "expected_exit_code": 0
+    },
+    {
+      "id": "mesh_wall",
+      "input": "examples/LIGGGHTS/Tutorials_public/meshGran/in.meshGran",
+      "ranks": [1, 2, 4],
+      "variables": {},
+      "expected_exit_code": 0
+    },
+    {
+      "id": "cohesion",
+      "input": "examples/LIGGGHTS/Tutorials_public/cohesion/in.cohesion",
+      "ranks": [1, 2, 4],
+      "variables": {},
+      "expected_exit_code": 0
+    },
+    {
+      "id": "superquadric",
+      "input": "examples/LIGGGHTS/Tutorials_public/superquadric/in.particle_particle",
+      "ranks": [1, 2],
+      "variables": {
+        "blockiness1": "2.0",
+        "blockiness2": "2.0",
+        "angle": "0.0"
+      },
+      "expected_exit_code": 0
+    },
+    {
+      "id": "asphere_scheme4_guard_negative",
+      "input": "tests/regression/in.asphere_scheme4_requires_implicit",
+      "ranks": [1],
+      "variables": {},
+      "expected_exit_code": 1,
+      "expected_stderr_contains": "integration_scheme 4 requires fix couple/cfd/force/implicit"
+    }
+  ]
+}

@@ -79,6 +79,12 @@ class ComputePropertyAtom : public Compute {
   typedef void (ComputePropertyAtom::*FnPtrPack)(int);
   FnPtrPack *pack_choice;              // ptrs to pack functions
 
+  double x_component(int, int) const;
+  double v_component(int, int) const;
+  double f_component(int, int) const;
+  double omega_component(int, int) const;
+  double torque_component(int, int) const;
+
   void pack_id(int);
   void pack_molecule(int);
   void pack_type(int);

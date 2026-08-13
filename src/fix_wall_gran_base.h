@@ -304,7 +304,9 @@ public:
     if(sidata.computeflag)
     {
         if (sidata.has_force_update)
-            force_update(f, torque, i_forces);
+        {
+            force_update(f,torque,i_forces);
+        }
         // summation of f.n to compute a simplistic pressure
         if (wg->store_sum_normal_force())
         {

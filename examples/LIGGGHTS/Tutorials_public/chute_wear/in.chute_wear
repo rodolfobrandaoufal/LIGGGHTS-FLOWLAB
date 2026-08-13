@@ -63,11 +63,17 @@ thermo_modify lost ignore norm no
 
 #insert the first particles so that dump is not empty
 run    1
-dump   dmp all custom/vtk 200 post/chute_*.vtk id type type x y z ix iy iz vx vy vz fx fy fz omegax omegay omegaz radius 
-dump   dumpstress all mesh/gran/VTK 200 post/mesh_*.vtk stress wear cad
+# Parallel particle output. Requires a build with -DLIGGGHTS_HDF5 and parallel HDF5.
+# The dump writes /Step_<timestep>/{id,position,velocity,radius} and a ParaView XDMF sidecar.
+dump   particles all hdf5 500 post/chute_particles.h5
+dump   meshout all mesh/hdf5 1000 post/chute_mesh.h5 cad f sigma_n sigma_t wear
+
+# Mesh stress/wear output is VTK-specific in this example. Keep disabled when using
+# the particle HDF5 dump unless the executable is also built with LAMMPS_VTK.
+# dump   dumpstress all mesh/gran/VTK 200 post/mesh_*.vtk stress wear cad
 
 #insert particles
-run    100000 upto
+run    1000000 upto
 unfix  ins
 
  

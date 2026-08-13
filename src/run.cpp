@@ -193,6 +193,7 @@ void Run::command(int narg, char **arg, bigint nsteps_input_ext)
   // if post, do full Finish, else just print time
 
   update->whichflag = 1;
+  update->check_gpu_dem_run_support();
 
   if (nevery == 0) {
     update->nsteps = nsteps;

@@ -92,8 +92,8 @@ namespace ContactModels {
     CohesionModel(LAMMPS * lmp, IContactHistorySetup * hsetup,class ContactModelBase *cmb) :
       CohesionModelBase(lmp, hsetup, cmb),
       surfaceLiquidContentInitial(0.0),
-      surfaceTension(0.0),
       contactAngle(0),
+      surface_energy_matrix(NULL),
       minSeparationDistanceRatio(0.0),
       maxSeparationDistanceRatio(0.0),
       fluidViscosity(0.),
@@ -118,19 +118,25 @@ namespace ContactModels {
     void connectToProperties(PropertyRegistry & registry)
     {
       registry.registerProperty("surfaceLiquidContentInitial", &MODEL_PARAMS::createliquidContentInitialEaso);
-      registry.registerProperty("surfaceTension", &MODEL_PARAMS::createSurfaceTension);
+      registry.registerProperty("surfaceEnergy", &MODEL_PARAMS::createSurfaceEnergy);
       registry.registerProperty("fluidViscosity", &MODEL_PARAMS::createFluidViscosityEaso);
       registry.registerProperty("contactAngle", &MODEL_PARAMS::createContactAngle);
       registry.registerProperty("minSeparationDistanceRatio", &MODEL_PARAMS::createMinSeparationDistanceRatioEaso);
       registry.registerProperty("maxSeparationDistanceRatio", &MODEL_PARAMS::createMaxSeparationDistanceRatioEaso);
 
+      modify->find_fix_property("surfaceEnergy","property/global","peratomtypepair",
+                                registry.max_type(),registry.max_type(),"cohesion_model easo/capillary/viscous");
+
       registry.connect("surfaceLiquidContentInitial", surfaceLiquidContentInitial,"cohesion_model easo/capillary/viscous");
-      registry.connect("surfaceTension", surfaceTension,"cohesion_model easo/capillary/viscous");
+      registry.connect("surfaceEnergy", surface_energy_matrix,"cohesion_model easo/capillary/viscous");
       registry.connect("fluidViscosity", fluidViscosity,"cohesion_model easo/capillary/viscous");
       registry.connect("contactAngle", contactAngle,"cohesion_model easo/capillary/viscous");
       registry.connect("minSeparationDistanceRatio", minSeparationDistanceRatio,"cohesion_model easo/capillary/viscous");
       
       registry.connect("maxSeparationDistanceRatio", maxSeparationDistanceRatio,"cohesion_model easo/capillary/viscous");
+
+      if(!surface_energy_matrix)
+        error->all(FLERR,"cohesion model easo/capillary/viscous requires fix property/global surfaceEnergy peratomtypepair");
 
       ln1overMinSeparationDistanceRatio = log(1./minSeparationDistanceRatio);
 
@@ -208,6 +214,7 @@ namespace ContactModels {
 
       const double rEff = radi*radj / (radi+radj);
       const double contactAngleEff = 0.5 * (contactAngle[itype] + contactAngle[jtype]);
+      const double current_surface_energy = surface_energy_matrix[itype][jtype];
 
       // capilar force
       // this is from Soulie et al, Intl. J Numerical and Analytical Methods in Geomechanics
@@ -218,7 +225,7 @@ namespace ContactModels {
       const double volBondScaled = volBond1000*R2inv*0.001*R2inv*R2inv;
       const double Bparam = (-0.148*log(volBondScaled)-0.96)*contactAngleEff*contactAngleEff - 0.0082*log(volBondScaled) + 0.48;
       const double Cparam = 0.0018*log(volBondScaled)+0.078;
-      const double Fcapilary = - M_PI*surfaceTension*sqrt(radi*radj)*(exp(Bparam)+Cparam);
+      const double Fcapilary = - M_PI*current_surface_energy*sqrt(radi*radj)*(exp(Bparam)+Cparam);
 
       // viscous force
       // this is from Nase et al as cited in Shi and McCarthy, Powder Technology, 184 (2008), 65-75, Eqns 40,41
@@ -307,6 +314,7 @@ namespace ContactModels {
 
       const double rEff = radi*radj / (radi+radj);
       const double contactAngleEff = 0.5 * (contactAngle[itype] + contactAngle[jtype]);
+      const double current_surface_energy = surface_energy_matrix[itype][jtype];
       const double distMax = (1. + 0.5*contactAngleEff) * cbrt(volBond1000) *0.1;
 
       // check if liquid bridge exists
@@ -345,7 +353,7 @@ namespace ContactModels {
           const double Aparam = -1.1*pow((volBondScaled),-0.53);
           const double Bparam = (-0.148*log(volBondScaled)-0.96)*contactAngleEff*contactAngleEff - 0.0082*log(volBondScaled) + 0.48;
           const double Cparam = 0.0018*log(volBondScaled)+0.078;
-          const double Fcapilary = - M_PI*surfaceTension*sqrt(radi*radj)*(exp(Aparam*dist/R2+Bparam)+Cparam);
+          const double Fcapilary = - M_PI*current_surface_energy*sqrt(radi*radj)*(exp(Aparam*dist/R2+Bparam)+Cparam);
 
           // calculate vn and vt since not in struct
           const double rinv = 1.0 / r;
@@ -472,7 +480,8 @@ namespace ContactModels {
     }
 
   private:
-    double surfaceLiquidContentInitial, surfaceTension, *contactAngle;
+    double surfaceLiquidContentInitial, *contactAngle;
+    double **surface_energy_matrix;
     double minSeparationDistanceRatio, maxSeparationDistanceRatio, fluidViscosity;
     double ln1overMinSeparationDistanceRatio;
     int history_offset;

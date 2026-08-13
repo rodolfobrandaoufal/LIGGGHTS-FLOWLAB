@@ -596,6 +596,11 @@ int Input::execute_command()
   else if (!strcmp(command,"fix_modify")) fix_modify();
   else if (!strcmp(command,"force_dt_reset")) force_dt_reset();
   else if (!strcmp(command,"group")) group_command();
+  else if (!strcmp(command,"gpu_device")) gpu_device();
+  else if (!strcmp(command,"gpu_mode")) gpu_mode();
+  else if (!strcmp(command,"gpu_neighbor")) gpu_neighbor();
+  else if (!strcmp(command,"gpu_precision")) gpu_precision();
+  else if (!strcmp(command,"gpu_streams")) gpu_streams();
   else if (!strcmp(command,"improper_coeff")) improper_coeff();
   else if (!strcmp(command,"improper_style")) improper_style();
   else if (!strcmp(command,"kspace_modify")) kspace_modify();
@@ -1383,6 +1388,113 @@ void Input::force_dt_reset()
 
 /* ---------------------------------------------------------------------- */
 
+void Input::gpu_mode()
+{
+  if (narg != 1)
+    error->all(FLERR,"gpu_mode expects 'off', 'auto', or 'strict'");
+
+  int mode = -1;
+  if (strcmp(arg[0],"off") == 0) mode = 0;
+  else if (strcmp(arg[0],"auto") == 0) mode = 1;
+  else if (strcmp(arg[0],"strict") == 0) mode = 2;
+  else error->all(FLERR,"gpu_mode expects 'off', 'auto', or 'strict'");
+
+  update->set_gpu_dem_mode(mode,arg[0]);
+
+  if (screen)
+    fprintf(screen,"GPU_DEM mode set to %s; strict rejects host fallbacks, auto reports them and runs on CPU\n",arg[0]);
+  if (logfile)
+    fprintf(logfile,"GPU_DEM mode set to %s; strict rejects host fallbacks, auto reports them and runs on CPU\n",arg[0]);
+}
+
+/* ---------------------------------------------------------------------- */
+
+void Input::gpu_precision()
+{
+  if (narg != 1)
+    error->all(FLERR,"gpu_precision expects 'double', 'mixed', or 'single'");
+
+  int precision = -1;
+  if (strcmp(arg[0],"double") == 0) precision = 0;
+  else if (strcmp(arg[0],"mixed") == 0) precision = 1;
+  else if (strcmp(arg[0],"single") == 0) precision = 2;
+  else error->all(FLERR,"gpu_precision expects 'double', 'mixed', or 'single'");
+
+  update->set_gpu_dem_precision(precision,arg[0]);
+
+  if (screen)
+    fprintf(screen,"GPU_DEM precision policy set to %s\n",arg[0]);
+  if (logfile)
+    fprintf(logfile,"GPU_DEM precision policy set to %s\n",arg[0]);
+}
+
+/* ---------------------------------------------------------------------- */
+
+void Input::gpu_neighbor()
+{
+  if (narg != 1)
+    error->all(FLERR,"gpu_neighbor expects 'auto', 'verlet', or 'cell_direct'");
+
+  int neighbor_policy = -1;
+  if (strcmp(arg[0],"auto") == 0) neighbor_policy = 0;
+  else if (strcmp(arg[0],"verlet") == 0) neighbor_policy = 1;
+  else if (strcmp(arg[0],"cell_direct") == 0) neighbor_policy = 2;
+  else error->all(FLERR,"gpu_neighbor expects 'auto', 'verlet', or 'cell_direct'");
+
+  update->set_gpu_dem_neighbor(neighbor_policy,arg[0]);
+
+  if (screen)
+    fprintf(screen,"GPU_DEM neighbor policy set to %s\n",arg[0]);
+  if (logfile)
+    fprintf(logfile,"GPU_DEM neighbor policy set to %s\n",arg[0]);
+}
+
+/* ---------------------------------------------------------------------- */
+
+void Input::gpu_device()
+{
+  if (narg != 1)
+    error->all(FLERR,"gpu_device expects 'auto' or a non-negative device id");
+
+  int device = -1;
+  if (strcmp(arg[0],"auto") == 0) device = -1;
+  else {
+    for (int i = 0; arg[0][i] != '\0'; ++i)
+      if (arg[0][i] < '0' || arg[0][i] > '9')
+        error->all(FLERR,"gpu_device expects 'auto' or a non-negative device id");
+    device = atoi(arg[0]);
+  }
+
+  update->set_gpu_dem_device(device,arg[0]);
+
+  if (screen)
+    fprintf(screen,"GPU_DEM device policy set to %s\n",arg[0]);
+  if (logfile)
+    fprintf(logfile,"GPU_DEM device policy set to %s\n",arg[0]);
+}
+
+/* ---------------------------------------------------------------------- */
+
+void Input::gpu_streams()
+{
+  if (narg != 1)
+    error->all(FLERR,"gpu_streams expects 'on' or 'off'");
+
+  int streams = -1;
+  if (strcmp(arg[0],"off") == 0) streams = 0;
+  else if (strcmp(arg[0],"on") == 0) streams = 1;
+  else error->all(FLERR,"gpu_streams expects 'on' or 'off'");
+
+  update->set_gpu_dem_streams(streams,arg[0]);
+
+  if (screen)
+    fprintf(screen,"GPU_DEM streams policy set to %s\n",arg[0]);
+  if (logfile)
+    fprintf(logfile,"GPU_DEM streams policy set to %s\n",arg[0]);
+}
+
+/* ---------------------------------------------------------------------- */
+
 void Input::group_command()
 {
   group->assign(narg,arg);
@@ -1841,4 +1953,3 @@ void Input::parse_nonlammps()
     ptr = next;
   }
 }
-

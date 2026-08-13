@@ -69,6 +69,33 @@
 
 using namespace LAMMPS_NS;
 
+/* ---------------------------------------------------------------------- */
+
+double DumpCustom::x_component(int i, int component) const
+{
+  return atom->x[i][component];
+}
+
+double DumpCustom::v_component(int i, int component) const
+{
+  return atom->v[i][component];
+}
+
+double DumpCustom::f_component(int i, int component) const
+{
+  return atom->f[i][component];
+}
+
+double DumpCustom::omega_component(int i, int component) const
+{
+  return atom->omega[i][component];
+}
+
+double DumpCustom::torque_component(int i, int component) const
+{
+  return atom->torque[i][component];
+}
+
 // customize by adding keyword
 // also customize compute_atom_property.cpp
 
@@ -465,9 +492,8 @@ int DumpCustom::count()
 
   if (iregion >= 0) {
     Region *region = domain->regions[iregion];
-    double **x = atom->x;
     for (i = 0; i < nlocal; i++)
-      if (choose[i] && region->match(x[i][0],x[i][1],x[i][2]) == 0)
+      if (choose[i] && region->match(x_component(i,0),x_component(i,1),x_component(i,2)) == 0)
         choose[i] = 0;
   }
 
@@ -529,85 +555,75 @@ int DumpCustom::count()
         nstride = 3;
 
       } else if (thresh_array[ithresh] == XS) {
-        double **x = atom->x;
         double boxxlo = domain->boxlo[0];
         double invxprd = 1.0/domain->xprd;
         for (i = 0; i < nlocal; i++)
-          dchoose[i] = (x[i][0] - boxxlo) * invxprd;
+          dchoose[i] = (x_component(i,0) - boxxlo) * invxprd;
         ptr = dchoose;
         nstride = 1;
       } else if (thresh_array[ithresh] == YS) {
-        double **x = atom->x;
         double boxylo = domain->boxlo[1];
         double invyprd = 1.0/domain->yprd;
         for (i = 0; i < nlocal; i++)
-          dchoose[i] = (x[i][1] - boxylo) * invyprd;
+          dchoose[i] = (x_component(i,1) - boxylo) * invyprd;
         ptr = dchoose;
         nstride = 1;
       } else if (thresh_array[ithresh] == ZS) {
-        double **x = atom->x;
         double boxzlo = domain->boxlo[2];
         double invzprd = 1.0/domain->zprd;
         for (i = 0; i < nlocal; i++)
-          dchoose[i] = (x[i][2] - boxzlo) * invzprd;
+          dchoose[i] = (x_component(i,2) - boxzlo) * invzprd;
         ptr = dchoose;
         nstride = 1;
 
       } else if (thresh_array[ithresh] == XSTRI) {
-        double **x = atom->x;
         double *boxlo = domain->boxlo;
         double *h_inv = domain->h_inv;
         for (i = 0; i < nlocal; i++)
-          dchoose[i] = h_inv[0]*(x[i][0]-boxlo[0]) +
-            h_inv[5]*(x[i][1]-boxlo[1]) + h_inv[4]*(x[i][2]-boxlo[2]);
+          dchoose[i] = h_inv[0]*(x_component(i,0)-boxlo[0]) +
+            h_inv[5]*(x_component(i,1)-boxlo[1]) + h_inv[4]*(x_component(i,2)-boxlo[2]);
         ptr = dchoose;
         nstride = 1;
       } else if (thresh_array[ithresh] == YSTRI) {
-        double **x = atom->x;
         double *boxlo = domain->boxlo;
         double *h_inv = domain->h_inv;
         for (i = 0; i < nlocal; i++)
-          dchoose[i] = h_inv[1]*(x[i][1]-boxlo[1]) +
-            h_inv[3]*(x[i][2]-boxlo[2]);
+          dchoose[i] = h_inv[1]*(x_component(i,1)-boxlo[1]) +
+            h_inv[3]*(x_component(i,2)-boxlo[2]);
         ptr = dchoose;
         nstride = 1;
       } else if (thresh_array[ithresh] == ZSTRI) {
-        double **x = atom->x;
         double *boxlo = domain->boxlo;
         double *h_inv = domain->h_inv;
         for (i = 0; i < nlocal; i++)
-          dchoose[i] = h_inv[2]*(x[i][2]-boxlo[2]);
+          dchoose[i] = h_inv[2]*(x_component(i,2)-boxlo[2]);
         ptr = dchoose;
         nstride = 1;
 
       } else if (thresh_array[ithresh] == XU) {
-        double **x = atom->x;
         tagint *image = atom->image;
         double xprd = domain->xprd;
         for (i = 0; i < nlocal; i++)
-          dchoose[i] = x[i][0] + ((image[i] & IMGMASK) - IMGMAX) * xprd;
+          dchoose[i] = x_component(i,0) + ((image[i] & IMGMASK) - IMGMAX) * xprd;
         ptr = dchoose;
         nstride = 1;
       } else if (thresh_array[ithresh] == YU) {
-        double **x = atom->x;
         tagint *image = atom->image;
         double yprd = domain->yprd;
         for (i = 0; i < nlocal; i++)
-          dchoose[i] = x[i][1] +
+          dchoose[i] = x_component(i,1) +
             ((image[i] >> IMGBITS & IMGMASK) - IMGMAX) * yprd;
         ptr = dchoose;
         nstride = 1;
       } else if (thresh_array[ithresh] == ZU) {
-        double **x = atom->x;
         tagint *image = atom->image;
         double zprd = domain->zprd;
         for (i = 0; i < nlocal; i++)
-          dchoose[i] = x[i][2] + ((image[i] >> IMG2BITS) - IMGMAX) * zprd;
+          dchoose[i] = x_component(i,2) + ((image[i] >> IMG2BITS) - IMGMAX) * zprd;
         ptr = dchoose;
         nstride = 1;
 
       } else if (thresh_array[ithresh] == XUTRI) {
-        double **x = atom->x;
         tagint *image = atom->image;
         double *h = domain->h;
         int xbox,ybox,zbox;
@@ -615,98 +631,90 @@ int DumpCustom::count()
           xbox = (image[i] & IMGMASK) - IMGMAX;
           ybox = (image[i] >> IMGBITS & IMGMASK) - IMGMAX;
           zbox = (image[i] >> IMG2BITS) - IMGMAX;
-          dchoose[i] = x[i][0] + h[0]*xbox + h[5]*ybox + h[4]*zbox;
+          dchoose[i] = x_component(i,0) + h[0]*xbox + h[5]*ybox + h[4]*zbox;
         }
         ptr = dchoose;
         nstride = 1;
       } else if (thresh_array[ithresh] == YUTRI) {
-        double **x = atom->x;
         tagint *image = atom->image;
         double *h = domain->h;
         int ybox,zbox;
         for (i = 0; i < nlocal; i++) {
           ybox = (image[i] >> IMGBITS & IMGMASK) - IMGMAX;
           zbox = (image[i] >> IMG2BITS) - IMGMAX;
-          dchoose[i] = x[i][1] + h[1]*ybox + h[3]*zbox;
+          dchoose[i] = x_component(i,1) + h[1]*ybox + h[3]*zbox;
         }
         ptr = dchoose;
         nstride = 1;
       } else if (thresh_array[ithresh] == ZUTRI) {
-        double **x = atom->x;
         tagint *image = atom->image;
         double *h = domain->h;
         int zbox;
         for (i = 0; i < nlocal; i++) {
           zbox = (image[i] >> IMG2BITS) - IMGMAX;
-          dchoose[i] = x[i][2] + h[2]*zbox;
+          dchoose[i] = x_component(i,2) + h[2]*zbox;
         }
         ptr = dchoose;
         nstride = 1;
 
       } else if (thresh_array[ithresh] == XSU) {
-        double **x = atom->x;
         tagint *image = atom->image;
         double boxxlo = domain->boxlo[0];
         double invxprd = 1.0/domain->xprd;
         for (i = 0; i < nlocal; i++)
-          dchoose[i] = (x[i][0] - boxxlo) * invxprd +
+          dchoose[i] = (x_component(i,0) - boxxlo) * invxprd +
             (image[i] & IMGMASK) - IMGMAX;
         ptr = dchoose;
         nstride = 1;
 
       } else if (thresh_array[ithresh] == YSU) {
-        double **x = atom->x;
         tagint *image = atom->image;
         double boxylo = domain->boxlo[1];
         double invyprd = 1.0/domain->yprd;
         for (i = 0; i < nlocal; i++)
           dchoose[i] =
-            (x[i][1] - boxylo) * invyprd +
+            (x_component(i,1) - boxylo) * invyprd +
             (image[i] >> IMGBITS & IMGMASK) - IMGMAX;
         ptr = dchoose;
         nstride = 1;
 
       } else if (thresh_array[ithresh] == ZSU) {
-        double **x = atom->x;
         tagint *image = atom->image;
         double boxzlo = domain->boxlo[2];
         double invzprd = 1.0/domain->zprd;
         for (i = 0; i < nlocal; i++)
-          dchoose[i] = (x[i][2] - boxzlo) * invzprd +
+          dchoose[i] = (x_component(i,2) - boxzlo) * invzprd +
             (image[i] >> IMG2BITS) - IMGMAX;
         ptr = dchoose;
         nstride = 1;
 
       } else if (thresh_array[ithresh] == XSUTRI) {
-        double **x = atom->x;
         tagint *image = atom->image;
         double *boxlo = domain->boxlo;
         double *h_inv = domain->h_inv;
         for (i = 0; i < nlocal; i++)
-          dchoose[i] = h_inv[0]*(x[i][0]-boxlo[0]) +
-            h_inv[5]*(x[i][1]-boxlo[1]) +
-            h_inv[4]*(x[i][2]-boxlo[2]) +
+          dchoose[i] = h_inv[0]*(x_component(i,0)-boxlo[0]) +
+            h_inv[5]*(x_component(i,1)-boxlo[1]) +
+            h_inv[4]*(x_component(i,2)-boxlo[2]) +
             (image[i] & IMGMASK) - IMGMAX;
         ptr = dchoose;
         nstride = 1;
       } else if (thresh_array[ithresh] == YSUTRI) {
-        double **x = atom->x;
         tagint *image = atom->image;
         double *boxlo = domain->boxlo;
         double *h_inv = domain->h_inv;
         for (i = 0; i < nlocal; i++)
-          dchoose[i] = h_inv[1]*(x[i][1]-boxlo[1]) +
-            h_inv[3]*(x[i][2]-boxlo[2]) +
+          dchoose[i] = h_inv[1]*(x_component(i,1)-boxlo[1]) +
+            h_inv[3]*(x_component(i,2)-boxlo[2]) +
             (image[i] >> IMGBITS & IMGMASK) - IMGMAX;
         ptr = dchoose;
         nstride = 1;
       } else if (thresh_array[ithresh] == ZSUTRI) {
-        double **x = atom->x;
         tagint *image = atom->image;
         double *boxlo = domain->boxlo;
         double *h_inv = domain->h_inv;
         for (i = 0; i < nlocal; i++)
-          dchoose[i] = h_inv[2]*(x[i][2]-boxlo[2]) +
+          dchoose[i] = h_inv[2]*(x_component(i,2)-boxlo[2]) +
             (image[i] >> IMG2BITS) - IMGMAX;
         ptr = dchoose;
         nstride = 1;
@@ -1929,10 +1937,9 @@ void DumpCustom::pack_mass(int n)
 
 void DumpCustom::pack_x(int n)
 {
-  double **x = atom->x;
 
   for (int i = 0; i < nchoose; i++) {
-    buf[n] = x[clist[i]][0];
+    buf[n] = x_component(clist[i],0);
     n += size_one;
   }
 }
@@ -1941,10 +1948,9 @@ void DumpCustom::pack_x(int n)
 
 void DumpCustom::pack_y(int n)
 {
-  double **x = atom->x;
 
   for (int i = 0; i < nchoose; i++) {
-    buf[n] = x[clist[i]][1];
+    buf[n] = x_component(clist[i],1);
     n += size_one;
   }
 }
@@ -1953,10 +1959,9 @@ void DumpCustom::pack_y(int n)
 
 void DumpCustom::pack_z(int n)
 {
-  double **x = atom->x;
 
   for (int i = 0; i < nchoose; i++) {
-    buf[n] = x[clist[i]][2];
+    buf[n] = x_component(clist[i],2);
     n += size_one;
   }
 }
@@ -1965,13 +1970,12 @@ void DumpCustom::pack_z(int n)
 
 void DumpCustom::pack_xs(int n)
 {
-  double **x = atom->x;
 
   double boxxlo = domain->boxlo[0];
   double invxprd = 1.0/domain->xprd;
 
   for (int i = 0; i < nchoose; i++) {
-    buf[n] = (x[clist[i]][0] - boxxlo) * invxprd;
+    buf[n] = (x_component(clist[i],0) - boxxlo) * invxprd;
     n += size_one;
   }
 }
@@ -1980,13 +1984,12 @@ void DumpCustom::pack_xs(int n)
 
 void DumpCustom::pack_ys(int n)
 {
-  double **x = atom->x;
 
   double boxylo = domain->boxlo[1];
   double invyprd = 1.0/domain->yprd;
 
   for (int i = 0; i < nchoose; i++) {
-    buf[n] = (x[clist[i]][1] - boxylo) * invyprd;
+    buf[n] = (x_component(clist[i],1) - boxylo) * invyprd;
     n += size_one;
   }
 }
@@ -1995,13 +1998,12 @@ void DumpCustom::pack_ys(int n)
 
 void DumpCustom::pack_zs(int n)
 {
-  double **x = atom->x;
 
   double boxzlo = domain->boxlo[2];
   double invzprd = 1.0/domain->zprd;
 
   for (int i = 0; i < nchoose; i++) {
-    buf[n] = (x[clist[i]][2] - boxzlo) * invzprd;
+    buf[n] = (x_component(clist[i],2) - boxzlo) * invzprd;
     n += size_one;
   }
 }
@@ -2011,15 +2013,14 @@ void DumpCustom::pack_zs(int n)
 void DumpCustom::pack_xs_triclinic(int n)
 {
   int j;
-  double **x = atom->x;
 
   double *boxlo = domain->boxlo;
   double *h_inv = domain->h_inv;
 
   for (int i = 0; i < nchoose; i++) {
     j = clist[i];
-    buf[n] = h_inv[0]*(x[j][0]-boxlo[0]) + h_inv[5]*(x[j][1]-boxlo[1]) +
-      h_inv[4]*(x[j][2]-boxlo[2]);
+    buf[n] = h_inv[0]*(x_component(j,0)-boxlo[0]) + h_inv[5]*(x_component(j,1)-boxlo[1]) +
+      h_inv[4]*(x_component(j,2)-boxlo[2]);
     n += size_one;
   }
 }
@@ -2029,14 +2030,13 @@ void DumpCustom::pack_xs_triclinic(int n)
 void DumpCustom::pack_ys_triclinic(int n)
 {
   int j;
-  double **x = atom->x;
 
   double *boxlo = domain->boxlo;
   double *h_inv = domain->h_inv;
 
   for (int i = 0; i < nchoose; i++) {
     j = clist[i];
-    buf[n] = h_inv[1]*(x[j][1]-boxlo[1]) + h_inv[3]*(x[j][2]-boxlo[2]);
+    buf[n] = h_inv[1]*(x_component(j,1)-boxlo[1]) + h_inv[3]*(x_component(j,2)-boxlo[2]);
     n += size_one;
   }
 }
@@ -2045,13 +2045,12 @@ void DumpCustom::pack_ys_triclinic(int n)
 
 void DumpCustom::pack_zs_triclinic(int n)
 {
-  double **x = atom->x;
 
   double *boxlo = domain->boxlo;
   double *h_inv = domain->h_inv;
 
   for (int i = 0; i < nchoose; i++) {
-    buf[n] = h_inv[2]*(x[clist[i]][2]-boxlo[2]);
+    buf[n] = h_inv[2]*(x_component(clist[i],2)-boxlo[2]);
     n += size_one;
   }
 }
@@ -2061,14 +2060,13 @@ void DumpCustom::pack_zs_triclinic(int n)
 void DumpCustom::pack_xu(int n)
 {
   int j;
-  double **x = atom->x;
   tagint *image = atom->image;
 
   double xprd = domain->xprd;
 
   for (int i = 0; i < nchoose; i++) {
     j = clist[i];
-    buf[n] = x[j][0] + ((image[j] & IMGMASK) - IMGMAX) * xprd;
+    buf[n] = x_component(j,0) + ((image[j] & IMGMASK) - IMGMAX) * xprd;
     n += size_one;
   }
 }
@@ -2078,14 +2076,13 @@ void DumpCustom::pack_xu(int n)
 void DumpCustom::pack_yu(int n)
 {
   int j;
-  double **x = atom->x;
   tagint *image = atom->image;
 
   double yprd = domain->yprd;
 
   for (int i = 0; i < nchoose; i++) {
     j = clist[i];
-    buf[n] = x[j][1] + ((image[j] >> IMGBITS & IMGMASK) - IMGMAX) * yprd;
+    buf[n] = x_component(j,1) + ((image[j] >> IMGBITS & IMGMASK) - IMGMAX) * yprd;
     n += size_one;
   }
 }
@@ -2095,14 +2092,13 @@ void DumpCustom::pack_yu(int n)
 void DumpCustom::pack_zu(int n)
 {
   int j;
-  double **x = atom->x;
   tagint *image = atom->image;
 
   double zprd = domain->zprd;
 
   for (int i = 0; i < nchoose; i++) {
     j = clist[i];
-    buf[n] = x[j][2] + ((image[j] >> IMG2BITS) - IMGMAX) * zprd;
+    buf[n] = x_component(j,2) + ((image[j] >> IMG2BITS) - IMGMAX) * zprd;
     n += size_one;
   }
 }
@@ -2112,7 +2108,6 @@ void DumpCustom::pack_zu(int n)
 void DumpCustom::pack_xu_triclinic(int n)
 {
   int j;
-  double **x = atom->x;
   tagint *image = atom->image;
 
   double *h = domain->h;
@@ -2123,7 +2118,7 @@ void DumpCustom::pack_xu_triclinic(int n)
     xbox = (image[j] & IMGMASK) - IMGMAX;
     ybox = (image[j] >> IMGBITS & IMGMASK) - IMGMAX;
     zbox = (image[j] >> IMG2BITS) - IMGMAX;
-    buf[n] = x[j][0] + h[0]*xbox + h[5]*ybox + h[4]*zbox;
+    buf[n] = x_component(j,0) + h[0]*xbox + h[5]*ybox + h[4]*zbox;
     n += size_one;
   }
 }
@@ -2133,7 +2128,6 @@ void DumpCustom::pack_xu_triclinic(int n)
 void DumpCustom::pack_yu_triclinic(int n)
 {
   int j;
-  double **x = atom->x;
   tagint *image = atom->image;
 
   double *h = domain->h;
@@ -2143,7 +2137,7 @@ void DumpCustom::pack_yu_triclinic(int n)
     j = clist[i];
     ybox = (image[j] >> IMGBITS & IMGMASK) - IMGMAX;
     zbox = (image[j] >> IMG2BITS) - IMGMAX;
-    buf[n] = x[j][1] + h[1]*ybox + h[3]*zbox;
+    buf[n] = x_component(j,1) + h[1]*ybox + h[3]*zbox;
     n += size_one;
   }
 }
@@ -2153,7 +2147,6 @@ void DumpCustom::pack_yu_triclinic(int n)
 void DumpCustom::pack_zu_triclinic(int n)
 {
   int j;
-  double **x = atom->x;
   tagint *image = atom->image;
 
   double *h = domain->h;
@@ -2162,7 +2155,7 @@ void DumpCustom::pack_zu_triclinic(int n)
   for (int i = 0; i < nchoose; i++) {
     j = clist[i];
     zbox = (image[j] >> IMG2BITS) - IMGMAX;
-    buf[n] = x[j][2] + h[2]*zbox;
+    buf[n] = x_component(j,2) + h[2]*zbox;
     n += size_one;
   }
 }
@@ -2172,7 +2165,6 @@ void DumpCustom::pack_zu_triclinic(int n)
 void DumpCustom::pack_xsu(int n)
 {
   int j;
-  double **x = atom->x;
   tagint *image = atom->image;
 
   double boxxlo = domain->boxlo[0];
@@ -2180,7 +2172,7 @@ void DumpCustom::pack_xsu(int n)
 
   for (int i = 0; i < nchoose; i++) {
     j = clist[i];
-    buf[n] = (x[j][0] - boxxlo) * invxprd + (image[j] & IMGMASK) - IMGMAX;
+    buf[n] = (x_component(j,0) - boxxlo) * invxprd + (image[j] & IMGMASK) - IMGMAX;
     n += size_one;
   }
 }
@@ -2190,7 +2182,6 @@ void DumpCustom::pack_xsu(int n)
 void DumpCustom::pack_ysu(int n)
 {
   int j;
-  double **x = atom->x;
   tagint *image = atom->image;
 
   double boxylo = domain->boxlo[1];
@@ -2198,7 +2189,7 @@ void DumpCustom::pack_ysu(int n)
 
   for (int i = 0; i < nchoose; i++) {
     j = clist[i];
-    buf[n] = (x[j][1] - boxylo) * invyprd + (image[j] >> IMGBITS & IMGMASK) - IMGMAX;
+    buf[n] = (x_component(j,1) - boxylo) * invyprd + (image[j] >> IMGBITS & IMGMASK) - IMGMAX;
     n += size_one;
   }
 }
@@ -2208,7 +2199,6 @@ void DumpCustom::pack_ysu(int n)
 void DumpCustom::pack_zsu(int n)
 {
   int j;
-  double **x = atom->x;
   tagint *image = atom->image;
 
   double boxzlo = domain->boxlo[2];
@@ -2216,7 +2206,7 @@ void DumpCustom::pack_zsu(int n)
 
   for (int i = 0; i < nchoose; i++) {
     j = clist[i];
-    buf[n] = (x[j][2] - boxzlo) * invzprd + (image[j] >> IMG2BITS) - IMGMAX;
+    buf[n] = (x_component(j,2) - boxzlo) * invzprd + (image[j] >> IMG2BITS) - IMGMAX;
     n += size_one;
   }
 }
@@ -2226,7 +2216,6 @@ void DumpCustom::pack_zsu(int n)
 void DumpCustom::pack_xsu_triclinic(int n)
 {
   int j;
-  double **x = atom->x;
   tagint *image = atom->image;
 
   double *boxlo = domain->boxlo;
@@ -2234,8 +2223,8 @@ void DumpCustom::pack_xsu_triclinic(int n)
 
   for (int i = 0; i < nchoose; i++) {
     j = clist[i];
-    buf[n] = h_inv[0]*(x[j][0]-boxlo[0]) + h_inv[5]*(x[j][1]-boxlo[1]) +
-      h_inv[4]*(x[j][2]-boxlo[2]) + (image[j] & IMGMASK) - IMGMAX;
+    buf[n] = h_inv[0]*(x_component(j,0)-boxlo[0]) + h_inv[5]*(x_component(j,1)-boxlo[1]) +
+      h_inv[4]*(x_component(j,2)-boxlo[2]) + (image[j] & IMGMASK) - IMGMAX;
     n += size_one;
   }
 }
@@ -2245,7 +2234,6 @@ void DumpCustom::pack_xsu_triclinic(int n)
 void DumpCustom::pack_ysu_triclinic(int n)
 {
   int j;
-  double **x = atom->x;
   tagint *image = atom->image;
 
   double *boxlo = domain->boxlo;
@@ -2253,7 +2241,7 @@ void DumpCustom::pack_ysu_triclinic(int n)
 
   for (int i = 0; i < nchoose; i++) {
     j = clist[i];
-    buf[n] = h_inv[1]*(x[j][1]-boxlo[1]) + h_inv[3]*(x[j][2]-boxlo[2]) +
+    buf[n] = h_inv[1]*(x_component(j,1)-boxlo[1]) + h_inv[3]*(x_component(j,2)-boxlo[2]) +
       (image[j] >> IMGBITS & IMGMASK) - IMGMAX;
     n += size_one;
   }
@@ -2264,7 +2252,6 @@ void DumpCustom::pack_ysu_triclinic(int n)
 void DumpCustom::pack_zsu_triclinic(int n)
 {
   int j;
-  double **x = atom->x;
   tagint *image = atom->image;
 
   double *boxlo = domain->boxlo;
@@ -2272,7 +2259,7 @@ void DumpCustom::pack_zsu_triclinic(int n)
 
   for (int i = 0; i < nchoose; i++) {
     j = clist[i];
-    buf[n] = h_inv[2]*(x[j][2]-boxlo[2]) + (image[j] >> IMG2BITS) - IMGMAX;
+    buf[n] = h_inv[2]*(x_component(j,2)-boxlo[2]) + (image[j] >> IMG2BITS) - IMGMAX;
     n += size_one;
   }
 }
@@ -2317,10 +2304,9 @@ void DumpCustom::pack_iz(int n)
 
 void DumpCustom::pack_vx(int n)
 {
-  double **v = atom->v;
 
   for (int i = 0; i < nchoose; i++) {
-    buf[n] = v[clist[i]][0];
+    buf[n] = v_component(clist[i],0);
     n += size_one;
   }
 }
@@ -2329,10 +2315,9 @@ void DumpCustom::pack_vx(int n)
 
 void DumpCustom::pack_vy(int n)
 {
-  double **v = atom->v;
 
   for (int i = 0; i < nchoose; i++) {
-    buf[n] = v[clist[i]][1];
+    buf[n] = v_component(clist[i],1);
     n += size_one;
   }
 }
@@ -2341,10 +2326,9 @@ void DumpCustom::pack_vy(int n)
 
 void DumpCustom::pack_vz(int n)
 {
-  double **v = atom->v;
 
   for (int i = 0; i < nchoose; i++) {
-    buf[n] = v[clist[i]][2];
+    buf[n] = v_component(clist[i],2);
     n += size_one;
   }
 }
@@ -2353,10 +2337,9 @@ void DumpCustom::pack_vz(int n)
 
 void DumpCustom::pack_fx(int n)
 {
-  double **f = atom->f;
 
   for (int i = 0; i < nchoose; i++) {
-    buf[n] = f[clist[i]][0];
+    buf[n] = f_component(clist[i],0);
     n += size_one;
   }
 }
@@ -2365,10 +2348,9 @@ void DumpCustom::pack_fx(int n)
 
 void DumpCustom::pack_fy(int n)
 {
-  double **f = atom->f;
 
   for (int i = 0; i < nchoose; i++) {
-    buf[n] = f[clist[i]][1];
+    buf[n] = f_component(clist[i],1);
     n += size_one;
   }
 }
@@ -2377,10 +2359,9 @@ void DumpCustom::pack_fy(int n)
 
 void DumpCustom::pack_fz(int n)
 {
-  double **f = atom->f;
 
   for (int i = 0; i < nchoose; i++) {
-    buf[n] = f[clist[i]][2];
+    buf[n] = f_component(clist[i],2);
     n += size_one;
   }
 }
@@ -2510,10 +2491,9 @@ void DumpCustom::pack_diameter(int n)
 
 void DumpCustom::pack_omegax(int n)
 {
-  double **omega = atom->omega;
 
   for (int i = 0; i < nchoose; i++) {
-    buf[n] = omega[clist[i]][0];
+    buf[n] = omega_component(clist[i],0);
     n += size_one;
   }
 }
@@ -2522,10 +2502,9 @@ void DumpCustom::pack_omegax(int n)
 
 void DumpCustom::pack_omegay(int n)
 {
-  double **omega = atom->omega;
 
   for (int i = 0; i < nchoose; i++) {
-    buf[n] = omega[clist[i]][1];
+    buf[n] = omega_component(clist[i],1);
     n += size_one;
   }
 }
@@ -2534,10 +2513,9 @@ void DumpCustom::pack_omegay(int n)
 
 void DumpCustom::pack_omegaz(int n)
 {
-  double **omega = atom->omega;
 
   for (int i = 0; i < nchoose; i++) {
-    buf[n] = omega[clist[i]][2];
+    buf[n] = omega_component(clist[i],2);
     n += size_one;
   }
 }
@@ -2582,10 +2560,9 @@ void DumpCustom::pack_angmomz(int n)
 
 void DumpCustom::pack_tqx(int n)
 {
-  double **torque = atom->torque;
 
   for (int i = 0; i < nchoose; i++) {
-    buf[n] = torque[clist[i]][0];
+    buf[n] = torque_component(clist[i],0);
     n += size_one;
   }
 }
@@ -2594,10 +2571,9 @@ void DumpCustom::pack_tqx(int n)
 
 void DumpCustom::pack_tqy(int n)
 {
-  double **torque = atom->torque;
 
   for (int i = 0; i < nchoose; i++) {
-    buf[n] = torque[clist[i]][1];
+    buf[n] = torque_component(clist[i],1);
     n += size_one;
   }
 }
@@ -2606,10 +2582,9 @@ void DumpCustom::pack_tqy(int n)
 
 void DumpCustom::pack_tqz(int n)
 {
-  double **torque = atom->torque;
 
   for (int i = 0; i < nchoose; i++) {
-    buf[n] = torque[clist[i]][2];
+    buf[n] = torque_component(clist[i],2);
     n += size_one;
   }
 }

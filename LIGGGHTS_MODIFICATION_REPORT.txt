@@ -1,0 +1,774 @@
+LIGGGHTS MODIFICATION REPORT
+Generated: 2026-07-02
+Repository: /home/n011/LIGGGHTS-PUBLIC
+Scope: local changes from the original git-tracked LIGGGHTS tree to the current modified tree.
+
+===============================================================================
+1. Executive Summary
+===============================================================================
+
+This working tree contains a broad HPC/DEM modernization pass over LIGGGHTS.
+The main implemented areas are:
+
+  - Sphere-specific Structure-of-Arrays (SoA) transition layer.
+  - 64-byte aligned allocation helpers for SIMD-friendly particle arrays.
+  - SoA-aware integration, pair force, wall force, dump, compute, set, velocity,
+    and neighbor/mesh paths.
+  - Native HDF5/XDMF particle output.
+  - Native HDF5/XDMF triangular mesh output.
+  - Parallel HDF5 build target.
+  - Type-pair cohesion/surface/adhesion material properties.
+  - New generalized adhesion cohesion model.
+  - Runtime variable-dependent material/particle properties.
+  - Neighbor-list rebuild trigger for radius growth.
+  - Contact-model static dispatch cleanup and stricter unsupported-model errors.
+  - Benchmark/regression scaffolding and evaluation report material.
+
+The HDF5/MPI target was recompiled successfully:
+
+  make -C src hdf5mpi -j2
+
+Resulting binary:
+
+  src/lmp_hdf5mpi
+
+Compilation completed with warnings already present in the broader codebase and
+OpenMPI environment messages:
+
+  opal_ifinit: socket() failed with errno=1
+
+No C++ build error remained after the final transition fixes.
+
+===============================================================================
+2. High-Level Git Delta
+===============================================================================
+
+Tracked diff summary at the time of report generation:
+
+  42 tracked files changed
+  1460 insertions
+  804 deletions
+
+Tracked files modified:
+
+  examples/LIGGGHTS/Tutorials_public/chute_wear/in.chute_wear
+  examples/LIGGGHTS/Tutorials_public/chute_wear/post/.gitignore
+  src/atom.cpp
+  src/atom.h
+  src/atom_vec_sphere.cpp
+  src/atom_vec_sphere.h
+  src/cohesion_model_easo_capillary_viscous.h
+  src/cohesion_model_sjkr.h
+  src/compute_property_atom.cpp
+  src/compute_property_atom.h
+  src/contact_models.h
+  src/dump_custom.cpp
+  src/dump_custom.h
+  src/fix_neighlist_mesh.cpp
+  src/fix_neighlist_mesh.h
+  src/fix_nve.cpp
+  src/fix_nve.h
+  src/fix_nve_asphere_base.cpp
+  src/fix_nve_sphere.cpp
+  src/fix_property_global.cpp
+  src/fix_property_global.h
+  src/fix_wall_gran.cpp
+  src/fix_wall_gran_base.h
+  src/global_properties.cpp
+  src/global_properties.h
+  src/granular_styles.h
+  src/memory.h
+  src/neighbor.cpp
+  src/neighbor.h
+  src/normal_model_luding.h
+  src/pair_gran_base.h
+  src/pair_gran_proxy.cpp
+  src/rolling_model_cdt.h
+  src/rolling_model_epsd.h
+  src/rolling_model_luding.h
+  src/set.cpp
+  src/tangential_model_history.h
+  src/tangential_model_no_history.h
+  src/utils.h
+  src/velocity.cpp
+  src/velocity.h
+  src/verlet.cpp
+
+Important new source/configuration files:
+
+  src/MAKE/Makefile.hdf5mpi
+  src/aligned_particle_soa.h
+  src/cohesion_model_generalized_adhesion.h
+  src/contact_model_crtp_api.h
+  src/dump_hdf5.cpp
+  src/dump_hdf5.h
+  src/dump_mesh_hdf5.cpp
+  src/dump_mesh_hdf5.h
+  src/fix_adapt_liggghts.cpp
+  src/fix_adapt_liggghts.h
+
+Additional generated or support directories/files:
+
+  DEVELOPMENT_PLAN.md
+  benchmarks/
+  tests/
+  liggghts_evaluation_report/
+  build/
+  log.liggghts
+  examples/LIGGGHTS/Tutorials_public/chute_wear/log.liggghts
+  h5inspect_chute.o
+
+===============================================================================
+3. Memory Layout And SoA Transition
+===============================================================================
+
+3.1 Atom-level SoA fields
+
+Files:
+
+  src/atom.h
+  src/atom.cpp
+
+Changes:
+
+  - Added sphere-oriented SoA pointers at the Atom level:
+
+      pos_x, pos_y, pos_z
+      vel_x, vel_y, vel_z
+      force_x, force_y, force_z
+      omega_x, omega_y, omega_z
+      torque_x, torque_y, torque_z
+
+  - Initialized these pointers to NULL in Atom construction.
+  - Destroyed these arrays in Atom cleanup.
+  - Kept AoS arrays such as x, v, f available for compatibility with the broader
+    LIGGGHTS infrastructure.
+
+Rationale:
+
+  - The full LIGGGHTS data model is deeply AoS-compatible. The implemented
+    transition uses a sphere-specific SoA fast path while preserving legacy MPI,
+    dump, fix, and atom-style compatibility.
+
+3.2 Aligned memory support
+
+Files:
+
+  src/memory.h
+  src/aligned_particle_soa.h
+
+Changes:
+
+  - Added aligned allocation/grow helpers for 64-byte aligned arrays.
+  - Added AlignedAllocator and ParticleSoA helper container.
+  - ParticleSoA stores position, velocity, force, mass/type scratch fields in
+    contiguous aligned vectors.
+
+Performance intent:
+
+  - Improve cache-line utilization.
+  - Reduce pointer chasing in hot loops.
+  - Provide compiler-friendly contiguous arrays for SIMD auto-vectorization.
+
+3.3 Atom style sphere SoA migration
+
+Files:
+
+  src/atom_vec_sphere.cpp
+  src/atom_vec_sphere.h
+
+Changes:
+
+  - Added sphere SoA member aliases.
+  - Allocated/grown SoA arrays alongside legacy AoS arrays.
+  - Updated copy, pack, unpack, exchange, border, restart, and creation paths to
+    synchronize and use pos_x/pos_y/pos_z and related SoA fields.
+  - Preserved AoS fields for compatibility where external LIGGGHTS APIs still
+    expect x[i][0], v[i][0], f[i][0], omega[i][0], and torque[i][0].
+
+3.4 Integration SoA path
+
+Files:
+
+  src/fix_nve.cpp
+  src/fix_nve.h
+  src/fix_nve_sphere.cpp
+  src/fix_nve_asphere_base.cpp
+  src/verlet.cpp
+
+Changes:
+
+  - Added ParticleSoA member to FixNVE.
+  - Added SoA load/integrate/store path for nve.
+  - Added direct SoA integration path in nve/sphere where sphere arrays are
+    available.
+  - Added synchronization points in the timestep flow to keep AoS/SoA coherent.
+
+3.5 Pair and wall force SoA path
+
+Files:
+
+  src/pair_gran_base.h
+  src/fix_wall_gran_base.h
+  src/fix_wall_gran.cpp
+  src/normal_model_luding.h
+  src/tangential_model_history.h
+  src/tangential_model_no_history.h
+  src/rolling_model_cdt.h
+  src/rolling_model_epsd.h
+  src/rolling_model_luding.h
+
+Changes:
+
+  - Added SoA-aware position/velocity/angular-velocity access for sphere contacts.
+  - Added SoA force/torque update helpers for pair and wall contacts.
+  - Preserved legacy force paths for nonspherical, superquadric, and fallback
+    models.
+  - Updated selected normal/tangential/rolling model force accumulation paths to
+    avoid losing SoA-side force updates.
+
+Performance intent:
+
+  - Reduce cache misses during neighbor traversal.
+  - Avoid repeated double** dereferencing in hot pair/wall loops for sphere DEM.
+
+3.6 Dump, compute, set, and velocity SoA compatibility
+
+Files:
+
+  src/dump_custom.cpp
+  src/dump_custom.h
+  src/compute_property_atom.cpp
+  src/compute_property_atom.h
+  src/set.cpp
+  src/velocity.cpp
+  src/velocity.h
+
+Changes:
+
+  - Added SoA-aware particle property readback for dump custom and compute
+    property/atom.
+  - Added SoA synchronization after velocity commands that change linear or
+    angular velocity.
+  - Added SoA synchronization when set changes coordinates.
+  - Kept legacy AoS output behavior when SoA fields are absent or when the atom
+    style is not the sphere fast path.
+
+===============================================================================
+4. Contact Model Architecture And Static Dispatch
+===============================================================================
+
+Files:
+
+  src/contact_model_crtp_api.h
+  src/contact_models.h
+  src/granular_styles.h
+  src/utils.h
+  src/pair_gran_proxy.cpp
+  src/fix_wall_gran.cpp
+
+Changes:
+
+  - Added a CRTP-style contact-model API sketch in contact_model_crtp_api.h.
+  - Removed a broad fallback specialization that allowed unsupported dynamic
+    contact combinations to silently pass through a slow/default path.
+  - Removed default slow-execution registration from granular_styles.h.
+  - Removed default variant fallback from utils.h.
+  - Improved unsupported model diagnostics in pair_gran_proxy.cpp and
+    fix_wall_gran.cpp.
+
+Intent:
+
+  - Move contact model selection toward explicit static dispatch.
+  - Reduce accidental use of unsupported or slow contact combinations.
+  - Prepare the codebase for plugin-like contact model injection without virtual
+    calls in the critical force loop.
+
+===============================================================================
+5. Cohesion, Adhesion, And Type-Pair Material Properties
+===============================================================================
+
+5.1 SJKR cohesion matrix
+
+Files:
+
+  src/cohesion_model_sjkr.h
+  src/global_properties.cpp
+  src/global_properties.h
+
+Changes:
+
+  - Replaced old/global cohesion scalar use with:
+
+      cohesionEnergyDensity peratomtypepair
+
+  - SJKR now validates the property via:
+
+      modify->find_fix_property("cohesionEnergyDensity",
+                                "property/global",
+                                "peratomtypepair", ...)
+
+  - The force loop reads:
+
+      cohesion_energy_matrix[itype][jtype]
+
+  - Existing SJKR Hertzian/spherical contact-area formula remains intact.
+
+Result:
+
+  - Material-pair-dependent SJKR cohesion is implemented.
+  - SJKR is still a Hertz/sphere-area model, not the generalized shape-agnostic
+    model.
+
+5.2 EASO capillary/viscous surface energy matrix
+
+Files:
+
+  src/cohesion_model_easo_capillary_viscous.h
+  src/global_properties.cpp
+  src/global_properties.h
+
+Changes:
+
+  - Replaced scalar surface tension use with:
+
+      surfaceEnergy peratomtypepair
+
+  - EASO now validates the property via:
+
+      modify->find_fix_property("surfaceEnergy",
+                                "property/global",
+                                "peratomtypepair", ...)
+
+  - The capillary force path reads:
+
+      surface_energy_matrix[itype][jtype]
+
+Result:
+
+  - Material-pair-dependent EASO surface energy is implemented.
+
+5.3 Generalized adhesion model
+
+File:
+
+  src/cohesion_model_generalized_adhesion.h
+
+Changes:
+
+  - Added new cohesion model:
+
+      cohesion generalized_adhesion
+
+  - Registers and uses:
+
+      adhesionEnergy peratomtypepair
+
+  - Computes adhesive force from a generic overlap quantity:
+
+      deltan = sidata.deltan
+      A_eff = pi * reff * deltan
+      F_coh = -adhesionEnergy[itype][jtype] * A_eff
+
+  - Avoids Hertz-specific contact-area reconstruction.
+  - Designed to be compatible with Hooke, Hertz, and nonspherical/superquadric
+    overlap sources as long as sidata.deltan is provided by the active surface
+    model.
+
+5.4 New global material properties
+
+Files:
+
+  src/global_properties.cpp
+  src/global_properties.h
+
+Changes:
+
+  - Added global property creators/constants for:
+
+      cohesionEnergyDensity
+      adhesionEnergy
+      surfaceEnergy
+
+  - These are created as peratomtypepair matrices.
+
+===============================================================================
+6. Runtime Variable-Dependent Properties
+===============================================================================
+
+6.1 Variable-aware fix property/global
+
+Files:
+
+  src/fix_property_global.cpp
+  src/fix_property_global.h
+
+Changes:
+
+  - Extended fix property/global so numeric entries may be provided as variable
+    references in the form:
+
+      v_variableName
+
+  - Added storage for variable names and variable indices.
+  - Added update cadence through update_every.
+  - Added setup_pre_force/pre_force reevaluation.
+  - Added recomputation/synchronization of matrix/vector/scalar values.
+  - Added clamps for physical stability:
+
+      restitution: 0 <= e <= 1
+      friction:    mu >= 0
+      cohesionEnergyDensity >= 0
+      adhesionEnergy >= 0
+      surfaceEnergy >= 0
+
+Intent:
+
+  - Allow time-varying interaction parameters while avoiding parsing strings in
+    the inner contact loops.
+
+6.2 New DEM-specific adapt fix
+
+Files:
+
+  src/fix_adapt_liggghts.cpp
+  src/fix_adapt_liggghts.h
+
+New style:
+
+  fix adapt/liggghts
+
+Changes:
+
+  - Added runtime adaptation of particle radius and density using equal-style or
+    atom-style LIGGGHTS variables.
+  - Recomputes rmass whenever radius or density changes.
+  - Recomputes inertia for sphere and shape/inertia-capable particles.
+  - Scales shape and volume when radius changes for compatible nonspherical
+    representations.
+  - Sets atom->radvary_flag.
+  - Tracks maximum radius growth.
+  - Calls neighbor->trigger_build() when growth consumes half the neighbor skin.
+
+6.3 Neighbor rebuild trigger
+
+Files:
+
+  src/neighbor.cpp
+  src/neighbor.h
+
+Changes:
+
+  - Added:
+
+      Neighbor::trigger_build()
+
+  - Added force_rebuild flag.
+  - Neighbor::decide() now honors the explicit forced rebuild request before
+    normal delay/every/dist_check logic.
+
+Reason:
+
+  - Radius growth from fix adapt/liggghts must not wait for displacement-only
+    checks. Explicit rebuild prevents missed contacts/ghosting when the particle
+    radius changes at runtime.
+
+===============================================================================
+7. HDF5/XDMF Output Infrastructure
+===============================================================================
+
+7.1 Particle HDF5 dump
+
+Files:
+
+  src/dump_hdf5.cpp
+  src/dump_hdf5.h
+
+New style:
+
+  dump hdf5
+
+Changes:
+
+  - Added native HDF5 output for particle data.
+  - Protected by:
+
+      #ifdef LIGGGHTS_HDF5
+
+  - Writes particle datasets including:
+
+      ids
+      positions
+      velocities
+      forces
+      omegas
+      radius
+
+  - Uses SoA arrays when the sphere fast path is active.
+  - Generates XDMF sidecar metadata for ParaView.
+  - Requires a parallel HDF5-enabled build.
+
+7.2 Mesh HDF5 dump
+
+Files:
+
+  src/dump_mesh_hdf5.cpp
+  src/dump_mesh_hdf5.h
+
+New styles:
+
+  dump mesh/hdf5
+  dump mesh/gran/HDF5
+
+Changes:
+
+  - Added native HDF5 output for triangular meshes.
+  - Protected by:
+
+      #ifdef LIGGGHTS_HDF5
+
+  - Uses HDF5 MPI-IO setup:
+
+      H5Pset_fapl_mpio
+      H5Pset_dxpl_mpio(... H5FD_MPIO_COLLECTIVE)
+
+  - Writes datasets under timestep groups:
+
+      /Step_<timestep>/Geometry/Vertices
+      /Step_<timestep>/Topology/Connectivity
+      /Step_<timestep>/CellData/<property>
+
+  - Supports scalar/vector cell-property output from mesh property containers.
+  - Generates XDMF sidecar metadata mapping temporal grids for ParaView.
+
+7.3 Parallel HDF5 build target
+
+File:
+
+  src/MAKE/Makefile.hdf5mpi
+
+Changes:
+
+  - Added Makefile target using:
+
+      -DLIGGGHTS_HDF5
+      -I/usr/include/hdf5/openmpi
+      -L/usr/lib/x86_64-linux-gnu/hdf5/openmpi
+      -lhdf5
+
+  - The resulting binary is:
+
+      src/lmp_hdf5mpi
+
+===============================================================================
+8. Example And Case Updates
+===============================================================================
+
+File:
+
+  examples/LIGGGHTS/Tutorials_public/chute_wear/in.chute_wear
+
+Changes:
+
+  - Updated chute_wear example for HDF5 particle output.
+  - Added comments noting requirement for LIGGGHTS_HDF5/parallel HDF5 build.
+  - Generated example runtime artifacts:
+
+      examples/LIGGGHTS/Tutorials_public/chute_wear/log.liggghts
+
+Previously discussed external work directories:
+
+  /media/storage/pedro/particulas_3/dace/workdir.76
+  /media/storage/pedro/particulas_3/dace/workdir.77
+  /media/storage/pedro/particulas_3/dace/workdir.78
+
+These are outside the current writable repository root and are not fully audited
+by this report unless their files were copied into /home/n011/LIGGGHTS-PUBLIC.
+
+===============================================================================
+9. Benchmark And Regression Infrastructure
+===============================================================================
+
+New support files/directories:
+
+  benchmarks/README.md
+  benchmarks/scripts/collect_environment.sh
+  benchmarks/scripts/parse_liggghts_log.py
+  benchmarks/scripts/run_benchmarks.py
+  benchmarks/manifests/baseline_smoke.json
+  benchmarks/manifests/baseline_smoke.yaml
+  tests/regression/in.asphere_scheme4_requires_implicit
+
+Purpose:
+
+  - Provide a basic scaffold for repeatable runtime comparisons.
+  - Provide parsing utilities for LIGGGHTS logs.
+  - Provide a regression input covering an implicit/asphere-related behavior.
+
+===============================================================================
+10. Evaluation And Planning Documents
+===============================================================================
+
+New evaluation report directory:
+
+  liggghts_evaluation_report/
+
+Important files:
+
+  01_architecture_overview.md
+  02_performance_analysis.md
+  03_code_quality_and_technical_debt.md
+  04_competitive_feature_matrix.md
+  05_implementation_roadmap.md
+  06_top_priority_implementation_plans.md
+  07_benchmark_protocol.md
+  08_executive_summary.md
+  09_scientific_step_by_step_implementation_plan.md
+  IMPLEMENTATION_STEPS_AND_ERRORS.txt
+  architecture_diagram.mmd
+  feature_roadmap.csv
+  performance_results.csv
+  technical_debt_register.csv
+
+Other planning file:
+
+  DEVELOPMENT_PLAN.md
+
+Purpose:
+
+  - Document modernization priorities.
+  - Record performance, architecture, and technical-debt observations.
+  - Provide benchmark protocol and implementation-roadmap material.
+
+===============================================================================
+11. Audit Closure Status
+===============================================================================
+
+Latest audit criteria and status after final changes:
+
+  Generalized adhesion/cohesion:
+    PASS
+    Evidence: src/cohesion_model_generalized_adhesion.h uses sidata.deltan and
+    adhesionEnergy[type_i][type_j], avoiding Hertz-only contact-area derivation.
+
+  SJKR/EASO type-pair cohesion matrices:
+    PASS
+    Evidence:
+      src/cohesion_model_sjkr.h explicitly calls
+      modify->find_fix_property(..., "peratomtypepair", ...)
+
+      src/cohesion_model_easo_capillary_viscous.h explicitly calls
+      modify->find_fix_property(..., "peratomtypepair", ...)
+
+  Runtime variable-dependent radius/density and material properties:
+    PASS
+    Evidence:
+      src/fix_property_global.cpp uses input->variable to re-evaluate values.
+      src/fix_adapt_liggghts.cpp recalculates rmass/inertia.
+      src/fix_adapt_liggghts.cpp calls neighbor->trigger_build().
+
+  Native HDF5/XDMF mesh output:
+    PASS
+    Evidence:
+      src/dump_mesh_hdf5.cpp includes hdf5.h under LIGGGHTS_HDF5.
+      It uses H5Pset_fapl_mpio and H5Pset_dxpl_mpio.
+      It writes XDMF sidecar metadata.
+
+  SoA transition:
+    PARTIAL BY DESIGN
+    Evidence:
+      Sphere-specific SoA fast path is implemented.
+      Full global migration of all atom styles away from double** AoS is not
+      complete. AoS remains intentionally for compatibility.
+
+===============================================================================
+12. Known Caveats And Risks
+===============================================================================
+
+  - The SoA migration is not a total replacement of Atom::x, Atom::v, Atom::f.
+    It is a sphere fast path plus compatibility bridge. Full global SoA would
+    require larger MPI, restart, dump, fix, compute, and package-wide redesign.
+
+  - Many generated object files exist under src/Obj_hdf5mpi and src/Obj_serial.
+    These are build artifacts, not source-level design changes.
+
+  - The build emits many warnings from existing code and template instantiations.
+    They should be separated into a warning-cleanup pass before production use.
+
+  - OpenMPI emitted:
+
+      opal_ifinit: socket() failed with errno=1
+
+    during compilation. The build still completed, but this environment issue
+    should be checked before running large MPI jobs.
+
+  - HDF5 output requires the hdf5mpi build or another build configured with
+    -DLIGGGHTS_HDF5 and parallel HDF5 libraries.
+
+  - SJKR remains Hertz/sphere-area based. Use generalized_adhesion for Hooke or
+    shape-agnostic adhesive behavior.
+
+  - The current report is based on local git status/diff and source inspection.
+    It is not a substitute for a full physics validation campaign.
+
+===============================================================================
+13. Recommended Next Validation Steps
+===============================================================================
+
+  1. Run a minimal sphere-only regression with and without the SoA fast path and
+     compare force/position histories.
+
+  2. Run chute_wear with:
+
+       src/lmp_hdf5mpi
+
+     and inspect generated HDF5/XDMF outputs in ParaView.
+
+  3. Run a cohesion matrix test with at least two particle types to verify that
+     SJKR and EASO select different type-pair entries.
+
+  4. Run fix adapt/liggghts with increasing radius and confirm neighbor rebuild
+     frequency and absence of missed contacts.
+
+  5. Profile pair_gran and fix_wall_gran for cache misses and vectorization
+     reports using compiler diagnostics/perf.
+
+  6. Add CI-style regression tests for:
+
+       dump hdf5
+       dump mesh/hdf5
+       cohesion generalized_adhesion
+       variable fix property/global
+       fix adapt/liggghts radius/density
+
+===============================================================================
+14. Compiler/Build Notes
+===============================================================================
+
+Current hdf5mpi build uses flags equivalent to:
+
+  -O3
+  -march=native
+  -mtune=native
+  -DNDEBUG
+  -funroll-loops
+  -fstrict-aliasing
+  -fPIC
+  -DLAMMPS_GZIP
+  -DLIGGGHTS_HDF5
+  -I/usr/include/hdf5/openmpi
+  -L/usr/lib/x86_64-linux-gnu/hdf5/openmpi
+  -lhdf5
+
+For performance investigation, useful additional compiler diagnostics include:
+
+  -fopt-info-vec
+  -fopt-info-vec-missed
+
+For strict numerical reproducibility, avoid enabling aggressive unsafe math
+flags globally before physics validation.
+
+===============================================================================
+15. End Of Report
+===============================================================================
+

@@ -118,9 +118,10 @@ namespace ContactModels
 
 #ifdef SUPERQUADRIC_ACTIVE_FLAG
         if(sidata.is_non_spherical) {
-          const double rii = pointDistance(sidata.contact_point, atom->x[sidata.i]);
-          const double omega_mag = sqrt(wr1*wr1 + wr2*wr2 + wr3*wr3);
-          if(omega_mag != 0.0) {
+          const double omega_sq = wr1*wr1 + wr2*wr2 + wr3*wr3;
+          if(omega_sq != 0.0) {
+            const double omega_mag = sqrt(omega_sq);
+            const double rii = pointDistance(sidata.contact_point, atom->x[sidata.i]);
             double er[3];
             er[0] = wr1 / omega_mag;
             er[1] = wr2 / omega_mag;

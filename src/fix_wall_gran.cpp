@@ -173,7 +173,7 @@ FixWallGran::FixWallGran(LAMMPS *lmp, int narg, char **arg) :
         impl = Factory::instance().create("gran", variant, lmp, this);
 
         if(!impl)
-            error->all(FLERR, "Internal errror");
+            error->all(FLERR, "Granular wall contact model combination is not compiled into the static contact-model whitelist");
     }
 
     iarg_ = narg - nremaining;
@@ -860,24 +860,25 @@ void FixWallGran::post_force_mesh(int vflag)
 
     for(int iMesh = 0; iMesh < n_FixMesh_; iMesh++)
     {
-      TriMesh *mesh = FixMesh_list_[iMesh]->triMesh();
+      FixMeshSurface *fix_mesh = FixMesh_list_[iMesh];
+      TriMesh *mesh = fix_mesh->triMesh();
       nTriAll = mesh->sizeLocal() + mesh->sizeGhost();
-      FixContactHistoryMesh *fix_contact = FixMesh_list_[iMesh]->contactHistory();
+      FixContactHistoryMesh *fix_contact = fix_mesh->contactHistory();
 
       // mark all contacts for delettion at this point
       
       if(fix_contact) fix_contact->markAllContacts();
 
       if(store_force_contact_)
-        fix_wallforce_contact_ = FixMesh_list_[iMesh]->meshforceContact();
+        fix_wallforce_contact_ = fix_mesh->meshforceContact();
 
       if(store_force_contact_stress_)
-        fix_wallforce_contact_stress_ = FixMesh_list_[iMesh]->meshforceContactStress();
+        fix_wallforce_contact_stress_ = fix_mesh->meshforceContactStress();
 
-      fix_store_multicontact_data_ = FixMesh_list_[iMesh]->meshMulticontactData();
+      fix_store_multicontact_data_ = fix_mesh->meshMulticontactData();
 
       // get neighborList and numNeigh
-      FixNeighlistMesh * meshNeighlist = FixMesh_list_[iMesh]->meshNeighlist();
+      FixNeighlistMesh * meshNeighlist = fix_mesh->meshNeighlist();
 
       // moving mesh
       vectorZeroize3D(v_wall);
@@ -885,13 +886,17 @@ void FixWallGran::post_force_mesh(int vflag)
       if(vMeshC)
         vMesh = vMeshC->begin();
 
-      atom_type_wall_ = FixMesh_list_[iMesh]->atomTypeWall();
+      atom_type_wall_ = fix_mesh->atomTypeWall();
+      const bool shapeType = atom->shapetype_flag;
+      sidata.mesh = mesh;
+      sidata.fix_mesh = fix_mesh;
 
       // loop owned and ghost triangles
       for(int iTri = 0; iTri < nTriAll; iTri++)
       {
           const std::vector<int> & neighborList = meshNeighlist->get_contact_list(iTri);
           const int numneigh = neighborList.size();
+          const int idTri = mesh->id(iTri);
           for(int iCont = 0; iCont < numneigh; iCont++)
           {
             
@@ -899,8 +904,6 @@ void FixWallGran::post_force_mesh(int vflag)
 
             // do not handle ghost particles
             if (iPart >= nlocal) continue;
-
-            int idTri = mesh->id(iTri);
 
             #ifdef SUPERQUADRIC_ACTIVE_FLAG
                 if(atom->superquadric_flag) {
@@ -937,7 +940,7 @@ void FixWallGran::post_force_mesh(int vflag)
                       if (contact)
                           sidata.radi += deltaData[3];
                   }
-                  deltan = mesh->resolveTriSphereContactBary(iPart, iTri, sidata.radi, x_[iPart], delta, bary, barysign, atom->shapetype_flag ? false : true);
+                  deltan = mesh->resolveTriSphereContactBary(iPart, iTri, sidata.radi, x_[iPart], delta, bary, barysign, shapeType ? false : true);
                 }
             #else
                 sidata.radi = radius_ ? radius_[iPart] : r0_;
@@ -949,7 +952,7 @@ void FixWallGran::post_force_mesh(int vflag)
                         sidata.radi += deltaData[3];
                 }
                 
-                deltan = mesh->resolveTriSphereContactBary(iPart, iTri, sidata.radi, x_[iPart], delta, bary, barysign, atom->shapetype_flag ? false : true);
+                deltan = mesh->resolveTriSphereContactBary(iPart, iTri, sidata.radi, x_[iPart], delta, bary, barysign, shapeType ? false : true);
             #endif
             
             if(deltan > cutneighmax_) continue;
@@ -958,9 +961,7 @@ void FixWallGran::post_force_mesh(int vflag)
 
             bool intersectflag = (deltan <= 0);
 
-            sidata.mesh = mesh;
-
-            if(atom->shapetype_flag)
+            if(shapeType)
             {
                 
                 sidata.j = iTri;
@@ -982,14 +983,12 @@ void FixWallGran::post_force_mesh(int vflag)
                 
             }
 
-            sidata.fix_mesh = FixMesh_list_[iMesh];
-
             if(deltan <= 0 || (radius && deltan < contactDistanceMultiplier*radius[iPart]))
             {
               
-              if(!atom->shapetype_flag && fix_contact && ! fix_contact->handleContact(iPart,idTri,sidata.contact_history,intersectflag,7 == barysign)) continue;
+              if(!shapeType && fix_contact && ! fix_contact->handleContact(iPart,idTri,sidata.contact_history,intersectflag,7 == barysign)) continue;
 
-              if(vMeshC && !atom->shapetype_flag)
+              if(vMeshC && !shapeType)
               {
                 for(int i = 0; i < 3; i++)
                     v_wall[i] = (bary[0]*vMesh[iTri][0][i] + bary[1]*vMesh[iTri][1][i] + bary[2]*vMesh[iTri][2][i]);
@@ -1001,7 +1000,7 @@ void FixWallGran::post_force_mesh(int vflag)
               sidata.delta[1] = -delta[1];
               sidata.delta[2] = -delta[2];
               if(impl)
-                impl->compute_force(this, sidata, intersectflag,v_wall,FixMesh_list_[iMesh],iMesh,mesh,iTri);
+                impl->compute_force(this, sidata, intersectflag,v_wall,fix_mesh,iMesh,mesh,iTri);
               else
               {
                 sidata.r =  r0_ - sidata.deltan;

@@ -52,6 +52,8 @@
 #include "error.h"
 #include "group.h"
 #include "neighbor.h"
+#include "input.h"
+#include "variable.h"
 #include "fix_property_global.h"
 
 using namespace LAMMPS_NS;
@@ -81,6 +83,11 @@ FixPropertyGlobal::FixPropertyGlobal(LAMMPS *lmp, int narg, char **arg) :
     strcpy(variablename,arg[3]);
     is_symmetric = false;
     is_atomtype_bound = false;
+    value_variable_names = NULL;
+    value_variable_indices = NULL;
+    nvariable_values = 0;
+    update_every = 1;
+    has_variable_values = false;
 
     if (strcmp(arg[4],"scalar") == 0)
         data_style = FIXPROPERTY_GLOBAL_SCALAR;
@@ -104,17 +111,40 @@ FixPropertyGlobal::FixPropertyGlobal(LAMMPS *lmp, int narg, char **arg) :
     int darg = 0;
     if (data_style == FIXPROPERTY_GLOBAL_MATRIX) darg = 1;
 
+    int last_value_arg = narg;
+    if (narg > 7 && strcmp(arg[narg-2],"every") == 0) {
+        update_every = force->inumeric(FLERR,arg[narg-1]);
+        if(update_every <= 0) error->fix_error(FLERR,this,"every must be > 0");
+        last_value_arg -= 2;
+    }
+
     //assign values
-    nvalues = narg - 5 - darg;
+    nvalues = last_value_arg - 5 - darg;
     nvalues_new_array = 0;
     
     values = (double*) memory->smalloc(nvalues*sizeof(double),"values");
     values_recomputed = (double*) memory->smalloc(nvalues*sizeof(double),"values");
+    value_variable_names = new char*[nvalues];
+    value_variable_indices = new int[nvalues];
+    for(int j = 0; j < nvalues; j++) {
+        value_variable_names[j] = NULL;
+        value_variable_indices[j] = -1;
+    }
 
-    if(narg < 5+darg+nvalues) error->fix_error(FLERR,this,"not enough arguments");
+    if(last_value_arg < 5+darg+nvalues) error->fix_error(FLERR,this,"not enough arguments");
 
-    for (int j = 0; j < nvalues; j++)
-        values[j] = force->numeric(FLERR,arg[5+darg+j]);
+    for (int j = 0; j < nvalues; j++) {
+        const char *value_arg = arg[5+darg+j];
+        if(strncmp(value_arg,"v_",2) == 0) {
+            int len = strlen(value_arg+2) + 1;
+            value_variable_names[j] = new char[len];
+            strcpy(value_variable_names[j],value_arg+2);
+            has_variable_values = true;
+            nvariable_values++;
+            values[j] = 0.0;
+        } else values[j] = clamp_value(force->numeric(FLERR,value_arg));
+        values_recomputed[j] = values[j];
+    }
 
     if (data_style == FIXPROPERTY_GLOBAL_SCALAR)
         scalar_flag = 1;
@@ -191,6 +221,11 @@ FixPropertyGlobal::~FixPropertyGlobal()
 
   memory->sfree(values);
   memory->sfree(values_recomputed);
+  if(value_variable_names) {
+      for(int i = 0; i < nvalues; i++) delete[] value_variable_names[i];
+      delete[] value_variable_names;
+  }
+  delete[] value_variable_indices;
 
   if(array)            memory->sfree(array);
   if(array_recomputed) memory->sfree(array_recomputed);
@@ -267,6 +302,20 @@ void FixPropertyGlobal::init()
                 variablename,ntypes*ntypes);
         error->fix_error(FLERR,this,errmsg);
     }
+
+    if(has_variable_values)
+    {
+        for(int i = 0; i < nvalues; i++)
+        {
+            if(!value_variable_names[i]) continue;
+            value_variable_indices[i] = input->variable->find(value_variable_names[i]);
+            if(value_variable_indices[i] < 0)
+                error->fix_error(FLERR,this,"Variable name for fix property/global does not exist");
+            if(!input->variable->equalstyle(value_variable_indices[i]))
+                error->fix_error(FLERR,this,"Variable for fix property/global must be equal-style");
+        }
+        update_variable_values();
+    }
 }
 
 /* ---------------------------------------------------------------------- */
@@ -293,6 +342,7 @@ void FixPropertyGlobal::grow(int len1, int len2)
 
 double FixPropertyGlobal::compute_scalar()
 {
+  ensure_variable_values_initialized();
   return values[0];
 }
 
@@ -300,6 +350,7 @@ double FixPropertyGlobal::compute_scalar()
 
 double FixPropertyGlobal::compute_vector(int i)
 {
+    ensure_variable_values_initialized();
     if (i>(nvalues-1))error->fix_error(FLERR,this,"Trying to access vector, but index out of bounds");
     return values[i];
 }
@@ -320,6 +371,7 @@ double FixPropertyGlobal::compute_vector_modified(int i)
 
 double FixPropertyGlobal::compute_array(int i, int j) //i is row, j is column
 {
+    ensure_variable_values_initialized();
     if (i>(size_array_rows-1))error->fix_error(FLERR,this,"Trying to access matrix, but row index out of bounds");
     if (j>(size_array_cols-1))error->fix_error(FLERR,this,"Trying to access matrix, but column index out of bounds");
 
@@ -347,7 +399,97 @@ double FixPropertyGlobal::compute_array_modified(int i, int j) //i is row, j is 
 int FixPropertyGlobal::setmask()
 {
   int mask = 0;
+  if(has_variable_values) mask |= PRE_FORCE;
   return mask;
+}
+
+/* ---------------------------------------------------------------------- */
+
+void FixPropertyGlobal::setup_pre_force(int vflag)
+{
+    if(has_variable_values) update_variable_values();
+}
+
+/* ---------------------------------------------------------------------- */
+
+void FixPropertyGlobal::pre_force(int vflag)
+{
+    if(!has_variable_values) return;
+    if(update->ntimestep % update_every) return;
+    update_variable_values();
+}
+
+/* ---------------------------------------------------------------------- */
+
+double FixPropertyGlobal::clamp_value(double value) const
+{
+    if(strcmp(variablename,"coefficientRestitution") == 0) {
+        if(value < 0.0) return 0.0;
+        if(value > 1.0) return 1.0;
+        return value;
+    }
+    if(strcmp(variablename,"coefficientFriction") == 0 ||
+       strcmp(variablename,"coefficientRollingFriction") == 0 ||
+       strcmp(variablename,"cohesionEnergyDensity") == 0 ||
+       strcmp(variablename,"adhesionEnergy") == 0 ||
+       strcmp(variablename,"surfaceEnergy") == 0) {
+        return value < 0.0 ? 0.0 : value;
+    }
+    return value;
+}
+
+/* ---------------------------------------------------------------------- */
+
+void FixPropertyGlobal::sync_recomputed_values()
+{
+    for(int i = 0; i < nvalues; i++) values_recomputed[i] = values[i];
+}
+
+/* ---------------------------------------------------------------------- */
+
+void FixPropertyGlobal::ensure_variable_values_initialized()
+{
+    if(!has_variable_values) return;
+
+    bool needs_init = false;
+    for(int i = 0; i < nvalues; i++)
+        if(value_variable_names[i] && value_variable_indices[i] < 0)
+            needs_init = true;
+
+    if(!needs_init) return;
+
+    for(int i = 0; i < nvalues; i++) {
+        if(!value_variable_names[i] || value_variable_indices[i] >= 0) continue;
+        value_variable_indices[i] = input->variable->find(value_variable_names[i]);
+        if(value_variable_indices[i] < 0)
+            error->fix_error(FLERR,this,"Variable name for fix property/global does not exist");
+        if(!input->variable->equalstyle(value_variable_indices[i]))
+            error->fix_error(FLERR,this,"Variable for fix property/global must be equal-style");
+    }
+
+    update_variable_values();
+}
+
+/* ---------------------------------------------------------------------- */
+
+void FixPropertyGlobal::update_variable_values()
+{
+    modify->clearstep_compute();
+
+    for(int i = 0; i < nvalues; i++) {
+        if(!value_variable_names[i]) continue;
+        values[i] = clamp_value(input->variable->compute_equal(value_variable_indices[i]));
+    }
+    sync_recomputed_values();
+
+    if(is_symmetric && !lmp->wb) {
+        for(int i = 0; i < size_array_rows; i++)
+            for(int j = 0; j < size_array_cols; j++)
+                if(array[i][j] != array[j][i])
+                    error->fix_error(FLERR,this,"time-dependent per-atomtype property matrix must remain symmetric");
+    }
+
+    modify->addstep_compute(update->ntimestep + update_every);
 }
 
 /* ----------------------------------------------------------------------

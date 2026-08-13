@@ -88,6 +88,7 @@ class Neighbor : protected Pointers {
   bigint ncalls;                   // # of times build has been called
   bigint ndanger;                  // # of dangerous builds
   bigint lastcall;                 // timestep of last neighbor::build() call
+  int force_rebuild;               // 1 if a fix has explicitly requested rebuild
 
   bigint last_setup_bins_timestep;
 
@@ -121,6 +122,7 @@ class Neighbor : protected Pointers {
   int request(void *);                          // another class requests a neighbor list
   void print_lists_of_lists();                  // debug print out
   int decide();                                 // decide whether to build or not
+  void trigger_build();                         // force rebuild on next decide()
   virtual int check_distance();                 // check max distance moved since last build
   void setup_bins();                            // setup bins based on box and cutoff
   virtual void build(int topoflag=1);           // create all neighbor lists (pair,bond)

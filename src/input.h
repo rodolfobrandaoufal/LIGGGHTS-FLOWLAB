@@ -145,6 +145,11 @@ class Input : protected Pointers {
   void fix_modify();
   void force_dt_reset();          
   void group_command();
+  void gpu_device();
+  void gpu_mode();
+  void gpu_neighbor();
+  void gpu_precision();
+  void gpu_streams();
   void improper_coeff();
   void improper_style();
   void kspace_modify();

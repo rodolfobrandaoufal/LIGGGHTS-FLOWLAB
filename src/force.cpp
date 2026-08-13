@@ -77,6 +77,18 @@
 
 using namespace LAMMPS_NS;
 
+namespace {
+
+bool strict_accelerator_suffix(const char *suffix)
+{
+  return suffix &&
+         (strcmp(suffix,"gpu") == 0 ||
+          strcmp(suffix,"kk") == 0 ||
+          strcmp(suffix,"cuda") == 0);
+}
+
+}
+
 /* ---------------------------------------------------------------------- */
 
 Force::Force(LAMMPS *lmp) : Pointers(lmp), registry(lmp)
@@ -234,6 +246,14 @@ Pair *Force::new_pair(const char *style, const char *suffix, int &sflag)
       return pair_creator(lmp);
     }
 
+    if (strict_accelerator_suffix(suffix) && strcmp(style,"none") != 0) {
+      char errmsg[512];
+      sprintf(errmsg,
+              "Requested accelerator pair style \"%s\" is not registered; refusing CPU fallback",
+              estyle);
+      error->all(FLERR,errmsg);
+    }
+
   }
 
   sflag = 0;
@@ -263,6 +283,14 @@ Pair *Force::new_pair_from_restart(FILE * fp, const char *style, const char *suf
     if (pair_map->find(estyle) != pair_map->end()) {
       PairCreator pair_creator = (*pair_map)[estyle];
       return pair_creator(lmp);
+    }
+
+    if (strict_accelerator_suffix(suffix) && strcmp(style,"none") != 0) {
+      char errmsg[512];
+      sprintf(errmsg,
+              "Requested accelerator pair style \"%s\" from restart is not registered; refusing CPU fallback",
+              estyle);
+      error->all(FLERR,errmsg);
     }
   }
 

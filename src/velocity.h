@@ -84,6 +84,9 @@ class Velocity : protected Pointers {
   void zero_momentum();
   void zero_rotation();
   void zero_rotation_individual();
+
+  void sync_linear_sphere_soa();
+  void sync_angular_sphere_soa();
 };
 
 }

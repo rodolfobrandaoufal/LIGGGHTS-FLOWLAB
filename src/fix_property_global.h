@@ -74,6 +74,8 @@ class FixPropertyGlobal : public Fix {
   ~FixPropertyGlobal();
   int setmask();
   void init();
+  void setup_pre_force(int);
+  void pre_force(int);
   void pre_delete(bool unfixflag);
 
   Fix* check_fix(const char *varname,const char *svmstyle,int len1,int len2,const char *caller,bool errflag);
@@ -113,10 +115,20 @@ class FixPropertyGlobal : public Fix {
   double *values_recomputed; // values to be stored in this fix, recomputed by eg another fix
   double **array;
   double **array_recomputed;
+  char **value_variable_names;
+  int *value_variable_indices;
+  int nvariable_values;
+  int update_every;
+  bool has_variable_values;
 
   char *filename;
   char *grpname;
   int me;
+
+  void update_variable_values();
+  void ensure_variable_values_initialized();
+  double clamp_value(double) const;
+  void sync_recomputed_values();
 
 }; //end class
 

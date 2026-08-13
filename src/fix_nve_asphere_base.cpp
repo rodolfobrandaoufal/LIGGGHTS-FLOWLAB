@@ -68,6 +68,8 @@ FixNVEAsphereBase::FixNVEAsphereBase(LAMMPS *lmp, int narg, char **arg) :
   int iarg = 3;
   while (iarg < narg) {
     if (strcmp(arg[iarg],"integration_scheme") == 0) {
+      if (iarg+1 >= narg)
+        error->fix_error(FLERR,this,"integration_scheme requires an argument");
       integration_scheme = force->numeric(FLERR,arg[iarg+1]);
       iarg += 2;
     }
@@ -92,7 +94,19 @@ void FixNVEAsphereBase::init()
 {
   FixNVE::init();
 
-  // error checks might go here
+  couple_fix_id = -1;
+  for(int ifix = 0; ifix < modify->nfix; ifix++) {
+    if(strcmp(modify->fix[ifix]->style, "couple/cfd/force/implicit")==0) {
+      couple_fix_id = ifix;
+      break;
+    }
+  }
+
+  if(integration_scheme < 0 || integration_scheme > 4)
+    error->all(FLERR,"Invalid integration scheme! Please choose between 0, 1 (default), 2, 3 or 4!");
+
+  if(integration_scheme == 4 && couple_fix_id < 0)
+    error->all(FLERR,"integration_scheme 4 requires fix couple/cfd/force/implicit");
 }
 
 /* ---------------------------------------------------------------------- */
@@ -256,6 +270,9 @@ void FixNVEAsphereBase::rotationUpdate(bool updateQuaternion)
       hdtorque =     ((FixCfdCouplingForceImplicit*)modify->fix[couple_fix_id])->fix_hdtorque_->array_atom;
       orientation =  ((FixCfdCouplingForceImplicit*)modify->fix[couple_fix_id])->fix_ex_->array_atom;
     }
+
+  if(integration_scheme == 4 && (!ksl_rotation || !hdtorque || (updateQuaternion && !orientation)))
+    error->all(FLERR,"integration_scheme 4 requires initialized implicit CFD rotation, hydrodynamic torque, and orientation arrays");
 
   for (int i = 0; i < nlocal; i++) {
     if (mask[i] & groupbit)
@@ -648,4 +665,3 @@ void FixNVEAsphereBase::final_integrate()
 #endif
     }
 }
-

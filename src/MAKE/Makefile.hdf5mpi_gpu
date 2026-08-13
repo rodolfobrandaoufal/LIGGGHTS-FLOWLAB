@@ -1,0 +1,113 @@
+# hdf5mpi_gpu = mpic++ + CUDA GPU_DEM runtime, separate from CPU hdf5mpi
+
+SHELL = /bin/sh
+
+# ---------------------------------------------------------------------
+# compiler/linker settings
+
+CC =		mpic++
+NVCC =		nvcc
+CCFLAGS =	-O3 -std=c++17 -march=native -mtune=native -DNDEBUG \
+		-funroll-loops -fstrict-aliasing -Wall -Wno-unused-result -fPIC
+SHFLAGS =	-fPIC
+DEPFLAGS =	-M
+
+LINK =		mpic++
+LINKFLAGS =	-O3 -std=c++17 -march=native -mtune=native -fPIC
+LIB =		-lstdc++ -lcudart
+SIZE =		size
+
+NVCCFLAGS =	-O3 -std=c++17 -Xcompiler -fPIC -allow-unsupported-compiler \
+		--expt-relaxed-constexpr \
+		-gencode arch=compute_70,code=sm_70 \
+		-gencode arch=compute_70,code=compute_70
+
+ARCHIVE =	ar
+ARFLAGS =	-rcsv
+SHLIBFLAGS =	-shared
+
+# ---------------------------------------------------------------------
+# LIGGGHTS/LAMMPS features
+
+LMP_INC =	-DLAMMPS_GZIP -DLIGGGHTS_HDF5 -DLIGGGHTS_GPU_DEM_RUNTIME
+
+# MPI
+
+MPI_INC =
+MPI_PATH =
+MPI_LIB =
+
+# FFT
+
+FFT_INC =
+FFT_PATH =
+FFT_LIB =
+
+# JPEG/PNG
+
+JPG_INC =
+JPG_PATH =
+JPG_LIB =
+
+# Parallel HDF5.
+
+HDF5_INC =	-I/usr/include/hdf5/openmpi
+HDF5_PATH =	-L/usr/lib/x86_64-linux-gnu/hdf5/openmpi
+HDF5_LIB =	-lhdf5
+
+# CUDA runtime.
+
+CUDA_INC =	-I/usr/include
+CUDA_PATH =	-L/usr/lib/x86_64-linux-gnu
+CUDA_LIB =
+
+# GPU_DEM sources linked only into this GPU executable.
+
+GPU_DEM_CPP =	gpu_dem_driver.cpp gpu_execution_policy.cpp \
+		gpu_liggghts_bridge.cpp gpu_liggghts_feature_probe.cpp \
+		gpu_multisphere.cpp gpu_runtime_facade.cpp \
+		gpu_runtime_liggghts.cpp gpu_timestep.cpp
+GPU_DEM_CU =	gpu_contact_pipeline.cu gpu_contact_history.cu \
+		gpu_dem_context.cu gpu_external_forces.cu \
+		gpu_integrator.cu gpu_mesh_wall.cu \
+		gpu_neighbor_builder.cu gpu_particle_data.cu \
+		gpu_particle_insertion.cu \
+		gpu_wall_contact.cu
+GPU_DEM_OBJ =	$(GPU_DEM_CPP:.cpp=.o) $(GPU_DEM_CU:.cu=.o)
+
+# ---------------------------------------------------------------------
+# build rules and dependencies
+
+include	Makefile.package.settings
+include	Makefile.package
+
+EXTRA_INC = $(LMP_INC) -I.. -I../GPU_DEM $(PKG_INC) $(MPI_INC) $(FFT_INC) $(JPG_INC) $(HDF5_INC) $(CUDA_INC) $(PKG_SYSINC)
+EXTRA_PATH = $(PKG_PATH) $(MPI_PATH) $(FFT_PATH) $(JPG_PATH) $(HDF5_PATH) $(CUDA_PATH) $(PKG_SYSPATH)
+EXTRA_LIB = $(PKG_LIB) $(MPI_LIB) $(FFT_LIB) $(JPG_LIB) $(HDF5_LIB) $(CUDA_LIB) $(PKG_SYSLIB)
+
+vpath %.cpp .. ../GPU_DEM
+vpath %.cu ../GPU_DEM
+vpath %.h .. ../GPU_DEM
+
+$(EXE):	$(OBJ) $(GPU_DEM_OBJ)
+	$(LINK) $(LINKFLAGS) $(EXTRA_PATH) $(OBJ) $(GPU_DEM_OBJ) $(EXTRA_LIB) $(LIB) -o $(EXE)
+	$(SIZE) $(EXE)
+
+lib:	$(OBJ) $(GPU_DEM_OBJ)
+	$(ARCHIVE) $(ARFLAGS) $(EXE) $(OBJ) $(GPU_DEM_OBJ)
+
+shlib:	$(OBJ) $(GPU_DEM_OBJ)
+	$(CC) $(CCFLAGS) $(SHFLAGS) $(SHLIBFLAGS) $(EXTRA_PATH) -o $(EXE) \
+        $(OBJ) $(GPU_DEM_OBJ) $(EXTRA_LIB) $(LIB)
+
+%.o:%.cpp
+	$(CC) $(CCFLAGS) $(SHFLAGS) $(EXTRA_INC) -c $<
+
+%.o:%.cu
+	$(NVCC) $(NVCCFLAGS) $(EXTRA_INC) -c $<
+
+%.d:%.cpp
+	$(CC) $(CCFLAGS) $(EXTRA_INC) $(DEPFLAGS) $< > $@
+
+DEPENDS = $(OBJ:.o=.d)
+sinclude $(DEPENDS)

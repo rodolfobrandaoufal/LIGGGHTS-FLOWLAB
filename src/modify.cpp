@@ -75,6 +75,18 @@
 using namespace LAMMPS_NS;
 using namespace FixConst;
 
+namespace {
+
+bool strict_accelerator_suffix(const char *suffix)
+{
+  return suffix &&
+         (strcmp(suffix,"gpu") == 0 ||
+          strcmp(suffix,"kk") == 0 ||
+          strcmp(suffix,"cuda") == 0);
+}
+
+}
+
 #define DELTA 4
 
 #define BIG 1.0e20
@@ -832,6 +844,14 @@ void Modify::add_fix(int narg, char **arg, char *suffix)
     if (fix_map->find(estyle) != fix_map->end()) {
       FixCreator fix_creator = (*fix_map)[estyle];
       fix[ifix] = fix_creator(lmp,narg,arg);
+    }
+
+    if (fix[ifix] == NULL && strict_accelerator_suffix(suffix)) {
+      char errmsg[512];
+      sprintf(errmsg,
+              "Requested accelerator fix style \"%s\" is not registered; refusing CPU fallback",
+              estyle);
+      error->all(FLERR,errmsg);
     }
   }
 

@@ -132,12 +132,11 @@ namespace ContactModels
       const double kc = kn2kc[itype][jtype] * kn;
       const double f_0 = f_adh[itype][jtype];
 
-      double gamman, gammat;
-
-      gamman = sqrt(4.*meff*kn/(1.+(M_PI/CoeffRestLog[itype][jtype])*(M_PI/CoeffRestLog[itype][jtype])));
-      gammat = sqrt(4.*meff*kn/(1.+(M_PI/CoeffRestLog[itype][jtype])*(M_PI/CoeffRestLog[itype][jtype])));
-
-      if (!tangential_damping) gammat = 0.0;
+      const double coeffRestLog = CoeffRestLog[itype][jtype];
+      const double coeffRestLogTerm = M_PI/coeffRestLog;
+      const double gamma = sqrt(4.*meff*kn/(1.+coeffRestLogTerm*coeffRestLogTerm));
+      const double gamman = gamma;
+      const double gammat = tangential_damping ? gamma : 0.0;
 
       // get the history value -- maximal overlap
       if(sidata.contact_flags) *sidata.contact_flags |= CONTACT_NORMAL_MODEL;

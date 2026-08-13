@@ -45,7 +45,13 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <mpi.h>
+#include <cstddef>
+#include <exception>
 #include "update.h"
+#include "atom.h"
+#include "comm.h"
 #include "integrate.h"
 #include "min.h"
 #include "style_integrate.h"
@@ -61,7 +67,98 @@
 #include "memory.h"
 #include "error.h"
 
+#ifdef LIGGGHTS_GPU_DEM_RUNTIME
+#include "GPU_DEM/gpu_runtime_liggghts.h"
+#endif
+
 using namespace LAMMPS_NS;
+
+namespace {
+
+int contains_text(const char *text, const char *needle)
+{
+  return text && needle && strstr(text,needle) != NULL;
+}
+
+const char *safe_text(const char *text)
+{
+  return text ? text : "none";
+}
+
+const char *safe_string_text(const std::string &text)
+{
+  return text.empty() ? "none" : text.c_str();
+}
+
+int model_is_enabled(const std::string &text)
+{
+  return !text.empty() && text != "none" && text != "off";
+}
+
+int fix_style_contains(Modify *modify, const char *needle)
+{
+  if (!modify || !needle) return 0;
+  for (int i = 0; i < modify->nfix; ++i) {
+    if (modify->fix[i] && contains_text(modify->fix[i]->style,needle))
+      return 1;
+  }
+  return 0;
+}
+
+int atom_style_is_gpu_dem_sphere(const char *style)
+{
+  return style && (strcmp(style,"sphere") == 0 || strcmp(style,"granular") == 0);
+}
+
+void write_gpu_dem_line(FILE *screen, FILE *logfile, const char *line)
+{
+  if (screen) fprintf(screen,"%s\n",line);
+  if (logfile) fprintf(logfile,"%s\n",line);
+}
+
+void write_gpu_dem_blocker(FILE *screen, FILE *logfile, const char *reason,
+                           int &nblockers)
+{
+  if (screen) fprintf(screen,"GPU_DEM unsupported: %s\n",reason);
+  if (logfile) fprintf(logfile,"GPU_DEM unsupported: %s\n",reason);
+  ++nblockers;
+}
+
+void write_gpu_dem_host_fallback(FILE *screen, FILE *logfile, const char *reason,
+                                 int &nfallbacks)
+{
+  if (screen) fprintf(screen,"GPU_DEM host fallback: %s\n",reason);
+  if (logfile) fprintf(logfile,"GPU_DEM host fallback: %s\n",reason);
+  ++nfallbacks;
+}
+
+int verify_gpu_dem_runtime(int requested_device, int precision_policy,
+                           FILE *screen, FILE *logfile, char *errmsg,
+                           std::size_t errmsg_size)
+{
+#ifdef LIGGGHTS_GPU_DEM_RUNTIME
+  try {
+    GPU_DEM::LiggghtsGpuRuntimeProbe probe;
+    GPU_DEM::probe_liggghts_gpu_runtime(requested_device,precision_policy,probe);
+    if (screen)
+      fprintf(screen,"GPU_DEM CUDA runtime verified: device=%d/%d name=\"%s\"\n",
+              probe.device_id,probe.device_count,probe.device_name);
+    if (logfile)
+      fprintf(logfile,"GPU_DEM CUDA runtime verified: device=%d/%d name=\"%s\"\n",
+              probe.device_id,probe.device_count,probe.device_name);
+    return 1;
+  } catch (const std::exception &ex) {
+    snprintf(errmsg,errmsg_size,"GPU_DEM CUDA runtime initialization failed: %s",ex.what());
+    return 0;
+  }
+#else
+  snprintf(errmsg,errmsg_size,
+           "GPU_DEM CUDA runtime is not linked into this executable; rebuild the GPU target");
+  return 0;
+#endif
+}
+
+} // namespace
 
 /* ---------------------------------------------------------------------- */
 
@@ -93,6 +190,21 @@ Update::Update(LAMMPS *lmp) : Pointers(lmp)
   integrate = NULL;
   minimize_style = NULL;
   minimize = NULL;
+  gpu_dem_mode = 0;
+  gpu_dem_mode_style = NULL;
+  gpu_dem_precision = 1;
+  gpu_dem_precision_style = NULL;
+  gpu_dem_neighbor = 0;
+  gpu_dem_neighbor_style = NULL;
+  gpu_dem_device = -1;
+  gpu_dem_device_style = NULL;
+  gpu_dem_streams = 1;
+  gpu_dem_streams_style = NULL;
+  set_gpu_dem_mode(0,"off");
+  set_gpu_dem_precision(1,"mixed");
+  set_gpu_dem_neighbor(0,"auto");
+  set_gpu_dem_device(-1,"auto");
+  set_gpu_dem_streams(1,"on");
 
   if (lmp->cuda) {
     str = (char *) "verlet/cuda";
@@ -119,6 +231,12 @@ Update::~Update()
 
   delete [] minimize_style;
   delete minimize;
+
+  delete [] gpu_dem_mode_style;
+  delete [] gpu_dem_precision_style;
+  delete [] gpu_dem_neighbor_style;
+  delete [] gpu_dem_device_style;
+  delete [] gpu_dem_streams_style;
 }
 
 /* ---------------------------------------------------------------------- */
@@ -147,6 +265,167 @@ void Update::init()
   first_update = 1;
 
   ntimestep_reset_since_last_run = false;
+}
+
+/* ---------------------------------------------------------------------- */
+
+void Update::set_gpu_dem_mode(int mode, const char *style)
+{
+  gpu_dem_mode = mode;
+  delete [] gpu_dem_mode_style;
+  gpu_dem_mode_style = new char[strlen(style) + 1];
+  strcpy(gpu_dem_mode_style,style);
+}
+
+/* ---------------------------------------------------------------------- */
+
+void Update::set_gpu_dem_precision(int precision, const char *style)
+{
+  gpu_dem_precision = precision;
+  delete [] gpu_dem_precision_style;
+  gpu_dem_precision_style = new char[strlen(style) + 1];
+  strcpy(gpu_dem_precision_style,style);
+}
+
+/* ---------------------------------------------------------------------- */
+
+void Update::set_gpu_dem_neighbor(int neighbor_policy, const char *style)
+{
+  gpu_dem_neighbor = neighbor_policy;
+  delete [] gpu_dem_neighbor_style;
+  gpu_dem_neighbor_style = new char[strlen(style) + 1];
+  strcpy(gpu_dem_neighbor_style,style);
+}
+
+/* ---------------------------------------------------------------------- */
+
+void Update::set_gpu_dem_device(int device, const char *style)
+{
+  gpu_dem_device = device;
+  delete [] gpu_dem_device_style;
+  gpu_dem_device_style = new char[strlen(style) + 1];
+  strcpy(gpu_dem_device_style,style);
+}
+
+/* ---------------------------------------------------------------------- */
+
+void Update::set_gpu_dem_streams(int streams, const char *style)
+{
+  gpu_dem_streams = streams;
+  delete [] gpu_dem_streams_style;
+  gpu_dem_streams_style = new char[strlen(style) + 1];
+  strcpy(gpu_dem_streams_style,style);
+}
+
+/* ---------------------------------------------------------------------- */
+
+void Update::check_gpu_dem_run_support()
+{
+  if (gpu_dem_mode == 0) return;
+
+  int mpi_size = 1;
+  MPI_Comm_size(world,&mpi_size);
+
+  if (screen) {
+    fprintf(screen,
+            "GPU_DEM feature probe: mode=%s precision=%s neighbor=%s device=%s streams=%s atom_style=%s pair_style=%s "
+            "normal_model=%s tangential_model=%s cohesion_model=%s "
+            "rolling_model=%s mpi_size=%d\n",
+            safe_text(gpu_dem_mode_style), safe_text(gpu_dem_precision_style),
+            safe_text(gpu_dem_neighbor_style), safe_text(gpu_dem_device_style),
+            safe_text(gpu_dem_streams_style),
+            safe_text(atom->atom_style),
+            safe_text(force->pair_style),
+            safe_string_text(force->custom_contact_models.custom_normal_model),
+            safe_string_text(force->custom_contact_models.custom_tangential_model),
+            safe_string_text(force->custom_contact_models.custom_cohesion_model),
+            safe_string_text(force->custom_contact_models.custom_rolling_model),
+            mpi_size);
+  }
+  if (logfile) {
+    fprintf(logfile,
+            "GPU_DEM feature probe: mode=%s precision=%s neighbor=%s device=%s streams=%s atom_style=%s pair_style=%s "
+            "normal_model=%s tangential_model=%s cohesion_model=%s "
+            "rolling_model=%s mpi_size=%d\n",
+            safe_text(gpu_dem_mode_style), safe_text(gpu_dem_precision_style),
+            safe_text(gpu_dem_neighbor_style), safe_text(gpu_dem_device_style),
+            safe_text(gpu_dem_streams_style),
+            safe_text(atom->atom_style),
+            safe_text(force->pair_style),
+            safe_string_text(force->custom_contact_models.custom_normal_model),
+            safe_string_text(force->custom_contact_models.custom_tangential_model),
+            safe_string_text(force->custom_contact_models.custom_cohesion_model),
+            safe_string_text(force->custom_contact_models.custom_rolling_model),
+            mpi_size);
+  }
+
+  int nblockers = 0;
+  int nfallbacks = 0;
+
+  if (!atom_style_is_gpu_dem_sphere(atom->atom_style))
+    write_gpu_dem_blocker(screen,logfile,
+                          "only atom_style sphere/granular is supported",
+                          nblockers);
+
+  if (!fix_style_contains(modify,"nve/sphere"))
+    write_gpu_dem_host_fallback(screen,logfile,
+                                "non-nve/sphere integration remains on the host",
+                                nfallbacks);
+
+  if (mpi_size != 1)
+    write_gpu_dem_blocker(screen,logfile,"multi-rank MPI GPU execution is not implemented",nblockers);
+
+  if (!force->pair_style)
+    write_gpu_dem_blocker(screen,logfile,"no pair_style is defined",nblockers);
+  else if (!contains_text(force->pair_style,"gran") &&
+           !contains_text(force->pair_style,"hooke"))
+    write_gpu_dem_host_fallback(screen,logfile,
+                                "non-granular pair style remains on the host",
+                                nfallbacks);
+
+  if (model_is_enabled(force->custom_contact_models.custom_normal_model) &&
+      force->custom_contact_models.custom_normal_model.find("hooke") == std::string::npos &&
+      force->custom_contact_models.custom_normal_model.find("hertz") == std::string::npos)
+    write_gpu_dem_host_fallback(screen,logfile,
+                                "unsupported normal contact remains on the host",
+                                nfallbacks);
+
+  if (model_is_enabled(force->custom_contact_models.custom_cohesion_model))
+    write_gpu_dem_host_fallback(screen,logfile,"cohesion remains on the host",nfallbacks);
+
+  if (fix_style_contains(modify,"multisphere"))
+    write_gpu_dem_host_fallback(screen,logfile,"multisphere support remains on the host",nfallbacks);
+
+  if (fix_style_contains(modify,"heat"))
+    write_gpu_dem_host_fallback(screen,logfile,"thermal contact remains on the host",nfallbacks);
+
+  if (nblockers == 0) {
+    if (nfallbacks == 0) {
+      char runtime_error[512];
+      if (!verify_gpu_dem_runtime(gpu_dem_device,gpu_dem_precision,screen,logfile,
+                                  runtime_error,sizeof(runtime_error)))
+        error->all(FLERR,runtime_error);
+      write_gpu_dem_line(screen,logfile,"GPU_DEM feature probe accepted this run for GPU-native execution");
+      if (gpu_dem_mode == 2)
+        error->all(FLERR,
+                   "gpu_mode strict verified CUDA but production Verlet GPU timestep is not wired; refusing CPU timestep fallback");
+      return;
+    }
+
+    if (gpu_dem_mode == 2)
+      error->all(FLERR,
+                 "gpu_mode strict rejected this run because host fallbacks would be required; see GPU_DEM host fallback messages above");
+
+    write_gpu_dem_line(screen,logfile,
+                       "GPU_DEM auto mode: falling back to CPU for this run");
+    return;
+  }
+
+  if (gpu_dem_mode == 2)
+    error->all(FLERR,"gpu_mode strict rejected this run; see GPU_DEM unsupported messages above");
+
+  write_gpu_dem_line(screen,logfile,
+                     "GPU_DEM auto mode: falling back to CPU for this run");
 }
 
 /* ---------------------------------------------------------------------- */

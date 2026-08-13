@@ -302,25 +302,24 @@ void FixNeighlistMesh::pre_force(int)
 
 /* ---------------------------------------------------------------------- */
 
-void FixNeighlistMesh::checkBin(AtomVecEllipsoid::Bonus *bonus, std::vector<int>& neighbors, int& nchecked, double contactDistanceFactor, int *mask, int nlocal, int iBin, int iTri, bool haveNonSpherical, int *ellipsoid, double *shape)
+void FixNeighlistMesh::checkBin(AtomVecEllipsoid::Bonus *bonus, std::vector<int>& neighbors, int& nchecked, double *nneighs, double contactDistanceFactor, int *mask, int nlocal, int iBin, int iTri, bool haveNonSpherical, int *ellipsoid)
 {
     int iAtom = binhead[iBin];
 
     // only handle local atoms and periodic ghosts
     while(iAtom != -1)
     {
-      if((iAtom > nlocal) && (!domain->is_periodic_ghost(iAtom)))
-      {
-          if(bins) iAtom = bins[iAtom];
-          else iAtom = -1;
+      const int nextAtom = bins[iAtom];
 
+      if((iAtom >= nlocal) && (!domain->is_periodic_ghost(iAtom)))
+      {
+          iAtom = nextAtom;
           continue;
       }
 
       if(! (mask[iAtom] & groupbit_wall_mesh))
       {
-          if(bins) iAtom = bins[iAtom];
-          else iAtom = -1;
+          iAtom = nextAtom;
           continue;
       }
       nchecked++;
@@ -329,6 +328,7 @@ void FixNeighlistMesh::checkBin(AtomVecEllipsoid::Bonus *bonus, std::vector<int>
       #ifdef TRI_LINE_ACTIVE_FLAG
       else if(haveNonSpherical) //if non-spherical, check line interaction as well
       {
+          double *shape;
           double length;
           double cylRadius;
           shape     = bonus[ellipsoid[iAtom]].shape;
@@ -337,7 +337,7 @@ void FixNeighlistMesh::checkBin(AtomVecEllipsoid::Bonus *bonus, std::vector<int>
           if( mesh_->resolveTriSegmentNeighbuild(iTri, x[iAtom], length*contactDistanceFactor, cylRadius, skin ) )
           {
             neighbors.push_back(iAtom);
-            fix_nneighs_->set_vector_atom_int(iAtom, fix_nneighs_->get_vector_atom_int(iAtom)+1); // num_neigh++
+            incrementPackedInt(nneighs, iAtom); // num_neigh++
           }
       }
       #endif
@@ -345,11 +345,10 @@ void FixNeighlistMesh::checkBin(AtomVecEllipsoid::Bonus *bonus, std::vector<int>
       {
         // include iAtom in neighbor list
         neighbors.push_back(iAtom);
-        fix_nneighs_->set_vector_atom_int(iAtom, fix_nneighs_->get_vector_atom_int(iAtom)+1); // num_neigh++
+        incrementPackedInt(nneighs, iAtom); // num_neigh++
         
       }
-      if(bins) iAtom = bins[iAtom];
-      else iAtom = -1;
+      iAtom = nextAtom;
     }
 }
 
@@ -363,11 +362,11 @@ void FixNeighlistMesh::handleTriangle(int iTri)
     int *mask = atom->mask;
     int ixMin(0),ixMax(0),iyMin(0),iyMax(0),izMin(0),izMax(0);
     int nlocal = atom->nlocal;
+    double *nneighs = fix_nneighs_->vector_atom;
     double contactDistanceFactor = neighbor->contactDistanceFactor;
 
     int                     *ellipsoid  = atom->ellipsoid;
     AtomVecEllipsoid::Bonus *bonus = 0;
-    double *shape = 0;
     bool    haveNonSpherical = false;
     if(ellipsoid)
     {
@@ -390,7 +389,7 @@ void FixNeighlistMesh::handleTriangle(int iTri)
             for(int iz=izMin;iz<=izMax;iz++) {
               const int iBin = iz*mbiny*mbinx + iy*mbinx + ix;
               if(iBin < 0 || iBin >= maxhead) continue;
-              checkBin(bonus, neighbors, nchecked, contactDistanceFactor, mask, nlocal, iBin, iTri, haveNonSpherical, ellipsoid, shape);
+              checkBin(bonus, neighbors, nchecked, nneighs, contactDistanceFactor, mask, nlocal, iBin, iTri, haveNonSpherical, ellipsoid);
             }
           }
         }
@@ -399,7 +398,7 @@ void FixNeighlistMesh::handleTriangle(int iTri)
         const int bincount = triangleBins.size();
         for(int i = 0; i < bincount; i++) {
           const int iBin = triangleBins[i];
-          checkBin(bonus, neighbors, nchecked, contactDistanceFactor, mask, nlocal, iBin, iTri, haveNonSpherical, ellipsoid, shape);
+          checkBin(bonus, neighbors, nchecked, nneighs, contactDistanceFactor, mask, nlocal, iBin, iTri, haveNonSpherical, ellipsoid);
         }
       }
     }
@@ -476,7 +475,6 @@ void FixNeighlistMesh::generate_bin_list(size_t nall)
 
       // look at bins and exclude unnecessary ones
       double center[3];
-      int total = 0;
       for (int ix = bb.xlo; ix <= bb.xhi; ix++) {
         for (int iy = bb.ylo; iy <= bb.yhi; iy++) {
           for (int iz = bb.zlo; iz <= bb.zhi; iz++) {
@@ -491,7 +489,6 @@ void FixNeighlistMesh::generate_bin_list(size_t nall)
             {
               binlist.push_back(iBin);
             }
-            total++;
           }
         }
       }
