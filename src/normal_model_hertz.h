@@ -51,6 +51,8 @@ NORMAL_MODEL(HERTZ,hertz,3)
 #include <cmath>
 #include "normal_model_base.h"
 #include "fix_mesh_surface.h"
+#include "restitution_mapping.h"
+#include <vector>
 
 namespace LIGGGHTS {
 
@@ -68,6 +70,7 @@ namespace ContactModels
       Geff(NULL),
       betaeff(NULL),
       limitForce(false),
+      correctRestitution(false),
       displayedSettings(false),
       heating(false),
       heating_track(false),
@@ -89,6 +92,7 @@ namespace ContactModels
       
       settings.registerOnOff("tangential_damping", tangential_damping, true);
       settings.registerOnOff("limitForce", limitForce);
+      settings.registerOnOff("correctRestitution", correctRestitution, false);
       settings.registerOnOff("heating_normal_hertz",heating,false);
       settings.registerOnOff("heating_tracking",heating_track,false);
       settings.registerOnOff("computeElasticPotential", elasticpotflag_, false);
@@ -99,6 +103,9 @@ namespace ContactModels
 
     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb)
     {
+        if (correctRestitution && !limitForce)
+            error->all(FLERR, "model hertz: 'correctRestitution on' requires 'limitForce on' "
+                              "(without limitForce the input restitution is already reproduced)");
         if (elasticpotflag_)
         {
             elastic_potential_offset_ = cmb->get_history_offset("elastic_potential_normal");
@@ -234,7 +241,8 @@ namespace ContactModels
       double kn=4./3.*Yeff[itype][jtype]*sqrtval;
       double kt=St;
       const double sqrtFiveOverSix = 0.91287092917527685576161630466800355658790782499663875;
-      const double gamman=-2.*sqrtFiveOverSix*betaeff[itype][jtype]*sqrt(Sn*meff);
+      const double betan = correctRestitution ? correctedBeta(itype,jtype) : betaeff[itype][jtype];
+      const double gamman=-2.*sqrtFiveOverSix*betan*sqrt(Sn*meff);
       const double gammat= tangential_damping ? -2.*sqrtFiveOverSix*betaeff[itype][jtype]*sqrt(St*meff) : 0.0;
       
       if(!displayedSettings)
@@ -415,12 +423,35 @@ namespace ContactModels
     void endPass(SurfacesIntersectData&, ForceData&, ForceData&){}
 
   protected:
+    // opt-in (correctRestitution): damping coefficient beta for which the
+    // clipped (limitForce) law reproduces the input restitution coefficient.
+    // Cached per type pair; recomputed if betaeff changes (e.g. fix adapt).
+    double correctedBeta(const int itype, const int jtype)
+    {
+      const int n = atom->ntypes + 1;
+      if ((int)betaInCache_.size() != n*n)
+      {
+        betaInCache_.assign(n*n, 1.0);   // 1.0 is never a valid beta
+        betaOutCache_.assign(n*n, 0.0);
+      }
+      const int idx = itype*n + jtype;
+      const double b = betaeff[itype][jtype];
+      if (betaInCache_[idx] != b)
+      {
+        betaInCache_[idx] = b;
+        betaOutCache_[idx] = -RestitutionMapping::zetaClipped(RestitutionMapping::eFromBeta(b));
+      }
+      return betaOutCache_[idx];
+    }
+
     double ** Yeff;
     double ** Geff;
     double ** betaeff;
 
     bool tangential_damping;
     bool limitForce;
+    bool correctRestitution;
+    std::vector<double> betaInCache_, betaOutCache_;
     bool displayedSettings;
     bool heating;
     bool heating_track;

@@ -1,0 +1,88 @@
+"LIGGGHTS(R)-PUBLIC WWW Site"_liws - "LIGGGHTS(R)-PUBLIC Documentation"_ld - "LIGGGHTS(R)-PUBLIC Commands"_lc :c
+
+:link(liws,http://www.cfdem.com)
+:link(ld,Manual.html)
+:link(lc,Section_commands.html#comm)
+
+:line
+
+gran model luding model :h3
+
+[Syntax:]
+
+model luding \[other model_type/model_name pairs as described "here"_pair_gran.html \] keyword values :pre
+zero or more keyword/value pairs may be appended to the end (after all models are specified) :l
+  {limitForce} values = 'on' or 'off'
+    on = the normal force is never attractive when coefficientAdhesionStiffness and pullOffForce are zero (default)
+    off = the dashpot may produce an attractive force at the end of a contact
+  {tangential_damping} values = 'on' or 'off'
+    on = activates tangential damping (default)
+    off = no tangential damping
+  {correctRestitution} values = 'on' or 'off'
+    on = choose the viscous damping per contact so that hysteresis plus dashpot give the input coefficient of restitution (see below)
+    off = the dashpot is computed from coefficientRestitution alone and acts on top of the hysteresis (default) :pre
+
+[Examples:]
+
+pair_style gran model luding tangential no_history
+pair_style gran model luding tangential no_history correctRestitution on :pre
+
+[Description:]
+
+Hysteretic linear elastic-plastic-adhesive normal contact of
+"(Luding)"_#Luding2008: loading with stiffness k1 (LoadingStiffness), un- and
+reloading with k2 that grows from k1 to k2max = kn2k1*k1 (UnloadingStiffness)
+as the maximum overlap approaches the plasticity limit
+deltaMaxLim = k2max/(k2max-k1) * phiF * 2 R* (coefficientPlasticityDepth phiF),
+adhesive branch -kc*delta (kc = kn2kc*k1, coefficientAdhesionStiffness) and a
+constant pull-off force (pullOffForce). A linear dashpot with damping
+gamma_n = 2 zeta sqrt(m* k1) is added.
+
+[Coefficient of restitution:]
+
+The hysteresis alone already dissipates energy: without the dashpot a head-on
+collision below the plasticity limit gives e = sqrt(k1/k2)
+"(Luding)"_#Luding2008, which depends on the impact velocity through k2(deltaMax).
+With {correctRestitution} = 'off' (default) the dashpot is computed from
+coefficientRestitution e as for a linear spring k1 (zeta = -ln e/sqrt(ln^2 e + pi^2)),
+so both dissipation mechanisms stack and, with limitForce on, the realised
+restitution differs from the input. Example (e = 0.5, deltaMaxLim = 1.05 times the
+elastic maximum overlap): realised e = 0.550 (kn2k1 = 1), 0.449 (kn2k1 = 2),
+0.352 (kn2k1 = 4).
+
+With {correctRestitution} = 'on' the damping ratio of each contact is chosen at
+first touch from the normal approach speed v0 such that the collision gives the
+input e. In units k1 = m* = deltaMaxLim = 1 the collision depends only on
+kn2k1, zeta and s = v0 / (sqrt(k1/m*) deltaMaxLim); zeta(s) is tabulated once per
+type pair (64 points per decade, s = 1e-4 ... 1e4, RK4 integration of the clipped
+law) and the value for the contact is stored in the contact history until the
+contact opens. If the hysteresis alone already dissipates more than requested
+(sqrt(k1/k2) < e), zeta = 0 and the realised restitution is the hysteretic one.
+For kn2k1 = 1 the law is the linear spring-dashpot and the closed form of
+"model hooke"_gran_model_hooke.html is used. Measured head-on collisions
+(sphere-sphere and sphere-wall, kn2k1 = 1, 2, 4, s = 0.3, 0.95, 3,
+e = 0.3, 0.5, 0.8): |e_out - e_target| <= 5.9e-3 at dt = t_c/50 and <= 2.8e-3 at
+dt = t_c/100 (t_c = pi sqrt(m*/k2max)); the error is the first-order timestep
+error of the dashpot (see "model hooke"_gran_model_hooke.html).
+
+In dense, long-lasting contacts the "impact velocity" is the approach speed at
+the first step of overlap; the damping of that contact stays fixed until it
+opens.
+
+[Restrictions:]
+
+{correctRestitution} = 'on' requires {limitForce} = 'on' and kn2k1 >= 1. For
+type pairs with coefficientAdhesionStiffness or pullOffForce different from zero
+(the force is then not clipped) it is ignored with a warning.
+{correctRestitution} adds one contact-history value: restart files written with
+it must be read with the same setting.
+Tangential damping uses the uncorrected coefficient.
+
+[Default:]
+
+{limitForce} = 'on'
+{tangential_damping} = 'on'
+{correctRestitution} = 'off'
+
+:link(Luding2008)
+[(Luding)] S. Luding, Cohesive, frictional powders: contact models for tension, Granular Matter 10, p 235-246 (2008).

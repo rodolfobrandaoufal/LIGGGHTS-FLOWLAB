@@ -55,6 +55,8 @@ NORMAL_MODEL(HOOKE,hooke,0)
 #include "force.h"
 #include "update.h"
 #include "normal_model_base.h"
+#include "restitution_mapping.h"
+#include <vector>
 
 namespace LIGGGHTS {
 namespace ContactModels
@@ -75,6 +77,7 @@ namespace ContactModels
       viscous(false),
       tangential_damping(false),
       limitForce(false),
+      correctRestitution(false),
       ktToKn(false),
       displayedSettings(false),
       heating(false),
@@ -97,6 +100,7 @@ namespace ContactModels
       settings.registerOnOff("viscous", viscous);
       settings.registerOnOff("tangential_damping", tangential_damping, true);
       settings.registerOnOff("limitForce", limitForce);
+      settings.registerOnOff("correctRestitution", correctRestitution, false);
       settings.registerOnOff("ktToKnUser", ktToKn);
       settings.registerOnOff("heating_normal_hooke",heating,false);
       settings.registerOnOff("heating_tracking",heating_track,false);
@@ -107,6 +111,11 @@ namespace ContactModels
 
     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb)
     {
+        if (correctRestitution && !limitForce)
+            error->all(FLERR, "model hooke: 'correctRestitution on' requires 'limitForce on' "
+                              "(without limitForce the input restitution is already reproduced)");
+        if (correctRestitution && viscous)
+            error->all(FLERR, "model hooke: 'correctRestitution on' is not supported together with 'viscous on'");
         if (elasticpotflag_)
         {
             elastic_potential_offset_ = cmb->get_history_offset("elastic_potential_normal");
@@ -271,8 +280,10 @@ namespace ContactModels
       if(ktToKn) kt *= 0.285714286; //2//7
       const double coeffRestLogChosenSq = coeffRestLogChosen*coeffRestLogChosen;
       //const double gamman=sqrt(4.*meff*kn/(1.+(M_PI/coeffRestLogChosen)*(M_PI/coeffRestLogChosen)));
-      const double gamman=sqrt(4.*meff*kn*coeffRestLogChosenSq/(coeffRestLogChosenSq+M_PI*M_PI));
-      const double gammat = tangential_damping ? gamman : 0.0;
+      const double gammanInput=sqrt(4.*meff*kn*coeffRestLogChosenSq/(coeffRestLogChosenSq+M_PI*M_PI));
+      // opt-in: damping ratio for which the clipped (limitForce) law reproduces e_input
+      const double gamman = correctRestitution ? 2.*correctedZeta(itype,jtype)*sqrt(meff*kn) : gammanInput;
+      const double gammat = tangential_damping ? gammanInput : 0.0;
 
       // convert Kn and Kt from pressure units to force/distance^2
       kn /= force->nktv2p;
@@ -446,6 +457,27 @@ namespace ContactModels
     void endPass(SurfacesIntersectData&, ForceData&, ForceData&){}
 
   protected:
+    // opt-in (correctRestitution): damping ratio zeta = gamma_n/(2 sqrt(m* k_n))
+    // for which the clipped (limitForce) law reproduces the input restitution.
+    // Cached per type pair; recomputed if coefficientRestitution changes.
+    double correctedZeta(const int itype, const int jtype)
+    {
+      const int n = atom->ntypes + 1;
+      if ((int)logEInCache_.size() != n*n)
+      {
+        logEInCache_.assign(n*n, 1.0);   // ln e = 1 is never a valid input
+        zetaOutCache_.assign(n*n, 0.0);
+      }
+      const int idx = itype*n + jtype;
+      const double le = coeffRestLog[itype][jtype];
+      if (logEInCache_[idx] != le)
+      {
+        logEInCache_[idx] = le;
+        zetaOutCache_[idx] = RestitutionMapping::zetaClipped(exp(le));
+      }
+      return zetaOutCache_[idx];
+    }
+
     double ** Yeff;
     double ** Geff;
     double ** coeffRestMax;
@@ -457,6 +489,8 @@ namespace ContactModels
     bool viscous;
     bool tangential_damping;
     bool limitForce;
+    bool correctRestitution;
+    std::vector<double> logEInCache_, zetaOutCache_;
     bool ktToKn;
     bool displayedSettings;
     bool heating;

@@ -81,6 +81,16 @@ Note, that not using limitForce might lead to attractive forces between particle
 case the coefficient of restitution is small. Be sure you include this key word for the pair style and the 
 wall model if you like to avoid this.
 
+NOTE: This model takes the damping coefficients directly, not a coefficient
+of restitution, so the keyword {correctRestitution} of "model hooke"_gran_model_hooke.html
+and "model hertz"_gran_model_hertz.html is not available here. With {limitForce} = 'on'
+the realised restitution is higher than for the unclipped law: for a damping ratio
+zeta (zeta = gamma_n/(2 sqrt(m* k_n)) for the linear law) it is e = G(zeta)^2,
+G(zeta) = exp(-zeta arccos(zeta)/sqrt(1-zeta^2)) (Schwager and Poschel, Phys Rev E 78,
+051304 (2008)), instead of exp(-pi zeta/sqrt(1-zeta^2)). To reach a target e with
+limitForce on, choose zeta from e = G(zeta)^2 (e.g. e = 0.5 needs zeta = 0.2553
+instead of 0.2155).
+
 [Restrictions:]
 
 If using SI units, youngsModulus must be > 5e6

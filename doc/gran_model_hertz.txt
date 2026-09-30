@@ -15,6 +15,9 @@ zero or more keyword/value pairs may be appended to the end (after all models ar
   {limitForce} values = 'on' or 'off'
     on = ensures that the normal force is never attractive (an artefact that can occur at the end of a collision).
     off = standard implementation that might lead to attractive forces.
+  {correctRestitution} values = 'on' or 'off'
+    on = with {limitForce} on, choose the normal damping such that the realised coefficient of restitution equals the input value (see "Force Limiting")
+    off = legacy mapping from coefficientRestitution to damping (default)
   {tangential_damping} values = 'on' or 'off'
     on = activates tangential damping
     off = no tangential damping 
@@ -102,12 +105,42 @@ Note, that not using limitForce might lead to attractive forces between particle
 especially in case the coefficient of restitution is small. Be sure you include this key word 
 for the pair style and the wall model if you like to avoid this.
 
+With {limitForce} = 'on' and {correctRestitution} = 'off' (the default), the
+damping is computed from the coefficient of restitution e as if the force were
+not clipped. Because the particles separate as soon as the (clipped) force
+vanishes, before the overlap is zero, less energy is dissipated and the
+realised restitution is higher than the input "(Schwager)"_#Schwager. For a
+head-on collision it is (Hertz and Hooke give the same values):
+
+e (input): 0.1, 0.3, 0.5, 0.7, 0.9, 0.99
+e (realised, limitForce on): 0.253, 0.397, 0.550, 0.718, 0.902, 0.990 :pre
+
+The realised value is e_clip = G(zeta)^2 with G(zeta) = exp(-zeta arccos(zeta)/sqrt(1-zeta^2))
+(analytically continued, G(1) = exp(-1)) and zeta the damping ratio
+(zeta = -beta for hertz, zeta = gamma_n/(2 sqrt(m* k_n)) for hooke). The keyword
+{correctRestitution} = 'on' solves e_clip(zeta) = e once per type pair (cached,
+recomputed if coefficientRestitution changes), so that the realised restitution
+equals the input. Only the normal damping is changed; tangential damping still
+uses the uncorrected value. Measured with velocity-Verlet (sphere-sphere and
+sphere-wall, e = 0.1 ... 0.99): |e_out - e| <= 1.6e-3 (hertz) / 5.9e-3 (hooke)
+at dt = t_c/50 and <= 1e-3 / 2.8e-3 at dt = t_c/100.
+
+[Timestep and accuracy of e:]
+
+The dashpot force is evaluated with the half-step velocity of the
+velocity-Verlet integrator, so the realised restitution of damped contacts
+converges only at first order in the timestep (elastic contacts converge at
+second order). For |e_out - e| <= 5e-3 use dt <= t_c/50 (hertz) or
+dt <= t_c/100 (hooke, e <= 0.5); the error halves when dt is halved. This holds
+with and without {correctRestitution}.
+
 [Restrictions:]
 
 If using SI units, youngsModulus must be > 5e6
 If using CGS units, youngsModulus must be > 5e5
-When using the limitForce, the specified coefficient of restitution is only approximate. This might 
-become problematic for low coefficients of restitution as shown in Schwager and Poschel.
+When using limitForce without correctRestitution, the specified coefficient of restitution is not
+reproduced (see "Force Limiting" above).
+{correctRestitution} = 'on' requires {limitForce} = 'on'.
 
 {heating_normal_hertz} may not be available in your version of the software.
 
@@ -124,6 +157,7 @@ may not be available in LIGGGHTS(R)-PUBLIC.
 
 {tangential_damping} = 'on'
 {limitForce} = 'off'
+{correctRestitution} = 'off'
 {heating_normal_hertz} = 'off'
 
 [(Di Renzo)] Alberto Di Renzo, Francesco Paolo Di Maio, Chemical Engineering Science, 59 (3), p 525-541 (2004). (Note: Wrong definition of G_eq in this paper, corrected in (Di Renzo 2))
@@ -140,3 +174,5 @@ may not be available in LIGGGHTS(R)-PUBLIC.
 
 [(Zhang)] Zhang and Makse, Phys Rev E, 72, p 011301 (2005).
 
+:link(Schwager)
+[(Schwager)] T. Schwager, T. Poschel, Coefficient of restitution and linear-dashpot model revisited, Granular Matter 9, p 465-469 (2007); Phys Rev E 78, 051304 (2008).

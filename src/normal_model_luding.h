@@ -48,6 +48,8 @@ NORMAL_MODEL(LUDING,luding,12)
 #include "force.h"
 #include "update.h"
 #include "global_properties.h"
+#include "restitution_mapping.h"
+#include <vector>
 
 namespace LIGGGHTS {
 namespace ContactModels
@@ -64,7 +66,10 @@ namespace ContactModels
       kn2kc(NULL),
       phiF(NULL),
       f_adh(NULL),
-      limitForce(false)
+      limitForce(false),
+      correctRestitution(false),
+      zeta_offset(-1),
+      warnedNoCorrection(false)
     {
       history_offset = hsetup->add_history_value("deltaMax", "0");
       kc_offset = hsetup->add_history_value("kc", "1");
@@ -76,8 +81,18 @@ namespace ContactModels
     inline void registerSettings(Settings & settings){
       settings.registerOnOff("tangential_damping", tangential_damping, true);
       settings.registerOnOff("limitForce", limitForce, true);
+      settings.registerOnOff("correctRestitution", correctRestitution, false);
     }
-    inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+    inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb)
+    {
+      if (correctRestitution)
+      {
+        if (!limitForce)
+          error->all(FLERR, "model luding: 'correctRestitution on' requires 'limitForce on' (the default)");
+        // per-contact damping ratio + 1 (0 = not yet set), fixed at first touch
+        zeta_offset = hsetup->add_history_value("zetaLudingPlusOne", "0");
+      }
+    }
 
     inline void connectToProperties(PropertyRegistry & registry) {
       registry.registerProperty("K_elastic", &MODEL_PARAMS::createLoadingStiffness,"model luding");
@@ -135,7 +150,7 @@ namespace ContactModels
       const double coeffRestLog = CoeffRestLog[itype][jtype];
       const double coeffRestLogTerm = M_PI/coeffRestLog;
       const double gamma = sqrt(4.*meff*kn/(1.+coeffRestLogTerm*coeffRestLogTerm));
-      const double gamman = gamma;
+      double gamman = gamma;
       const double gammat = tangential_damping ? gamma : 0.0;
 
       // get the history value -- maximal overlap
@@ -154,6 +169,12 @@ namespace ContactModels
       // k2 dependent on the maximum overlap
       // this accounts for an increasing stiffness with deformation - to capture nonlinearity
       const double deltaMaxLim =(k2Max/(k2Max-k1))*phiF[itype][jtype]*2*reff;
+
+      // opt-in: viscous damping chosen such that hysteresis + dashpot give
+      // the input restitution (see restitution_mapping.h)
+      if (correctRestitution)
+          gamman = correctedGamma(sidata, itype, jtype, meff, k1, kn2k1[itype][jtype],
+                                  coeffRestLog, deltaMaxLim, kc, f_0, gamma);
 
       double k2, fHys;
 
@@ -255,12 +276,54 @@ namespace ContactModels
       if(scdata.contact_flags) *scdata.contact_flags &= ~CONTACT_NORMAL_MODEL;
       double * const history = &scdata.contact_history[history_offset];
       history[0] = 0.0;
+      if (correctRestitution)
+        scdata.contact_history[zeta_offset] = 0.0;
     }
 
     void beginPass(SurfacesIntersectData&, ForceData&, ForceData&){}
     void endPass(SurfacesIntersectData&, ForceData&, ForceData&){}
 
   protected:
+    // damping coefficient of this contact for 'correctRestitution on';
+    // the damping ratio is fixed at first touch from the approach speed
+    double correctedGamma(SurfacesIntersectData & sidata, const int itype, const int jtype,
+                          const double meff, const double k1, const double kappa,
+                          const double coeffRestLog, const double deltaMaxLim,
+                          const double kc, const double f_0, const double gammaInput)
+    {
+      if (kc != 0.0 || f_0 != 0.0)
+      {
+        // the force is not clipped for adhesive pairs: no mapping available
+        if (!warnedNoCorrection)
+        {
+          warnedNoCorrection = true;
+          error->warning(FLERR, "model luding: correctRestitution ignored for type pairs with "
+                                "coefficientAdhesionStiffness or pullOffForce != 0");
+        }
+        return gammaInput;
+      }
+      double * const zh = &sidata.contact_history[zeta_offset];
+      if (zh[0] == 0.0)
+      {
+        const int n = atom->ntypes + 1;
+        if ((int)tables.size() != n*n) tables.resize(n*n);
+        RestitutionMapping::LudingZetaTable & tab = tables[itype*n + jtype];
+        const double e_in = exp(coeffRestLog);
+        if (!tab.matches(kappa, e_in))
+        {
+          if (kappa < 1.0)
+            error->one(FLERR, "model luding: correctRestitution requires UnloadingStiffness (kn2k1) >= 1");
+          tab.build(kappa, e_in);
+        }
+        const double v0 = -sidata.vn;
+        const double w1 = sqrt(k1/meff);
+        const double s = (v0 > 0.0 && deltaMaxLim > 0.0) ? v0/(w1*deltaMaxLim)
+                         : (v0 > 0.0 ? HUGE_VAL : 0.0);
+        zh[0] = tab.zeta(s) + 1.0;
+      }
+      return 2.*(zh[0]-1.0)*sqrt(meff*k1);
+    }
+
     double **K_elastic;
     double **CoeffRestLog;
     double **kn2k1;
@@ -274,6 +337,10 @@ namespace ContactModels
 
     bool tangential_damping;
     bool limitForce;
+    bool correctRestitution;
+    int zeta_offset;
+    bool warnedNoCorrection;
+    std::vector<RestitutionMapping::LudingZetaTable> tables;
   };
 }
 }
