@@ -1,0 +1,32 @@
+# tests/adapt F-02: collective rebuild decision with an empty rank (was: hang). Run on 2 ranks.
+# 2 ranks along x; all particles live in the left half, so rank 1 owns none.
+# Radius grows by 0.6*skin per application => rank 0 calls trigger_build(), rank 1 does not.
+# Run: timeout 120 mpirun -np 2 lmp -in in.adapt_rank_divergence ; expected (hypothesis): hang or MPI error.
+atom_style    granular
+atom_modify   map array
+boundary      f f f
+newton        off
+communicate   single vel yes
+processors    2 1 1
+units         si
+region        reg block -0.05 0.05 -0.02 0.02 -0.02 0.02 units box
+create_box    1 reg
+neighbor      0.001 bin
+neigh_modify  delay 0
+fix  m1 all property/global youngsModulus peratomtype 1e7
+fix  m2 all property/global poissonsRatio peratomtype 0.3
+fix  m3 all property/global coefficientRestitution peratomtypepair 1 0.5
+fix  m4 all property/global coefficientFriction peratomtypepair 1 0.5
+pair_style gran model hertz tangential history
+pair_coeff * *
+timestep 1e-6
+region left block -0.045 -0.005 -0.015 0.015 -0.015 0.015 units box
+lattice sc 0.01
+create_atoms 1 region left
+set group all diameter 0.001 density 2500
+variable r equal 0.0005+0.0006*floor(step/10)
+fix integr all nve/sphere
+fix grow all adapt/liggghts 10 radius v_r max_radius 0.003
+thermo_style custom step atoms v_r
+thermo 10
+run 40

@@ -1,0 +1,38 @@
+# tests/adapt V-15/F-06: no-op fix adapt/liggghts on a free-spinning blocky superquadric
+# (blockiness 8, a=b=c=1 mm, omega_z = 10 rad/s). Omega must stay 10 (release: 15.597).
+# Needs a binary built with -DENABLE_SQ=ON.
+hard_particles yes
+atom_style superquadric
+atom_modify map array
+boundary f f f
+newton off
+communicate single vel yes
+units si
+region reg block -0.01 0.01 -0.01 0.01 -0.01 0.01 units box
+create_box 1 reg
+neighbor 0.0005 bin
+neigh_modify delay 0
+fix m1 all property/global youngsModulus peratomtype 1e7
+fix m2 all property/global poissonsRatio peratomtype 0.3
+fix m3 all property/global coefficientRestitution peratomtypepair 1 0.5
+fix m4 all property/global coefficientFriction peratomtypepair 1 0.5
+fix m5 all property/global characteristicVelocity scalar 1.0
+pair_style gran model hooke tangential history surface superquadric
+pair_coeff * *
+timestep 1e-6
+create_atoms 1 single 0 0 0 units box
+set atom 1 shape 0.001 0.001 0.001 blockiness 8 8 density 2500 quat 0 0 1 0 omegaz 10
+fix integr all nve/superquadric integration_scheme 1
+compute pa all property/atom radius omegaz
+compute r all reduce max c_pa[1]
+compute w all reduce max c_pa[2]
+variable rr equal c_r
+variable w equal c_w
+variable m equal mass(all)
+thermo_style custom step v_rr v_w v_m
+thermo_modify format float %.15g
+thermo 50
+run 100
+variable r0 equal ${rr}
+fix ad all adapt/liggghts 1 radius v_r0
+run 100

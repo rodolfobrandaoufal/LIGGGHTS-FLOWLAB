@@ -1,0 +1,39 @@
+# tests/adapt F-06/F-05 (superquadric): two blocky superquadrics (blockiness 8) 5 mm apart
+# grow until their faces overlap. Ghost shape/radius must be current (fix forward comm):
+# total momentum ~ 0 and identical result on 1 and 2 ranks (-var px 1|2).
+# Needs a binary built with -DENABLE_SQ=ON.
+hard_particles yes
+atom_style superquadric
+atom_modify map array
+boundary f f f
+newton off
+communicate single vel yes
+processors ${px} 1 1
+units si
+region reg block -0.02 0.02 -0.01 0.01 -0.01 0.01 units box
+create_box 1 reg
+neighbor 0.0005 bin
+neigh_modify delay 0
+fix m1 all property/global youngsModulus peratomtype 1e7
+fix m2 all property/global poissonsRatio peratomtype 0.3
+fix m3 all property/global coefficientRestitution peratomtypepair 1 0.5
+fix m4 all property/global coefficientFriction peratomtypepair 1 0.5
+fix m5 all property/global characteristicVelocity scalar 1.0
+pair_style gran model hooke tangential history surface superquadric
+pair_coeff * *
+timestep 1e-6
+create_atoms 1 single -0.0025 0.0001 0 units box
+create_atoms 1 single  0.0025 0 0 units box
+set group all shape 0.001 0.001 0.001 blockiness 8 8 density 2500
+fix integr all nve/superquadric integration_scheme 1
+variable r00 equal 0.00150995462884195
+variable r equal v_r00*(1+1.8*step/20000)
+fix grow all adapt/liggghts 1 radius v_r max_radius 0.0045
+variable pmx equal vcm(all,x)*mass(all)
+variable vx1 equal vx[1]
+variable vx2 equal vx[2]
+variable wz1 equal omegaz[1]
+thermo_style custom step v_r v_vx1 v_vx2 v_pmx v_wz1
+thermo_modify format float %.12g
+thermo 5000
+run 20000

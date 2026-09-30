@@ -1,0 +1,129 @@
+"LIGGGHTS(R)-PUBLIC WWW Site"_liws - "LIGGGHTS(R)-PUBLIC Documentation"_ld - "LIGGGHTS(R)-PUBLIC Commands"_lc :c
+
+:link(liws,http://www.cfdem.com)
+:link(ld,Manual.html)
+:link(lc,Section_commands.html#comm)
+
+:line
+
+fix adapt/liggghts command :h3
+
+[Syntax:]
+
+fix ID group-ID adapt/liggghts N attribute v_name ... keyword value ... :pre
+
+ID, group-ID are documented in "fix"_fix.html command :ulb,l
+adapt/liggghts = style name of this fix command :l
+N = apply the variables every this many time-steps (at steps that are multiples of N) :l
+one or more attribute/variable pairs may be appended :l
+attribute = {radius} or {density} :l
+  {radius} v_name = particle radius (distance units), equal- or atom-style variable
+  {density} v_name = particle density (mass/volume units), equal- or atom-style variable :pre
+zero or more keyword/value pairs may be appended :l
+keyword = {max_radius} or {rayleigh_warn} or {rayleigh_error} :l
+  {max_radius} value = R_max (distance units)
+    R_max = largest particle radius reached during the run; used to size the neighbor/ghost cutoff
+  {rayleigh_warn} value = f_w (default 0.2, 0 = off)
+    f_w = print one warning if dt exceeds f_w times the smallest Rayleigh time after an adaptation
+  {rayleigh_error} value = f_e (default 0 = off)
+    f_e = stop with an error if dt exceeds f_e times the smallest Rayleigh time after an adaptation :pre
+:ule
+
+[Examples:]
+
+variable r equal 0.001*(1.0+0.5*step/100000)
+fix grow all adapt/liggghts 100 radius v_r max_radius 0.0015 :pre
+
+variable r atom 0.001*(1.0+0.01*step/1000*(1+0.5*sin(id)))
+variable rho atom 2500*(0.001/v_r)^3
+fix swell all adapt/liggghts 1 radius v_r density v_rho max_radius 0.0011 rayleigh_error 0.3 :pre
+
+[Description:]
+
+Change the radius and/or the density of the particles in the group every N
+time-steps, from an equal-style variable (same value for all particles) or
+an atom-style variable (one value per particle). Mass is recomputed from the
+new radius and density (4/3 pi r^3 rho for spheres, pi r^2 rho in 2d). For
+superquadric particles the radius is the bounding radius; the shape is
+scaled by the same factor and volume, surface area, mass and the principal
+moments of inertia are recomputed with the blockiness-aware superquadric
+formulas (the same routines used by "set shape" and
+"fix particletemplate/superquadric"). For other shaped particles volume,
+area and inertia are rescaled exactly for a uniform scaling (V ~ s^3,
+A ~ s^2, I ~ m s^2).
+
+The values are applied after the first half of the time integration and
+before the neighbor-list decision of the same step (and, during setup,
+before the setup neighbor build). Ghost particles therefore carry the new
+radius, mass and shape in the same step, so pair forces stay antisymmetric
+and the result does not depend on the number of MPI ranks.
+
+[Neighbor lists:]
+
+A particle may move or grow by at most half the neighbor skin between two
+neighbor builds before contacts can be missed. The fix measures this
+cumulatively since the last build ({|dx| + dr > skin/2} per particle, the
+same criterion as the radius-aware check of "neigh_modify"_neigh_modify.html
+{check yes}) and requests a rebuild of the current step collectively on all
+ranks when it is exceeded. This also covers {neigh_modify every > 1},
+{delay > 1} and {check no} (with {check no} only the accumulated growth is
+tracked). With {neigh_modify once yes} no rebuilds are possible and a
+warning is printed.
+
+The neighbor bins, stencils and ghost cutoff are sized at the start of a
+run from the largest radius present (or announced by insertion fixes).
+Particles must not grow beyond that radius during the run: use the keyword
+{max_radius} to announce the largest radius the variable will reach. The
+cutoff is then enlarged for all atom types. If any radius exceeds the
+allowed value, the run stops with an error. A larger {max_radius} costs
+neighbor-search time, so choose it close to the real maximum.
+
+[Energy and momentum (important):]
+
+Growing a particle that is in contact instantly increases the overlap. With
+Hertz contact the elastic energy (8/15) E* sqrt(R*) delta^(5/2) of the created
+overlap is injected into the system and mostly converted to kinetic energy
+(two touching spheres grown by 1 % separate at about 0.1 m/s; about 88 % of
+the overlap energy appears as kinetic energy for e = 0.99). The fix does not
+tally or limit this energy. Keep the overlap increase per step much smaller
+than the typical overlap (small growth per application, small N), or let the
+packing relax.
+
+Changing the mass at fixed velocity changes momentum and kinetic energy.
+To conserve momentum use a density variable that keeps the mass constant.
+Contact history (tangential spring) is kept unchanged.
+
+[Time-step:]
+
+Radius and density changes change the Rayleigh time
+t_R = pi r sqrt(rho/G)/(0.1631 nu + 0.8766), G = Y/(2(1+nu)). After every
+adaptation the fix computes the smallest t_R of the group (needs
+{youngsModulus} and {poissonsRatio} defined by "fix property/global"). It
+warns once if dt > {rayleigh_warn} * t_R and stops with an error if
+dt > {rayleigh_error} * t_R. By default it only warns (20 %), which keeps
+old input decks running. Shrinking particles is the typical case where
+the time-step becomes unsafe.
+
+[Restart, energy minimization info:]
+
+No information about this fix is written to binary restart files. Radius,
+density and mass are per-atom data and are stored in the restart file.
+
+[Restrictions:]
+
+Requires an atom style with radius, density and rmass. Cannot be used with
+"fix multisphere" or "fix rigid" (body mass and inertia would not be
+updated) or with run_style respa. An equal-style radius applied to group
+all also overwrites the radius of particles inserted later.
+
+The variable must return values > 0 for every particle of the group.
+
+[Related commands:]
+
+"fix adapt"_fix_adapt.html, "fix check/timestep/gran"_fix_check_timestep_gran.html,
+"neigh_modify"_neigh_modify.html
+
+[Default:]
+
+rayleigh_warn = 0.2, rayleigh_error = 0 (off), max_radius = not set (the
+cutoff radius from the run start applies)

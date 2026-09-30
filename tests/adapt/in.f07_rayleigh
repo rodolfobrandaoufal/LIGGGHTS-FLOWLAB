@@ -1,0 +1,31 @@
+# tests/adapt F-07: time-step re-check after adaptation. 8 separated spheres shrink
+# r 1 mm -> 0.1 mm; dt = 5e-6 s is 5.8 % of the Rayleigh time at 1 mm and 58 % at 0.1 mm.
+# Default (rayleigh_warn 0.2): exactly one WARNING, run completes.
+# -var rerr 0.5: clean ERROR once dt > 50 % of the Rayleigh time (r ~ 0.1155 mm).
+atom_style    granular
+atom_modify   map array
+boundary      f f f
+newton        off
+communicate   single vel yes
+units         si
+region        reg block -0.01 0.01 -0.01 0.01 -0.01 0.01 units box
+create_box    1 reg
+neighbor      0.0005 bin
+neigh_modify  delay 0
+fix  m1 all property/global youngsModulus peratomtype 1e7
+fix  m2 all property/global poissonsRatio peratomtype 0.3
+fix  m3 all property/global coefficientRestitution peratomtypepair 1 0.5
+fix  m4 all property/global coefficientFriction peratomtypepair 1 0.5
+pair_style gran model hertz tangential history
+pair_coeff * *
+timestep 5e-6
+lattice sc 0.005
+region lat block -0.009 0.009 -0.009 0.009 -0.009 0.009 units box
+create_atoms 1 region lat
+set group all diameter 0.002 density 2500
+variable r equal 0.001-0.0009*step/2000
+fix integr all nve/sphere
+fix shrink all adapt/liggghts 10 radius v_r rayleigh_error ${rerr}
+thermo_style custom step atoms v_r
+thermo 500
+run 2000

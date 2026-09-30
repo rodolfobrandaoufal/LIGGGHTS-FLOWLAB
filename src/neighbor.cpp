@@ -199,7 +199,6 @@ Neighbor::Neighbor(LAMMPS *lmp) : Pointers(lmp)
   improperlist = NULL;
 
   last_setup_bins_timestep = 0;
-  force_rebuild = 0;
 }
 
 /* ---------------------------------------------------------------------- */
@@ -1364,26 +1363,12 @@ int Neighbor::decide()
       if (n == modify->fix[fixchecklist[i]]->next_reneighbor) return 1;
   }
 
-  if (force_rebuild) {
-    force_rebuild = 0;
-    return 1;
-  }
-
   ago++;
   if (ago >= delay && ago % every == 0) {
     if (build_once) return 0;
     if (dist_check == 0) return 1;
     return check_distance();
   } else return 0;
-}
-
-/* ----------------------------------------------------------------------
-   force a neighbor rebuild on the next decision point
-------------------------------------------------------------------------- */
-
-void Neighbor::trigger_build()
-{
-  force_rebuild = 1;
 }
 
 /* ----------------------------------------------------------------------
@@ -1398,6 +1383,25 @@ void Neighbor::trigger_build()
 ------------------------------------------------------------------------- */
 
 int Neighbor::check_distance()
+{
+  int flag = check_distance_local();
+
+  int flagall;
+  MPI_Allreduce(&flag,&flagall,1,MPI_INT,MPI_MAX,world);
+  if (flagall && ago == MAX(every,delay)) ndanger++;
+  return flagall;
+}
+
+/* ----------------------------------------------------------------------
+   rank-local part of check_distance(): returns 1 if any owned atom has
+   moved (and, with atom->radvary_flag, grown) by more than the trigger
+   distance since the last build. No communication and no side effects,
+   so a caller may use it on any step, but must reduce the result over
+   all ranks itself (e.g. fix adapt/liggghts) before acting on it.
+   requires dist_check (xhold/rhold are only stored then)
+------------------------------------------------------------------------- */
+
+int Neighbor::check_distance_local()
 {
   double delx,dely,delz,rsq;
   double delta,deltasq,delta1,delta2,delr,delrsq; 
@@ -1469,10 +1473,7 @@ int Neighbor::check_distance()
       
   }
 
-  int flagall;
-  MPI_Allreduce(&flag,&flagall,1,MPI_INT,MPI_MAX,world);
-  if (flagall && ago == MAX(every,delay)) ndanger++;
-  return flagall;
+  return flag;
 }
 
 /* ----------------------------------------------------------------------
