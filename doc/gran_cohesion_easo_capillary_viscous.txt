@@ -14,8 +14,8 @@ cohesion easo/capillary/viscous :pre
 
 zero or more keyword/value pairs may be appended to the end (after all models are specified) :l
   {tangential_reduce} values = 'on' or 'off'
-    on = tangential model does not see normal force computed by this model
-    off = tangential model does see normal force computed by this model :pre
+    on = the normal force of this model (capillary + viscous) is added to the normal force seen by the Coulomb limit of the tangential model
+    off = the tangential model does not see the normal force computed by this model :pre
 
 [Description:]
 
@@ -34,10 +34,16 @@ of models suggested by "(Easo)"_#Easo
 Bridge formation and break-up, surface liquid transfer:
 
 {Vbond}, the volume of surface liquid involved in the bridge, is given by
+"(Shi)"_#Shi as
 
-Vbond = 0.05*(surfaceLiquidVolI+surfaceLiquidVolJ) :pre
+Vbond = 0.5*surfaceLiquidVolI*(1-sqrt(1-radj^2/(radi+radj)^2)) + 0.5*surfaceLiquidVolJ*(1-sqrt(1-radi^2/(radi+radj)^2))
+surfaceLiquidVolI = surfaceLiquidContentI * 4/3*pi*radi^3 :pre
 
-where {surfaceLiquidVolI/J} is the surface liquid volume attached to particle i/j.
+where {surfaceLiquidVolI/J} is the surface liquid volume attached to particle i/j
+and {surfaceLiquidContentI/J} is its surface liquid content (a volume fraction,
+see below). For two equal spheres Vbond = 0.067*(surfaceLiquidVolI+surfaceLiquidVolJ),
+i.e. about 6.7 % of the liquid of each particle enters the bridge. For a
+wall contact the wall is dry (surfaceLiquidVolJ = 0, radj = radi).
 This model assumes that bridge formation occurs upon contact and
 the rupture distance is given as follows by "(Lian)"_#Lian :
 
@@ -81,16 +87,24 @@ where {vn} and {vt} are the normal and tangential relative velocities of the
 particles at the contact point, {fluidViscosity} is the viscosity of the fluid
 and {ri} and {rj} are the particle radii. An additional parameter,
 {minSeparationDistanceRatio}, is used to prevent the value of the viscous force from
-becoming too large, i.e. {radius}*{minSeparationDistanceRatio} is assumed to be
-the minimum separation distance.
+becoming too large: {dist} in the formulas above is replaced by
+max({dist}, {minSeparationDistanceRatio}*rEff), and during overlap {dist} =
+{minSeparationDistanceRatio}*rEff is used. Note that, unlike
+{maxSeparationDistanceRatio}, this ratio is not reduced by 1: a value of
+1.01 limits the viscous force to its value at a gap of about rEff (i.e. the
+lubrication singularity is essentially switched off), while a small value
+such as 1e-3 lets the force follow the 1/dist law down to a gap of
+0.001*rEff.
 
 :line
 
 Computation of liquid transport and effect of liquid content on other particle properties:
 
 Per default, this model automatically instatiates a scalar transport equation that solved for
-the surface liquid content of each particles, expressed in volume % of solid volume
-(4/3 pi * radius ^3). The surface liquid volume is assumed to be small, i.e. it is assumed
+the surface liquid content of each particles, expressed as a volume FRACTION of the
+solid volume (4/3 pi * radius ^3), i.e. 0.01 means that the liquid volume is 1 % of the
+solid volume. (Earlier versions of this page said "volume %"; the code has always
+used a fraction, so entering 1 for 1 % gives a 100 times too large bridge volume.) The surface liquid volume is assumed to be small, i.e. it is assumed
 to have no effect on the particle mass, diameter and density.
 
 The user can override the default behavior by explicity specifing a fix that solves
@@ -108,7 +122,7 @@ fix id all property/global minSeparationDistanceRatio scalar value
 fix id all property/global maxSeparationDistanceRatio scalar value
     (value=value for the maximum separation distance, recommended as 1.1)
 fix id all property/global surfaceLiquidContentInitial scalar value
-    (value=value for the initial surface liquid volume in % of the solid volume)
+    (value=initial surface liquid volume as a fraction of the solid volume, e.g. 0.01 for 1 %)
 fix id all property/global liquidSurfaceTension scalar value
     (value=value for the liquid-vapour surface tension of the liquid (SI units N/m))
   or
@@ -117,7 +131,7 @@ fix id all property/global liquidSurfaceTension peratomtypepair n_atomtypes valu
 fix id all property/global fluidViscosity scalar value
     (value=value for the fluidViscosity (SI units Pas))
 fix id all property/global contactAngle peratomtype value_1 value_2 ...
-    (value_i=value for contact angle of atom type i and fluid) :pre
+    (value_i=value for contact angle of atom type i and fluid, in degrees, 0 <= value_i <= 180) :pre
 
 Property names for the liquid surface tension (read in this order of precedence):
 
@@ -129,10 +143,11 @@ If none of them is defined, the model stops with an error that names {liquidSurf
 
 The optional keyword {tangential_reduce} defines if the tangential force model should
 "see" the additional normal force excerted by this model. If it is 'off' (which is default)
-then the tangential force model will be able to transmit a larger amount of tangential force
-If {tangential_reduce} = 'on' then the tangential model will not take the normal force
-from this model into account, typically leading to a lower value of tangential force
-(via the Coulomb friction limit)
+the tangential model uses only the normal force of the normal model in its Coulomb
+friction limit. If {tangential_reduce} = 'on' the capillary (attractive) and
+viscous normal force of a contact in overlap is added to the normal
+force before the tangential model is evaluated, which typically lowers the Coulomb
+limit and thus the tangential force.
 
 [Output:]
 
@@ -140,9 +155,9 @@ This gran model stores a couple of per-particle properties, for access
 by various "output commands"_Section_howto.html#4_15.
 
 You can access the property surfaceLiquidContent by f_surfaceLiquidContent\[0\]
-(units % of solid particle volume), liquidFlux (units % of solid particle volume/time)
-by accessing f_liquidFlux\[0\] and liquidSource (units % of solid particle volume/time)
-by accessing f_liquidSource\[0\]. The latter can be used to manually set a
+(volume fraction of the solid particle volume, dimensionless), liquidFlux (fraction of
+solid particle volume/time) by accessing f_liquidFlux\[0\] and liquidSource (fraction of
+solid particle volume/time) by accessing f_liquidSource\[0\]. The latter can be used to manually set a
 surface liquid source via the "set"_set.html command.
 
 Currently, there is a restriction that these properties can only be accessed
@@ -150,8 +165,9 @@ after a "run 0"_run.html command.
 
 [Restrictions:]
 
-This model can ONLY be used as part of "pair gran"_pair_gran.html, not as part
-of a "fix wall/gran"_fix_wall_gran.html.
+This model is meant for "pair gran"_pair_gran.html. Used in
+"fix wall/gran"_fix_wall_gran.html, the wall is treated as dry (no liquid on
+the wall, no liquid transfer to it) and a warning is printed.
 
 The cohesion model is not available for "atom_style"_atom_style.html superquadric
 

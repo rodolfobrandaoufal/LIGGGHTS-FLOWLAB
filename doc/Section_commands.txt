@@ -176,8 +176,10 @@ of each style or click on the style itself for a full description:
 
 
 "custom/vtk"_dump_custom_vtk.html,
+"hdf5"_dump_hdf5.html,
 "image"_dump_image.html,
 "local/gran/vtk"_dump_local_gran_vtk.html,
+"mesh/hdf5"_dump_hdf5.html,
 "movie"_dump_image.html :tb(c=4,ea=c)
 
 fix styles :h4
@@ -186,6 +188,7 @@ See the "fix"_fix.html command for one-line descriptions
 of each style or click on the style itself for a full description:
 
 "adapt"_fix_adapt.html,
+"adapt/liggghts"_fix_adapt_liggghts.html,
 "addforce"_fix_addforce.html,
 "ave/atom"_fix_ave_atom.html,
 "ave/correlate"_fix_ave_correlate.html,
@@ -282,3 +285,12 @@ potentials.  Click on the style itself for a full description:
 "soft"_pair_soft.html,
 "sph/artVisc/tensCorr"_pair_sph_artvisc_tenscorr.html :tb(c=4,ea=c)
 
+gran cohesion models :h4
+
+Cohesion models are selected with the {cohesion} keyword of
+"pair_style gran"_pair_gran.html and "fix wall/gran"_fix_wall_gran.html.
+The full list of granular sub-models is in
+"Section_gran_models"_Section_gran_models.html. Cohesion models added on
+the LIGGGHTS modernization branch (experimental):
+
+"generalized_adhesion"_gran_cohesion_generalized_adhesion.html :tb(c=4,ea=c)

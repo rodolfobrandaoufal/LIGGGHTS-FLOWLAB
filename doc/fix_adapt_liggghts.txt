@@ -38,6 +38,10 @@ variable r atom 0.001*(1.0+0.01*step/1000*(1+0.5*sin(id)))
 variable rho atom 2500*(0.001/v_r)^3
 fix swell all adapt/liggghts 1 radius v_r density v_rho max_radius 0.0011 rayleigh_error 0.3 :pre
 
+compute rad all property/atom radius
+variable rshrink atom c_rad*exp(-0.5*1000*dt)
+fix wear all adapt/liggghts 1000 radius v_rshrink max_radius 0.0025 :pre
+
 [Description:]
 
 Change the radius and/or the density of the particles in the group every N
@@ -54,7 +58,18 @@ A ~ s^2, I ~ m s^2).
 
 The values are applied after the first half of the time integration and
 before the neighbor-list decision of the same step (and, during setup,
-before the setup neighbor build). Ghost particles therefore carry the new
+before the setup neighbor build). The setup application happens at the
+start of every "run"_run.html, whatever the time-step, in addition to the
+applications every N steps.
+
+An absolute variable (first example) sets the same radius for all
+particles and replaces the size distribution. To keep a size distribution,
+scale the current radius with an atom-style variable that references
+"compute property/atom"_compute_property_atom.html radius (third example:
+every particle shrinks by the factor exp(-0.5*1000*dt) per application).
+Such a relative factor is compounded: it is also applied at the setup of
+each run, so a deck with several "run" commands shrinks the particles once
+more per run command. Ghost particles therefore carry the new
 radius, mass and shape in the same step, so pair forces stay antisymmetric
 and the result does not depend on the number of MPI ranks.
 

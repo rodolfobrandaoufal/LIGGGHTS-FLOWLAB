@@ -31,9 +31,9 @@
     See http://www.cfdem.com/terms-trademark-policy for details.
 
 -------------------------------------------------------------------------
-    Contributing author for this file:
+    Contributing author and copyright for this file:
     LIGGGHTS modernization branch
-
+    SPDX-License-Identifier: GPL-2.0-or-later
     DEM-specific runtime adaptation of particle radius and density
     (fix adapt/liggghts), see doc/fix_adapt_liggghts.txt
 ------------------------------------------------------------------------- */

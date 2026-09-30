@@ -63,17 +63,29 @@ thermo_modify lost ignore norm no
 
 #insert the first particles so that dump is not empty
 run    1
-# Parallel particle output. Requires a build with -DLIGGGHTS_HDF5 and parallel HDF5.
-# The dump writes /Step_<timestep>/{id,position,velocity,radius} and a ParaView XDMF sidecar.
-dump   particles all hdf5 500 post/chute_particles.h5
-dump   meshout all mesh/hdf5 1000 post/chute_mesh.h5 cad f sigma_n sigma_t wear
 
-# Mesh stress/wear output is VTK-specific in this example. Keep disabled when using
-# the particle HDF5 dump unless the executable is also built with LAMMPS_VTK.
-# dump   dumpstress all mesh/gran/VTK 200 post/mesh_*.vtk stress wear cad
+# Output. Two paths, selected with the index variable use_hdf5:
+#   use_hdf5 = 0 (default): plain-text particle dump post/dump*.chute (works on
+#       every build, and is what ./postscript (lpp) expects).
+#   use_hdf5 = 1 (recommended on HDF5 builds): parallel HDF5 particle and mesh
+#       dumps with ParaView XDMF sidecars. Needs a build with parallel HDF5 and
+#       -DLIGGGHTS_HDF5 (CMake: -DLIGGGHTS_ENABLE_HDF5=ON, or Make: hdf5mpi).
+#       Select it on the command line:  lmp -var use_hdf5 1 -in in.chute_wear
+#       Each /Step_<timestep> group holds id, position, velocity, force, omega
+#       and radius; see doc/dump_hdf5.txt.
+# Mesh stress/wear as VTK needs a VTK build (LAMMPS_VTK); on such a build add:
+#   dump   dumpstress all mesh/gran/VTK 2000 post/mesh_*.vtk stress wear cad
+variable use_hdf5 index 0
+if "${use_hdf5} == 1" then &
+   "dump   particles all hdf5 500 post/chute_particles.h5" &
+   "dump   meshout all mesh/hdf5 1000 post/chute_mesh.h5 cad f sigma_n sigma_t wear" &
+else &
+   "dump   dmp all custom 2000 post/dump*.chute id type x y z ix iy iz vx vy vz fx fy fz omegax omegay omegaz radius"
 
 #insert particles
+# 6000 particles (mean mass 1.25e-4 kg, 0.75 kg in total) at 0.1 kg/s need
+# about 7.5 s to be inserted. 1e6 steps at dt = 1e-5 s is 10 s, which leaves
+# about 2.5 s for the last particles to flow down the chute. The original
+# tutorial ran 1e5 steps (1 s), which inserts only about 13 % of them.
 run    1000000 upto
 unfix  ins
-
- 

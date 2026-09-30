@@ -6,6 +6,13 @@
 # - time-dependent radius/density through fix adapt/liggghts
 # - particle HDF5/XDMF output
 # - mesh HDF5/XDMF output
+#
+# Requirements: a build with parallel HDF5 and -DLIGGGHTS_HDF5 (see ./runscript;
+# CMake: -DLIGGGHTS_ENABLE_HDF5=ON). Runs on any number of MPI ranks, e.g.
+#   mpirun -np 4 lmp -in in.chute_wear_hpc
+# cohesion generalized_adhesion is EXPERIMENTAL and prints a one-time warning
+# at startup (see doc/gran_cohesion_generalized_adhesion.txt); that warning is
+# expected.
 
 atom_style    granular
 atom_modify   map array
@@ -29,16 +36,21 @@ variable      tsec equal step*dt
 variable      cor equal 0.30+0.05*exp(-v_tsec/0.30)
 variable      mu equal 0.35+0.15*exp(-v_tsec/0.20)
 variable      adh equal 15.0*exp(-v_tsec/0.25)
-variable      rdecay equal 0.0020*exp(-v_tsec*3.00)
 variable      rhodecay equal 2500.0*exp(-v_tsec/5.00)
 
-# Material properties. Variable entries are re-evaluated by fix property/global.
+# Material properties. Entries given as v_name are re-evaluated every N steps
+# by fix property/global and reach the pair and wall contact models in the
+# same step (see doc/fix_property.txt). Contacts that are already open are
+# not rescaled.
 fix  m1 all property/global youngsModulus peratomtype 5.e6
 fix  m2 all property/global poissonsRatio peratomtype 0.45
 fix  m3 all property/global coefficientRestitution peratomtypepair 1 v_cor every 1000
 fix  m4 all property/global coefficientFriction peratomtypepair 1 v_mu every 1000
 fix  m5 all property/global k_finnie peratomtypepair 1 1.0
-fix  m6 all property/global adhesionEnergy peratomtypepair 1 v_adh every 1000
+# adhesionStress is a stress in Pa (J/m^3), not a work of adhesion in J/m^2.
+# 15 Pa is deliberately tiny: it exercises the time-dependent property path
+# without changing the flow noticeably.
+fix  m6 all property/global adhesionStress peratomtypepair 1 v_adh every 1000
 
 # Shape-agnostic adhesive contact model. The wall uses the same model so mesh
 # contacts exercise the generalized adhesion path as well.
@@ -67,13 +79,30 @@ fix    ins nve_group insert/stream seed 32452867 distributiontemplate pdd1 &
 
 fix    integr nve_group nve/sphere
 
-# Runtime particle-property adaptation. This path recalculates rmass/inertia and
-# triggers neighbor rebuilds if radius growth consumes the skin; here the radius
-# decays, so rebuild pressure remains low.
-fix    adapt all adapt/liggghts 1000 radius v_rdecay density v_rhodecay
+# Runtime particle-property adaptation (attrition): every 1000 steps each
+# particle's radius is multiplied by exp(-k_r*1000*dt), so the bimodal size
+# distribution of the insertion is kept and every particle shrinks with its
+# age in the chute (a particle 1 s old has lost 1-exp(-0.5) = 39 % of its
+# radius). The factor is also applied once at the start of every run. The
+# density follows the equal-style v_rhodecay (same value for all particles).
+# fix adapt/liggghts recomputes rmass and inertia and rebuilds neighbor lists
+# when needed. The radius only decreases here; max_radius announces the
+# largest radius (the insertion template) for the neighbor cutoff.
+variable      k_r equal 0.5
+compute       rad all property/atom radius
+variable      rshrink atom c_rad*exp(-v_k_r*1000*dt)
+fix    adapt all adapt/liggghts 1000 radius v_rshrink density v_rhodecay max_radius 0.0025
+
+# Time-step check. Shrinking and lighter particles reduce the Rayleigh time
+# (~0.126 r sqrt(rho/2500) s/m here). With dt = 1e-5 s, the smallest particles
+# (1.5 mm at insertion, >= 0.9 mm after 1 s) stay below 10 % of it. Both
+# fix adapt/liggghts (rayleigh_warn, 20 %) and this fix would warn otherwise.
+fix    ts_check all check/timestep/gran 1000 0.2 0.2
 
 compute       1 all erotate/sphere
-thermo_style  custom step atoms ke c_1 vol v_cor v_mu v_adh v_rdecay v_rhodecay
+compute       rmin all reduce min c_rad
+compute       rmax all reduce max c_rad
+thermo_style  custom step atoms ke c_1 vol v_cor v_mu v_adh c_rmin c_rmax v_rhodecay
 thermo        1000
 thermo_modify lost ignore norm no
 

@@ -1,0 +1,31 @@
+# Root .gitignore for LIGGGHTS-PUBLIC (modernization branch, audit Q-04).
+# Only generated artefacts are listed here. Sources, docs, tests and audit
+# material must stay visible to `git status`.
+# Sanity check: `git ls-files -i -c --exclude-standard` must print nothing.
+
+# Out-of-source build trees at the repository root (build/, build_audit/, ...)
+/build*/
+
+# Object files and Make-route build products in src/
+*.o
+/src/Obj_*/
+/src/lmp_*
+
+# Simulation logs and HDF5/XDMF outputs (anywhere)
+log.liggghts
+*.h5
+*.xdmf
+
+# Tutorial output directories: keep the tracked placeholders only
+/examples/**/post/**
+!/examples/**/post/**/
+!/examples/**/post/**/.gitignore
+!/examples/**/post/**/dummy
+!/examples/**/post/**/.dummy
+
+# Scratch output of the test runners (tests/<suite>/**/work/)
+/tests/**/work/
+
+# Python byte code
+__pycache__/
+*.py[co]

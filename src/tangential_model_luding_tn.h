@@ -77,6 +77,10 @@ namespace ContactModels
       history_offset = hsetup->add_history_value("shearx", "1");
       hsetup->add_history_value("sheary", "1");
       hsetup->add_history_value("shearz", "1");
+      // kc and f_adh are only provided by normal models that store them
+      // (luding, edinburgh, edinburgh/stiffness, thornton_ning); otherwise
+      // get_history_offset() returns -1 and kc = f_adh = 0 is used in the
+      // Coulomb limit, i.e. Ft_max = coeffFrict * |Fn| (same as rolling luding)
       kc_offset = cmb->get_history_offset("kc_offset");
       fo_offset = cmb->get_history_offset("fo_offset");
     }
@@ -134,8 +138,8 @@ namespace ContactModels
       const double gammat = sidata.gammat * coeffFricVisc[sidata.itype][sidata.jtype];
 
       // error->one(FLERR,"model-specific data not allows in contact_interface.h, do use contact history instead");
-      const double kc = sidata.contact_history[kc_offset];//K_adh;//0.;//sidata.kc;
-      const double f_adh = sidata.contact_history[fo_offset];
+      const double kc = kc_offset >= 0 ? sidata.contact_history[kc_offset] : 0.0;
+      const double f_adh = fo_offset >= 0 ? sidata.contact_history[fo_offset] : 0.0;
       double Ft1 = -(kt * shear[0]);
       double Ft2 = -(kt * shear[1]);
       double Ft3 = -(kt * shear[2]);
