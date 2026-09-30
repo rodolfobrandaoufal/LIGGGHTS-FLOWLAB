@@ -314,6 +314,15 @@ void Error::one(const char *file, int line, const char *str)
             fprintf(universe->uscreen,"%s (%s:%d)\n",special_msg,file,line);
     }
   }
+  // MPI_Abort does not flush stdio: write the message to the log as well and
+  // flush, so it is not lost when screen output is redirected
+  if (logfile)
+  {
+      fprintf(logfile,"ERROR on proc %d: %s (%s:%d)\n",me,str,file,line);
+      fflush(logfile);
+  }
+  if (screen) fflush(screen);
+  if (universe->uscreen) fflush(universe->uscreen);
   MPI_Abort(world,1);
 }
 
