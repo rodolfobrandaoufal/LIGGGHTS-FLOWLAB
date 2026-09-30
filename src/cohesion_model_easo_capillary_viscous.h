@@ -136,10 +136,16 @@ namespace ContactModels {
       history_offset(0),
       fix_surfaceliquidcontent(0),
       fix_liquidflux(0),
-      fix_ste(0)
+      fix_ste(0),
+      is_wall_(cmb->is_wall()),
+      wallLegacy_(false),
+      lubricationLegacy_(false),
+      capillaryWillett_(false),
+      sminRatio_(0.0),
+      lnInvSminRatio_(0.0)
     {
       history_offset = hsetup->add_history_value("contflag", "0");
-      
+
       if(cmb->is_wall())
         error->warning(FLERR,"Using cohesion model easo/capillary/viscous for walls only supports dry walls");
     }
@@ -147,6 +153,10 @@ namespace ContactModels {
     void registerSettings(Settings& settings)
     {
         settings.registerOnOff("tangential_reduce",tangentialReduce_,false);
+        // B3 (LIGGGHTS modernization branch): legacy switches and Willett option
+        settings.registerOnOff("easo_wall_legacy",wallLegacy_,false);
+        settings.registerOnOff("easo_lubrication_legacy",lubricationLegacy_,false);
+        settings.registerOnOff("easo_capillary_willett",capillaryWillett_,false);
     }
 
     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
@@ -169,6 +179,8 @@ namespace ContactModels {
       registry.connect("maxSeparationDistanceRatio", maxSeparationDistanceRatio,"cohesion_model easo/capillary/viscous");
 
       ln1overMinSeparationDistanceRatio = log(1./minSeparationDistanceRatio);
+      setupLubricationFloor();
+      setupWallRadius();
 
       fix_ste = modify->find_fix_scalar_transport_equation("liquidtransfer");
       if(!fix_ste)
@@ -210,6 +222,96 @@ namespace ContactModels {
       neighbor->register_contact_dist_factor(maxSeparationDistanceRatio*1.1); 
       if(maxSeparationDistanceRatio < 1.0)
             error->one(FLERR,"\n\ncohesion model easo/capillary/viscous requires maxSeparationDistanceRatio >= 1.0. Please increase this value.\n");
+    }
+
+    /* V-08 (LIGGGHTS modernization branch): lubrication floor.
+       The viscous force uses the gap S_eff = max(S, sminRatio_*R*).
+       Legacy code used sminRatio_ = minSeparationDistanceRatio. At the
+       documented/recommended value 1.01 this puts the floor at 1.01 R*, i.e.
+       above every bridge gap, so the 1/S lubrication law (Pitois 2000) is
+       never active. A value >= 1 is therefore read like
+       maxSeparationDistanceRatio (reduced by 1): S_min = (ratio-1)*R*.
+       Values < 1 keep their old meaning S_min = ratio*R* (bitwise unchanged).
+       'easo_lubrication_legacy on' restores the old reading.
+       All ranks see the same value, so errors are collective. */
+    void setupLubricationFloor()
+    {
+      const double ratio = minSeparationDistanceRatio;
+      if(lubricationLegacy_ || ratio < 1.0)
+      {
+        sminRatio_ = ratio;
+        lnInvSminRatio_ = ln1overMinSeparationDistanceRatio;
+        if(!lubricationLegacy_ && ratio <= 0.0)
+          error->all(FLERR,"cohesion model easo/capillary/viscous: minSeparationDistanceRatio must be > 0");
+        return;
+      }
+      if(ratio <= 1.0)
+        error->all(FLERR,"cohesion model easo/capillary/viscous: minSeparationDistanceRatio = 1 gives a zero minimum gap "
+                         "(a value >= 1 means S_min = (ratio-1)*R*); use e.g. 1.01, a value < 1 (S_min = ratio*R*), "
+                         "or 'easo_lubrication_legacy on'");
+      sminRatio_ = ratio - 1.0;
+      lnInvSminRatio_ = log(1./sminRatio_);
+      static bool warned = false;
+      if(!warned)
+      {
+        warned = true;
+        if(comm->me == 0)
+        {
+          char buf[512];
+          sprintf(buf,"cohesion model easo/capillary/viscous: minSeparationDistanceRatio = %g (>= 1) is read as "
+                      "S_min = (ratio-1)*R* = %g*R* (floor of the lubrication gap). Earlier versions used S_min = ratio*R*, "
+                      "which switched lubrication off; use 'easo_lubrication_legacy on' for the old results",
+                  ratio, sminRatio_);
+          error->warning(FLERR,buf);
+        }
+      }
+    }
+
+    /* C-19/V-07 (LIGGGHTS modernization branch): sphere-plane contacts.
+       Legacy code treated the wall as a sphere of the same radius (R* = R/2).
+       Sphere-plane theory has R* = R (Derjaguin): viscous force
+       6 pi eta R^2 v/S, capillary force 4 pi R gamma cos(theta) at contact.
+       'easo_wall_legacy on' (fix wall/gran line) restores the old radius. */
+    void setupWallRadius()
+    {
+      if(!is_wall_ || wallLegacy_) return;
+      static bool warned = false;
+      if(!warned)
+      {
+        warned = true;
+        if(comm->me == 0)
+          error->warning(FLERR,"cohesion model easo/capillary/viscous: wall contacts now use the sphere-plane radius R* = R "
+                               "for the capillary and viscous forces (earlier versions used R/2, i.e. x0.5 capillary, x0.25 viscous); "
+                               "use 'easo_wall_legacy on' in fix wall/gran for the old results");
+      }
+    }
+
+    /* capillary force (attractive, returned negative) at gap dist >= 0.
+       Soulie (2006) eqs. 13-14 as coded before, with the sphere-sphere radii
+       (rgeo = sqrt(ri rj), R2 = max(ri,rj)); a sphere-plane contact uses the
+       Derjaguin-equivalent equal sphere pair of radius 2R (R* = R).
+       Willett (2000) closed form (easo_capillary_willett on):
+       F = 2 pi R gamma cos(theta) / (1 + 1.05 Shat + 2.5 Shat^2),
+       Shat = S sqrt(R/V), R = 2 R* (Willett's radius for unequal spheres). */
+    inline double capillaryForce(const double rgeo, const double R2, const double rEff,
+                                 const double volBond1000, const double contactAngleEff,
+                                 const double gamma, const double dist, const bool contact) const
+    {
+      if(capillaryWillett_)
+      {
+        const double Rw = 2.*rEff;
+        const double V = volBond1000*0.001;
+        const double Shat = dist*sqrt(Rw/V);
+        return - 2.*M_PI*gamma*Rw*cos(contactAngleEff)/(1. + 1.05*Shat + 2.5*Shat*Shat);
+      }
+      const double R2inv = 1./R2;
+      const double volBondScaled = volBond1000*R2inv*0.001*R2inv*R2inv;
+      const double Bparam = (-0.148*log(volBondScaled)-0.96)*contactAngleEff*contactAngleEff - 0.0082*log(volBondScaled) + 0.48;
+      const double Cparam = 0.0018*log(volBondScaled)+0.078;
+      if(contact)
+        return - M_PI*gamma*rgeo*(exp(Bparam)+Cparam);
+      const double Aparam = -1.1*pow((volBondScaled),-0.53);
+      return - M_PI*gamma*rgeo*(exp(Aparam*dist/R2+Bparam)+Cparam);
     }
 
     /* Find the liquid surface tension gamma_lv [N/m]. Accepted, in order:
@@ -304,7 +406,9 @@ namespace ContactModels {
       // skip if bond volume too small
       if(volBond1000 < 1e-14) return;
 
-      const double rEff = radi*radj / (radi+radj);
+      // sphere-plane (C-19): R* = R, capillary from the equal pair of radius 2R
+      const bool plane = sidata.is_wall && !wallLegacy_;
+      const double rEff = plane ? radi : radi*radj / (radi+radj);
       const double contactAngleEff = 0.5 * (contactAngle[itype] + contactAngle[jtype]);
       const double current_surface_tension = liquid_surface_tension_matrix[itype][jtype];
 
@@ -312,18 +416,16 @@ namespace ContactModels {
       // this is from Soulie et al, Intl. J Numerical and Analytical Methods in Geomechanics
       // 30 (2006), 213-228, Eqn. 13,14; separation distance = 0 in this case
       
-      const double R2 = (radi >=radj) ? radi : radj;
-      const double R2inv = 1./R2;
-      const double volBondScaled = volBond1000*R2inv*0.001*R2inv*R2inv;
-      const double Bparam = (-0.148*log(volBondScaled)-0.96)*contactAngleEff*contactAngleEff - 0.0082*log(volBondScaled) + 0.48;
-      const double Cparam = 0.0018*log(volBondScaled)+0.078;
-      const double Fcapilary = - M_PI*current_surface_tension*sqrt(radi*radj)*(exp(Bparam)+Cparam);
+      const double R2 = plane ? 2.*radi : ((radi >=radj) ? radi : radj);
+      const double rgeo = plane ? 2.*radi : sqrt(radi*radj);
+      const double Fcapilary = capillaryForce(rgeo, R2, rEff, volBond1000, contactAngleEff, current_surface_tension, 0.0, true);
 
       // viscous force
       // this is from Nase et al as cited in Shi and McCarthy, Powder Technology, 184 (2008), 65-75, Eqns 40,41
+      // in overlap the gap is the floor S_min = sminRatio_*rEff (V-08)
       const double stokesPreFactor = -6.*M_PI*fluidViscosity*rEff;
-      const double FviscN = stokesPreFactor*sidata.vn/minSeparationDistanceRatio;
-      const double FviscT_over_vt = (/* 8/15 */ 0.5333333*ln1overMinSeparationDistanceRatio + 0.9588) * stokesPreFactor;
+      const double FviscN = stokesPreFactor*sidata.vn/sminRatio_;
+      const double FviscT_over_vt = (/* 8/15 */ 0.5333333*lnInvSminRatio_ + 0.9588) * stokesPreFactor;
 
       // tangential force components
       const double Ft1 = FviscT_over_vt*sidata.vtr1;
@@ -404,7 +506,8 @@ namespace ContactModels {
       const double volLjBond1000 = 0.5*volLj1000*(1.-sqrt(1.-radi*radi/(radsum*radsum)));
       const double volBond1000 = volLiBond1000+volLjBond1000;
 
-      const double rEff = radi*radj / (radi+radj);
+      const bool plane = scdata.is_wall && !wallLegacy_;
+      const double rEff = plane ? radi : radi*radj / (radi+radj);
       const double contactAngleEff = 0.5 * (contactAngle[itype] + contactAngle[jtype]);
       const double current_surface_tension = liquid_surface_tension_matrix[itype][jtype];
       const double distMax = (1. + 0.5*contactAngleEff) * cbrt(volBond1000) *0.1;
@@ -439,13 +542,9 @@ namespace ContactModels {
           // this is from Soulie et al, Intl. J Numerical and Analytical Methods in Geomechanics
           // 30 (2006), 213-228, Eqn. 13,14; separation distance = 0 in this case
           
-          const double R2 = (radi >=radj) ? radi : radj;
-          const double R2inv = 1./R2;
-          const double volBondScaled = volBond1000*R2inv*0.001*R2inv*R2inv;
-          const double Aparam = -1.1*pow((volBondScaled),-0.53);
-          const double Bparam = (-0.148*log(volBondScaled)-0.96)*contactAngleEff*contactAngleEff - 0.0082*log(volBondScaled) + 0.48;
-          const double Cparam = 0.0018*log(volBondScaled)+0.078;
-          const double Fcapilary = - M_PI*current_surface_tension*sqrt(radi*radj)*(exp(Aparam*dist/R2+Bparam)+Cparam);
+          const double R2 = plane ? 2.*radi : ((radi >=radj) ? radi : radj);
+          const double rgeo = plane ? 2.*radi : sqrt(radi*radj);
+          const double Fcapilary = capillaryForce(rgeo, R2, rEff, volBond1000, contactAngleEff, current_surface_tension, dist, false);
 
           // calculate vn and vt since not in struct
           const double rinv = 1.0 / r;
@@ -495,8 +594,9 @@ namespace ContactModels {
           // viscous force
           // this is from Nase et al as cited in Shi and McCarthy, Powder Technology, 184 (2008), 65-75, Eqns 40,41
           const double stokesPreFactor = -6.*M_PI*fluidViscosity*rEff;
-          const double FviscN = stokesPreFactor*vn/std::max(minSeparationDistanceRatio,dist/rEff);
-          const double FviscT_over_vt = (/* 8/15 */ 0.5333333*log(1./std::max(minSeparationDistanceRatio,dist/rEff)) + 0.9588) * stokesPreFactor;
+          // gap floor S_min = sminRatio_*rEff (V-08): F = 6 pi eta rEff^2 vn / max(S, S_min)
+          const double FviscN = stokesPreFactor*vn/std::max(sminRatio_,dist/rEff);
+          const double FviscT_over_vt = (/* 8/15 */ 0.5333333*log(1./std::max(sminRatio_,dist/rEff)) + 0.9588) * stokesPreFactor;
 
           // tangential force components
           const double Ft1 = FviscT_over_vt*vtr1;
@@ -581,6 +681,12 @@ namespace ContactModels {
     FixPropertyAtom *fix_liquidflux;
     FixScalarTransportEquation *fix_ste;
     bool tangentialReduce_;
+    bool is_wall_;
+    bool wallLegacy_;          // easo_wall_legacy: wall R* = R/2 (pre-B3)
+    bool lubricationLegacy_;   // easo_lubrication_legacy: floor = minSeparationDistanceRatio*R*
+    bool capillaryWillett_;    // easo_capillary_willett: Willett (2000) closed form
+    double sminRatio_;         // lubrication gap floor / R*
+    double lnInvSminRatio_;    // log(1/sminRatio_)
   };
 }
 }

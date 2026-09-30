@@ -72,6 +72,7 @@ FixCheckTimestepGran::FixCheckTimestepGran(LAMMPS *lmp, int narg, char **arg) :
   warnflag = true;
   errorflag = false;
   vmax_user = 0.;
+  error_fraction = 1.0;
 
   if (narg < 6) error->all(FLERR,"Illegal fix check/timestep/gran command, not enough arguments");
 
@@ -116,7 +117,21 @@ FixCheckTimestepGran::FixCheckTimestepGran(LAMMPS *lmp, int narg, char **arg) :
           if (narg < iarg+2) error->fix_error(FLERR,this,"not enough arguments for 'vmax'");
           vmax_user = force->numeric(FLERR,arg[iarg+1]);
           iarg += 2;
-      } else if(strcmp(style,"mesh/surface") == 0) {
+      } else if (strcmp(arg[iarg],"error_fraction") == 0) {
+          // B4: hard error above this fraction of the Rayleigh/Hertz time
+          if (narg < iarg+2) error->fix_error(FLERR,this,"not enough arguments for 'error_fraction'");
+          if(0 == strcmp(arg[iarg+1],"none"))
+            error_fraction = 0.;
+          else
+          {
+            error_fraction = force->numeric(FLERR,arg[iarg+1]);
+            if(error_fraction <= 0.)
+              error->fix_error(FLERR,this,"'error_fraction' expects a value > 0 or 'none'");
+          }
+          iarg += 2;
+      } else {
+          // previously an unknown keyword was silently skipped only for
+          // mesh/surface and looped forever otherwise
           char *errmsg = new char[strlen(arg[iarg])+50];
           sprintf(errmsg,"unknown keyword or wrong keyword order: %s", arg[iarg]);
           error->fix_error(FLERR,this,errmsg);
@@ -183,6 +198,40 @@ void FixCheckTimestepGran::init()
   force->registry.connect("poissonsRatio", nutype,this->style);
 }
 
+/* ----------------------------------------------------------------------
+   B4: check the hard limit already before the first step, so that a run
+   that is unstable from the start stops at once. The stored fractions
+   (fix output) are not touched, so the output at step 0 is unchanged.
+------------------------------------------------------------------------- */
+
+void FixCheckTimestepGran::setup(int)
+{
+    if(error_fraction <= 0.) return;
+    calc_rayleigh_hertz_estims();
+    const double dt = update->dt;
+    check_error_fraction(dt/rayleigh_time, dt/hertz_time, "at the start of the run");
+}
+
+/* ----------------------------------------------------------------------
+   B4: hard error. rayleigh_time and hertz_time are global (MPI_Min over
+   all ranks), so every rank takes the same branch and the error is
+   collective (error->all via fix_error).
+------------------------------------------------------------------------- */
+
+void FixCheckTimestepGran::check_error_fraction(double frac_rayleigh, double frac_hertz, const char *when)
+{
+    if(error_fraction <= 0.) return;
+    if(frac_rayleigh > error_fraction || frac_hertz > error_fraction)
+    {
+        char errstr[512];
+        sprintf(errstr,"time-step is %f %% of the rayleigh time and %f %% of the hertz time %s (step " BIGINT_FORMAT "), "
+                       "above the hard limit error_fraction = %g %%; the simulation is unstable. Reduce the time-step "
+                       "or use 'error_fraction none' to only warn",
+                frac_rayleigh*100., frac_hertz*100., when, update->ntimestep, error_fraction*100.);
+        error->fix_error(FLERR,this,errstr);
+    }
+}
+
 /* ---------------------------------------------------------------------- */
 
 void FixCheckTimestepGran::end_of_step()
@@ -195,6 +244,10 @@ void FixCheckTimestepGran::end_of_step()
     fraction_rayleigh = dt/rayleigh_time;
     fraction_hertz = dt/hertz_time;
     fraction_skin = (v_rel_max_simulation * dt) / neighbor->skin;
+
+    // B4: hard limit, re-evaluated every check with the current radii and
+    // the current (registry-refreshed) Young's modulus / Poisson's ratio
+    check_error_fraction(fraction_rayleigh, fraction_hertz, "during the run");
 
     if(errorflag || (warnflag && comm->me==0))
     {

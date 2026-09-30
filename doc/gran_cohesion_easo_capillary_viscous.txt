@@ -15,7 +15,16 @@ cohesion easo/capillary/viscous :pre
 zero or more keyword/value pairs may be appended to the end (after all models are specified) :l
   {tangential_reduce} values = 'on' or 'off'
     on = the normal force of this model (capillary + viscous) is added to the normal force seen by the Coulomb limit of the tangential model
-    off = the tangential model does not see the normal force computed by this model :pre
+    off = the tangential model does not see the normal force computed by this model
+  {easo_capillary_willett} values = 'on' or 'off'
+    on = capillary force from the closed form of Willett et al. (2000) instead of the Soulie fit
+    off = capillary force from the Soulie fit (default)
+  {easo_wall_legacy} values = 'on' or 'off' (fix wall/gran only)
+    on = legacy wall radius: the wall is treated as a sphere of the particle radius (R* = R/2)
+    off = sphere-plane radius R* = R (default)
+  {easo_lubrication_legacy} values = 'on' or 'off'
+    on = legacy reading of minSeparationDistanceRatio: minimum gap = ratio*R* for every value
+    off = a value >= 1 means minimum gap = (ratio-1)*R* (default) :pre
 
 [Description:]
 
@@ -43,7 +52,7 @@ where {surfaceLiquidVolI/J} is the surface liquid volume attached to particle i/
 and {surfaceLiquidContentI/J} is its surface liquid content (a volume fraction,
 see below). For two equal spheres Vbond = 0.067*(surfaceLiquidVolI+surfaceLiquidVolJ),
 i.e. about 6.7 % of the liquid of each particle enters the bridge. For a
-wall contact the wall is dry (surfaceLiquidVolJ = 0, radj = radi).
+wall contact the wall is dry (surfaceLiquidVolJ = 0) and Vbond = 0.5*surfaceLiquidVolI.
 This model assumes that bridge formation occurs upon contact and
 the rupture distance is given as follows by "(Lian)"_#Lian :
 
@@ -72,29 +81,57 @@ contactAngleEff = 0.5*(contactAngleI+contactAngleJ) :pre
 liquid-vapour surface tension of the fluid (N/m), optionally per atom-type pair, {contactAngleI/J} are the contact angles for particle i/j and the fluid. {R2} is the
 radius of the larger of the two particles in contact.
 
+Wall (sphere-plane) contacts: the force is evaluated for the equivalent
+pair of equal spheres with the same effective radius R* = R (Derjaguin
+approximation), i.e. with radi = radj = R2 = 2*R. At contact this gives
+the sphere-plane force 4*pi*R*gamma*cos(theta) times the accuracy of the
+fit (the Soulie fit gives 0.87-0.95 of the theoretical contact force also
+for particle pairs). Earlier versions treated the wall as a sphere of the
+particle radius, which halved the wall capillary force; use
+{easo_wall_legacy} = on in "fix wall/gran"_fix_wall_gran.html to restore it.
+
+Willett option ({easo_capillary_willett} = on): the capillary force is
+
+Fcapilary = - 2*pi*R*liquidSurfaceTension*cos(contactAngleEff)/(1 + 1.05*Shat + 2.5*Shat^2)
+Shat = dist*sqrt(R/Vbond)
+R = 2*radi*radj/(radi+radj) (pairs), R = 2*radi (walls) :pre
+
+(closed form of "(Willett)"_#Willett for contact angles up to about 50
+degrees). It has no force jump at rupture. Bridge volume and rupture
+distance are the same as for the Soulie fit.
+
 :line
 
 Viscous force:
 
 the normal and tangential parts of the viscous force are calculated as given by "(Nase)"_#Nase :
 
-rEff = radi*radj/(radi+radj)
+rEff = radi*radj/(radi+radj) (pairs), rEff = radi (walls)
 stokesPreFactor = 6*pi*fluidViscosity*rEff
-FviscN = stokesPreFactor*vn*rEff/dist
-FviscT = stokesPreFactor*vt*(8/15*log(rEff/dist)+0.9588) :pre
+FviscN = stokesPreFactor*vn*rEff/max(dist,distMin)
+FviscT = stokesPreFactor*vt*(8/15*log(rEff/max(dist,distMin))+0.9588) :pre
 
 where {vn} and {vt} are the normal and tangential relative velocities of the
 particles at the contact point, {fluidViscosity} is the viscosity of the fluid
-and {ri} and {rj} are the particle radii. An additional parameter,
-{minSeparationDistanceRatio}, is used to prevent the value of the viscous force from
-becoming too large: {dist} in the formulas above is replaced by
-max({dist}, {minSeparationDistanceRatio}*rEff), and during overlap {dist} =
-{minSeparationDistanceRatio}*rEff is used. Note that, unlike
-{maxSeparationDistanceRatio}, this ratio is not reduced by 1: a value of
-1.01 limits the viscous force to its value at a gap of about rEff (i.e. the
-lubrication singularity is essentially switched off), while a small value
-such as 1e-3 lets the force follow the 1/dist law down to a gap of
-0.001*rEff.
+and {ri} and {rj} are the particle radii. FviscN is the Reynolds
+lubrication force 6*pi*eta*rEff^2*vn/dist ("(Pitois)"_#Pitois); for a
+wall contact rEff = R (sphere-plane). The minimum gap {distMin} keeps the
+viscous force finite; during overlap {dist} = {distMin} is used. It is set
+by {minSeparationDistanceRatio}:
+
+value >= 1: distMin = (minSeparationDistanceRatio - 1)*rEff, read like {maxSeparationDistanceRatio} (reduced by 1). The recommended value 1.01 gives distMin = 0.01*rEff. A value of exactly 1 is an error. :ulb,l
+value < 1: distMin = minSeparationDistanceRatio*rEff (e.g. 0.01 gives 0.01*rEff). :l,ule
+
+IMPORTANT NOTE: Earlier versions always used distMin =
+minSeparationDistanceRatio*rEff. With the recommended value 1.01 the
+minimum gap was then larger than any bridge length, so the viscous force
+did not depend on the gap at all (lubrication switched off) and was
+1-4 % of the lubrication force. Decks with a value >= 1 therefore give
+different (larger, gap-dependent) viscous forces now, and a warning is
+printed once. {easo_lubrication_legacy} = on restores the old reading.
+Decks with a value < 1 are unchanged. Earlier versions also used rEff =
+R/2 for walls (viscous wall force 1/4 of the sphere-plane value); see
+{easo_wall_legacy}.
 
 :line
 
@@ -118,7 +155,7 @@ Initialization:
 
 If you are using the this model model, you must define the following properties:
 fix id all property/global minSeparationDistanceRatio scalar value
-    (value=value for the minimum separation distance, recommended as 1.01)
+    (value=minimum lubrication gap: (value-1)*rEff for value >= 1, value*rEff for value < 1; recommended as 1.01)
 fix id all property/global maxSeparationDistanceRatio scalar value
     (value=value for the maximum separation distance, recommended as 1.1)
 fix id all property/global surfaceLiquidContentInitial scalar value
@@ -148,6 +185,13 @@ friction limit. If {tangential_reduce} = 'on' the capillary (attractive) and
 viscous normal force of a contact in overlap is added to the normal
 force before the tangential model is evaluated, which typically lowers the Coulomb
 limit and thus the tangential force.
+
+The keywords {easo_capillary_willett} and {easo_lubrication_legacy} act on the
+command line where they are given ("pair_style gran"_pair_gran.html or
+"fix wall/gran"_fix_wall_gran.html). {easo_wall_legacy} only has an effect on the
+"fix wall/gran"_fix_wall_gran.html line, e.g.
+
+fix wall all wall/gran model hertz tangential history cohesion easo/capillary/viscous mesh n_meshes 1 meshes plate easo_wall_legacy on :pre
 
 [Output:]
 
@@ -185,6 +229,12 @@ The cohesion model is not available for "atom_style"_atom_style.html superquadri
 :link(Shi)
 [(Shi)] Shi, McCarthy, PowderTechnology, p64, 184 (2008)
 
+:link(Pitois)
+[(Pitois)] Pitois, Moucheront, Chateau, Liquid bridge between two moving spheres: an experimental study of viscosity effects, Journal of Colloid and Interface Science, 231, 26 (2000).
+
+:link(Willett)
+[(Willett)] Willett, Adams, Johnson, Seville, Capillary bridges between two spherical bodies, Langmuir, 16, 9396 (2000).
+
 :link(Soulie)
 [(Soulie)] Soulie, Cherblanc, Youssoufi, Saix, Intl. J Numerical and Analytical Methods in Geomechanics, p213, 30 (2006)
 
@@ -200,4 +250,4 @@ may not be available in LIGGGHTS(R)-PUBLIC.
 
 [Default:]
 
-{tangential_reduce} = 'off'
+{tangential_reduce} = 'off', {easo_capillary_willett} = 'off', {easo_wall_legacy} = 'off', {easo_lubrication_legacy} = 'off'

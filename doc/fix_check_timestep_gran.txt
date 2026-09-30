@@ -17,9 +17,12 @@ nevery = evaluate time-step size accuracy every this many time-steps :l
 fraction_r = warn if time-step size exceeds this fraction of the Rayleigh time :l
 fraction_h = warn if time-step size exceeds this fraction of the Hertz time :l
 zero or more keyword/value pairs may be appended :l
-keyword = {warn} or {error} or {vmax}  :l
+keyword = {warn} or {error} or {error_fraction} or {vmax}  :l
   {warn} value = yes or no
   {error} value = yes or no
+  {error_fraction} value = f or {none}
+    f = stop with an error if the time-step exceeds this fraction of the Rayleigh or the Hertz time (f > 0)
+    none = never stop because of the time-step size (only warn) :pre
   {vmax} value = v_max
     v_max = maximum particle velocity to be used as minimum for evaluation Hertz criterion :pre
 
@@ -27,7 +30,9 @@ keyword = {warn} or {error} or {vmax}  :l
 
 [Examples:]
 
-fix ts_check all check/timestep/gran 1000 0.1 0.1 :pre
+fix ts_check all check/timestep/gran 1000 0.1 0.1
+fix ts_check all check/timestep/gran 1000 0.2 0.2 error_fraction 0.5
+fix ts_check all check/timestep/gran 1000 0.2 0.2 error_fraction none :pre
 
 [Description:]
 
@@ -71,6 +76,29 @@ Keyword {warn} can be used to turn off the warning message. Keyword {error}
 can be used to have LIGGGHTS(R)-PUBLIC issue an error message and abort the simulation
 if any of the criteria is violated.
 
+Keyword {error_fraction} sets a hard limit that is independent of the
+warning fractions: the simulation stops with an error as soon as the
+time-step exceeds {f} times the Rayleigh time or {f} times the Hertz
+time. The default {f} = 1 stops runs whose time-step is larger than the
+Rayleigh or the Hertz time; such a run is unstable, and before this
+keyword existed it only produced warnings. The limit is evaluated
+
+once at the start of every run (setup), with the current radii, velocities and material properties, so a run that is unstable from the start stops before the first step (the output of the fix at step 0 is not changed by this); :ulb,l
+every {nevery} time-steps during the run, with the current particle radii (e.g. changed by "fix adapt/liggghts"_fix_adapt_liggghts.html) and the current Young's modulus and Poisson's ratio (e.g. changed through a "v_ variable in fix property/global"_fix_property.html; the values are read from the same property registry that the contact models use). :l,ule
+
+All quantities are reduced over all MPI ranks before the test, so every
+rank stops together. With {error_fraction none} only the warnings (and
+{error yes}, if given) remain, which is the behaviour of earlier
+versions. A deck that deliberately runs above the Rayleigh time needs
+{error_fraction none} (or a larger {f}).
+
+NOTE: The typical recommendation for DEM is a time-step of 10-20 % of
+the Rayleigh time; {error_fraction} is only a safety net for clearly
+unstable settings, not a replacement for the warning fractions.
+
+Unknown keywords are now an error (earlier versions could loop
+endlessly on an unknown keyword).
+
 [Restart, fix_modify, output, run start/stop, minimize info:]
 
 No information about this fix is written to "binary restart
@@ -89,4 +117,4 @@ the "run"_run.html command. This fix is not invoked during
 [Related commands:] none
 
 [Default:] 
-warn = yes, error = no, v_max = 0
+warn = yes, error = no, error_fraction = 1, v_max = 0

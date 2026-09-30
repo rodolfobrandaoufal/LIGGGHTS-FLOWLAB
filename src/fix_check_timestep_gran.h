@@ -57,6 +57,7 @@ class FixCheckTimestepGran : public Fix {
   FixCheckTimestepGran(class LAMMPS *, int, char **);
   int setmask();
   void init();
+  void setup(int);
   void end_of_step();
   double compute_vector(int);
 
@@ -74,6 +75,10 @@ class FixCheckTimestepGran : public Fix {
   double vmax_user;
   double r_min;
   bool warnflag,errorflag;
+  // B4 (LIGGGHTS modernization branch): hard error when dt exceeds this
+  // fraction of the Rayleigh or Hertz time; <= 0 means disabled ('none')
+  double error_fraction;
+  void check_error_fraction(double frac_rayleigh, double frac_hertz, const char *when);
   double ** Yeff;
   double * Ytype;   // registry youngsModulus, indexed by type (1..ntypes)
   double * nutype;  // registry poissonsRatio, indexed by type (1..ntypes)
