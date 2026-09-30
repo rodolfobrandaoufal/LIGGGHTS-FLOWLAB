@@ -62,7 +62,7 @@ namespace ContactModels {
   public:
     CohesionModel(LAMMPS * lmp, IContactHistorySetup * hsetup, class ContactModelBase * c) :
         CohesionModelBase(lmp, hsetup, c),
-        cohEnergyDens(NULL)
+        cohesion_energy_matrix(NULL)
     {
         
     }
@@ -76,8 +76,13 @@ namespace ContactModels {
 
     void connectToProperties(PropertyRegistry & registry)
     {
-        registry.registerProperty("cohEnergyDens", &MODEL_PARAMS::createCohesionEnergyDensity);
-        registry.connect("cohEnergyDens", cohEnergyDens,"cohesion_model sjkr");
+        registry.registerProperty("cohesionEnergyDensity", &MODEL_PARAMS::createCohesionEnergyDensity);
+        modify->find_fix_property("cohesionEnergyDensity","property/global","peratomtypepair",
+                                  registry.max_type(),registry.max_type(),"cohesion_model sjkr");
+        registry.connect("cohesionEnergyDensity", cohesion_energy_matrix,"cohesion_model sjkr");
+
+        if(!cohesion_energy_matrix)
+            error->all(FLERR,"cohesion model sjkr requires fix property/global cohesionEnergyDensity peratomtypepair");
 
         // error checks on coarsegraining
         if(force->cg_active())
@@ -96,7 +101,10 @@ namespace ContactModels {
         Acont = (ri*ri-r*r)*M_PI*sidata.area_ratio; //contact area sphere-wall
       else
         Acont = - M_PI/4 * ( (r-ri-rj)*(r+ri-rj)*(r-ri+rj)*(r+ri+rj) )/(r*r); //contact area of the two spheres
-      const double Fn_coh = -cohEnergyDens[sidata.itype][sidata.jtype]*Acont;
+      const int itype = sidata.itype;
+      const int jtype = sidata.jtype;
+      const double current_cohesion = cohesion_energy_matrix[itype][jtype];
+      const double Fn_coh = -current_cohesion*Acont;
       if(tangentialReduce_) sidata.Fn += Fn_coh; 
 
       if(sidata.contact_flags) *sidata.contact_flags |= CONTACT_COHESION_MODEL;
@@ -133,7 +141,7 @@ namespace ContactModels {
     }
 
   private:
-    double ** cohEnergyDens;
+    double **cohesion_energy_matrix;
     bool tangentialReduce_;
   };
 }

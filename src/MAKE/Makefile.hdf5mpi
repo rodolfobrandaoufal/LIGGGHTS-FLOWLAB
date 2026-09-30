@@ -1,0 +1,85 @@
+# hdf5mpi = mpic++, Parallel HDF5 particle dump, no VTK dependency
+
+SHELL = /bin/sh
+
+# ---------------------------------------------------------------------
+# compiler/linker settings
+
+CC =		mpic++
+CCFLAGS =	-O3 -march=native -mtune=native -DNDEBUG \
+		-funroll-loops -fstrict-aliasing -Wall -Wno-unused-result -fPIC
+SHFLAGS =	-fPIC
+DEPFLAGS =	-M
+
+LINK =		mpic++
+LINKFLAGS =	-O3 -march=native -mtune=native -fPIC
+LIB =		-lstdc++
+SIZE =		size
+
+ARCHIVE =	ar
+ARFLAGS =	-rcsv
+SHLIBFLAGS =	-shared
+
+# ---------------------------------------------------------------------
+# LIGGGHTS/LAMMPS features
+
+LMP_INC =	-DLAMMPS_GZIP -DLIGGGHTS_HDF5
+
+# MPI
+
+MPI_INC =
+MPI_PATH =
+MPI_LIB =
+
+# FFT
+
+FFT_INC =
+FFT_PATH =
+FFT_LIB =
+
+# JPEG/PNG
+
+JPG_INC =
+JPG_PATH =
+JPG_LIB =
+
+# Parallel HDF5.
+# Ubuntu/Debian libhdf5-openmpi-dev installs these defaults and provides h5pcc.
+# Override HDF5_INC/HDF5_PATH/HDF5_LIB if your MPI-HDF5 is installed elsewhere.
+
+HDF5_INC =	-I/usr/include/hdf5/openmpi
+HDF5_PATH =	-L/usr/lib/x86_64-linux-gnu/hdf5/openmpi
+HDF5_LIB =	-lhdf5
+
+# ---------------------------------------------------------------------
+# build rules and dependencies
+
+include	Makefile.package.settings
+include	Makefile.package
+
+EXTRA_INC = $(LMP_INC) $(PKG_INC) $(MPI_INC) $(FFT_INC) $(JPG_INC) $(HDF5_INC) $(PKG_SYSINC)
+EXTRA_PATH = $(PKG_PATH) $(MPI_PATH) $(FFT_PATH) $(JPG_PATH) $(HDF5_PATH) $(PKG_SYSPATH)
+EXTRA_LIB = $(PKG_LIB) $(MPI_LIB) $(FFT_LIB) $(JPG_LIB) $(HDF5_LIB) $(PKG_SYSLIB)
+
+vpath %.cpp ..
+vpath %.h ..
+
+$(EXE):	$(OBJ)
+	$(LINK) $(LINKFLAGS) $(EXTRA_PATH) $(OBJ) $(EXTRA_LIB) $(LIB) -o $(EXE)
+	$(SIZE) $(EXE)
+
+lib:	$(OBJ)
+	$(ARCHIVE) $(ARFLAGS) $(EXE) $(OBJ)
+
+shlib:	$(OBJ)
+	$(CC) $(CCFLAGS) $(SHFLAGS) $(SHLIBFLAGS) $(EXTRA_PATH) -o $(EXE) \
+        $(OBJ) $(EXTRA_LIB) $(LIB)
+
+%.o:%.cpp
+	$(CC) $(CCFLAGS) $(SHFLAGS) $(EXTRA_INC) -c $<
+
+%.d:%.cpp
+	$(CC) $(CCFLAGS) $(EXTRA_INC) $(DEPFLAGS) $< > $@
+
+DEPENDS = $(OBJ:.o=.d)
+sinclude $(DEPENDS)

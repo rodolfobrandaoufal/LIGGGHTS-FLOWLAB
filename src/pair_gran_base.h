@@ -207,7 +207,6 @@ public:
     int superquadric_flag = atom->superquadric_flag;
 #endif // SUPERQUADRIC_ACTIVE_FLAG
     const int newton_pair = force->newton_pair;
-
     int inum = pg->list->inum;
     int * ilist = pg->list->ilist;
     int * numneigh = pg->list->numneigh;
@@ -276,9 +275,12 @@ public:
       for (int jj = 0; jj < jnum; jj++) {
         const int j = jlist[jj] & NEIGHMASK;
 
-        const double delx = xtmp - x[j][0];
-        const double dely = ytmp - x[j][1];
-        const double delz = ztmp - x[j][2];
+        const double xj = x[j][0];
+        const double yj = x[j][1];
+        const double zj = x[j][2];
+        const double delx = xtmp - xj;
+        const double dely = ytmp - yj;
+        const double delz = ztmp - zj;
         const double rsq = delx * delx + dely * dely + delz * delz;
         double radj = radius[j];
 
@@ -422,11 +424,11 @@ public:
           if (sidata.computeflag) {
 
             const double relax_i = pg->relax(i);
-            force_update(relax_i,f[i], torque[i], i_forces);
+            force_update(relax_i,f[i],torque[i],i_forces);
 
             if(newton_pair || j < nlocal) {
               const double relax_j = pg->relax(j);
-              force_update(relax_j,f[j], torque[j], j_forces);
+              force_update(relax_j,f[j],torque[j],j_forces);
             }
 
             // summation of f.n to compute a simplistic pressure

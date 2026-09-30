@@ -1,0 +1,127 @@
+LIGGGHTS modernization implementation log
+Date: 2026-07-01
+Branch: modernization/baseline-vv
+
+Report files read from liggghts_evaluation_report:
+
+- 01_architecture_overview.md
+- 02_performance_analysis.md
+- 03_code_quality_and_technical_debt.md
+- 04_competitive_feature_matrix.md
+- 05_implementation_roadmap.md
+- 06_top_priority_implementation_plans.md
+- 07_benchmark_protocol.md
+- 08_executive_summary.md
+- 09_scientific_step_by_step_implementation_plan.md
+- performance_results.csv
+- technical_debt_register.csv
+- feature_roadmap.csv
+- architecture_diagram.mmd
+
+Implemented steps:
+
+1. Created the development branch required by the plan.
+   - Branch: modernization/baseline-vv
+
+2. Added top-level governance documentation.
+   - File: ../DEVELOPMENT_PLAN.md
+   - Includes review checklist, evidence rules, priority labels, and benchmark controls.
+
+3. Added benchmark evidence directory layout.
+   - Directory: ../benchmarks/
+   - Subdirectories: manifests, raw_logs, parsed_csv, profiles, plots, environments.
+   - File: ../benchmarks/README.md
+
+4. Implemented the P0 aspherical/superquadric integration scheme 4 guard.
+   - File: ../src/fix_nve_asphere_base.cpp
+   - Added missing-argument check for the integration_scheme keyword.
+   - Added init-time validation for valid schemes 0, 1, 2, 3, and 4.
+   - Added init-time rejection of integration_scheme 4 unless fix couple/cfd/force/implicit is present.
+   - Added runtime validation that scheme 4 has initialized implicit CFD rotation, hydrodynamic torque, and orientation arrays before use.
+   - Fixed the invalid-scheme error text so it includes scheme 4.
+
+5. Added a negative regression input for the scheme 4 guard.
+   - File: ../tests/regression/in.asphere_scheme4_requires_implicit
+   - Expected behavior: fail with a controlled error containing:
+     integration_scheme 4 requires fix couple/cfd/force/implicit
+
+6. Added runnable benchmark manifest files.
+   - File: ../benchmarks/manifests/baseline_smoke.yaml
+   - File: ../benchmarks/manifests/baseline_smoke.json
+   - Cases include packing, mesh wall, cohesion, superquadric, and the scheme-4 negative regression.
+   - JSON is used by the runner to avoid requiring a YAML dependency.
+
+7. Added benchmark log parser.
+   - File: ../benchmarks/scripts/parse_liggghts_log.py
+   - Parses loop time, rank count, step count, atom count, time per step, pair/neigh/comm/output/modify timing, Nlocal, Nghost, total neighbors, neighbor builds, dangerous builds, and error messages.
+   - Writes CSV rows under benchmarks/parsed_csv.
+
+8. Added benchmark runner.
+   - File: ../benchmarks/scripts/run_benchmarks.py
+   - Reads the JSON manifest.
+   - Runs selected cases/repeats/rank counts.
+   - Preserves raw logs in benchmarks/raw_logs.
+   - Parses results into benchmarks/parsed_csv/baseline_smoke.csv.
+   - Supports expected-failure tests by checking exit code and expected error text.
+
+9. Added environment collector.
+   - File: ../benchmarks/scripts/collect_environment.sh
+   - Captures timestamp, git revision/status, OS, compiler, MPI, CMake, Make, CPU, and memory metadata.
+
+Verification performed:
+
+1. Touched C++ source compile check:
+   - Command: mpicxx -std=c++11 -I/home/n011/LIGGGHTS-PUBLIC/src -c /home/n011/LIGGGHTS-PUBLIC/src/fix_nve_asphere_base.cpp -o /tmp/fix_nve_asphere_base.o
+   - Result: passed.
+   - Note: OpenMPI printed "opal_ifinit: socket() failed with errno=1" in the sandbox, but the compiler exited successfully.
+
+2. Python syntax check:
+   - Command used with PYTHONPYCACHEPREFIX=/tmp/liggghts_pycache to avoid writing __pycache__ into the restricted parent tree.
+   - Files checked: parse_liggghts_log.py and run_benchmarks.py.
+   - Result: passed.
+
+3. Parser smoke test:
+   - Used a synthetic LIGGGHTS-style log in /tmp/liggghts_sample.log.
+   - Parsed CSV included expected loop time, pair/neigh/comm/output/modify times, Nlocal, Nghost, neighbor count, neighbor builds, and dangerous builds.
+   - Result: passed.
+
+4. Environment collector smoke test:
+   - Command: benchmarks/scripts/collect_environment.sh /tmp/liggghts_env_test
+   - Result: created an environment file.
+   - Note: OpenMPI printed the same sandbox socket warning while querying MPI version.
+
+Errors and limitations encountered:
+
+1. Full legacy Make build was not completed.
+   - A dry-run probe using make -n mpi and make -n serial recursed through legacy Makefile logic and produced "File name too long" paths.
+   - The sessions were stopped.
+   - No tracked source changes were left by that failed probe.
+   - The targeted mpicxx compile was used instead for the touched source file.
+
+2. Plain g++ compile failed because mpi.h is required by the source tree.
+   - This is expected for this code path.
+   - mpicxx was available and compiled the touched file successfully.
+
+3. Python py_compile initially failed trying to write __pycache__ under the parent repository.
+   - Error: read-only file system for benchmarks/scripts/__pycache__.
+   - Workaround: rerun with PYTHONPYCACHEPREFIX=/tmp/liggghts_pycache.
+
+4. The benchmark suite was not executed end to end.
+   - Reason: no built LIGGGHTS executable was available in this session.
+   - The runner is ready to use once an executable exists.
+   - Example:
+     ./benchmarks/scripts/run_benchmarks.py --executable ./src/lmp_mpi --repeat 1 --ranks 1
+
+5. Contact-history lookup optimization, MPI load balancing, scalable I/O, and GPU work were not implemented.
+   - Reason: the plan explicitly requires baseline measurements before P1/P2 performance changes.
+   - Implementing those without measured baselines would violate the scientific controls in 09_scientific_step_by_step_implementation_plan.md.
+
+Recommended next steps:
+
+1. Build LIGGGHTS with the existing Makefile or a modernized CMake flow.
+2. Run:
+   ./benchmarks/scripts/collect_environment.sh
+3. Run a small first baseline:
+   ./benchmarks/scripts/run_benchmarks.py --executable ./src/lmp_mpi --repeat 1 --ranks 1
+4. Archive raw logs and parsed CSV before changing contact-history or MPI communication code.
+5. Use the baseline results to decide whether to implement contact-history counters first or move directly to the sorted/hash lookup prototype.

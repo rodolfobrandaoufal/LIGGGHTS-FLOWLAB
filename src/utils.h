@@ -115,11 +115,6 @@ namespace Utils {
       if(styleTable.find(key) != styleTable.end()) {
         return styleTable[key](lmp, parent, variant);
       }
-      int64_t default_variant = generate_gran_hashcode(ContactModels::NORMAL_OFF, ContactModels::TANGENTIAL_OFF, ContactModels::COHESION_OFF, ContactModels::ROLLING_OFF, 0);
-      std::pair<std::string, int> default_key(name, default_variant);
-      if(styleTable.find(default_key) != styleTable.end()) {
-        return styleTable[default_key](lmp, parent, variant);
-      }
       return NULL;
     }
 

@@ -199,6 +199,7 @@ Neighbor::Neighbor(LAMMPS *lmp) : Pointers(lmp)
   improperlist = NULL;
 
   last_setup_bins_timestep = 0;
+  force_rebuild = 0;
 }
 
 /* ---------------------------------------------------------------------- */
@@ -1363,12 +1364,26 @@ int Neighbor::decide()
       if (n == modify->fix[fixchecklist[i]]->next_reneighbor) return 1;
   }
 
+  if (force_rebuild) {
+    force_rebuild = 0;
+    return 1;
+  }
+
   ago++;
   if (ago >= delay && ago % every == 0) {
     if (build_once) return 0;
     if (dist_check == 0) return 1;
     return check_distance();
   } else return 0;
+}
+
+/* ----------------------------------------------------------------------
+   force a neighbor rebuild on the next decision point
+------------------------------------------------------------------------- */
+
+void Neighbor::trigger_build()
+{
+  force_rebuild = 1;
 }
 
 /* ----------------------------------------------------------------------

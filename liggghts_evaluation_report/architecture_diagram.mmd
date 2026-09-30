@@ -1,0 +1,25 @@
+flowchart TD
+    User["User input script and CLI"] --> Main["src/main.cpp main()"]
+    Main --> MPI["MPI_Init / MPI_Finalize"]
+    Main --> LMP["LAMMPS object src/lammps.cpp"]
+    LMP --> Input["Input parser src/input.cpp"]
+    Input --> Commands["Command dispatch: run, create_box, pair_style, fix, dump"]
+    LMP --> Atom["Atom and AtomVec storage src/atom.* src/atom_vec_*.cpp"]
+    Atom --> ParticleArrays["Particle arrays: x, v, f, radius, omega, torque, history extras"]
+    LMP --> Domain["Domain and processor grid src/domain.* src/comm.*"]
+    Domain --> Decomp["Static spatial decomposition and periodic boxes"]
+    LMP --> Neighbor["Neighbor manager src/neighbor.* src/neigh_gran.cpp"]
+    Neighbor --> NeighList["NeighList pages, bin/nsq lists, gran history lists"]
+    LMP --> Update["Update and Integrate src/update.cpp src/verlet.cpp"]
+    Update --> Fixes["Fixes: insertion, walls, integrators, heat, coupling"]
+    Update --> PairGran["PairGran src/pair_gran.* src/pair_gran_base.h"]
+    PairGran --> Models["Normal/tangential/rolling/cohesion/surface model headers"]
+    Models --> ContactHistory["FixContactHistory src/fix_contact_history.*"]
+    Update --> Comm["Comm exchange, borders, forward/reverse src/comm.cpp"]
+    Comm --> MPI
+    Fixes --> Mesh["Mesh and wall interaction: fix_mesh_surface, tri_mesh, fix_wall_gran"]
+    Mesh --> Models
+    Fixes --> Coupling["CFD/PASCAL coupling: fix_cfd_coupling, cfd_datacoupling_mpi, PASCAL"]
+    Coupling --> MPI
+    LMP --> Output["Output, dump, thermo, restart src/output.* src/write_restart.cpp"]
+    Output --> Files["Text/VTK dumps, binary restart, multi-file % restart"]

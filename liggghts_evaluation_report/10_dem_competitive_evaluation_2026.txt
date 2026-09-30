@@ -1,0 +1,532 @@
+FORCE CHAINS
+DEM SOFTWARE ARCHITECTURE REVIEW
+LIGGGHTS-PUBLIC vs. Simcenter EDEM, Ansys Rocky, and MercuryDPM
+Prepared: 2026-08-20
+Scope: local tree LIGGGHTS-PUBLIC-v6, branch modernization/baseline-vv
+Comparators: Simcenter EDEM, Ansys Rocky, MercuryDPM
+
+===============================================================================
+EVIDENCE GRADING USED THROUGHOUT THIS REPORT
+===============================================================================
+
+  [CODE]    Verified by direct inspection of this repository's source tree.
+             Traceable to a specific file and, where useful, a line range.
+  [VENDOR]  Publisher/consortium claim (Siemens, Synopsys/Ansys, DCS Computing/
+             Aspherix, MercuryDPM, INL, etc.), not independently reproduced.
+  [MEASURED] Collected from a specific, reproducible benchmark run.
+  [HYPOTHESIS] Plausible mechanism, not yet measured.
+
+No throughput figures in this report were independently benchmarked. Where a
+performance number appears, its grade says so explicitly.
+
+===============================================================================
+00. EXECUTIVE POSITION
+===============================================================================
+
+LIGGGHTS-PUBLIC is architecturally competent and physically rich, but it is
+being out-invested, not out-designed. The gap to Simcenter EDEM and Ansys
+Rocky is concentrated in three places -- GPU-native contact solving,
+non-spherical shape representation, and institutional maintenance -- not in
+the breadth of its granular contact-model library, which remains genuinely
+deep.
+
+The public repository is a fork of LAMMPS "23 Nov 2013" [CODE -- src/version.h]
+-- a base snapshot that predates the modern LAMMPS Kokkos portability layer,
+current CMake tooling, and a decade of upstream granular work now living in
+mainline LAMMPS's own GRANULAR package. DCS Computing, the company that
+originally commercialized LIGGGHTS, has redirected its engineering investment
+to a proprietary successor, Aspherix (aspherix-dem.com), and states plainly
+that LIGGGHTS's "last official release" was 2017 and its former user base has
+migrated. The public GitHub repository's own description now points visitors
+to Aspherix.
+
+Set against that backdrop, this repository's own modernization branch is the
+most substantive LIGGGHTS-lineage engineering happening anywhere right now: a
+sphere-specific SoA memory layer, a CRTP compile-time contact-dispatch
+prototype, a shape-agnostic generalized adhesion model, native parallel
+HDF5/XDMF I/O, and a candid, phased architecture audit for a CUDA port. None
+of that exists upstream. The rest of this report measures how far that work
+still has to go against what EDEM and Rocky already ship.
+
+===============================================================================
+01. CORE PHYSICS & GEOMETRY HANDLING
+===============================================================================
+
+-------------------------------------------------------------------------------
+1.1 Particle shape capability
+-------------------------------------------------------------------------------
+
+  Shape                | LIGGGHTS-PUBLIC          | Simcenter EDEM  | Ansys Rocky            | MercuryDPM
+  ----------------------|---------------------------|-----------------|------------------------|-------------
+  Sphere                | core                      | core            | core                   | core
+  Multi-sphere / clump  | core (rigid-body,         | core            | available, not         | not
+                        |  fix_multisphere*)         |                 |  the flagship path     |  documented
+  Superquadric          | present but undocumented  | no              | no                     | core (semi-
+                        |  (atom_vec_superquadric   |                 |                        |  axes +
+                        |  .cpp exists despite      |                 |                        |  blockiness
+                        |  doc claiming otherwise)  |                 |                        |  param)
+  True polyhedron       | gated off (USE_CONVEX=OFF | GPU-only (CUDA- | flagship (faceted,     | no
+                        |  in public Makefile)      |  gated particle |  convex & concave;
+                        |                            |  type)          |  algorithm undisclosed)
+  Fiber / flexible      | approximated only (bonded-| via custom API  | native (flexible       | no
+                        |  multisphere chains)       |                 |  fibers, shells)
+
+  [CODE] rows: shape gating, superquadric presence.  [VENDOR] rows: EDEM/Rocky/
+  MercuryDPM columns.
+
+  Notable inconsistency [CODE]: the public build's own documentation and its
+  shipped source disagree with each other. doc/atom_style.txt states
+  superquadric particles are not available publicly, while
+  atom_vec_superquadric.cpp, surface_model_superquadric.h, and a working
+  example (examples/.../superquadric/in.particle_particle) all ship in the
+  same tree. This is a maintenance symptom, not a feature gap -- the
+  capability exists, the docs just were never updated.
+
+-------------------------------------------------------------------------------
+1.2 Contact models & physics
+-------------------------------------------------------------------------------
+
+  - LIGGGHTS normal models (6+ variants) [CODE]: hertz, hertz_stiffness,
+    hooke, hooke_stiffness, hooke_hysteresis, luding, thornton_ning,
+    edinburgh / edinburgh_stiffness -- a genuinely broad portfolio for a
+    single open-source code.
+
+  - Tangential (3) / rolling (5) [CODE]: history and no-history tangential
+    models; rolling resistance via CDT, EPSD/EPSD2/EPSD3, and Luding variants
+    -- more rolling-model choice than any competitor publicly documents.
+
+  - Cohesion (5, including this fork's addition) [CODE]: SJKR, SJKR2, EASO
+    capillary-viscous, Washino capillary-viscous, and a new
+    cohesion_model_generalized_adhesion.h added on this branch. The stock
+    SJKR model reconstructs contact area from Hertzian sphere geometry; the
+    new model instead reads sidata.deltan directly and computes
+      F_coh = -adhesionEnergy[i][j] * pi * r_eff * deltan
+    which is compatible with Hooke, Hertz, and (in principle) non-spherical
+    overlap sources without a Hertz-specific area reconstruction.
+    (src/cohesion_model_generalized_adhesion.h)
+
+  - Rocky's differentiator [VENDOR] is not model count but model integration
+    with shape: a proprietary discrete breakage model that evaluates WHERE on
+    a polyhedral particle's surface a collision lands and the resulting
+    internal stress field, driving shape-dependent fracture -- plus separate
+    Archard abrasive-wear and impact Energy-Wear models, as a unified
+    framework rather than a worked example.
+
+  - MercuryDPM's breadth [VENDOR] is the widest single-domain academic set:
+    elastic, plastic, viscous, frictional, cohesive (wet/dry), sintering,
+    melting, breakage, and liquid-migration/capillary-bridge models -- but
+    expressed only on spheres and superquadrics, never polyhedra.
+
+  - EDEM [VENDOR] covers the standard Hertz-Mindlin/linear/JKR library and
+    extends via its Custom Model API into wet coating, agglomeration,
+    breakage, and magnetic-particle physics.
+
+-------------------------------------------------------------------------------
+1.3 CAD & boundary handling
+-------------------------------------------------------------------------------
+
+LIGGGHTS imports STL/VTK triangular meshes (tri_mesh*, fix_mesh_surface*) with
+moving-mesh support (mesh_mover*.cpp) [CODE]; this fork adds native parallel
+HDF5/XDMF mesh output (dump_mesh_hdf5.cpp) using collective MPI-IO
+(H5Pset_dxpl_mpio(..., H5FD_MPIO_COLLECTIVE)) as an alternative to per-rank
+VTK files [CODE]. Rocky sits inside the Ansys Workbench pipeline with
+SpaceClaim/DesignModeler access to STEP/IGES, not just STL; EDEM is
+STL-standard [VENDOR]. MercuryDPM replicates wall/boundary geometry across
+every MPI rank rather than domain-decomposing it -- cheap for simple walls,
+but a real architectural ceiling for complex, high-resolution CAD geometry at
+scale [VENDOR].
+
+===============================================================================
+02. COMPUTATIONAL PERFORMANCE & HARDWARE SCALING
+===============================================================================
+
+-------------------------------------------------------------------------------
+2.1 CPU architecture & parallelization
+-------------------------------------------------------------------------------
+
+  - MPI domain decomposition is mature but STATIC -- public docs confirm no
+    on-the-fly load balancing, and this repo's own architecture audit calls
+    it a top-three bottleneck. [CODE -- doc/processors.txt:68-69]
+
+  - Granular shear-history contact REQUIRES "newton pair off", meaning ghost
+    atoms duplicate force computation rather than sharing it -- a direct
+    throughput tax on every history-based contact model (which is most of
+    them). [CODE -- src/pair_gran.cpp:256-261]
+
+  - Contact-history partner lookup is LINEAR IN PARTNER COUNT per contact
+    during neighbor rebuild -- dense cohesive/history packings pay a cost
+    that grows faster than raw geometric candidate count.
+    [CODE -- src/neigh_gran.cpp:485-639]
+
+  - No USER-OMP package exists in this tree -- the public granular hot path
+    has NO CPU MULTITHREADING, only MPI. [CODE -- verified by directory
+    absence]
+
+  - Granular "neighbor multi" is explicitly restricted, so a single
+    max-cutoff bin oversearches under wide size ratios -- a real limitation
+    for high-polydispersity systems.
+    [CODE -- src/neighbor.cpp:1184-1193, 1272-1279]
+
+-------------------------------------------------------------------------------
+2.2 GPU acceleration -- where each product actually stands
+-------------------------------------------------------------------------------
+
+  Quote from this repository's own status matrix:
+
+    "At the time of this audit, the new GPU-native DEM path has not been
+    implemented. Therefore no production feature is marked GPU native."
+    -- docs/gpu_feature_support_matrix.md, 10 phases, all marked "Planned"
+
+The lib/cuda / lib/gpu directories in the public tree are inherited LAMMPS
+accelerator scaffolding, not a validated granular production path -- the only
+granular-specific artifact in it is one legacy pair_gran_hooke_cuda file
+[CODE]. This fork's src/GPU_DEM/ is a real, separate, phased build-out
+(device context, particle-data container, neighbor builder, integrator,
+wall-contact and contact-pipeline scaffolding already exist as source files),
+but by its own dependency graph, tangential contact history -- the physics
+most LIGGGHTS users actually run -- doesn't land until Phase 5-6, and
+multi-GPU/MPI not until Phase 9. [CODE]
+
+  Capability            | LIGGGHTS (+fork)         | Simcenter EDEM        | Ansys Rocky              | MercuryDPM
+  ----------------------|--------------------------|-----------------------|--------------------------|------------
+  GPU solver            | planned, unshipped       | CUDA, shipped         | CUDA, shipped            | none found
+  Multi-GPU             | Phase 9 target           | single-node,          | single-node mature       | n/a
+                        |                          |  aggregated VRAM      |                          |
+  Multi-node GPU        | Phase 9 target           | not found             | beta, 2026 R1 -- spheres | n/a
+                        |                          |                       |  only, Linux-only,
+                        |                          |                       |  no coupling
+  CPU multithreading    | no USER-OMP              | n/a (GPU-first)       | n/a (GPU-first)          | MPI, static
+                        |                          |                       |                          |  decomposition
+  Published throughput  | not measured (this       | no public figures     | ~18x (1 GPU) / ~31x      | no third-party
+                        |  repo's own benchmark    |  found                |  (multi-GPU) vs 48-core  |  scaling paper
+                        |  table is empty)         |                       |  CPU (vendor-cited,      |  found
+                        |                          |                       |  unreproduced)           |
+
+Read the "published throughput" row literally: NONE of the four projects has
+an independently reproduced particles x timesteps/second figure in this
+evaluation. Rocky's 18-31x numbers are the only concrete figures found
+anywhere, and they are vendor-published, not third-party benchmarked. Any
+comparison of raw speed between these tools should be treated as unverified
+until someone runs the same problem on the same hardware across all four --
+which is precisely what this repository's own benchmarks/ scaffolding was
+built to eventually do, but has not yet done. [HYPOTHESIS / UNMEASURED]
+
+===============================================================================
+03. MULTIPHYSICS & CFD-DEM COUPLING
+===============================================================================
+
+  Coupling                  | LIGGGHTS-PUBLIC          | Simcenter EDEM       | Ansys Rocky            | MercuryDPM
+  ---------------------------|---------------------------|----------------------|------------------------|-------------
+  CFD (open)                 | CFDEMcoupling/OpenFOAM,   | community couplers  | --                     | --
+                             |  pinned to LIGGGHTS-      |  historically        |                        |
+                             |  PUBLIC 3.8.0              |                      |                        |
+  CFD (native vendor)        | --                        | Fluent, two-way +    | Fluent, two-way + 2026 | --
+                             |                           |  AcuSolve incl. mass |  R1 one-way Fluent-GPU  |
+                             |                           |  transfer            |  handoff               |
+  Structural / FEM           | mesh load export only,    | not confirmed        | Mechanical load        | oomph-lib
+                             |  no adapter                |                      |  transfer              |  coupling
+                             |                            |                      |                        |  (continuum/
+                             |                            |                      |                        |  elastic-solid)
+  Thermal                    | fix_heat_gran*            | via API              | available              | not confirmed
+  Custom physics authoring   | C++ header, compile-time  | Unified C/C++ API -- | PrePost / PyRocky       | C++
+                             |  (CRTP prototype, CPU     |  one source, CPU     |  scripting, not core-   |  subclassing,
+                             |  only)                     |  AND GPU (2026.1)    |  physics authoring      |  driver-
+                             |                            |                      |                        |  program model
+
+The sharpest architectural contrast in this whole review sits in the last
+row. Simcenter EDEM's 2026.1 "Unified Custom Model API" lets a physics author
+write one C/C++ contact model and have it compiled for both the CPU and GPU
+solvers without a second implementation [VENDOR]. LIGGGHTS's own new
+contact_model_crtp_api.h on this branch pursues the same goal --
+statically-dispatched, inlinable, compile-time model composition -- but only
+reaches the CPU side; there is no code-generation or kernel path from that
+CRTP template into src/GPU_DEM/models/ yet [CODE]. Closing that gap -- one
+contact-model source, two backends -- is arguably a higher-leverage target
+than porting any single physics model to CUDA in isolation.
+
+LIGGGHTS's CFD-DEM story remains its historically strongest asset
+(fix_cfd_coupling*, cfd_datacoupling_*, plus convection/species hooks), but it
+is frozen in place: CFDEMcoupling v3.8.1 (July 2025) updates
+OpenFOAM-6/Ubuntu 22.04-24.04 compatibility while remaining pinned to
+LIGGGHTS-PUBLIC 3.8.0 specifically -- DCS is maintaining the coupler against
+an old LIGGGHTS release, not tracking newer community state. [VENDOR --
+cfdem.com version history]
+
+===============================================================================
+04. PRE-PROCESSING, POST-PROCESSING & USABILITY
+===============================================================================
+
+  - LIGGGHTS [CODE]: no GUI. LAMMPS-style input scripts plus a thin ctypes
+    Python wrapper (python/liggghts.py) for run control, not physics
+    authoring. No material calibration database. Default post-processing is
+    "dump custom/vtk" -> ParaView; this fork adds "dump hdf5" /
+    "dump mesh/hdf5" with XDMF sidecar metadata and collective MPI-IO --
+    fewer files, less per-rank I/O overhead, still ParaView-consumed.
+
+  - EDEM / Rocky [VENDOR]: full commercial GUI/workbench, project-based
+    setup, material calibration tooling, built-in visualization and
+    analytics engines. Rocky adds PyRocky (part of PyAnsys) and native
+    PrePost Python scripting for project automation and result extraction;
+    EDEM's physics-authoring surface is its C/C++ Custom Model API, not
+    Python.
+
+  - MercuryDPM [VENDOR]: also no GUI -- arguably more code-first than
+    LIGGGHTS, since a simulation is a compiled C++ driver program subclassing
+    the kernel's simulation base classes rather than a parsed input script.
+    Visualization leans on ParaView plus a legacy in-house viewer ("XBalls").
+    What it has that LIGGGHTS's public tree does not: a documented 260+ case
+    automated self-test suite protecting the physics kernel.
+
+  - Regression testing, honestly compared [CODE]: this repository's own
+    code-quality audit found NO VISIBLE CI CONFIGURATION, CTEST SETUP, OR
+    FORMAL REGRESSION HARNESS anywhere in the LIGGGHTS-PUBLIC tree --
+    examples exist, but without pass/fail criteria they are not tests.
+    (liggghts_evaluation_report/03_code_quality_and_technical_debt.md)
+
+===============================================================================
+05. CURRENT STATE & MAINTAINERSHIP OF LIGGGHTS
+===============================================================================
+
+This is the dimension where the honest answer matters more than any feature
+checklist: LIGGGHTS-PUBLIC is not a maintained competitor to EDEM or Rocky
+today. It is a dormant, capable base that individual groups -- this
+repository included -- are actively re-animating for their own purposes.
+
+  - DCS Computing has moved on [VENDOR -- aspherix-dem.com]. The company that
+    originally commercialized LIGGGHTS (Linz, Austria) now sells Aspherix, a
+    proprietary successor, and states on its own site that LIGGGHTS's "last
+    official release" was 2017 and that its "entire former LIGGGHTS user
+    base" has migrated. Aspherix's own late-2025 roadmap targets AMD GPU
+    compatibility, native Windows GPU support, and expanded CFD coupling for
+    2026-2027 -- the investment that would once have gone into LIGGGHTS now
+    goes into a closed-source product.
+
+  - The public repository is in caretaker mode, not development [CODE --
+    local git log]. github.com/CFDEMproject/LIGGGHTS-PUBLIC's own description
+    now directs visitors to Aspherix. This local clone's upstream history
+    shows the two most recent commits (2024-06-07) were "Remove logos" and
+    "Update README"; prior activity clusters in Jan-Apr 2023 and 2022,
+    separated by 8+ month gaps -- no feature development in that window.
+
+  - LIGGGHTS-INL is the most substantive living fork [VENDOR -- INL
+    publication record]. Idaho National Laboratory's LIGGGHTS-INL
+    (github.com/idaholab/LIGGGHTS-INL), built on v4.0.0 for biomass
+    particle-flow and bioenergy-feedstock modeling, adds bonded-sphere/
+    bonded-particle models, elastoplastic bond normal stiffness, and a
+    strain-hardening nonlinear normal contact model that upstream never had.
+    INL itself describes the relationship as no longer a strict continuous
+    fork -- it selectively backports bugfixes rather than rebasing.
+
+  - The more consequential rival isn't a LIGGGHTS fork at all [VENDOR --
+    Sandia/OSTI publications]. Mainline LAMMPS' own GRANULAR package,
+    maintained by Sandia as part of actively-developed core LAMMPS, has
+    independently absorbed Hertz-Mindlin-style grain-grain/grain-wall
+    contact, Mindlin tangential friction, a spring-dashpot-slider
+    rolling/twisting model, and Marshall twisting friction -- with none of
+    LIGGGHTS-PUBLIC's decade-old technical debt. For a new LAMMPS-family DEM
+    user in 2026, mainline LAMMPS+GRANULAR is a credible, better-maintained
+    alternative to LIGGGHTS-PUBLIC itself.
+
+  - CFDEMcoupling gets light life support, pinned to the past [VENDOR --
+    cfdem.com]. v3.8.1 (July 2025) adds OpenFOAM-6/Ubuntu 22.04-24.04
+    compatibility but stays compatible only with LIGGGHTS-PUBLIC 3.8.0 --
+    consistent with LIGGGHTS being treated as frozen even by its own
+    historical steward. A separate academic fork, CFDEMcoupling-PFM (JKU
+    Linz), exists with unverified activity level.
+
+-------------------------------------------------------------------------------
+5.1 Legacy architecture, in numbers  [CODE]
+-------------------------------------------------------------------------------
+
+  Signal                     | Value              | Why it matters
+  ----------------------------|--------------------|-------------------------
+  Base LAMMPS snapshot        | "23 Nov 2013"      | Ten-plus years of upstream
+                              |                    | LAMMPS modernization
+                              |                    | (Kokkos, modern CMake, new
+                              |                    | GRANULAR physics) never
+                              |                    | merged back.
+  CMake minimum                | 2.8                | Predates target-based
+                              |                    | CMake; dependency
+                              |                    | discovery (VTK, JPEG) is
+                              |                    | version-pinned and dated.
+  C++ standard                | c++11              | No move semantics idioms,
+                              |                    | no "if constexpr", none of
+                              |                    | the tooling that would
+                              |                    | make a CRTP/plugin contact
+                              |                    | API ergonomic.
+  Hot particle storage        | double** (AoS)     | Pointer-chasing arrays in
+                              |                    | atom.h:81-88; this fork's
+                              |                    | sphere-specific SoA layer
+                              |                    | is a fast-path bridge, not
+                              |                    | a full migration.
+  CI / regression harness      | none found         | Every commercial
+                              |                    | competitor ships one; no
+                              |                    | LIGGGHTS-PUBLIC hot-path
+                              |                    | change can currently be
+                              |                    | safely regression-tested.
+
+===============================================================================
+06. COMPREHENSIVE COMPARISON MATRIX
+===============================================================================
+
+  Dimension                | LIGGGHTS-PUBLIC (+fork)  | Simcenter EDEM           | Ansys Rocky                | MercuryDPM
+  ---------------------------|----------------------------|----------------------------|------------------------------|-----------------------------
+  Ownership / status, 2026   | Community-caretaker; open- | Siemens Digital           | Ansys / Synopsys            | Academic consortium,
+                              |  source; original steward  |  Industries Software      |  (acquisition closed         |  U. Twente-led
+                              |  (DCS) moved to Aspherix   |  (acquired from Altair,   |  Jul 2025); product name    |  (Mercury Lab)
+                              |                            |  closed 2025)             |  unchanged                  |
+  License & cost              | Open source (GPL, LAMMPS-  | Commercial, quote-based   | Commercial, part of Ansys   | Open source; free;
+                              |  derived); free            |  enterprise seat/token    |  token/HPC-pack licensing   |  license family not
+                              |                            |  licensing                |                             |  independently confirmed
+                              |                            |                            |                             |  this session
+  Flagship shape capability   | Deepest open contact-model | Multi-sphere + GPU-only   | True faceted polyhedra      | Native superquadrics
+                              |  library on spheres;       |  sphero-cylinder/         |  (convex & concave),        |  (blockiness-
+                              |  superquadric present but  |  polyhedral types         |  flexible fibers, shells    |  parametrized)
+                              |  undocumented; polyhedra   |                            |                             |
+                              |  gated off publicly        |                            |                             |
+  Flagship physics/process    | Shape-agnostic generalized | Unified CPU/GPU custom-   | Shape-aware discrete        | MercuryCG -- DEM-to-
+   feature                   |  adhesion model (new, this |  model API (2026.1)       |  breakage + Archard/Energy  |  continuum coarse-
+                              |  fork); broad rolling-      |                            |  wear framework             |  graining
+                              |  resistance family          |                            |                             |
+  GPU acceleration            | Planned, unshipped --      | CUDA, multi-GPU single-   | CUDA, multi-GPU mature,     | None found
+                              |  phased CUDA port in       |  node, shipped            |  multi-node beta (2026 R1)  |
+                              |  progress on this branch    |                            |                             |
+  CPU parallel model          | MPI, static decomposition,  | GPU-first; CPU path       | GPU-first; CPU path         | MPI, static spatial
+                              |  no CPU multithreading      |  secondary                |  secondary                  |  decomposition
+                              |  package                    |                            |                             |
+  CFD coupling                | CFDEMcoupling/OpenFOAM --   | Native Fluent (2-way) +   | Native Fluent (2-way) +     | oomph-lib FEM coupling
+                              |  frozen to LIGGGHTS 3.8.0   |  AcuSolve (incl. mass     |  2026 R1 Fluent-GPU handoff | only; no CFD-DEM found
+                              |                              |  transfer)                |                             |
+  Scripting / API              | LAMMPS-style input script;  | C/C++ Custom Model API    | PyRocky / PrePost Python    | Pure C++ driver-program
+                              |  thin Python run-control     |  (unified CPU+GPU);       |  scripting for automation,   | API; no Python front-end
+                              |  wrapper; new C++ CRTP       |  Python for post-         |  not core physics            | found
+                              |  contact-model header (CPU  |  processing               |                              |
+                              |  only)                       |                            |                              |
+  GUI                          | None                        | Full commercial           | Full GUI inside Ansys       | None
+                              |                              |  GUI/workbench            |  Workbench                   |
+  Post-processing               | ParaView via VTK/HDF5+XDMF  | Built-in visualization    | Built-in visualization;     | ParaView + legacy
+                              |  dumps                       |  + analytics engine       |  EnSight for coupled         | XBalls viewer
+                              |                              |                            |  workflows                   |
+  Regression / CI               | None found in public tree   | Internal (not public)     | Internal (not public)       | 260+ automated self-
+                              |                              |                            |                              | tests (documented)
+  Target industries             | Research, bulk-solids R&D,  | Mining, minerals, metals, | Mining, agriculture,        | Academic research;
+                              |  academic process             |  pharma, food/CPG,        |  pharma/process, bulk       | limited documented
+                              |  engineering                  |  construction & ag        |  material handling           | industrial adoption
+                              |                                |  equipment                 |                              |
+  Best fit                      | Transparent, auditable,     | Industrial throughput     | Angular/crushable real-      | Fundamental granular
+                              |  zero-cost physics for       |  with a GUI and           |  particle-shape problems      | physics research,
+                              |  researchers who can read    |  calibrated materials     |  (ore, tablets, rock)         | continuum-field
+                              |  C++                          |                            |                              | extraction
+  Key limitation                | No GPU, no CI, static MPI,  | Non-spherical shapes     | Algorithmic internals        | No GPU; no industrial-
+                              |  dormant upstream             |  GPU-gated; pricing        |  undisclosed; multi-node      | scale throughput
+                              |                                |  opaque                    |  still beta                   | evidence
+
+Rows drawn from vendor material carry [VENDOR] confidence throughout this
+matrix -- none of EDEM's, Rocky's, or MercuryDPM's performance or feature
+claims were independently reproduced in this evaluation. Rows drawn from this
+repository's source tree carry [CODE] confidence and are traceable to
+specific files and line ranges cited in Sections 01-05.
+
+===============================================================================
+07. STRATEGIC IMPROVEMENT ROADMAP
+===============================================================================
+
+Ordered by ratio of engineering leverage to risk, not by ambition. Items 1-2
+are cheap and already designed; items 3-5 are the real competitive gaps;
+items 6-7 are the ones that determine whether any of the others matter in
+five years.
+
+1. FINISH THE GPU PORT IN THE ORDER IT WAS ALREADY SCOPED, NOT A NEW ORDER
+   [builds on existing work]
+   This fork's own docs/gpu_port_architecture_audit.md phase plan (0-10) is
+   directionally sound -- it correctly identifies contact history, not raw
+   force math, as the hard problem, and correctly gates multi-GPU behind
+   history migration. The priority is executing Phases 3-6 (binning ->
+   history-free contact forces -> persistent contact history) with the
+   frozen CPU reference tests it already specifies, not re-litigating the
+   plan.
+
+2. SHIP THE CSR CONTACT-HISTORY INDEX BEFORE ANY GPU WORK LANDS
+   [cheapest high-confidence win]
+   Replace the linear npartner[i] scan in neigh_gran.cpp with the
+   sorted/CSR partner lookup already sketched in this fork's own
+   implementation proposal. It's a CPU-only, ~2 person-month change with no
+   physics risk, and it removes the single clearest algorithmic tax on dense
+   cohesive/history packings -- the workload most LIGGGHTS users actually
+   run.
+
+3. OPEN A PUBLIC, NON-PREMIUM POLYHEDRAL PARTICLE PATH
+   [largest capability gap]
+   Convex-shape support is currently gated off in the public Makefile
+   (USE_CONVEX=OFF) while Rocky's entire market position rests on true
+   faceted particles. A clean-room GJK/EPA or SAT-based convex contact
+   layer, kept separate from force-law evaluation so existing
+   normal/tangential/rolling models can be reused, is the single largest
+   shape-capability gap on this whole review.
+
+4. ADD OPT-IN DYNAMIC MPI LOAD BALANCING
+   [closes a scaling gap]
+   Static spatial decomposition is table-stakes-broken for the hoppers,
+   chutes, and insertion streams that make up most industrial DEM use cases
+   -- exactly the geometry class where EDEM/Rocky's GPU engines and any
+   well-balanced MPI code both outperform a static split. Weighted
+   repartitioning by local particle/contact/wall-contact count, opt-in and
+   disabled by default, is a bounded-risk change.
+
+5. BUILD A REAL CI AND REGRESSION HARNESS BEFORE TOUCHING MORE HOT PATHS
+   [prerequisite, not optional]
+   There is currently no sanitizer job, no smoke test, and no restart
+   round-trip check anywhere in the public tree. Every commercial competitor
+   in this review ships one; MercuryDPM's 260+ self-tests are the academic
+   proof that this is achievable without a company behind it. Nothing above
+   this line should be attempted at scale without it.
+
+6. SHIP A REAL PYTHON PHYSICS-AUTHORING API, NOT JUST A RUN-CONTROL WRAPPER
+   [usability, not physics]
+   The existing python/liggghts.py only drives runs via ctypes. A
+   pybind11-based binding that exposes material properties, custom
+   contact-model registration, and post-run analytics would close the
+   largest single usability gap against GUI-driven competitors without
+   requiring LIGGGHTS to build a GUI at all -- and it's the natural
+   counterpart to EDEM's unified CPU/GPU model API on the physics-authoring
+   side.
+
+7. SETTLE LIGGGHTS-PUBLIC'S INSTITUTIONAL FUTURE, OUT LOUD
+   [governance, not code]
+   Right now the project is neither clearly a maintained open competitor to
+   Aspherix/EDEM/Rocky nor clearly positioned as a research-fork base the
+   way INL has treated it. Either recruit a new maintaining organization or
+   foundation -- the way other vendor-orphaned scientific codes have been
+   rescued -- or explicitly document LIGGGHTS-PUBLIC as a base for
+   downstream forks, so users stop mistaking a dormant repository for a
+   supported product.
+
+===============================================================================
+SOURCES & PROVENANCE
+===============================================================================
+
+Local evidence: liggghts_evaluation_report/ (01-09), docs/gpu_*, and direct
+source inspection of LIGGGHTS-PUBLIC-v6 (branch modernization/baseline-vv).
+
+External claims trace to Siemens, Synopsys/Ansys, DCS Computing/Aspherix,
+MercuryDPM, and INL public materials current as of Aug 2026:
+
+  - Siemens acquisition of Altair: press.siemens.com, news.siemens.com
+  - Simcenter EDEM product/release notes: siemens.com/simcenter/edem,
+    caexperts.com.br (2026.1 release notes)
+  - Synopsys completion of Ansys acquisition: prnewswire.com (Jul 17, 2025)
+  - Ansys Rocky 2026 R1 / multi-GPU: ansys.com/blog, simtool.com
+  - DCS Computing / Aspherix positioning: aspherix-dem.com
+  - LIGGGHTS-PUBLIC repository: github.com/CFDEMproject/LIGGGHTS-PUBLIC
+  - LIGGGHTS-INL: github.com/idaholab/LIGGGHTS-INL, INL/OSTI publication
+    record
+  - LAMMPS GRANULAR package: OSTI "Granular simulations with LAMMPS:
+    enhanced contact models" (osti.gov/servlets/purl/1641655)
+  - CFDEMcoupling version history: cfdem.com
+  - MercuryDPM: mercurydpm.org, Comp. Phys. Comm. 2020 introduction paper
+
+No throughput figures in this report were independently benchmarked.
+
+===============================================================================
+END OF REPORT
+===============================================================================

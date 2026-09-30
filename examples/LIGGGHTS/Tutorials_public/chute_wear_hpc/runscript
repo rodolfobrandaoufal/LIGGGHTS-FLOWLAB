@@ -1,0 +1,4 @@
+#!/bin/bash
+set -e
+cd "$(dirname "$0")"
+../../../../src/lmp_hdf5mpi -in in.chute_wear_hpc

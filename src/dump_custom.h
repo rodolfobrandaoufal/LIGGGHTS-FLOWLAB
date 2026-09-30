@@ -150,6 +150,12 @@ class DumpCustom : public Dump {
   typedef void (DumpCustom::*FnPtrPack)(int);
   FnPtrPack *pack_choice;              // ptrs to pack functions
 
+  double x_component(int, int) const;
+  double v_component(int, int) const;
+  double f_component(int, int) const;
+  double omega_component(int, int) const;
+  double torque_component(int, int) const;
+
   void pack_compute(int);
   void pack_fix(int);
   void pack_variable(int);

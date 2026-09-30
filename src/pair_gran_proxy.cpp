@@ -73,8 +73,7 @@ void PairGranProxy::settings(int nargs, char ** args)
   if(impl) {
     impl->settings(nargs, args, this);
   } else {
-    
-    error->all(FLERR, "Internal errror");
+    error->all(FLERR, "Granular contact model combination is not compiled into the static contact-model whitelist");
   }
 }
 

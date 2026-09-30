@@ -158,7 +158,7 @@ namespace ContactModels
           shear[2] -= rsht * enz;
         }
 
-        const double shrmag = sqrt(shear[0]*shear[0] + shear[1]*shear[1] + shear[2]*shear[2]);
+        const double shrsq = shear[0]*shear[0] + shear[1]*shear[1] + shear[2]*shear[2];
         const double kt = sidata.kt;
         const double xmu = coeffFrict[sidata.itype][sidata.jtype];
 
@@ -171,12 +171,15 @@ namespace ContactModels
         double Ft3 = Ft_ela3;
 
         // rescale frictional displacements and forces if needed
-        const double Ft_shear = kt * shrmag; // sqrt(Ft1 * Ft1 + Ft2 * Ft2 + Ft3 * Ft3);
         const double Ft_friction = xmu * fabs(sidata.Fn);
+        const double Ft_shear_sq = kt * kt * shrsq;
+        const double Ft_friction_sq = Ft_friction * Ft_friction;
 
         // energy loss from sliding or damping
-        if (Ft_shear > Ft_friction) {
-          if (shrmag != 0.0) {
+        if (Ft_shear_sq > Ft_friction_sq) {
+          if (shrsq != 0.0) {
+            const double shrmag = sqrt(shrsq);
+            const double Ft_shear = kt * shrmag;
             const double ratio = Ft_friction / Ft_shear;
             
             if(heating)

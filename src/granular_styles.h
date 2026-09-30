@@ -104,9 +104,6 @@ namespace LAMMPS_NS {
             registerWall<MODEL, TANGENTIAL, COHESION, ROLLING, SURFACE>("gran", wall_factory);
             #include "style_contact_model.h"
         #undef GRAN_MODEL
-            // default for slow execution
-            registerPair<NORMAL_OFF, TANGENTIAL_OFF, COHESION_OFF, ROLLING_OFF, SURFACE_DEFAULT>("gran", pair_factory);
-            registerWall<NORMAL_OFF, TANGENTIAL_OFF, COHESION_OFF, ROLLING_OFF, SURFACE_DEFAULT>("gran", wall_factory);
         }
 
         ~RegisterGranularStyles() {}

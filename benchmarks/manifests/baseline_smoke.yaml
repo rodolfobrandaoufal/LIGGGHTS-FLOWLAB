@@ -1,0 +1,65 @@
+schema_version: 1
+description: Initial smoke and baseline cases for the measured modernization core.
+repeats: 5
+output:
+  preserve_raw_logs: true
+  parsed_csv_schema: liggghts_evaluation_report/performance_results.csv
+required_metadata:
+  - source_revision_or_patch_id
+  - compiler
+  - compiler_flags
+  - mpi_version
+  - cpu_model
+  - gpu_model_if_used
+  - rank_layout
+  - thread_layout
+  - input_file
+  - random_seed
+  - output_cadence
+cases:
+  - id: packing_hertz_history
+    evidence_class: hypothesis requiring benchmark validation
+    input: examples/LIGGGHTS/Tutorials_public/packing/in.packing
+    ranks: [1, 2, 4]
+    metrics:
+      - loop_time
+      - pair_time
+      - neigh_time
+      - comm_time
+      - nlocal
+      - nghost
+      - total_neighbors
+      - neighbor_builds
+      - dangerous_reneighborings
+  - id: mesh_wall
+    evidence_class: hypothesis requiring benchmark validation
+    input: examples/LIGGGHTS/Tutorials_public/meshGran/in.meshGran
+    ranks: [1, 2, 4]
+    metrics:
+      - loop_time
+      - pair_time
+      - neigh_time
+      - comm_time
+      - output_time
+  - id: cohesion
+    evidence_class: hypothesis requiring benchmark validation
+    input: examples/LIGGGHTS/Tutorials_public/cohesion/in.cohesion
+    ranks: [1, 2, 4]
+    metrics:
+      - loop_time
+      - pair_time
+      - neigh_time
+      - contact_count_trend
+  - id: superquadric
+    evidence_class: hypothesis requiring benchmark validation
+    input: examples/LIGGGHTS/Tutorials_public/superquadric/in.particle_particle
+    ranks: [1, 2]
+    metrics:
+      - loop_time
+      - pair_time
+      - neigh_time
+      - rotational_energy_trend
+validation_gates:
+  atom_count: exact for deterministic smoke cases
+  restart_round_trip: required before optimization claims
+  speedup_claim: median of five repeats with variability reported

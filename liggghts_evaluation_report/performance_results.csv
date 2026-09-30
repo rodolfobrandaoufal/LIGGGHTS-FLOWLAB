@@ -1,0 +1,7 @@
+Case,Number of particles,Contact model,Hardware/cores,Runtime,Time per step,Memory use,Dominant hotspots,Scaling result,Evidence
+Local toolchain availability check,N/A,N/A,"Windows shell, local PATH",N/A,N/A,N/A,"cmake, make, g++, cl, mpiexec not found",N/A,measured
+Tutorial packing baseline,Not measured,Hertz tangential history,Not measured,Not measured,Not measured,Not measured,"Expected PairGran force loop and granular bin/history neighbor build",Not measured,not measured - no local compiler/MPI
+Tutorial conveyor/mesh wall,Not measured,Hertz tangential history with mesh wall,Not measured,Not measured,Not measured,Not measured,"Expected PairGran, FixWallGran/TriMesh intersection, VTK dump",Not measured,not measured - no local compiler/MPI
+Tutorial cohesion,Not measured,Hertz tangential history cohesion sjkr,Not measured,Not measured,Not measured,Not measured,"Expected cohesion and tangential history branches plus neighbor history lookup",Not measured,not measured - no local compiler/MPI
+Tutorial superquadric,Not measured,Hertz tangential history rolling surface superquadric,Not measured,Not measured,Not measured,Not measured,"Expected superquadric geometry pow/GMRES/branch-heavy contact detection",Not measured,not measured - no local compiler/MPI
+Synthetic MPI scaling dense bed,To be generated,Hertz tangential history,Cluster required,Not measured,Not measured,Not measured,"Expected static decomposition imbalance and ghost exchange/allreduce costs",Not measured,hypothesis requiring benchmark validation

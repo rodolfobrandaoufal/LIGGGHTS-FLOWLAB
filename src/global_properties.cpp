@@ -63,6 +63,7 @@ namespace MODEL_PARAMS
   static const char * COHESION_DISTANCE_SETTINGS = "cohesionDistanceSettings";
   static const char * COHESION_MODEL_SWITCHES    = "cohesionModelSwitches";
   static const char * COHESION_ENERGY_DENSITY = "cohesionEnergyDensity";
+  static const char * ADHESION_ENERGY = "adhesionEnergy";
   static const char * CHARACTERISTIC_VELOCITY = "characteristicVelocity";
   static const char * YOUNGS_MODULUS = "youngsModulus";
   static const char * POISSONS_RATIO = "poissonsRatio";
@@ -291,6 +292,13 @@ namespace MODEL_PARAMS
   MatrixProperty* createCohesionEnergyDensity(PropertyRegistry & registry, const char * caller, bool sanity_checks)
   {
     return createPerTypePairProperty(registry, COHESION_ENERGY_DENSITY, caller);
+  }
+
+  /* ---------------------------------------------------------------------- */
+
+  MatrixProperty* createAdhesionEnergy(PropertyRegistry & registry, const char * caller, bool sanity_checks)
+  {
+    return createPerTypePairProperty(registry, ADHESION_ENERGY, caller);
   }
 
   /* ---------------------------------------------------------------------- */

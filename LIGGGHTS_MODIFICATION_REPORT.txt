@@ -1,0 +1,583 @@
+LIGGGHTS MODIFICATION REPORT
+Generated: 2026-08-20
+Repository: /media/storage/LIGGGHTS-PUBLIC-v6
+Branch: modernization/baseline-vv
+Scope: local changes from the git-tracked LIGGGHTS tree (branch base) to the
+current working tree, superseding the report generated 2026-07-02.
+
+===============================================================================
+1. Executive Summary
+===============================================================================
+
+This working tree contains a broad HPC/DEM modernization pass over LIGGGHTS.
+Since the previous report (2026-07-02), two things changed materially:
+
+  - The Atom-level sphere SoA transition described in the 2026-07-02 report
+    (SoA fields on Atom/AtomVecSphere, Verlet-level sync) has been rolled
+    back. src/atom.cpp, src/atom.h, src/atom_vec_sphere.{cpp,h},
+    src/fix_nve_sphere.cpp, src/memory.h, src/set.cpp and src/verlet.cpp are
+    no longer modified relative to the tracked tree. A sphere SoA container
+    (src/aligned_particle_soa.h) still exists and is now wired only into
+    FixNVE (src/fix_nve.h/.cpp) behind a compile-time
+    LIGGGHTS_USE_SOA_NVE guard that is off by default (see section 3).
+  - A large new standalone GPU_DEM module (CUDA) was added under
+    src/GPU_DEM/, with its own CMake build, unit tests, a synthetic
+    benchmark, and supporting architecture-audit documents under docs/.
+    This is new scaffold code, not yet integrated into the main lmp binary
+    (see section 7).
+
+Areas covered by the current diff and untracked additions:
+
+  - SJKR / EASO cohesion models converted to type-pair material matrices.
+  - New shape-agnostic "generalized_adhesion" cohesion model.
+  - Runtime variable-dependent fix property/global values (v_name syntax).
+  - New fix adapt/liggghts for runtime radius/density adaptation.
+  - Neighbor-list forced-rebuild trigger (Neighbor::trigger_build()).
+  - Contact-model static dispatch cleanup (unsupported combos now hard error
+    instead of falling back to a slow default path).
+  - dump custom / compute property/atom refactored to route particle field
+    reads through virtual accessors (x_component/v_component/... ) instead
+    of touching atom->x/v/f/omega/torque directly -- this is the seam left
+    behind by the SoA rollback, prepared for a future data-source swap.
+  - Native HDF5/XDMF particle and mesh dump styles (untracked, unchanged
+    since 2026-07-02).
+  - New standalone GPU_DEM CUDA scaffold: context/device management,
+    device-resident particle container, uniform-grid neighbor builder,
+    Hooke normal contact pipeline, wall contact, velocity-Verlet
+    integrator, and 10 unit/benchmark executables, all CPU-solver-detached.
+  - A new competitive/architecture evaluation document
+    (liggghts_evaluation_report/10_dem_competitive_evaluation_2026.txt)
+    comparing this codebase against Simcenter EDEM, Ansys Rocky, and
+    MercuryDPM.
+  - Example updates for chute_wear (HDF5 output) and a new chute_wear_hpc
+    example with generated HDF5/XDMF particle and mesh output.
+
+No CPU build was re-verified as part of generating this report; the
+libliggghts.so / build/liggghts binaries under build/ are dated 2025-08-06
+and predate several of the tracked-file changes above, so they should be
+treated as stale until rebuilt.
+
+The GPU_DEM CUDA scaffold under build/gpu_dem_scaffold_cuda/ was built on
+2026-07-03 and all 8 pass/fail unit tests reported "passed" against device 0
+(NVIDIA GeForce RTX 4060), plus a synthetic benchmark run with logged
+results in build/gpu_dem_scaffold_cuda/benchmark_results/. This is a
+standalone scaffold build, not a build of the main LIGGGHTS executable.
+
+===============================================================================
+2. High-Level Git Delta
+===============================================================================
+
+Tracked diff summary at the time of report generation:
+
+  git diff --stat (34 files changed, 538 insertions(+), 486 deletions(-))
+
+Tracked files modified:
+
+  examples/LIGGGHTS/Tutorials_public/chute_wear/in.chute_wear
+  examples/LIGGGHTS/Tutorials_public/chute_wear/post/.gitignore  (deleted)
+  src/cohesion_model_easo_capillary_viscous.h
+  src/cohesion_model_sjkr.h
+  src/compute_property_atom.cpp
+  src/compute_property_atom.h
+  src/contact_models.h
+  src/dump_custom.cpp
+  src/dump_custom.h
+  src/fix_neighlist_mesh.cpp
+  src/fix_neighlist_mesh.h
+  src/fix_nve.cpp
+  src/fix_nve.h
+  src/fix_nve_asphere_base.cpp
+  src/fix_property_global.cpp
+  src/fix_property_global.h
+  src/fix_wall_gran.cpp
+  src/fix_wall_gran_base.h
+  src/global_properties.cpp
+  src/global_properties.h
+  src/granular_styles.h
+  src/neighbor.cpp
+  src/neighbor.h
+  src/normal_model_luding.h
+  src/pair_gran_base.h
+  src/pair_gran_proxy.cpp
+  src/rolling_model_cdt.h
+  src/rolling_model_epsd.h
+  src/rolling_model_luding.h
+  src/tangential_model_history.h
+  src/tangential_model_no_history.h
+  src/utils.h
+  src/velocity.cpp
+  src/velocity.h
+
+Untracked files/directories:
+
+  DEVELOPMENT_PLAN.md
+  LIGGGHTS_MODIFICATION_REPORT.txt          (this file)
+  benchmarks/
+  build/                                    (CMake build tree + binaries)
+  docs/
+  examples/LIGGGHTS/Tutorials_public/chute_wear/log.liggghts
+  examples/LIGGGHTS/Tutorials_public/chute_wear/post/chute_particles.h5(.xdmf)
+  examples/LIGGGHTS/Tutorials_public/chute_wear_hpc/
+  h5inspect_chute.o
+  liggghts_evaluation_report/
+  log.liggghts
+  scripts/
+  src/GPU_DEM/                              (new CUDA module, ~30 files)
+  src/MAKE/Makefile.hdf5mpi
+  src/aligned_particle_soa.h
+  src/cohesion_model_generalized_adhesion.h
+  src/contact_model_crtp_api.h
+  src/dump_hdf5.cpp / .h
+  src/dump_mesh_hdf5.cpp / .h
+  src/fix_adapt_liggghts.cpp / .h
+  tests/
+
+===============================================================================
+3. SoA Status: Rollback And Remaining Seam
+===============================================================================
+
+3.1 What was rolled back since 2026-07-02
+
+The previous report described sphere-oriented SoA fields added directly to
+Atom/AtomVecSphere (pos_x/pos_y/pos_z, vel_*, force_*, omega_*, torque_*),
+64-byte aligned allocation helpers wired into src/memory.h, and
+synchronization points added throughout fix_nve_sphere.cpp, verlet.cpp,
+set.cpp. None of that is present in the current diff -- those files are
+untouched relative to the tracked tree.
+
+3.2 What remains
+
+  File: src/aligned_particle_soa.h (untracked)
+    - Still defines AlignedAllocator and a ParticleSoA container with
+      load_from_aos / store_xv_to_aos / store_v_to_aos /
+      initial_integrate_nve / final_integrate_nve helpers.
+
+  Files: src/fix_nve.h, src/fix_nve.cpp
+    - FixNVE now owns a ParticleSoA member (soa_).
+    - initial_integrate() and final_integrate() each have an
+      #ifdef LIGGGHTS_USE_SOA_NVE branch that loads AoS into soa_, runs the
+      SoA-path integration, and writes back to AoS; the #else branch is the
+      original per-atom loop. LIGGGHTS_USE_SOA_NVE is not defined by any
+      Makefile/CMake target inspected in this tree, so this is currently
+      dead code at runtime -- the standard AoS path is what executes.
+
+  Files: src/compute_property_atom.cpp/.h, src/dump_custom.cpp/.h
+    - Direct atom->x[i][c]/v[i][c]/f[i][c]/omega[i][c]/torque[i][c] reads in
+      the pack_* functions were replaced with calls to new
+      x_component()/v_component()/f_component()/omega_component()/
+      torque_component() accessor methods. Today these accessors just
+      forward to atom->x/v/f/omega/torque, so behavior is unchanged; the
+      refactor's only effect right now is to centralize the read path so a
+      future SoA-backed data source could be substituted in one place per
+      class instead of ~40 call sites.
+
+  Files: src/velocity.cpp, src/velocity.h
+    - New Velocity::sync_linear_sphere_soa() / sync_angular_sphere_soa()
+      methods are called after velocity set/ramp/zero-momentum/zero-rotation,
+      but both are empty no-op stubs ("return;"). This is leftover
+      plumbing from the rolled-back Atom-level SoA design; it is harmless
+      but should either be removed or wired to a real sync point.
+
+Caveat: the accessor indirection in compute_property_atom.cpp and
+dump_custom.cpp, and the no-op sync stubs in velocity.cpp, are the visible
+seams of an SoA effort that is currently half-present. They do not change
+current physics or output, but should be resolved (finish the SoA path or
+strip the seams) before further modernization work builds on top of them.
+
+===============================================================================
+4. Contact Model Architecture And Static Dispatch
+===============================================================================
+
+Files:
+
+  src/contact_models.h
+  src/granular_styles.h
+  src/utils.h
+  src/pair_gran_proxy.cpp
+  src/fix_wall_gran.cpp
+
+Changes:
+
+  - Removed the ContactModel<GranStyle<>> fallback specialization (~215
+    lines) in contact_models.h that allowed any unregistered normal/
+    tangential/cohesion/rolling/surface combination to run through a
+    dynamically dispatched, unoptimized default path with only a runtime
+    warning.
+  - Removed the matching default-variant registration
+    (registerPair/registerWall<NORMAL_OFF,...,SURFACE_DEFAULT>) from
+    granular_styles.h and the default-key fallback lookup from utils.h's
+    style-table search.
+  - pair_gran_proxy.cpp and fix_wall_gran.cpp now raise explicit errors
+    ("... contact model combination is not compiled into the static
+    contact-model whitelist") instead of the previous generic "Internal
+    errror" (sic) message when a combination isn't in the whitelist.
+
+Effect: contact-model selection is now strictly static-dispatch; using an
+un-whitelisted normal/tangential/cohesion/rolling/surface combination is now
+a hard build/run-time error rather than a silent slow path. Any input script
+relying on the old default fallback will now fail to run and must add the
+combination to the whitelist (regenerate via the whitelist script or add it
+to style_contact_model_user.whitelist) before use.
+
+===============================================================================
+5. Cohesion, Adhesion, And Type-Pair Material Properties
+===============================================================================
+
+5.1 SJKR cohesion matrix (src/cohesion_model_sjkr.h)
+
+  - Property renamed from scalar-oriented cohEnergyDens to
+    cohesion_energy_matrix, backed by a peratomtypepair property:
+      registry.registerProperty("cohesionEnergyDensity", ...)
+      modify->find_fix_property("cohesionEnergyDensity","property/global",
+                                "peratomtypepair", ...)
+  - Force loop reads cohesion_energy_matrix[itype][jtype].
+  - Hard error if the property is missing (previously silently NULL).
+
+5.2 EASO capillary/viscous surface energy matrix
+    (src/cohesion_model_easo_capillary_viscous.h)
+
+  - Scalar surfaceTension replaced with surface_energy_matrix, backed by a
+    peratomtypepair "surfaceEnergy" property, validated the same way as
+    SJKR. Both capillary force branches (bridge intact / bridge search) now
+    read surface_energy_matrix[itype][jtype].
+
+5.3 Generalized adhesion model (src/cohesion_model_generalized_adhesion.h,
+    untracked, unchanged since 2026-07-02)
+
+  - New "cohesion generalized_adhesion" style using a peratomtypepair
+    "adhesionEnergy" property and sidata.deltan (generic overlap) instead of
+    a Hertz-specific contact-area reconstruction, so it is usable with
+    Hooke, Hertz, and nonspherical/superquadric surface models as long as
+    deltan is populated.
+
+5.4 New global material properties (src/global_properties.cpp/.h)
+
+  - Added MODEL_PARAMS::createAdhesionEnergy(), registered alongside the
+    existing cohesionEnergyDensity/surfaceEnergy peratomtypepair creators.
+
+===============================================================================
+6. Runtime Variable-Dependent Properties And Adaptive Radius/Density
+===============================================================================
+
+6.1 Variable-aware fix property/global (src/fix_property_global.cpp/.h)
+
+  - Numeric values may now be given as v_variableName; such entries are
+    stored (value_variable_names/value_variable_indices), resolved to an
+    equal-style variable index in init(), and recomputed via
+    update_variable_values() in setup_pre_force()/pre_force(), gated by an
+    optional trailing "... every N" argument (default every 1 step).
+  - New clamp_value() enforces physical bounds by property name:
+      coefficientRestitution:                 0 <= e <= 1
+      coefficientFriction / RollingFriction:   >= 0
+      cohesionEnergyDensity / adhesionEnergy / surfaceEnergy: >= 0
+  - update_variable_values() re-checks symmetric-matrix consistency
+    (array[i][j] == array[j][i]) after recomputation and errors out if a
+    time-varying per-atomtype-pair matrix becomes asymmetric.
+  - compute_scalar/compute_vector/compute_array now call
+    ensure_variable_values_initialized() first, so values are valid even if
+    read before init()/setup_pre_force() has run.
+
+6.2 New DEM-specific adapt fix (src/fix_adapt_liggghts.cpp/.h, untracked,
+    unchanged since 2026-07-02)
+
+  - New "fix adapt/liggghts" style: adapts particle radius/density from
+    equal- or atom-style variables, recomputes rmass/inertia, scales
+    shape/volume for compatible nonspherical representations, sets
+    atom->radvary_flag, and calls neighbor->trigger_build() once radius
+    growth consumes half the neighbor skin.
+
+6.3 Neighbor rebuild trigger (src/neighbor.cpp/.h)
+
+  - Added Neighbor::trigger_build() / force_rebuild flag; Neighbor::decide()
+    now honors an explicit forced rebuild ahead of the normal delay/every/
+    dist_check logic, so radius growth from fix adapt/liggghts cannot be
+    starved by displacement-only rebuild checks.
+
+===============================================================================
+7. New Standalone GPU_DEM CUDA Module
+===============================================================================
+
+Directory: src/GPU_DEM/ (untracked, ~30 files, CMakeLists.txt, ~3300 lines
+across headers/.cu/.cpp)
+
+Status: standalone scaffold, built and unit-tested independently of the main
+LIGGGHTS build (no Makefile/CMake target in src/ links it into lmp). Per
+docs/gpu_port_architecture_audit.md, this corresponds to Phases 0-4 of a
+10-phase plan and the module is explicitly not yet a validated physics path
+-- docs/gpu_feature_support_matrix.md marks every DEM capability as
+"Planned" and states "no production feature is marked GPU native."
+
+Components:
+
+  gpu_dem_context.{h,cu}        - CUDA device/stream/precision-mode wrapper
+  gpu_error_check.h             - CUDA error-check macros
+  gpu_precision.h                - double/mixed/single precision enum
+  gpu_profiling.h                - CUDA event-based timing helpers
+  gpu_particle_data.{h,cu}      - device-resident particle container +
+                                    host<->device transfer
+  gpu_neighbor_builder.{h,cu}   - uniform-grid neighbor/candidate-pair build
+  gpu_integrator.{h,cu}         - velocity-Verlet sphere integration kernels
+  gpu_contact_pipeline.{h,cu}   - history-free contact force pipeline
+  gpu_wall_contact.{h,cu}       - primitive wall contact kernels
+  gpu_timestep.{h,cpp}          - host-side driver tying the above together
+  models/normal_hooke.cuh        - device Hooke normal force kernel
+  tests/*.cpp, *.cu (10 files)  - unit tests + gpu_synthetic_benchmark
+
+Verified build/run evidence: build/gpu_dem_scaffold_cuda/ (dated 2026-07-03)
+contains compiled test binaries and libliggghts_gpu_dem.a; a benchmark run
+recorded in build/gpu_dem_scaffold_cuda/benchmark_results/
+gpu_dem_benchmark_results.json shows all of gpu_particle_data_test,
+gpu_integrator_test, gpu_neighbor_builder_test, gpu_contact_pipeline_test,
+gpu_hooke_collision_test, gpu_hooke_damped_collision_test,
+gpu_wall_contact_test, and gpu_timestep_* returning passed:true on device 0
+(NVIDIA GeForce RTX 4060, confirmed present via nvidia-smi).
+
+Supporting documents (untracked):
+
+  docs/gpu_port_architecture_audit.md   - CPU execution map, per-subsystem
+                                            GPU migration difficulty/order/
+                                            risk table, 10-phase plan,
+                                            directory layout, first small
+                                            implementation task definition.
+  docs/gpu_feature_support_matrix.md    - capability-by-capability status
+                                            (CPU only / Planned / GPU native
+                                            / etc.) against target phase.
+  scripts/gpu_dem/run_gpu_dem_benchmarks.py
+                                          - runs the GPU_DEM test/benchmark
+                                            executables and collects
+                                            wall-time/throughput CSV+JSON.
+
+Key architectural constraint stated in the audit and honored so far: the
+GPU path must not mutate CPU AtomVecSphere semantics and should not be
+based on the legacy lib/cuda GPL accelerator code except as build-plumbing
+prior art.
+
+===============================================================================
+8. Contact-Model Micro-Optimizations (Non-Semantic)
+===============================================================================
+
+Several files received sqrt-avoidance / hoisting cleanups with no intended
+behavior change:
+
+  src/normal_model_luding.h        - collapsed duplicate gamman/gammat sqrt
+                                       computation into one shared value.
+  src/rolling_model_cdt.h          - compare wr-magnitude via squared sum,
+                                       sqrt only computed when nonzero.
+  src/rolling_model_epsd.h,
+  src/rolling_model_luding.h        - same squared-magnitude-first pattern
+                                       for the superquadric branch's
+                                       pointDistance/omega_mag path.
+  src/tangential_model_history.h    - shear-force sliding check now compares
+                                       squared magnitudes (Ft_shear_sq vs.
+                                       Ft_friction_sq) before taking sqrt.
+  src/tangential_model_no_history.h - same squared-relative-velocity pattern
+                                       for the tangential-damping branch;
+                                       note the branch condition was also
+                                       restructured (see caveat below).
+  src/pair_gran_base.h              - hoisted x[j][0..2] reads into locals
+                                       before delx/dely/delz; cosmetic
+                                       whitespace/formatting only otherwise.
+  src/fix_neighlist_mesh.cpp/.h     - checkBin() no longer special-cases a
+                                       null bins[] pointer per-iteration
+                                       (reads bins[iAtom] unconditionally via
+                                       a cached nextAtom); num_neigh
+                                       increments moved from a
+                                       fix_nneighs_->get/set_vector_atom_int
+                                       round trip to a direct
+                                       incrementPackedInt() write on the
+                                       fix's vector_atom array.
+
+Caveat: in tangential_model_no_history.h the rescaled-gamma branch condition
+changed from "Ft_friction < gammat*vrel" to a squared-and-guarded form
+(sidata.gammat > 0.0 && vrelsq > 0.0 && Ft_friction^2 < gammat^2*vrelsq); at
+vrel == 0 the old code computed 0/vrel behavior implicitly through the
+comparison while the new code takes the early "gamma = sidata.gammat"
+default. This should be spot-checked against the original semantics for the
+vrel == 0 / gammat == 0 edge cases specifically, since it is a genuine
+behavioral change and not purely a sqrt-avoidance rewrite.
+
+===============================================================================
+9. Other Correctness/Robustness Fixes
+===============================================================================
+
+  src/fix_nve_asphere_base.cpp
+    - integration_scheme argument now checked for a missing value
+      (error->fix_error if "integration_scheme" is the last token).
+    - init() now resolves a "couple/cfd/force/implicit" fix id, validates
+      integration_scheme is in [0,4], and requires that fix when scheme 4 is
+      selected.
+    - rotationUpdate() now errors if scheme 4 is selected but the implicit
+      CFD rotation/hydrodynamic-torque/orientation arrays are not
+      initialized, instead of silently dereferencing them.
+
+  src/fix_wall_gran.cpp
+    - post_force_mesh() hoists FixMesh_list_[iMesh] into a local fix_mesh
+      pointer (fewer repeated vector indexing/virtual calls per triangle),
+      hoists atom->shapetype_flag into a local shapeType bool, and moves
+      idTri/sidata.mesh/sidata.fix_mesh assignment out of the per-contact
+      inner loop to per-triangle scope. No behavior change intended.
+    - "Internal errror" typo'd error message replaced with a descriptive
+      whitelist error (also in pair_gran_proxy.cpp).
+
+  src/fix_wall_gran_base.h
+    - force_update() call wrapped in braces only; no functional change.
+
+===============================================================================
+10. HDF5/XDMF Output Infrastructure (Untracked, Unchanged Since 2026-07-02)
+===============================================================================
+
+  src/dump_hdf5.cpp/.h        - "dump hdf5" particle output (ids, positions,
+                                  velocities, forces, omegas, radius),
+                                  #ifdef LIGGGHTS_HDF5, XDMF sidecar for
+                                  ParaView.
+  src/dump_mesh_hdf5.cpp/.h   - "dump mesh/hdf5" / "dump mesh/gran/HDF5"
+                                  triangle mesh output via H5Pset_fapl_mpio /
+                                  H5Pset_dxpl_mpio(H5FD_MPIO_COLLECTIVE),
+                                  per-timestep groups, XDMF sidecar.
+  src/MAKE/Makefile.hdf5mpi   - parallel HDF5 build target producing
+                                  src/lmp_hdf5mpi.
+
+New evidence since 2026-07-02: the chute_wear and chute_wear_hpc examples
+now contain actual generated output --
+examples/LIGGGHTS/Tutorials_public/chute_wear/post/chute_particles.h5(.xdmf)
+and the full chute_wear_hpc/post/*.h5(.xdmf) set (particles + mesh) --
+confirming the HDF5/XDMF dumps produce readable output, not just that the
+code compiles.
+
+===============================================================================
+11. Example And Case Updates
+===============================================================================
+
+  examples/LIGGGHTS/Tutorials_public/chute_wear/in.chute_wear
+    - VTK particle/mesh dumps replaced with "dump hdf5" / "dump mesh/hdf5",
+      with comments noting the LIGGGHTS_HDF5 + parallel-HDF5 build
+      requirement and that the old VTK mesh/gran/VTK dump line is now
+      commented out (kept for reference, requires LAMMPS_VTK if re-enabled).
+    - run length for the insertion phase increased from 100000 to 1000000
+      steps.
+    - post/.gitignore was deleted (now untracked HDF5/XDMF output files sit
+      directly under post/ instead of being gitignored placeholder-only).
+
+  examples/LIGGGHTS/Tutorials_public/chute_wear_hpc/ (new, untracked)
+    - in.chute_wear_hpc, runscript, meshes/{insertion_face,simple_chute}.stl,
+      generated post/chute_hpc_{particles,mesh}.h5(.xdmf), log.liggghts.
+
+===============================================================================
+12. Benchmark, Test, And Evaluation Infrastructure
+===============================================================================
+
+  benchmarks/                 - unchanged since 2026-07-02 (README, collect/
+                                  parse/run scripts, baseline_smoke manifests).
+  tests/regression/in.asphere_scheme4_requires_implicit
+                                - unchanged since 2026-07-02; now directly
+                                  exercises the new fix_nve_asphere_base.cpp
+                                  scheme-4 validation added in section 9.
+  scripts/gpu_dem/run_gpu_dem_benchmarks.py
+                                - new; drives the GPU_DEM standalone test/
+                                  benchmark executables.
+  liggghts_evaluation_report/
+    01-09 (.md) and IMPLEMENTATION_STEPS_AND_ERRORS.txt, architecture_diagram
+    .mmd, feature_roadmap.csv, performance_results.csv,
+    technical_debt_register.csv - unchanged since 2026-07-02.
+    10_dem_competitive_evaluation_2026.txt (new, dated 2026-08-20)
+                                - "Force Chains" DEM software architecture
+                                  review comparing LIGGGHTS-PUBLIC against
+                                  Simcenter EDEM, Ansys Rocky, and
+                                  MercuryDPM. Explicitly grades every claim
+                                  as [CODE]/[VENDOR]/[MEASURED]/
+                                  [HYPOTHESIS]; states no throughput figures
+                                  in it were independently benchmarked
+                                  except where marked [MEASURED]. Notes the
+                                  repo is a fork of "LAMMPS 23 Nov 2013" and
+                                  that upstream DCS Computing has moved on to
+                                  a proprietary successor (Aspherix).
+  DEVELOPMENT_PLAN.md          - points to
+                                  liggghts_evaluation_report/09_scientific_
+                                  step_by_step_implementation_plan.md as the
+                                  authoritative modernization plan; defines a
+                                  required review checklist, evidence-label
+                                  conventions (measured / verified by code
+                                  inspection / hypothesis), and P0-P3 issue
+                                  labels. Unchanged since 2026-07-02.
+
+===============================================================================
+13. Known Caveats And Risks
+===============================================================================
+
+  - The Atom-level SoA transition from the previous report has been rolled
+    back; only a single-fix (FixNVE) SoA path remains, and it is disabled by
+    default (LIGGGHTS_USE_SOA_NVE undefined). Do not assume any SoA
+    performance benefit is currently active in a stock build.
+  - The accessor-indirection refactor in compute_property_atom.cpp/.h and
+    dump_custom.cpp/.h, and the no-op sync_linear_sphere_soa() /
+    sync_angular_sphere_soa() stubs in velocity.cpp/.h, are dead scaffolding
+    left over from the rolled-back SoA design (section 3). They are
+    currently harmless but should be finished or removed.
+  - The tangential_model_no_history.h gamma-branch rewrite (section 8) is a
+    genuine behavioral change at the vrel == 0 / gammat == 0 boundary, not
+    just an optimization; verify it against the pre-change formula.
+  - Contact-model whitelist enforcement (section 4) is a breaking change for
+    any existing input script/deck that relied on the removed default
+    fallback path; such scripts will now hard-error at startup instead of
+    running slowly.
+  - src/GPU_DEM is a standalone, CPU-solver-detached scaffold (section 7).
+    It is unit-tested and passing on the available RTX 4060, but no DEM
+    physics kernel in it has been validated against the CPU reference per
+    docs/gpu_feature_support_matrix.md ("no production feature is marked
+    GPU native"). It is not linked into the main lmp/liggghts executable.
+  - build/libliggghts.so and build/liggghts are dated 2025-08-06, predating
+    the tracked-file changes summarized in sections 4-9; do not treat them
+    as reflecting the current source tree without rebuilding.
+  - HDF5 output requires the hdf5mpi build (src/lmp_hdf5mpi) or an
+    equivalent build configured with -DLIGGGHTS_HDF5 and parallel HDF5
+    libraries.
+  - SJKR remains Hertz/sphere-area based; use generalized_adhesion for
+    Hooke or shape-agnostic adhesive behavior (unchanged from 2026-07-02).
+  - This report is based on local git status/diff and source inspection at
+    the stated date. It is not a substitute for a physics
+    verification/validation campaign, and the GPU_DEM component in
+    particular should not be treated as validated DEM physics.
+
+===============================================================================
+14. Recommended Next Validation Steps
+===============================================================================
+
+  1. Decide the SoA path's fate: either finish wiring LIGGGHTS_USE_SOA_NVE
+     end to end (build flag, benchmark vs. the AoS path, validate identical
+     trajectories) or remove aligned_particle_soa.h, the FixNVE soa_ member,
+     the compute_property_atom/dump_custom accessor indirection, and the
+     velocity.cpp no-op sync stubs to eliminate dead scaffolding.
+
+  2. Spot-check tangential_model_no_history.h's rewritten gamma branch
+     against the original formula at vrel == 0 and gammat == 0.
+
+  3. Audit any existing input decks for contact-model combinations that
+     relied on the removed default/fallback dispatch path (section 4);
+     regenerate the static whitelist for any that now hard-error.
+
+  4. Run a cohesion matrix test with at least two particle types to verify
+     SJKR and EASO select different type-pair entries, and that
+     fix property/global variable-driven values (section 6.1) clamp and
+     recompute as expected under "... every N".
+
+  5. Run fix adapt/liggghts with increasing radius and confirm neighbor
+     rebuild frequency (Neighbor::trigger_build()) and absence of missed
+     contacts.
+
+  6. Rebuild build/ (CPU liggghts/libliggghts.so) from the current source
+     tree; the checked-in binaries predate the tracked-file changes.
+
+  7. For GPU_DEM: proceed per docs/gpu_port_architecture_audit.md's phased
+     plan -- validate Hooke normal contact and the neighbor builder against
+     the CPU reference cases listed in that document (binary_head_on_hooke,
+     binary_oblique_history, particle_wall_impact_hertz,
+     settling_small_bed, cohesive_two_sphere_sjkr) before extending scope.
+
+  8. Add CI-style regression coverage for: dump hdf5, dump mesh/hdf5,
+     cohesion generalized_adhesion, variable-driven fix property/global,
+     fix adapt/liggghts radius/density, and the GPU_DEM scaffold test suite
+     (scripts/gpu_dem/run_gpu_dem_benchmarks.py).
+
+===============================================================================
+15. End Of Report
+===============================================================================
