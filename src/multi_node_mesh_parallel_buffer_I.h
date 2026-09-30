@@ -182,8 +182,8 @@
         fwrite(&sM,sizeof(double),1,fp);
 
         // write per-element and mesh data
-        fwrite(recvbufElems,sizeof(double),sizeElements_all,fp);
-        fwrite(bufMesh,sizeof(double),sizeMesh,fp);
+        if(sizeElements_all > 0) fwrite(recvbufElems,sizeof(double),sizeElements_all,fp);
+        if(sizeMesh > 0) fwrite(bufMesh,sizeof(double),sizeMesh,fp);
       }
 
       // free mem
