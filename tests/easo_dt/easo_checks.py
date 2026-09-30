@@ -221,8 +221,15 @@ if REF:
         ("L4 wall capillary+viscous, legacy keywords", wall_deck(cw, 0.0, eta, 1.001, v, "easo_wall_legacy on easo_lubrication_legacy on"), wall_deck(cw, 0.0, eta, 1.001, v)),
         ("L5 wall viscous 1e-3, wall legacy keyword", wall_deck(cw, 0.0, eta, 1e-3, v, "easo_wall_legacy on"), wall_deck(cw, 0.0, eta, 1e-3, v)),
     ]
+    # A reference built before B3 lacks the legacy keywords: its default is the
+    # legacy behaviour. A reference that already has B3 must run the same deck.
+    try:
+        run("bw_probe", cases[4][1], REF); ref_has_b3 = True
+    except SystemExit:
+        ref_has_b3 = False
+    print("reference binary " + ("has" if ref_has_b3 else "predates") + " the B3 legacy keywords")
     for i, (name, dnew, dref) in enumerate(cases):
-        run(f"bw{i}_new", dnew); run(f"bw{i}_ref", dref or dnew, REF)
+        run(f"bw{i}_new", dnew); run(f"bw{i}_ref", dnew if ref_has_b3 else (dref or dnew), REF)
         a = os.path.join(WD, f"bw{i}_new", "fs.txt"); b = os.path.join(WD, f"bw{i}_ref", "fs.txt")
         check(name + " bitwise vs reference", same(a, b), "")
 else:

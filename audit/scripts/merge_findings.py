@@ -11,7 +11,7 @@ import os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 AUDIT = os.path.dirname(HERE)
-ORDER = ["phase0", "contact", "fixes", "vv", "perf", "sota", "quality"]
+ORDER = ["phase0", "contact", "fixes", "vv", "perf", "sota", "quality", "phaseC"]
 SEV = {"P0-correctness": 0, "P1-performance": 1, "P1-scalability": 1,
        "P1-build": 1, "P2-physics": 2, "P2-io": 2, "P3-usability": 3}
 

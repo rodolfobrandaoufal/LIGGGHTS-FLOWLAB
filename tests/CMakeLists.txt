@@ -184,6 +184,27 @@ FOREACH(suite tangential adhesion easo_dt normal wear)
 ENDFOREACH()
 
 #---------------------------------------------------------------------------
+# C1 load balancing (balance / fix balance): correctness on 1-16 ranks incl. mesh
+# walls and contact history. BALANCE_QUICK=1 restricts it to 4 ranks.
+IF(EXISTS "${LIGGGHTS_TESTS_DIR}/balance/run_all.sh")
+  LIGGGHTS_TEST(balance_suite LABELS physics mpi TIMEOUT 2400 PROCESSORS 16
+    ENV "TMPDIR=${LIGGGHTS_TEST_WORK}"
+    COMMAND ${LIGGGHTS_BASH} ${LIGGGHTS_TESTS_DIR}/balance/run_all.sh ${BIN} ${REF_BIN})
+ELSE()
+  LIGGGHTS_SKIPPED_TEST(balance_suite "tests/balance/run_all.sh not present" physics mpi)
+ENDIF()
+
+#---------------------------------------------------------------------------
+# B5 model matrix: every static whitelist combination, byte comparison against
+# the reference binary (needs LIGGGHTS_TEST_REFERENCE_BIN)
+IF(REF_BIN AND EXISTS "${LIGGGHTS_TESTS_DIR}/kernel/run_all.sh")
+  LIGGGHTS_TEST(kernel_model_matrix LABELS regression bitwise TIMEOUT 1800 PROCESSORS 4
+    COMMAND ${LIGGGHTS_BASH} ${LIGGGHTS_TESTS_DIR}/kernel/run_all.sh ${BIN} ${REF_BIN} ${LIGGGHTS_TEST_WORK}/kernel)
+ELSE()
+  LIGGGHTS_SKIPPED_TEST(kernel_model_matrix "no reference binary (LIGGGHTS_TEST_REFERENCE_BIN)" regression bitwise)
+ENDIF()
+
+#---------------------------------------------------------------------------
 # whitelist entry LUDING/TANGENTIAL_HISTORY/ROLLING_LUDING runs on the static path
 LIGGGHTS_TEST(whitelist_luding_rolling_luding LABELS unit regression TIMEOUT 120
   COMMAND ${BIN} -in ${LIGGGHTS_TESTS_DIR}/build/in.luding_rolling_luding -log none)
