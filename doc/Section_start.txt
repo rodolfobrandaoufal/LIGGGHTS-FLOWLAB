@@ -657,7 +657,7 @@ You should get the executable lmp_foo when the build is complete.
 
 [Step 0]
 
-cmake should be installed, minimum version is 3.5.0. In a Debian/Ubuntu based systems, this can be achieved by typing:
+cmake should be installed, minimum version is 3.5.0 (3.21 to use the presets). In a Debian/Ubuntu based systems, this can be achieved by typing:
 
   sudo apt-get install cmake :pre
 
@@ -755,7 +755,93 @@ The following cmake flags can be used (the default values are shown as well):
 - ENABLE_SMALLBIG:BOOL=ON
 - ENABLE_SMALLSMALL:BOOL=OFF
 - ENABLE_SQ:BOOL=OFF
-- ENABLE_VTK:BOOL=ON
+- ENABLE_VTK:STRING=AUTO (ON = VTK required, OFF = no VTK dumps, AUTO = use VTK if found) :ul
+
+The ENABLE_MODEL_* flags only matter with
+LIGGGHTS_CONTACT_WHITELIST_FROM_OPTIONS=ON (see below).
+
+[CMake presets]
+
+src/CMakePresets.json (CMake 3.21 or newer) defines ready-made
+configurations. Each builds out of tree in build/<preset> at the top of
+the repository:
+
+  cd LIGGGHTS-PUBLIC/src
+  cmake --preset release-hdf5
+  cmake --build --preset release-hdf5 -j8
+  # binary: ../build/release-hdf5/liggghts :pre
+
+release: optimised (-O3), IEEE floating point, portable
+release-hdf5: release with the parallel HDF5 dumps
+release-native-hdf5: release-hdf5 plus -march=native
+relwithdebinfo, relwithdebinfo-hdf5: -O2 -g
+debug-asan, debug-asan-hdf5: -O1 -g with AddressSanitizer and UndefinedBehaviorSanitizer :ul
+
+Options on the command line override a preset, for example
+"cmake --preset release-hdf5 -DENABLE_SQ=ON".
+
+[Build type and compiler flags]
+
+The optimisation level comes only from CMAKE_BUILD_TYPE (default:
+Release). CMake no longer adds -O2 -ffast-math for GCC, so CMake and
+Makefile binaries follow the same IEEE floating-point rules.
+
+[Additional cmake options]
+
+LIGGGHTS_ENABLE_HDF5:BOOL=OFF: builds "dump hdf5"_dump_hdf5.html and dump mesh/hdf5. The option needs a {parallel} HDF5, which it finds with FindHDF5 and prefers h5pcc. Configuring fails with an explanation if only a serial HDF5 is found. Select a specific installation with -DHDF5_C_COMPILER_EXECUTABLE=/path/to/h5pcc or -DHDF5_ROOT=<prefix>. On Debian/Ubuntu, install libhdf5-openmpi-dev. Without this option, these dump styles stop with an error.
+LIGGGHTS_CONTACT_WHITELIST:FILEPATH=src/contact_model_whitelist.txt: sets the list of GRAN_MODEL(...) contact-model combinations that are compiled into the fast static path. src/style_contact_model_user.whitelist is added if it exists. Combinations that are not listed still run, through a slower runtime fallback, which prints a one-time warning naming the line to add.
+LIGGGHTS_CONTACT_WHITELIST_FROM_OPTIONS:BOOL=OFF: builds the whitelist from the ENABLE_MODEL_* options (the cross product) instead of the whitelist file. This is the legacy behaviour.
+LIGGGHTS_NO_CONTACT_MODEL_FALLBACK:BOOL=OFF: strict mode. It defines LIGGGHTS_NO_CONTACT_MODEL_FALLBACK, which turns off the runtime fallback, so a combination that is not whitelisted is an error.
+LIGGGHTS_ENABLE_GPU_DEM:BOOL=OFF: also configures the experimental src/GPU_DEM subproject. Subdirectories are no longer added automatically.
+LIGGGHTS_FAST_MATH:BOOL=OFF: adds -ffast-math. This changes floating-point results, so they are no longer bitwise reproducible with the default build.
+LIGGGHTS_NATIVE_ARCH:BOOL=OFF: adds -march=native. The binary then runs only on CPUs like the build host.
+LIGGGHTS_SANITIZE:STRING=: a list for -fsanitize=, for example address,undefined.
+LIGGGHTS_ENABLE_TESTING:BOOL=ON: registers the tests in tests/ with CTest.
+LIGGGHTS_ALLOW_SOURCE_TREE_HEADERS:BOOL=OFF: see "Generated headers" below. :ul
+
+[Generated headers]
+
+CMake writes style_*.h, style_contact_model.h and version_liggghts.h into
+<build>/generated, never into src/. Several build trees can therefore
+share one source tree.
+
+The Make route ("make <machine>") still writes these headers into src/.
+Because '#include "style_fix.h"' finds a header next to the including file
+before any include path, headers left in src/ would silently replace the
+CMake-generated ones. CMake therefore stops with an error if it finds any.
+Remove them before configuring:
+
+  rm src/style_*.h src/version_liggghts.h :pre
+
+Alternatively, configure with -DLIGGGHTS_ALLOW_SOURCE_TREE_HEADERS=ON to
+get only a warning.
+
+[Running the tests (CTest)]
+
+The tests are registered against the liggghts binary of the build tree:
+
+  cd build/release-hdf5
+  ctest --output-on-failure -j4                         # all tests
+  ctest -L 'regression|physics|mpi' --output-on-failure # the CI selection
+  ctest -LE bitwise                                     # without reference comparisons :pre
+
+Tests carry the labels unit, physics, mpi, regression and bitwise. The
+MPI tests use mpirun --oversubscribe.
+
+A test that needs something this build does not have is reported as
+"Skipped", with the reason in its output:
+
+-DLIGGGHTS_TEST_REFERENCE_BIN=<liggghts>: reference binary for the bitwise-identity tests
+-DLIGGGHTS_TEST_SQ_BIN=<liggghts>: superquadric build; defaults to this build when ENABLE_SQ=ON
+-DLIGGGHTS_TEST_STRICT_BIN=<liggghts>: build with LIGGGHTS_NO_CONTACT_MODEL_FALLBACK=ON
+-DLIGGGHTS_TEST_ASAN_BIN=<liggghts>: sanitizer build; defaults to this build when LIGGGHTS_SANITIZE is set
+-DLIGGGHTS_TEST_CPUS=<list>: CPU list passed to taskset inside the test scripts :ul
+
+The tutorial smoke test (tests/tutorials/run_tutorials.sh) runs every
+examples/LIGGGHTS/Tutorials_public deck for 10 steps. It skips decks that
+need superquadric or HDF5 support when the binary lacks them. Known
+pre-existing failures are listed in tests/tutorials/known_failures.txt.
+The CI workflow (.github/workflows/ci.yml) runs the same commands.
 
 :line
 

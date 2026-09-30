@@ -17,7 +17,9 @@ MACRO(GENERATE_VERSION_H)
       RESULT_VARIABLE GIT_DIRTY
       OUTPUT_QUIET ERROR_QUIET
     )
-    IF(NOT "${GIT_DIRTY}" STREQUAL "0")
+    IF("${GIT_HASH}" STREQUAL "")
+      SET(GIT_HASH "unknown")
+    ELSEIF(NOT "${GIT_DIRTY}" STREQUAL "0")
       SET(GIT_HASH "${GIT_HASH}-dirty")
     ENDIF()
 
@@ -38,10 +40,15 @@ MACRO(GENERATE_VERSION_H)
     STRING(STRIP ${USER} USER)
     STRING(REPLACE "\\" "\\\\" USER ${USER})
 
-    FILE(WRITE version_liggghts.h
+    # generated into the build tree, not into src/ (P0-06); rewritten only
+    # when the text changes
+    FILE(WRITE ${LIGGGHTS_GENERATED_DIR}/version_liggghts.h.tmp
       "#define LIGGGHTS_VERSION \"LIGGGHTS-PUBLIC ${LIGGGHTS_VERSION}, "
       "compiled ${BUILD_TIME} by ${USER}, git commit ${GIT_HASH}, "
       "build configuration:${ENABLED_OPTIONS}, "
-      "${CONTACT_MODELS_BANNER} (+ runtime fallback)\""
+      "${CONTACT_MODELS_BANNER} (+ runtime fallback)\"\n"
     )
+    CONFIGURE_FILE(${LIGGGHTS_GENERATED_DIR}/version_liggghts.h.tmp
+                   ${LIGGGHTS_GENERATED_DIR}/version_liggghts.h COPYONLY)
+    FILE(REMOVE ${LIGGGHTS_GENERATED_DIR}/version_liggghts.h.tmp)
 ENDMACRO()

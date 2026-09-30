@@ -5,6 +5,7 @@
 #   ref_binary: if given, also run check_identity.sh (decks without the fix must be
 #               byte-identical to this reference binary)
 # Returns the number of failed checks (0 = all pass).
+# Env: WD=<work dir> (default mktemp), LIGGGHTS_TEST_CPUS=<taskset list> (default 0-15)
 set -u
 HERE=$(cd $(dirname $0) && pwd)
 BIN=$(realpath $1); SQ=${2:--}; REF=${3:--}
@@ -16,8 +17,8 @@ run () {  # tag np bin deck [vars...]
   local tag=$1 np=$2 bin=$3 deck=$4; shift 4
   mkdir -p $WD/$tag; cp $HERE/$deck $WD/$tag/
   ( cd $WD/$tag
-    if [ $np = 1 ]; then timeout 300 taskset -c 0-15 $bin -in $deck -log log.run "$@" > out 2>&1
-    else timeout 300 mpirun --oversubscribe -np $np taskset -c 0-15 $bin -in $deck -log log.run "$@" > out 2>&1; fi
+    if [ $np = 1 ]; then timeout 300 taskset -c ${LIGGGHTS_TEST_CPUS:-0-15} $bin -in $deck -log log.run "$@" > out 2>&1
+    else timeout 300 mpirun --oversubscribe -np $np taskset -c ${LIGGGHTS_TEST_CPUS:-0-15} $bin -in $deck -log log.run "$@" > out 2>&1; fi
     echo $? > rc )
 }
 rc () { cat $WD/$1/rc; }

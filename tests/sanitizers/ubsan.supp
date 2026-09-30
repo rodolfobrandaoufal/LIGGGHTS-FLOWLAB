@@ -1,0 +1,6 @@
+# UBSan suppressions for the CI debug-asan job (LIGGGHTS modernization branch,
+# build agent). Keep this list short: every entry is a known, reviewed legacy
+# issue with an open cross-agent request (audit/fixes/build/REPORT.md).
+#
+# (empty) The former entry for multi_node_mesh_parallel_buffer_I.h (zero-length
+# fwrite of a NULL buffer on write_restart with a mesh) was fixed at the source.

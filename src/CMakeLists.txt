@@ -35,8 +35,16 @@
 #    Tóth János (MATE, Gödöllő)
 #-------------------------------------------------------------------------
 
-PROJECT(LIGGGHTS C CXX)
 CMAKE_MINIMUM_REQUIRED(VERSION 3.5.0)
+PROJECT(LIGGGHTS C CXX)
+
+# Default to an optimised build; the optimisation level comes only from
+# CMAKE_BUILD_TYPE (Release: -O3 -DNDEBUG), never from hard-coded flags (P0-08).
+GET_PROPERTY(LIGGGHTS_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+IF(NOT CMAKE_BUILD_TYPE AND NOT LIGGGHTS_MULTI_CONFIG)
+  SET(CMAKE_BUILD_TYPE Release CACHE STRING "Build type (Release, RelWithDebInfo, Debug, MinSizeRel)" FORCE)
+  MESSAGE(STATUS "CMAKE_BUILD_TYPE not set, using Release")
+ENDIF()
 
 SET(LIGGGHTS_MAJOR_VERSION 3)
 SET(LIGGGHTS_MINOR_VERSION 8)
@@ -53,6 +61,41 @@ SET(LIGGGHTS_VERSION ${LIGGGHTS_MAJOR_VERSION}.${LIGGGHTS_MINOR_VERSION}.${LIGGG
 
 #=======================================
 SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cMake")
+
+# Generated headers (style_*.h, style_contact_model.h, version_liggghts.h) are
+# written into the build tree, never into src/ (P0-06). Several build trees
+# with different options can therefore share one source tree, and a CMake
+# configure never touches the headers of the Make route.
+SET(LIGGGHTS_GENERATED_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
+FILE(MAKE_DIRECTORY "${LIGGGHTS_GENERATED_DIR}")
+INCLUDE_DIRECTORIES(BEFORE "${LIGGGHTS_GENERATED_DIR}")
+
+# '#include "style_fix.h"' is looked up in the directory of the including file
+# (src/) BEFORE any -I path, so generated headers left in src/ by the Make
+# route ("make <machine>" runs Make.sh style/models) or by an old CMake would
+# silently replace the ones generated here (different whitelist, style list
+# and version banner).
+OPTION(LIGGGHTS_ALLOW_SOURCE_TREE_HEADERS
+       "Only warn (instead of failing) when src/ contains generated style_*.h / version_liggghts.h that shadow the CMake-generated ones" OFF)
+FILE(GLOB LIGGGHTS_STALE_HEADERS RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}"
+     "${CMAKE_CURRENT_SOURCE_DIR}/style_*.h" "${CMAKE_CURRENT_SOURCE_DIR}/version_liggghts.h")
+IF(LIGGGHTS_STALE_HEADERS)
+  STRING(REPLACE ";" " " stale_list "${LIGGGHTS_STALE_HEADERS}")
+  SET(stale_msg
+    "The source directory ${CMAKE_CURRENT_SOURCE_DIR} contains generated headers "
+    "(from the Make route or an older CMake build): ${stale_list}\n"
+    "They take precedence over the headers CMake generates in ${LIGGGHTS_GENERATED_DIR}, "
+    "so this build would silently use their style lists, contact-model whitelist and version banner.\n"
+    "Remove them (they are untracked; 'make <machine>' re-creates them for the Make route):\n"
+    "  rm ${CMAKE_CURRENT_SOURCE_DIR}/style_*.h ${CMAKE_CURRENT_SOURCE_DIR}/version_liggghts.h\n"
+    "or configure with -DLIGGGHTS_ALLOW_SOURCE_TREE_HEADERS=ON to build with them anyway.")
+  IF(LIGGGHTS_ALLOW_SOURCE_TREE_HEADERS)
+    MESSAGE(WARNING ${stale_msg})
+  ELSE()
+    MESSAGE(FATAL_ERROR ${stale_msg})
+  ENDIF()
+ENDIF()
+
 INCLUDE(Version)
 INCLUDE(Style)
 INCLUDE(Model)
@@ -78,7 +121,14 @@ IF(ENABLE_ALL)
 ENDIF()
 
 OPTION(ENABLE_MPI    "Use MPI"      ${DEFAULT_ON})
-OPTION(ENABLE_VTK    "Use dump_vtk" ${DEFAULT_ON})
+# ENABLE_VTK: ON = require VTK, OFF = no VTK dumps, AUTO (default) = use VTK
+# when it is found, so that a plain configure works on machines without VTK.
+IF(DEFAULT_ON)
+  SET(ENABLE_VTK AUTO CACHE STRING "Use dump_vtk: ON (required), OFF, AUTO (if found)")
+ELSE()
+  SET(ENABLE_VTK OFF CACHE STRING "Use dump_vtk: ON (required), OFF, AUTO (if found)")
+ENDIF()
+SET_PROPERTY(CACHE ENABLE_VTK PROPERTY STRINGS ON OFF AUTO)
 OPTION(ENABLE_JPEG   "Use libjpeg"  ${DEFAULT_OFF})
 OPTION(ENABLE_PNG    "Use libpng"   ${DEFAULT_OFF})
 OPTION(ENABLE_FFMPEG "Use ffmpeg"   ${DEFAULT_OFF})
@@ -91,6 +141,15 @@ OPTION(ENABLE_BIGBIG     "Huge molecular systems with more than 2 billion atoms.
 OPTION(ENABLE_SMALLSMALL "Machine does not support 64-bit integers."              OFF)
 
 OPTION(ENABLE_LONGLONG_TO_LONG "System does not recognize “long long” data types." OFF)
+
+# Modernization-branch options (documented in doc/Section_start.txt)
+OPTION(LIGGGHTS_ENABLE_HDF5 "Build dump hdf5 and dump mesh/hdf5 (requires a parallel HDF5)" OFF)
+OPTION(LIGGGHTS_ENABLE_GPU_DEM "Also configure the experimental src/GPU_DEM subproject" OFF)
+OPTION(LIGGGHTS_FAST_MATH "Compile with -ffast-math (changes floating-point results; not bitwise reproducible with the Make route)" OFF)
+OPTION(LIGGGHTS_NATIVE_ARCH "Compile with -march=native (binary only runs on CPUs like the build host)" OFF)
+OPTION(LIGGGHTS_NO_CONTACT_MODEL_FALLBACK "Strict mode: contact-model combinations outside the whitelist are an error instead of running through the runtime fallback" OFF)
+SET(LIGGGHTS_SANITIZE "" CACHE STRING "Comma-separated -fsanitize= list, e.g. address,undefined (empty = none)")
+OPTION(LIGGGHTS_ENABLE_TESTING "Register the tests in ../tests with CTest" ON)
 
 # 9 normal models
 OPTION(ENABLE_MODEL_HERTZ "Hertz Model" ${DEFAULT_ON})
@@ -148,7 +207,9 @@ ELSEIF(("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU"))
   ENDIF()
   SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-  SET(OPT_CXX_FLAGS "-O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized -Wno-literal-suffix -fPIC")
+  # no -O level and no -ffast-math here (P0-08): the optimisation level comes
+  # from CMAKE_BUILD_TYPE, fast math only from LIGGGHTS_FAST_MATH
+  SET(OPT_CXX_FLAGS "-funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized -Wno-literal-suffix -fPIC")
   MESSAGE(STATUS "Compiler: gcc")
 ELSEIF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
 	SET(OPT_CXX_FLAGS "-O3 -funroll-loops -fstrict-aliasing -W -Wno-uninitialized -march=native -xHost")
@@ -160,6 +221,30 @@ ELSEIF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
   ADD_DEFINITIONS("/wd4101 /wd4244 /wd4267")
 
   MESSAGE(STATUS "Compiler: msvc")
+ENDIF()
+
+IF(("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") OR ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang"))
+  IF(LIGGGHTS_FAST_MATH)
+    SET(OPT_CXX_FLAGS "${OPT_CXX_FLAGS} -ffast-math")
+    SET(ENABLED_OPTIONS "${ENABLED_OPTIONS} FAST_MATH")
+  ENDIF()
+  IF(LIGGGHTS_NATIVE_ARCH)
+    SET(OPT_CXX_FLAGS "${OPT_CXX_FLAGS} -march=native")
+    SET(ENABLED_OPTIONS "${ENABLED_OPTIONS} NATIVE_ARCH")
+  ENDIF()
+  IF(LIGGGHTS_SANITIZE)
+    SET(OPT_CXX_FLAGS "${OPT_CXX_FLAGS} -fsanitize=${LIGGGHTS_SANITIZE} -fno-omit-frame-pointer")
+    SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=${LIGGGHTS_SANITIZE}")
+    SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fsanitize=${LIGGGHTS_SANITIZE}")
+    SET(ENABLED_OPTIONS "${ENABLED_OPTIONS} SANITIZE=${LIGGGHTS_SANITIZE}")
+  ENDIF()
+ELSEIF(LIGGGHTS_FAST_MATH OR LIGGGHTS_NATIVE_ARCH OR LIGGGHTS_SANITIZE)
+  MESSAGE(WARNING "LIGGGHTS_FAST_MATH / LIGGGHTS_NATIVE_ARCH / LIGGGHTS_SANITIZE are only implemented for GCC and Clang")
+ENDIF()
+
+IF(LIGGGHTS_NO_CONTACT_MODEL_FALLBACK)
+  ADD_DEFINITIONS(-DLIGGGHTS_NO_CONTACT_MODEL_FALLBACK)
+  SET(ENABLED_OPTIONS "${ENABLED_OPTIONS} NO_CONTACT_MODEL_FALLBACK")
 ENDIF()
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OPT_CXX_FLAGS}")
@@ -305,10 +390,15 @@ ENDIF()
 WRITE_WHITELIST()
 
 #========================================
-GET_SUBDIRS(dirList CMakeLists.txt)
-FOREACH(dir ${dirList})
-  ADD_SUBDIRECTORY(${dir})
-ENDFOREACH()
+# Sub-projects are opt-in; subdirectories are no longer added automatically
+# (P0-07), so a CPU-only configure never touches src/GPU_DEM.
+IF(LIGGGHTS_ENABLE_GPU_DEM)
+  IF(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/GPU_DEM/CMakeLists.txt")
+    MESSAGE(FATAL_ERROR "LIGGGHTS_ENABLE_GPU_DEM=ON but ${CMAKE_CURRENT_SOURCE_DIR}/GPU_DEM/CMakeLists.txt does not exist")
+  ENDIF()
+  ADD_SUBDIRECTORY(GPU_DEM)
+  SET(ENABLED_OPTIONS "${ENABLED_OPTIONS} GPU_DEM")
+ENDIF()
 
 #=======================================
 FILE(GLOB SOURCES *.cpp)
@@ -359,8 +449,20 @@ ELSE()
 ENDIF()
 
 #=======================================
-IF(ENABLE_VTK)
+IF("${ENABLE_VTK}" STREQUAL "AUTO")
+  FIND_PACKAGE(VTK COMPONENTS NO_MODULE QUIET)
+  IF(NOT VTK_FOUND)
+    MESSAGE(STATUS "VTK not found: dump */vtk styles disabled (ENABLE_VTK=AUTO; set ENABLE_VTK=ON to require VTK)")
+  ENDIF()
+  SET(LIGGGHTS_USE_VTK ${VTK_FOUND})
+ELSEIF(ENABLE_VTK)
   FIND_PACKAGE(VTK COMPONENTS NO_MODULE)
+  SET(LIGGGHTS_USE_VTK ON)
+ELSE()
+  SET(LIGGGHTS_USE_VTK OFF)
+ENDIF()
+
+IF(LIGGGHTS_USE_VTK)
 
   IF(VTK_FOUND)
     IF(VTK_VERSION VERSION_LESS "8.90.0")
@@ -381,7 +483,7 @@ IF(ENABLE_VTK)
     MESSAGE(FATAL_ERROR "VTK NOT found!")
   ENDIF()
 ELSE()
-  SET(DISABLED_OPTIONS "${DISABED_OPTIONS} VTK")
+  SET(DISABLED_OPTIONS "${DISABLED_OPTIONS} VTK")
 ENDIF()
 
 #=======================================
@@ -493,6 +595,51 @@ ELSE()
 ENDIF()
 
 #=======================================
+# Parallel HDF5 for dump hdf5 / dump mesh/hdf5 (P0-09, F-26). Same define and
+# library as src/MAKE/Makefile.hdf5mpi, but located with FindHDF5 instead of
+# hard-coded OpenMPI paths. The dumps use MPI-IO collective writes, so a serial
+# HDF5 is rejected here instead of failing obscurely at compile or link time.
+IF(LIGGGHTS_ENABLE_HDF5)
+  IF(NOT ENABLE_MPI)
+    MESSAGE(FATAL_ERROR "LIGGGHTS_ENABLE_HDF5 requires ENABLE_MPI=ON (parallel HDF5)")
+  ENDIF()
+  IF(NOT DEFINED HDF5_PREFER_PARALLEL)
+    SET(HDF5_PREFER_PARALLEL TRUE)   # prefer h5pcc when serial and parallel HDF5 are both installed
+  ENDIF()
+  FIND_PACKAGE(HDF5 COMPONENTS C)
+  IF(NOT HDF5_FOUND)
+    MESSAGE(FATAL_ERROR "LIGGGHTS_ENABLE_HDF5=ON but no HDF5 was found. Install a parallel HDF5 "
+                        "(Debian/Ubuntu: libhdf5-openmpi-dev) or point CMake to it with "
+                        "-DHDF5_C_COMPILER_EXECUTABLE=<path to h5pcc> or -DHDF5_ROOT=<prefix>.")
+  ENDIF()
+  IF(NOT HDF5_IS_PARALLEL)
+    MESSAGE(FATAL_ERROR "LIGGGHTS_ENABLE_HDF5=ON but the HDF5 found (version ${HDF5_VERSION}, "
+                        "include ${HDF5_C_INCLUDE_DIRS}) is a SERIAL build. dump hdf5 and dump mesh/hdf5 "
+                        "need a parallel (MPI-IO) HDF5 built with the same MPI as LIGGGHTS. "
+                        "Select it with -DHDF5_C_COMPILER_EXECUTABLE=<path to h5pcc> or -DHDF5_ROOT=<prefix> "
+                        "(Debian/Ubuntu: libhdf5-openmpi-dev, h5pcc), or set LIGGGHTS_ENABLE_HDF5=OFF.")
+  ENDIF()
+  IF(HDF5_C_INCLUDE_DIRS)
+    INCLUDE_DIRECTORIES(${HDF5_C_INCLUDE_DIRS})
+  ELSE()
+    INCLUDE_DIRECTORIES(${HDF5_INCLUDE_DIRS})
+  ENDIF()
+  ADD_DEFINITIONS(-DLIGGGHTS_HDF5 ${HDF5_C_DEFINITIONS})
+  IF(HDF5_C_LIBRARIES)
+    SET(LIGGGHTS_HDF5_LIBS ${HDF5_C_LIBRARIES})
+  ELSE()
+    SET(LIGGGHTS_HDF5_LIBS ${HDF5_LIBRARIES})
+  ENDIF()
+  TARGET_LINK_LIBRARIES(liggghts_static PUBLIC ${LIGGGHTS_HDF5_LIBS})
+  TARGET_LINK_LIBRARIES(liggghts_shared PUBLIC ${LIGGGHTS_HDF5_LIBS})
+  TARGET_LINK_LIBRARIES(liggghts_bin PUBLIC ${LIGGGHTS_HDF5_LIBS})
+  SET(ENABLED_OPTIONS "${ENABLED_OPTIONS} HDF5")
+  MESSAGE(STATUS "Using parallel HDF5 ${HDF5_VERSION}: ${LIGGGHTS_HDF5_LIBS}")
+ELSE()
+  SET(DISABLED_OPTIONS "${DISABLED_OPTIONS} HDF5")
+ENDIF()
+
+#=======================================
 IF(ENABLE_SMALLBIG)
   IF(ENABLE_BIGBIG OR ENABLE_SMALLSMALL)
     MESSAGE(FATAL_ERROR "Use only one of these options: SMALLBIG, BIGBIG, SMALLSMALL")
@@ -533,7 +680,17 @@ MESSAGE(STATUS "liggghts ${LIGGGHTS_VERSION}")
 MESSAGE(STATUS "Enabled options:${ENABLED_OPTIONS}")
 MESSAGE(STATUS "Disabled options:${DISABLED_OPTIONS}")
 MESSAGE(STATUS "Enabled models:${ENABLED_MODELS}")
+MESSAGE(STATUS "Build type: ${CMAKE_BUILD_TYPE}; generated headers: ${LIGGGHTS_GENERATED_DIR}")
 MESSAGE(STATUS "=======================================")
+
+#=======================================
+# CTest (roadmap A1): the regression suites in ../tests run against the
+# liggghts_bin target of this build. See tests/CMakeLists.txt.
+IF(LIGGGHTS_ENABLE_TESTING AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../tests/CMakeLists.txt")
+  ENABLE_TESTING()
+  SET(LIGGGHTS_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+  ADD_SUBDIRECTORY("${CMAKE_CURRENT_SOURCE_DIR}/../tests" "${CMAKE_CURRENT_BINARY_DIR}/tests")
+ENDIF()
 
 #=======================================
 INSTALL(TARGETS liggghts_bin liggghts_static liggghts_shared

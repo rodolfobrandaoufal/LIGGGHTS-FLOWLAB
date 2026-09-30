@@ -6,7 +6,7 @@
 # Usage: check_identity.sh <ref_binary> <new_binary> [workdir]
 # Returns nonzero on any difference or failed run.
 set -u
-ROOT=/media/storage/LIGGGHTS-PUBLIC-v6
+ROOT=$(cd "$(dirname "$0")/../.." && pwd)
 REF=$(realpath $1); NEW=$(realpath $2)
 WD=${3:-$(mktemp -d)}
 fail=0
@@ -17,8 +17,8 @@ run_case () {  # src_case_dir deck np tag bin
   cp $src/$deck $d/; [ -d $src/meshes ] && cp -r $src/meshes $d/
   mkdir -p $d/post
   ( cd $d
-    if [ "$np" = 1 ]; then taskset -c 0-15 $bin -in $deck -log log.run > run.out 2>&1
-    else mpirun --oversubscribe -np $np taskset -c 0-15 $bin -in $deck -log log.run > run.out 2>&1; fi
+    if [ "$np" = 1 ]; then taskset -c ${LIGGGHTS_TEST_CPUS:-0-15} $bin -in $deck -log log.run > run.out 2>&1
+    else mpirun --oversubscribe -np $np taskset -c ${LIGGGHTS_TEST_CPUS:-0-15} $bin -in $deck -log log.run > run.out 2>&1; fi
     echo $? > rc )
 }
 thermo () { awk '/^ +Step/{on=1;next} /^Loop time/{on=0} on' $1; }

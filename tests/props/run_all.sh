@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 # props fix (A2) regression suite. Usage: run_all.sh [bin=lmp_fix_props]
+#   bin: a name under build_audit/bin/, or a path to a liggghts binary (CTest)
 # Returns nonzero if any check fails. With the pre-fix binary (lmp_release)
 # every physics check is expected to FAIL (reproduces C-01/F-01/V-11/F-09/F-10).
 set -u
-ROOT=/media/storage/LIGGGHTS-PUBLIC-v6
-B=${1:-lmp_fix_props}; BIN=$ROOT/build_audit/bin/$B
+ROOT=$(cd "$(dirname "$0")/../.." && pwd)
+B=${1:-lmp_fix_props}
+case $B in */*) BIN=$(realpath "$B"); B=$BIN;; *) BIN=$ROOT/build_audit/bin/$B;; esac
 D=$(cd "$(dirname "$0")" && pwd)
-W=${WORKDIR:-$ROOT/audit/fixes/props/runs/suite_$B}; rm -rf $W; mkdir -p $W; cd $W
+W=${WORKDIR:-$ROOT/audit/fixes/props/runs/suite_$(basename $B)}; rm -rf $W; mkdir -p $W; cd $W
 fail=0
 chk() { local name=$1; shift; if "$@" > $name.check 2>&1; then echo "PASS $name"; else echo "FAIL $name"; fail=1; fi; tail -n 2 $name.check | head -1 | sed 's/^/     /'; }
 $BIN -in $D/in.e_switch -log e_switch.log > /dev/null 2>&1;             chk e_switch python3 $D/check_e_switch.py e_switch.log

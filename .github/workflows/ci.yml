@@ -1,0 +1,103 @@
+# LIGGGHTS CI (roadmap A1; LIGGGHTS modernization branch).
+# Builds with the CMake presets in src/CMakePresets.json and runs the CTest
+# suites registered in tests/CMakeLists.txt.
+name: ci
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # OpenMPI on shared CI runners: allow more ranks than cores (the MPI tests
+  # use up to 8 ranks) and avoid the CMA single-copy path, which fails in
+  # containers without ptrace permission.
+  OMPI_MCA_rmaps_base_oversubscribe: "1"
+  OMPI_MCA_btl_vader_single_copy_mechanism: none
+  OMPI_MCA_hwloc_base_binding_policy: none
+
+jobs:
+  release:
+    name: release-hdf5 (ENABLE_SQ=${{ matrix.sq }})
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        sq: ["OFF", "ON"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            g++ cmake make libopenmpi-dev openmpi-bin libhdf5-openmpi-dev \
+            libboost-dev python3 python3-numpy python3-h5py
+
+      - name: Configure (preset release-hdf5)
+        working-directory: src
+        run: cmake --preset release-hdf5 -DENABLE_SQ=${{ matrix.sq }}
+
+      - name: Build
+        working-directory: src
+        run: cmake --build --preset release-hdf5 -j "$(nproc)"
+
+      - name: Test (regression, physics, mpi)
+        working-directory: build/release-hdf5
+        run: ctest -L 'regression|physics|mpi|io' --output-on-failure -j 2
+
+      - name: Upload test work directories on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ctest-work-release-sq${{ matrix.sq }}
+          path: |
+            build/release-hdf5/Testing/Temporary/LastTest.log
+            build/release-hdf5/tests/work/
+          retention-days: 7
+
+  debug-asan:
+    name: debug-asan (ASan + UBSan, test subset)
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            g++ cmake make libopenmpi-dev openmpi-bin libhdf5-openmpi-dev \
+            python3 python3-numpy python3-h5py
+
+      - name: Configure (preset debug-asan)
+        working-directory: src
+        run: cmake --preset debug-asan
+
+      - name: Build
+        working-directory: src
+        run: cmake --build --preset debug-asan -j "$(nproc)"
+
+      - name: Test (subset under the sanitizers)
+        working-directory: build/debug-asan
+        env:
+          ASAN_OPTIONS: detect_leaks=0
+          UBSAN_OPTIONS: print_stacktrace=1:halt_on_error=1:suppressions=${{ github.workspace }}/tests/sanitizers/ubsan.supp
+        run: >
+          ctest --output-on-failure -j 2
+          -R 'cleanup_|dispatch_suite|integration_suite|props_suite|whitelist_|tutorials_smoke'
+
+      - name: Upload test work directories on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ctest-work-debug-asan
+          path: |
+            build/debug-asan/Testing/Temporary/LastTest.log
+            build/debug-asan/tests/work/
+          retention-days: 7

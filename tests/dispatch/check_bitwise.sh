@@ -16,7 +16,7 @@ run_case() { # name src_dir deck np bin tag
   local d=$W/$1/$6; rm -rf "$d"; mkdir -p "$d"
   (cd "$2" && tar cf - --exclude='post/*' --exclude='log.*' --exclude='run.out' .) | (cd "$d" && tar xf -)
   mkdir -p "$d/post"
-  (cd "$d" && taskset -c 0-15 mpirun --oversubscribe -np $4 "$5" -in $3 > run.out 2>&1) || { echo "RUN FAILED: $d"; return 2; }
+  (cd "$d" && taskset -c ${LIGGGHTS_TEST_CPUS:-0-15} mpirun --oversubscribe -np $4 "$5" -in $3 > run.out 2>&1) || { echo "RUN FAILED: $d"; return 2; }
 }
 for np in 1 2; do
   for t in ref new; do b=$REF; [ $t = new ] && b=$NEW

@@ -1,0 +1,93 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": { "major": 3, "minor": 21, "patch": 0 },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "description": "Out-of-tree build in <repo>/build/<preset>; generated headers go to <build>/generated",
+      "binaryDir": "${sourceDir}/../build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "LIGGGHTS_ENABLE_TESTING": "ON"
+      }
+    },
+    {
+      "name": "release",
+      "displayName": "Release (-O3, IEEE floating point, portable)",
+      "inherits": "base",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
+    },
+    {
+      "name": "release-hdf5",
+      "displayName": "Release + parallel HDF5 dumps",
+      "inherits": "release",
+      "cacheVariables": { "LIGGGHTS_ENABLE_HDF5": "ON" }
+    },
+    {
+      "name": "release-native-hdf5",
+      "displayName": "Release + HDF5 + -march=native (same flags as the audit reference binaries)",
+      "inherits": "release-hdf5",
+      "cacheVariables": { "LIGGGHTS_NATIVE_ARCH": "ON" }
+    },
+    {
+      "name": "relwithdebinfo",
+      "displayName": "RelWithDebInfo (-O2 -g)",
+      "inherits": "base",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "RelWithDebInfo" }
+    },
+    {
+      "name": "relwithdebinfo-hdf5",
+      "displayName": "RelWithDebInfo + parallel HDF5 dumps",
+      "inherits": "relwithdebinfo",
+      "cacheVariables": { "LIGGGHTS_ENABLE_HDF5": "ON" }
+    },
+    {
+      "name": "debug-asan",
+      "displayName": "Debug -O1 with AddressSanitizer + UndefinedBehaviorSanitizer",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_CXX_FLAGS_DEBUG": "-O1 -g",
+        "LIGGGHTS_SANITIZE": "address,undefined"
+      }
+    },
+    {
+      "name": "debug-asan-hdf5",
+      "displayName": "Debug ASan+UBSan + parallel HDF5 dumps",
+      "inherits": "debug-asan",
+      "cacheVariables": { "LIGGGHTS_ENABLE_HDF5": "ON" }
+    }
+  ],
+  "buildPresets": [
+    { "name": "release",             "configurePreset": "release",             "targets": ["liggghts_bin"] },
+    { "name": "release-hdf5",        "configurePreset": "release-hdf5",        "targets": ["liggghts_bin"] },
+    { "name": "release-native-hdf5", "configurePreset": "release-native-hdf5", "targets": ["liggghts_bin"] },
+    { "name": "relwithdebinfo",      "configurePreset": "relwithdebinfo",      "targets": ["liggghts_bin"] },
+    { "name": "relwithdebinfo-hdf5", "configurePreset": "relwithdebinfo-hdf5", "targets": ["liggghts_bin"] },
+    { "name": "debug-asan",          "configurePreset": "debug-asan",          "targets": ["liggghts_bin"] },
+    { "name": "debug-asan-hdf5",     "configurePreset": "debug-asan-hdf5",     "targets": ["liggghts_bin"] }
+  ],
+  "testPresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "output": { "outputOnFailure": true },
+      "execution": { "noTestsAction": "error" }
+    },
+    { "name": "release",      "inherits": "base", "configurePreset": "release" },
+    { "name": "release-hdf5", "inherits": "base", "configurePreset": "release-hdf5" },
+    {
+      "name": "ci",
+      "inherits": "base",
+      "configurePreset": "release-hdf5",
+      "filter": { "include": { "label": "regression|physics|mpi|io" } }
+    },
+    {
+      "name": "debug-asan",
+      "inherits": "base",
+      "configurePreset": "debug-asan",
+      "environment": { "ASAN_OPTIONS": "detect_leaks=0", "UBSAN_OPTIONS": "print_stacktrace=1:halt_on_error=1:suppressions=${sourceDir}/../tests/sanitizers/ubsan.supp" }
+    }
+  ]
+}

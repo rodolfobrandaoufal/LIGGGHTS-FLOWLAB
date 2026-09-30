@@ -155,3 +155,6 @@ GRAN_MODEL(HERTZ, TANGENTIAL_HISTORY, COHESION_OFF, ROLLING_OFF, SURFACE_MULTICO
 // examples/LIGGGHTS/Tutorials_public/superquadric/in.particle_particle and
 // tests/regression/in.asphere_scheme4_requires_implicit (P0-05, C-05)
 GRAN_MODEL(HERTZ, TANGENTIAL_HISTORY, COHESION_OFF, ROLLING_EPSD2, SURFACE_SUPERQUADRIC)
+// rolling_friction luding with the Luding normal model, which stores the kc/fo
+// history that rolling luding reads (wave-2 hygiene request; C-14/C-15 follow-up)
+GRAN_MODEL(LUDING, TANGENTIAL_HISTORY, COHESION_OFF, ROLLING_LUDING, SURFACE_DEFAULT)

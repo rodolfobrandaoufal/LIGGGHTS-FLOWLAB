@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 # F-09/F-10 checks for fix property/global. Usage: check_validation.sh [bin=lmp_fix_props] [np=1]
+#   bin: a name under build_audit/bin/, or a path to a liggghts binary
 set -u
-ROOT=/media/storage/LIGGGHTS-PUBLIC-v6
-BIN=$ROOT/build_audit/bin/${1:-lmp_fix_props}; NP=${2:-1}
+ROOT=$(cd "$(dirname "$0")/../.." && pwd)
+case ${1:-lmp_fix_props} in */*) BIN=$(realpath "$1");; *) BIN=$ROOT/build_audit/bin/${1:-lmp_fix_props};; esac; NP=${2:-1}
 D=$(cd "$(dirname "$0")" && pwd)
-W=${WORKDIR:-$ROOT/audit/fixes/props/runs/validation_${1:-lmp_fix_props}_np$NP}
+W=${WORKDIR:-$ROOT/audit/fixes/props/runs/validation_$(basename ${1:-lmp_fix_props})_np$NP}
 rm -rf "$W"; mkdir -p "$W"; cd "$W"
 fail=0
 M3V="fix m3 all property/global coefficientRestitution peratomtypepair 1 v_cor every 1"

@@ -317,6 +317,21 @@ elif (test "$1" = "models" -o "$1" = "models_full") then
     rm -f $filteredfile
   fi
 
+  # version banner (P0-10): name the compiled contact-model whitelist and mark a
+  # modified git tree, as the CMake route does (version_liggghts.h is written
+  # by "Make.sh style", which "make <machine>" runs just before this step)
+  if (test -e version_liggghts.h) && ! grep -q "contact-model whitelist" version_liggghts.h; then
+    nWL=`grep -c '^GRAN_MODEL(' $stylefile`
+    wlsrc=${whiteLsource:-"all generated combinations"}
+    if (test -e $whiteLuserfile) then wlsrc="$wlsrc + $whiteLuserfile"; fi
+    if (test -e $whiteLautofile) then wlsrc="$wlsrc + $whiteLautofile"; fi
+    dirty=""
+    if git -C .. rev-parse > /dev/null 2>&1 && ! git -C .. diff-index --quiet HEAD -- > /dev/null 2>&1; then dirty="-dirty"; fi
+    sed -e "s/git commit \([0-9a-f][0-9a-f]*\)/git commit \1$dirty/" \
+        -e "s/\"\$/, contact-model whitelist: $nWL combinations from $wlsrc (+ runtime fallback)\"/" \
+        version_liggghts.h > version_liggghts.h.tmp && mv version_liggghts.h.tmp version_liggghts.h
+  fi
+
   echo "Creating list of contact models completed."
 
 fi

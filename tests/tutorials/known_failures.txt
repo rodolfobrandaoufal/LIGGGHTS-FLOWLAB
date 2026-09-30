@@ -1,0 +1,7 @@
+# Tutorial decks that fail for reasons unrelated to the build (pre-existing,
+# see audit/fixes/INTEGRATION.md). run_tutorials.sh reports them as XFAIL; the
+# smoke test fails only on OTHER failures. A listed deck that passes is
+# reported as XPASS (remove it from this list then).
+# <example>__<deck>  reason
+contactModels__in.oldModels                       pre-3.x pair style syntax ("Invalid pair style")
+insert_stream__in.insert_stream_reset_timestep    needs the restart file written by in.insert_stream (not chained)

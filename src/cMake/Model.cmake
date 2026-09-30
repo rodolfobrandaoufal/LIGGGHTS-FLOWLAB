@@ -16,8 +16,9 @@ OPTION(LIGGGHTS_CONTACT_WHITELIST_FROM_OPTIONS
        "Generate the contact-model whitelist as the cross product of the ENABLE_MODEL_* options instead of reading LIGGGHTS_CONTACT_WHITELIST" OFF)
 
 MACRO(WRITE_WHITELIST)
-    SET(fileName ${CMAKE_CURRENT_SOURCE_DIR}/style_contact_model.h)
-    SET(tmpFileName ${CMAKE_CURRENT_BINARY_DIR}/style_contact_model.h.tmp)
+    # generated into the build tree, not into src/ (P0-06)
+    SET(fileName ${LIGGGHTS_GENERATED_DIR}/style_contact_model.h)
+    SET(tmpFileName ${LIGGGHTS_GENERATED_DIR}/style_contact_model.h.tmp)
     # Create File
     GETDATETIME(NOW "%Y-%m-%d %H:%M:%S")
     FILE(WRITE ${tmpFileName} "/* created on ${NOW} */\n")
@@ -89,6 +90,10 @@ MACRO(WRITE_WHITELIST)
     FILE(REMOVE ${tmpFileName})
 
     SET(CONTACT_WHITELIST_COUNT ${N})
+    IF(N EQUAL 0)
+        MESSAGE(WARNING "The contact-model whitelist is empty: every pair gran / wall/gran "
+                        "combination will run through the slower runtime fallback.")
+    ENDIF()
     MESSAGE(STATUS "There are ${N} contact model combinations (source: ${CONTACT_WHITELIST_SOURCE})")
 ENDMACRO()
 
