@@ -1,0 +1,109 @@
+"LIGGGHTS(R)-PUBLIC WWW Site"_liws - "LIGGGHTS(R)-PUBLIC Documentation"_ld - "LIGGGHTS(R)-PUBLIC Commands"_lc :c
+
+:link(liws,http://www.cfdem.com)
+:link(ld,Manual.html)
+:link(lc,Section_commands.html#comm)
+
+:line
+
+package omp command :h3
+
+[Syntax:]
+
+package omp Nthreads keyword value ... :pre
+
+Nthreads = number of OpenMP threads per MPI rank, or * (or 0) = use the OMP_NUM_THREADS environment variable (1 if it is not set) :ulb,l
+zero or more keyword/value pairs may be appended :l
+keyword = {deterministic} or {chunk} :l
+  {deterministic} value = {yes} or {no}
+    {yes} = fixed force summation order: results do not depend on the thread count and are bitwise identical to the unthreaded code (default)
+    {no} = per-thread force arrays reduced in thread order: bitwise reproducible only for a fixed thread count
+  {chunk} value = N
+    N = 0: each thread handles one contiguous block of particles (default)
+    N > 0: dynamic scheduling in chunks of N particles with all contact contributions stored (deterministic mode only; results unchanged, usually slower) :pre
+:ule
+
+[Examples:]
+
+package omp 4
+package omp * deterministic no
+mpirun -np 4 -x OMP_NUM_THREADS=4 liggghts -sf omp -in in.script :pre
+
+[Description:]
+
+This command sets how the OpenMP-threaded granular kernels run. It is
+only available in a binary built with the CMake option
+-DLIGGGHTS_ENABLE_OPENMP=ON (preset release-native-hdf5-omp, see
+"Section_start"_Section_start.html); a binary built without it stops
+with an error.  It must be used before the simulation box is defined
+(before "create_box"_create_box.html, "read_data"_read_data.html or
+"read_restart"_read_restart.html).  The command-line switch "-sf omp"
+is equivalent to "package omp *" and in addition selects the /omp
+variants of styles where they exist.
+
+Threaded are:
+
+"pair_style gran"_pair_gran.html (all contact models, including the runtime-composed fallback),
+"fix wall/gran"_fix_wall_gran.html with primitive walls and with mesh walls (including contact history and "fix mesh/surface/stress"_fix_mesh_surface.html force, stress and wear),
+fix nve/sphere/omp (the /omp variant of "fix nve/sphere"_fix_nve_sphere.html; selected by -sf omp or by name). :ul
+
+Everything else (neighbor-list build, communication, other fixes and
+computes) runs on one thread per MPI rank.  Hybrid runs (MPI ranks x
+OpenMP threads) therefore gain most when pair gran dominates the run
+time.
+
+[Runtime thread count:] without a package command, the number of
+threads is the value of the environment variable OMP_NUM_THREADS (read
+at start-up; 1 if it is not set) and the deterministic mode is used.
+With mpirun, pin each rank to its own set of cores (e.g. OpenMPI
+"--map-by slot:PE=4 --bind-to core", or a wrapper script such as
+audit/fixes/phaseC/omp/scripts/pinomp.sh) and set OMP_PROC_BIND.
+
+[Deterministic mode (default):] every contact of a particle pair is
+evaluated by the thread that owns the first particle of the pair in the
+neighbor list, so the contact history of that pair is written by one
+thread only.  Each thread owns a contiguous block of neighbor-list rows
+(particles).  Contacts between particles of different blocks are
+evaluated first and their contributions stored; afterwards each thread
+adds all contributions to its own particles in exactly the order of the
+unthreaded loop.  Results are therefore bitwise identical for any
+number of threads, and identical to a binary built without OpenMP.  On
+steps with an energy/virial tally (e.g. a pressure compute), with
+newton pair on, or with {chunk} > 0, every contact contribution is
+stored and summed per particle in the same order (same results, more
+memory traffic).  This covers only the thread count: results still
+change with the number of MPI ranks (the summation order depends on the
+domain decomposition).
+
+[Per-thread mode (deterministic no):] each thread adds its
+contributions to a private force array; the arrays are summed in thread
+order.  Results are reproducible for a fixed number of threads, but
+differ in the last bits for different thread counts.  It was not faster
+than the deterministic mode in the benchmarks of
+audit/fixes/phaseC/omp/REPORT.md.
+
+[Restrictions:]
+
+The threaded kernels fall back to the unthreaded code, with a one-time
+warning, when a feature that writes shared data from the contact loop
+is used: cohesion models easo/capillary/viscous and
+washino/capillary/viscous, surface models other than default,
+correctRestitution on, computeDissipatedEnergy on, compute
+pair/gran/local and compute wall/gran/local (only on the steps they are
+evaluated), per-contact force storage (fix contactproperty/atom), the
+multicontact model, the sum of normal forces per atom, wall heat
+transfer, superquadric and convex particles, and fix
+insert/stream/predefined.  The setup step of each run always uses the
+unthreaded code.
+
+Not supported with run_style respa.  In an input script the command
+creates an internal fix with ID package_omp, which also clears the
+force arrays each step (as in the LAMMPS OPENMP package).
+
+[Related commands:]
+
+"pair_style gran"_pair_gran.html, "fix wall/gran"_fix_wall_gran.html
+
+[Default:]
+
+Nthreads = OMP_NUM_THREADS (1 if not set), deterministic = yes, chunk = 0.

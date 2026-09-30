@@ -149,6 +149,8 @@ OPTION(LIGGGHTS_FAST_MATH "Compile with -ffast-math (changes floating-point resu
 OPTION(LIGGGHTS_NATIVE_ARCH "Compile with -march=native (binary only runs on CPUs like the build host)" OFF)
 OPTION(LIGGGHTS_MATH_ERRNO "Keep errno semantics for libm calls. OFF adds -fno-math-errno: no measured speed-up, and NOT bitwise identical for some contact models (hooke/hysteresis); see audit/fixes/phaseC/kernel/REPORT.md" ON)
 OPTION(LIGGGHTS_NO_CONTACT_MODEL_FALLBACK "Strict mode: contact-model combinations outside the whitelist are an error instead of running through the runtime fallback" OFF)
+OPTION(LIGGGHTS_ENABLE_OPENMP "OpenMP threading of pair gran and fix wall/gran (runtime: OMP_NUM_THREADS or 'package omp'; doc/package_omp.txt). OFF builds exactly the serial code" OFF)
+OPTION(LIGGGHTS_OPENMP_SERIAL_BITWISE "With LIGGGHTS_ENABLE_OPENMP: compile the threaded pair kernel with -fno-inline so that its results are bitwise identical to the serial kernel (costs ~10% Pair time; OFF: identical for all thread counts >= 2, but some models then differ in the last bits from 1 thread)" ON)
 SET(LIGGGHTS_SANITIZE "" CACHE STRING "Comma-separated -fsanitize= list, e.g. address,undefined (empty = none)")
 OPTION(LIGGGHTS_ENABLE_TESTING "Register the tests in ../tests with CTest" ON)
 
@@ -254,6 +256,27 @@ ENDIF()
 IF(LIGGGHTS_NO_CONTACT_MODEL_FALLBACK)
   ADD_DEFINITIONS(-DLIGGGHTS_NO_CONTACT_MODEL_FALLBACK)
   SET(ENABLED_OPTIONS "${ENABLED_OPTIONS} NO_CONTACT_MODEL_FALLBACK")
+ENDIF()
+
+# roadmap C2/B8: OpenMP threading of the granular pair and wall kernels.
+# With the option OFF no OpenMP flag and no LIGGGHTS_OMP define is added, so
+# the preprocessed sources equal the serial build.
+IF(LIGGGHTS_ENABLE_OPENMP)
+  FIND_PACKAGE(OpenMP REQUIRED COMPONENTS CXX)
+  SET(OPT_CXX_FLAGS "${OPT_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+  ADD_DEFINITIONS(-DLIGGGHTS_OMP)
+  # threaded pair kernel: no inlining, so every contact sub-model call goes to
+  # the same out-of-line code as the serial kernel in lammps.cpp (first in
+  # link order); inlining would change FMA contraction and break the bitwise
+  # equality of the deterministic mode with the serial kernel
+  IF(LIGGGHTS_OPENMP_SERIAL_BITWISE)
+    SET_SOURCE_FILES_PROPERTIES(pair_gran_omp.cpp PROPERTIES COMPILE_OPTIONS "-fno-inline")
+  ELSE()
+    SET(ENABLED_OPTIONS "${ENABLED_OPTIONS} OPENMP_NOT_SERIAL_BITWISE")
+  ENDIF()
+  SET(ENABLED_OPTIONS "${ENABLED_OPTIONS} OPENMP")
+ELSE()
+  SET(DISABLED_OPTIONS "${DISABLED_OPTIONS} OPENMP")
 ENDIF()
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OPT_CXX_FLAGS}")
@@ -425,6 +448,12 @@ SET_PROPERTY(TARGET liggghts_shared PROPERTY PUBLIC_HEADER ${HEADERS})
 
 ADD_EXECUTABLE(liggghts_bin $<TARGET_OBJECTS:liggghts_obj>)
 SET_TARGET_PROPERTIES(liggghts_bin PROPERTIES OUTPUT_NAME liggghts)
+
+IF(LIGGGHTS_ENABLE_OPENMP)
+  TARGET_LINK_LIBRARIES(liggghts_static PUBLIC OpenMP::OpenMP_CXX)
+  TARGET_LINK_LIBRARIES(liggghts_shared PUBLIC OpenMP::OpenMP_CXX)
+  TARGET_LINK_LIBRARIES(liggghts_bin PUBLIC OpenMP::OpenMP_CXX)
+ENDIF()
 
 #=======================================
 IF(ENABLE_MPI)

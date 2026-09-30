@@ -31,6 +31,12 @@
       "cacheVariables": { "LIGGGHTS_NATIVE_ARCH": "ON" }
     },
     {
+      "name": "release-native-hdf5-omp",
+      "displayName": "release-native-hdf5 + OpenMP threading of pair gran / fix wall/gran (package omp)",
+      "inherits": "release-native-hdf5",
+      "cacheVariables": { "LIGGGHTS_ENABLE_OPENMP": "ON" }
+    },
+    {
       "name": "relwithdebinfo",
       "displayName": "RelWithDebInfo (-O2 -g)",
       "inherits": "base",
@@ -63,6 +69,7 @@
     { "name": "release",             "configurePreset": "release",             "targets": ["liggghts_bin"] },
     { "name": "release-hdf5",        "configurePreset": "release-hdf5",        "targets": ["liggghts_bin"] },
     { "name": "release-native-hdf5", "configurePreset": "release-native-hdf5", "targets": ["liggghts_bin"] },
+    { "name": "release-native-hdf5-omp", "configurePreset": "release-native-hdf5-omp", "targets": ["liggghts_bin"] },
     { "name": "relwithdebinfo",      "configurePreset": "relwithdebinfo",      "targets": ["liggghts_bin"] },
     { "name": "relwithdebinfo-hdf5", "configurePreset": "relwithdebinfo-hdf5", "targets": ["liggghts_bin"] },
     { "name": "debug-asan",          "configurePreset": "debug-asan",          "targets": ["liggghts_bin"] },

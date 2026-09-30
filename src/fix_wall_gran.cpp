@@ -79,6 +79,11 @@
 #include <string>
 #include "utils.h"
 
+#ifdef LIGGGHTS_OMP
+#include <omp.h>
+#include "thr_granular.h"
+#endif
+
 #ifdef SUPERQUADRIC_ACTIVE_FLAG
   #include "math_extra_liggghts_nonspherical.h"
 #endif
@@ -105,6 +110,16 @@ FixWallGran::FixWallGran(LAMMPS *lmp, int narg, char **arg) :
   impl(NULL),
   fix_sum_normal_force_(NULL)
 {
+#ifdef LIGGGHTS_OMP
+    // OpenMP (roadmap C2): contact-model options that are not thread-safe
+    {
+        const std::string why = LIGGGHTS::ThrGranular::unsafe_model_keywords(narg, arg);
+        LIGGGHTS::ThrGranular::set_unsafe(this, why);
+        if (!why.empty() && LIGGGHTS::ThrGranular::config(lmp).nthreads > 1)
+            LIGGGHTS::ThrGranular::fallback_warning(lmp, this, "fix wall/gran", why);
+    }
+#endif
+
     // wall/gran requires gran properties
     // sph not
     if (strncmp(style,"wall/gran",9) == 0 && (!atom->radius_flag || !atom->omega_flag || !atom->torque_flag))
@@ -571,6 +586,9 @@ void FixWallGran::pre_delete(bool unfixflag)
 
 FixWallGran::~FixWallGran()
 {
+#ifdef LIGGGHTS_OMP
+    LIGGGHTS::ThrGranular::forget(this);
+#endif
     if(primitiveWall_ != 0) delete primitiveWall_;
     if(FixMesh_list_) delete []FixMesh_list_;
     delete impl;
@@ -847,12 +865,207 @@ void FixWallGran::post_force_respa(int vflag, int ilevel, int iloop)
     if (ilevel == nlevels_respa_-1) post_force(vflag);
 }
 
+#ifdef LIGGGHTS_OMP
+/* ----------------------------------------------------------------------
+   OpenMP (roadmap C2): number of threads for this call of the wall kernel.
+   1 selects the unchanged serial code path. why = runtime condition that
+   is not thread-safe ("" if none); model options are in the registry.
+------------------------------------------------------------------------- */
+
+static int thr_wall_nthreads(LAMMPS *lmp, FixWallGran *owner, std::string why)
+{
+    const LIGGGHTS::ThrGranular::Config cfg = LIGGGHTS::ThrGranular::config(lmp);
+    if (cfg.nthreads <= 1) return 1;
+    if (why.empty()) why = LIGGGHTS::ThrGranular::unsafe_reason(owner);
+    if (why.empty()) return cfg.nthreads;
+    if (!lmp->update->setupflag)
+        LIGGGHTS::ThrGranular::fallback_warning(lmp, owner, "fix wall/gran", why);
+    return 1;
+}
+
+// scratch of the threaded mesh-wall loop (wall fixes run one after another)
+namespace {
+struct ThrMeshRecord {      // mesh-stress contribution of one contact
+    int valid, ip, iTri;
+    double f[3], delta[3], vwall[3];
+};
+struct ThrMeshScratch {
+    std::vector<int> slot_tri, slot_atom, start, order, atoms;
+    std::vector<ThrMeshRecord> rec;
+};
+ThrMeshScratch thr_mesh_scratch;
+}
+#endif
+
 /* ----------------------------------------------------------------------
    post_force for mesh wall
 ------------------------------------------------------------------------- */
 
 void FixWallGran::post_force_mesh(int vflag)
 {
+#ifdef LIGGGHTS_OMP
+  {
+    std::string thr_why;
+    if (update->setupflag) thr_why = "setup";
+    else if (!impl) thr_why = "legacy (non-granular) wall force";
+    else if (atom->superquadric_flag) thr_why = "superquadric particles";
+    else if (atom->shapetype_flag) thr_why = "non-spherical (convex) particles";
+    else if (cwl_ && addflag_) thr_why = "compute wall/gran/local";
+    else if (heattransfer_flag_) thr_why = "wall heat transfer";
+    else if (store_force_contact_ || store_force_contact_stress_) thr_why = "per-contact wall force storage";
+    else if (impl->get_history_offset("dissipation_force") >= 0) thr_why = "dissipated-energy tracking";
+    else
+        for(int iMesh = 0; iMesh < n_FixMesh_; iMesh++)
+            if (FixMesh_list_[iMesh]->meshMulticontactData()) thr_why = "multicontact mesh data";
+    const int nthr = thr_wall_nthreads(lmp, this, thr_why);
+    if (nthr > 1)
+    {
+      /* OpenMP (roadmap C2): each particle handles its own contacts, in the
+         order of the serial triangle loop (so f, torque and the per-particle
+         mesh contact history are touched by one thread and in serial order);
+         the mesh-stress contributions are recorded per contact and applied
+         afterwards in serial order. Bitwise identical to the serial loop for
+         any thread count. */
+      double *radius = atom->radius;
+      const int nlocal = atom->nlocal;
+      const double contactDistanceMultiplier = neighbor->contactDistanceFactor - 1.0;
+      ThrMeshScratch &ts = thr_mesh_scratch;
+
+      for(int iMesh = 0; iMesh < n_FixMesh_; iMesh++)
+      {
+        FixMeshSurface *fix_mesh = FixMesh_list_[iMesh];
+        TriMesh *mesh = fix_mesh->triMesh();
+        const int nTriAll = mesh->sizeLocal() + mesh->sizeGhost();
+        FixContactHistoryMesh *fix_contact = fix_mesh->contactHistory();
+
+        if(fix_contact) fix_contact->markAllContacts();
+
+        fix_store_multicontact_data_ = fix_mesh->meshMulticontactData();
+        FixNeighlistMesh * meshNeighlist = fix_mesh->meshNeighlist();
+
+        MultiVectorContainer<double,3,3> *vMeshC = mesh->prop().getElementProperty<MultiVectorContainer<double,3,3> >("v");
+        double ***vMesh = vMeshC ? vMeshC->begin() : 0;
+
+        atom_type_wall_ = fix_mesh->atomTypeWall();
+
+        // enumerate the contacts of owned particles in serial-loop order
+        ts.slot_tri.clear();
+        ts.slot_atom.clear();
+        ts.start.assign(nlocal+1, 0);
+        for(int iTri = 0; iTri < nTriAll; iTri++)
+        {
+          const std::vector<int> & neighborList = meshNeighlist->get_contact_list(iTri);
+          const int numneigh = neighborList.size();
+          for(int iCont = 0; iCont < numneigh; iCont++)
+          {
+            const int iPart = neighborList[iCont];
+            if (iPart >= nlocal) continue;
+            ts.slot_tri.push_back(iTri);
+            ts.slot_atom.push_back(iPart);
+            ts.start[iPart+1]++;
+          }
+        }
+        const int nslot = ts.slot_tri.size();
+        ts.atoms.clear();
+        for(int k = 0; k < nlocal; k++)
+        {
+          if (ts.start[k+1] > 0) ts.atoms.push_back(k);
+          ts.start[k+1] += ts.start[k];
+        }
+        ts.order.resize(nslot);
+        {
+          std::vector<int> fill(ts.start.begin(), ts.start.end()-1);
+          for(int sl = 0; sl < nslot; sl++)
+            ts.order[fill[ts.slot_atom[sl]]++] = sl;
+        }
+        ts.rec.resize(nslot);
+        const int natoms_c = ts.atoms.size();
+
+        #pragma omp parallel num_threads(nthr)
+        {
+          SurfacesIntersectData sidata;
+          sidata.is_wall = true;
+          sidata.mesh = mesh;
+          sidata.fix_mesh = fix_mesh;
+          double v_wall[3], bary[3], delta[3], deltan;
+          int barysign = -1;
+          vectorZeroize3D(v_wall);
+
+          #pragma omp for schedule(dynamic,16)
+          for(int a = 0; a < natoms_c; a++)
+          {
+            const int iPart = ts.atoms[a];
+            for(int e = ts.start[iPart]; e < ts.start[iPart+1]; e++)
+            {
+              const int sl = ts.order[e];
+              const int iTri = ts.slot_tri[sl];
+              const int idTri = mesh->id(iTri);
+              ts.rec[sl].valid = 0;
+
+              sidata.radi = radius_ ? radius_[iPart] : r0_;
+              deltan = mesh->resolveTriSphereContactBary(iPart, iTri, sidata.radi, x_[iPart], delta, bary, barysign, true);
+
+              if(deltan > cutneighmax_) continue;
+
+              sidata.i = iPart;
+              const bool intersectflag = (deltan <= 0);
+
+              if(deltan <= 0 || (radius && deltan < contactDistanceMultiplier*radius[iPart]))
+              {
+                if(fix_contact && ! fix_contact->handleContact(iPart,idTri,sidata.contact_history,intersectflag,7 == barysign)) continue;
+
+                if(vMeshC)
+                {
+                  for(int i = 0; i < 3; i++)
+                    v_wall[i] = (bary[0]*vMesh[iTri][0][i] + bary[1]*vMesh[iTri][1][i] + bary[2]*vMesh[iTri][2][i]);
+                }
+
+                if(!sidata.is_non_spherical || atom->superquadric_flag)
+                  sidata.deltan   = -deltan;
+                sidata.delta[0] = -delta[0];
+                sidata.delta[1] = -delta[1];
+                sidata.delta[2] = -delta[2];
+
+                // fix_mesh = NULL: compute_force() then skips the mesh-stress
+                // call; its contribution f_pw = f - f_old (same arithmetic as
+                // in Walls::Granular::compute_force) is recorded here and
+                // applied below in serial order
+                double * const f_ip = atom->f[iPart];
+                double force_old[3];
+                vectorCopy3D(f_ip,force_old);
+                impl->compute_force(this, sidata, intersectflag,v_wall,0,iMesh,mesh,iTri);
+                if(sidata.has_force_update)
+                {
+                  ThrMeshRecord & r = ts.rec[sl];
+                  vectorSubtract3D(f_ip,force_old,r.f);
+                  r.delta[0] = -sidata.delta[0];
+                  r.delta[1] = -sidata.delta[1];
+                  r.delta[2] = -sidata.delta[2];
+                  vectorCopy3D(v_wall,r.vwall);
+                  r.ip = iPart;
+                  r.iTri = iTri;
+                  r.valid = 1;
+                }
+              }
+            }
+          }
+        }
+
+        // mesh-stress contributions in the order of the serial loop
+        for(int sl = 0; sl < nslot; sl++)
+        {
+          ThrMeshRecord & r = ts.rec[sl];
+          if (r.valid)
+            fix_mesh->add_particle_contribution(r.ip, r.f, r.delta, r.iTri, r.vwall);
+        }
+
+        if(fix_contact) fix_contact->cleanUpContacts();
+      }
+      return;
+    }
+  }
+#endif
+
     
     // contact properties
     double v_wall[3],bary[3];
@@ -1031,6 +1244,86 @@ void FixWallGran::post_force_mesh(int vflag)
 
 void FixWallGran::post_force_primitive(int vflag)
 {
+#ifdef LIGGGHTS_OMP
+  {
+    std::string thr_why;
+    if (update->setupflag) thr_why = "setup";
+    else if (!impl) thr_why = "legacy (non-granular) wall force";
+    else if (atom->superquadric_flag) thr_why = "superquadric particles";
+    else if (atom->shapetype_flag) thr_why = "non-spherical (convex) particles";
+    else if (cwl_ && addflag_) thr_why = "compute wall/gran/local";
+    else if (heattransfer_flag_) thr_why = "wall heat transfer";
+    else if (store_force_contact_ || store_force_contact_stress_) thr_why = "per-contact wall force storage";
+    else if (impl->get_history_offset("dissipation_force") >= 0) thr_why = "dissipated-energy tracking";
+    else if (fix_store_multicontact_data_) thr_why = "multicontact data";
+    const int nthr = thr_wall_nthreads(lmp, this, thr_why);
+    if (nthr > 1)
+    {
+      /* OpenMP (roadmap C2): every particle appears once in the primitive
+         wall neighbour list, so iterations touch disjoint atoms; results are
+         bitwise identical to the serial loop for any thread count. */
+      int *mask = atom->mask;
+      double *radius = atom->radius;
+      const double contactDistanceMultiplier = neighbor->contactDistanceFactor - 1.0;
+      double **c_history = 0;
+      if(dnum() > 0)
+        c_history = fix_history_primitive_->array_atom;
+
+      int *neighborList;
+      const int nNeigh = primitiveWall_->getNeighbors(neighborList);
+
+      #pragma omp parallel num_threads(nthr)
+      {
+        SurfacesIntersectData sidata;
+        sidata.is_wall = true;
+        double delta[3]={},deltan,rdist[3];
+        double v_wall[] = {0.,0.,0.};
+        if (shear_) v_wall[shearDim_] = vshear_;
+
+        #pragma omp for schedule(dynamic,64)
+        for (int iCont = 0; iCont < nNeigh; iCont++)
+        {
+          const int iPart = neighborList[iCont];
+
+          if(!(mask[iPart] & groupbit)) continue;
+
+          sidata.radi = radius_ ? radius_[iPart] : r0_;
+          deltan = primitiveWall_->resolveContact(x_[iPart], sidata.radi, delta);
+
+          if(deltan>cutneighmax_) continue;
+
+          if(deltan <= 0 || deltan < contactDistanceMultiplier*radius[iPart])
+          {
+            const bool intersectflag = (deltan <= 0);
+
+            if(shear_ && shearAxis_ >= 0)
+            {
+                primitiveWall_->calcRadialDistance(x_[iPart],rdist);
+                vectorCross3D(shearAxisVec_,rdist,v_wall);
+            }
+            sidata.i = iPart;
+            sidata.contact_history = c_history ? c_history[iPart] : NULL;
+
+            if(!sidata.is_non_spherical || atom->superquadric_flag)
+              sidata.deltan   = -deltan;
+            sidata.delta[0] = -delta[0];
+            sidata.delta[1] = -delta[1];
+            sidata.delta[2] = -delta[2];
+
+            impl->compute_force(this, sidata, intersectflag, v_wall);
+          }
+          else
+          {
+            if(c_history)
+              vectorZeroizeN(c_history[iPart],dnum_);
+          }
+        }
+      }
+      return;
+    }
+  }
+#endif
+
   int *mask = atom->mask;
 
   SurfacesIntersectData sidata;

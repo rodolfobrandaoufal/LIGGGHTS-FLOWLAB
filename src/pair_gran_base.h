@@ -65,6 +65,10 @@
 
 #include "granular_pair_style.h"
 
+#ifdef LIGGGHTS_OMP
+#include "thr_granular.h"
+#endif
+
 namespace LIGGGHTS {
 using namespace ContactModels;
 
@@ -78,6 +82,10 @@ class Granular : private Pointers, public IGranularPairStyle {
   ForceData * aligned_i_forces;
   ForceData * aligned_j_forces;
   ContactModel cmodel;
+#ifdef LIGGGHTS_OMP
+  // OpenMP kernel state (thr_granular.h, pair_gran_omp.cpp)
+  LIGGGHTS::ThrGranular::PairState * thr_state_ = NULL;
+#endif
 
   inline void force_update(double relax,double *const f, double *const torque,
       const ForceData & forces)
@@ -102,6 +110,9 @@ public:
     aligned_free(aligned_sidata);
     aligned_free(aligned_i_forces);
     aligned_free(aligned_j_forces);
+#ifdef LIGGGHTS_OMP
+    LIGGGHTS::ThrGranular::pair_state_free(thr_state_);
+#endif
   }
 
   int64_t hashcode()
@@ -184,7 +195,24 @@ public:
     return cmodel.stressStrainExponent();
   }
 
+#ifdef LIGGGHTS_OMP
+  // OpenMP kernel (roadmap C2/B8). Defined in pair_gran_omp.cpp and
+  // explicitly instantiated there, so that this translation unit (which
+  // instantiates all contact models) and hence the serial kernel's code
+  // generation stay unchanged. Returns false if the serial kernel must run.
+  bool compute_force_thr(PairGran * pg, int eflag, int vflag, int addflag);
+
   virtual void compute_force(PairGran * pg, int eflag, int vflag, int addflag)
+  {
+    if (!compute_force_thr(pg, eflag, vflag, addflag))
+      compute_force_serial(pg, eflag, vflag, addflag);
+  }
+
+  // the unchanged serial kernel
+  void compute_force_serial(PairGran * pg, int eflag, int vflag, int addflag)
+#else
+  virtual void compute_force(PairGran * pg, int eflag, int vflag, int addflag)
+#endif
   {
     if (eflag || vflag)
       pg->ev_setup(eflag, vflag);

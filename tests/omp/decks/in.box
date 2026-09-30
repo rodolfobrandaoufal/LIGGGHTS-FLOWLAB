@@ -1,0 +1,51 @@
+# OpenMP regression deck (LIGGGHTS modernization branch, omp agent C2/B8)
+# vars: nt (threads, 0 = no package command), det (yes|no)
+variable nt  index 0
+variable det index yes
+variable chunk index 0
+if "${nt} > 0" then "package omp ${nt} deterministic ${det} chunk ${chunk}"
+atom_style    granular
+atom_modify   map array
+boundary      f f f
+newton        off
+communicate   single vel yes
+units         si
+region        domain block -0.02 0.02 -0.02 0.02 0.0 0.06 units box
+create_box    2 domain
+neighbor      0.0008 bin
+neigh_modify  delay 0
+fix  m1 all property/global youngsModulus peratomtype 5.e6 7.e6
+fix  m2 all property/global poissonsRatio peratomtype 0.3 0.35
+fix  m3 all property/global coefficientRestitution peratomtypepair 2 0.5 0.6 0.6 0.7
+fix  m4 all property/global coefficientFriction peratomtypepair 2 0.5 0.4 0.4 0.3
+fix  m5 all property/global cohesionEnergyDensity peratomtypepair 2 3000 3000 3000 3000
+fix  m6 all property/global coefficientRollingFriction peratomtypepair 2 0.05 0.05 0.05 0.05
+pair_style  gran model hertz tangential history cohesion sjkr rolling_friction epsd2
+pair_coeff  * *
+fix  w1 all wall/gran model hertz tangential history primitive type 1 zplane 0.0
+fix  w2 all wall/gran model hertz tangential history primitive type 1 xplane -0.02
+fix  w3 all wall/gran model hertz tangential history primitive type 1 xplane 0.02
+fix  w4 all wall/gran model hertz tangential history primitive type 1 yplane -0.02
+fix  w5 all wall/gran model hertz tangential history primitive type 1 yplane 0.02
+lattice       sc 0.0042
+region        fill block -0.018 0.018 -0.018 0.018 0.003 0.05 units box
+create_atoms  1 region fill
+set type 1 type/fraction 2 0.5 15485863
+set atom * diameter 0.004 density 2500
+displace_atoms all random 0.0004 0.0004 0.0004 32452843 units box
+fix gravi all gravity 9.81 vector 0.1 0.2 -1.0
+variable integ index nve/sphere
+fix integr all ${integ}
+timestep 2e-6
+compute rke all erotate/sphere
+compute pgl all pair/gran/local pos force
+compute tmp all temp
+compute pr all pressure tmp virial
+thermo_style custom step atoms ke c_rke c_pr
+thermo_modify format float %.17g
+thermo 500
+dump d1 all custom 1500 post/dump*.txt id x y z vx vy vz fx fy fz omegax omegay omegaz tqx tqy tqz
+dump_modify d1 format "%d %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g" sort id
+dump d2 all local 1500 post/local*.txt c_pgl[1] c_pgl[2] c_pgl[3] c_pgl[4] c_pgl[5] c_pgl[6] c_pgl[7] c_pgl[8] c_pgl[9]
+run 3000
+run 1500

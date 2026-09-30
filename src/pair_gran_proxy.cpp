@@ -51,6 +51,10 @@
 #include "utils.h"
 #include <string>
 
+#ifdef LIGGGHTS_OMP
+#include "thr_granular.h"
+#endif
+
 using namespace LAMMPS_NS;
 
 PairGranProxy::PairGranProxy(LAMMPS * lmp) : PairGran(lmp), impl(NULL)
@@ -60,17 +64,35 @@ PairGranProxy::PairGranProxy(LAMMPS * lmp) : PairGran(lmp), impl(NULL)
 PairGranProxy::~PairGranProxy()
 {
   delete impl;
+#ifdef LIGGGHTS_OMP
+  LIGGGHTS::ThrGranular::forget(static_cast<PairGran*>(this));
+#endif
 }
 
 void PairGranProxy::settings(int nargs, char ** args)
 {
   delete impl;
+#ifdef LIGGGHTS_OMP
+  // all pair_style arguments, before the model keywords are consumed below
+  const int thr_nargs = nargs;
+  char ** const thr_args = args;
+#endif
 
   //TODO add additional map here which maps tangential "custom" to "history"
   int64_t variant = LIGGGHTS::PairStyles::Factory::instance().selectVariant("gran", nargs, args,force->custom_contact_models);
   if (variant == -1)
       error->all(FLERR, "Invalid model specified (check for typos and enable at least one model)");
   impl = LIGGGHTS::PairStyles::Factory::instance().create("gran", variant, lmp, this);
+
+#ifdef LIGGGHTS_OMP
+  // OpenMP (roadmap C2): contact-model options that are not thread-safe
+  {
+    const std::string why = LIGGGHTS::ThrGranular::unsafe_model_keywords(thr_nargs, thr_args);
+    LIGGGHTS::ThrGranular::set_unsafe(static_cast<PairGran*>(this), why);
+    if (!why.empty() && LIGGGHTS::ThrGranular::config(lmp).nthreads > 1)
+      LIGGGHTS::ThrGranular::fallback_warning(lmp, static_cast<PairGran*>(this), "pair gran", why);
+  }
+#endif
 
   if(impl) {
     impl->settings(nargs, args, this);
