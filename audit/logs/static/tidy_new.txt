@@ -1,0 +1,413 @@
+# clang-tidy unique diagnostics: modified=1631 baseline=1333 new(line-insensitive)=336
+# new by check:
+#   114 cppcoreguidelines-pro-bounds-avoid-unchecked-container-access
+#    85 modernize-use-nullptr
+#    36 cppcoreguidelines-explicit-virtual-functions,modernize-use-override
+#    16 cppcoreguidelines-owning-memory
+#    16 modernize-use-nodiscard
+#    11 cppcoreguidelines-use-enum-class
+#    11 performance-enum-size
+#    10 bugprone-casting-through-void
+#     9 modernize-use-using
+#     9 modernize-loop-convert
+#     5 cppcoreguidelines-use-default-member-init,modernize-use-default-member-init
+#     5 modernize-deprecated-headers
+#     5 modernize-use-auto
+#     4 modernize-use-noexcept
+#     4 bugprone-implicit-widening-of-multiplication-result
+#     4 bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions
+#     3 modernize-use-equals-default
+#     3 cppcoreguidelines-special-member-functions
+#     2 cppcoreguidelines-macro-usage
+#     2 cppcoreguidelines-pro-type-union-access
+#     2 cppcoreguidelines-non-private-member-variables-in-classes
+#     1 cppcoreguidelines-no-malloc
+#     1 modernize-concat-nested-namespaces
+#     1 modernize-use-emplace
+#     1 cppcoreguidelines-pro-type-static-cast-downcast
+#     1 cppcoreguidelines-avoid-non-const-global-variables
+#     1 cppcoreguidelines-prefer-member-initializer
+# new by file:
+#   113 dump_mesh_hdf5.cpp
+#    68 dump_hdf5.cpp
+#    58 aligned_particle_soa.h
+#    21 fix_property_global.cpp
+#    14 cohesion_model_generalized_adhesion.h
+#    14 fix_property_global.h
+#    11 dump_mesh_hdf5.h
+#    10 fix_adapt_liggghts.cpp
+#     9 fix_adapt_liggghts.h
+#     7 dump_hdf5.h
+#     6 dump_custom.cpp
+#     6 velocity.cpp
+#     5 cohesion_model_easo_capillary_viscous.h
+#     5 compute_property_atom.h
+#     5 dump_custom.h
+#     3 neighbor.cpp
+#     2 fix_neighlist_mesh.h
+#     2 fix_wall_gran.cpp
+#     1 fix_nve.h
+#     1 global_properties.cpp
+#     1 neighbor.h
+aligned_particle_soa.h:21: [modernize-use-using] use 'using' instead of 'typedef'
+aligned_particle_soa.h:22: [modernize-use-using] use 'using' instead of 'typedef'
+aligned_particle_soa.h:23: [modernize-use-using] use 'using' instead of 'typedef'
+aligned_particle_soa.h:24: [modernize-use-using] use 'using' instead of 'typedef'
+aligned_particle_soa.h:25: [modernize-use-using] use 'using' instead of 'typedef'
+aligned_particle_soa.h:26: [modernize-use-using] use 'using' instead of 'typedef'
+aligned_particle_soa.h:27: [modernize-use-using] use 'using' instead of 'typedef'
+aligned_particle_soa.h:31: [modernize-use-using] use 'using' instead of 'typedef'
+aligned_particle_soa.h:34: [modernize-use-equals-default] use '= default' to define a trivial default constructor
+aligned_particle_soa.h:34: [modernize-use-noexcept] dynamic exception specification 'throw()' is deprecated; consider using 'noexcept' instead
+aligned_particle_soa.h:37: [modernize-use-noexcept] dynamic exception specification 'throw()' is deprecated; consider using 'noexcept' instead
+aligned_particle_soa.h:39: [modernize-use-nullptr] use nullptr
+aligned_particle_soa.h:41: [modernize-use-nullptr] use nullptr
+aligned_particle_soa.h:42: [modernize-use-nullptr] use nullptr
+aligned_particle_soa.h:48: [modernize-use-noexcept] dynamic exception specification 'throw()' is deprecated; consider using 'noexcept' instead
+aligned_particle_soa.h:50: [cppcoreguidelines-no-malloc] do not manage memory manually; use RAII
+aligned_particle_soa.h:50: [cppcoreguidelines-owning-memory] calling legacy resource function without passing a 'gsl::owner<>'
+aligned_particle_soa.h:53: [modernize-use-nodiscard] function 'max_size' should be marked [[nodiscard]]
+aligned_particle_soa.h:53: [modernize-use-noexcept] dynamic exception specification 'throw()' is deprecated; consider using 'noexcept' instead
+aligned_particle_soa.h:85: [modernize-use-using] use 'using' instead of 'typedef'
+aligned_particle_soa.h:115: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:116: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:117: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:118: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:119: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:120: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:121: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:122: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:123: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:124: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:131: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:132: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:133: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:134: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:135: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:136: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:143: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:144: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:145: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:152: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:153: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:154: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:155: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:156: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:157: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:158: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:159: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:160: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:161: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:178: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:179: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:180: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:181: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:182: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:183: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:184: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+aligned_particle_soa.h:196: [modernize-use-nodiscard] function 'size' should be marked [[nodiscard]]
+aligned_particle_soa.h:199: [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init] use default member initializer for 'n_'
+cohesion_model_easo_capillary_viscous.h:95: [modernize-use-nullptr] use nullptr
+cohesion_model_easo_capillary_viscous.h:96: [modernize-use-nullptr] use nullptr
+cohesion_model_easo_capillary_viscous.h:101: [modernize-use-nullptr] use nullptr
+cohesion_model_easo_capillary_viscous.h:102: [modernize-use-nullptr] use nullptr
+cohesion_model_easo_capillary_viscous.h:103: [modernize-use-nullptr] use nullptr
+cohesion_model_generalized_adhesion.h:21: [modernize-concat-nested-namespaces] nested namespaces can be concatenated
+cohesion_model_generalized_adhesion.h:30: [modernize-use-nullptr] use nullptr
+cohesion_model_generalized_adhesion.h:34: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] annotate this function with 'override' or (rarely) 'final'
+cohesion_model_generalized_adhesion.h:39: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] annotate this function with 'override' or (rarely) 'final'
+cohesion_model_generalized_adhesion.h:41: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] annotate this function with 'override' or (rarely) 'final'
+cohesion_model_generalized_adhesion.h:58: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] annotate this function with 'override' or (rarely) 'final'
+cohesion_model_generalized_adhesion.h:63: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] annotate this function with 'override' or (rarely) 'final'
+cohesion_model_generalized_adhesion.h:64: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] annotate this function with 'override' or (rarely) 'final'
+cohesion_model_generalized_adhesion.h:65: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] annotate this function with 'override' or (rarely) 'final'
+cohesion_model_generalized_adhesion.h:67: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] annotate this function with 'override' or (rarely) 'final'
+cohesion_model_generalized_adhesion.h:74: [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init] use default member initializer for 'tangentialReduce_'
+cohesion_model_generalized_adhesion.h:76: [modernize-use-nodiscard] function 'effectiveRadius' should be marked [[nodiscard]]
+cohesion_model_generalized_adhesion.h:86: [modernize-use-nodiscard] function 'effectiveArea' should be marked [[nodiscard]]
+cohesion_model_generalized_adhesion.h:104: [modernize-use-nodiscard] function 'adhesiveForceMagnitude' should be marked [[nodiscard]]
+compute_property_atom.h:82: [modernize-use-nodiscard] function 'x_component' should be marked [[nodiscard]]
+compute_property_atom.h:83: [modernize-use-nodiscard] function 'v_component' should be marked [[nodiscard]]
+compute_property_atom.h:84: [modernize-use-nodiscard] function 'f_component' should be marked [[nodiscard]]
+compute_property_atom.h:85: [modernize-use-nodiscard] function 'omega_component' should be marked [[nodiscard]]
+compute_property_atom.h:86: [modernize-use-nodiscard] function 'torque_component' should be marked [[nodiscard]]
+dump_custom.cpp:102: [cppcoreguidelines-use-enum-class] enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:102:1)' is unscoped, use 'enum class' instead
+dump_custom.cpp:102: [performance-enum-size] enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:102:1)' uses a larger base type ('unsigned int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size
+dump_custom.cpp:116: [cppcoreguidelines-use-enum-class] enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:116:1)' is unscoped, use 'enum class' instead
+dump_custom.cpp:116: [performance-enum-size] enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:116:1)' uses a larger base type ('unsigned int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size
+dump_custom.cpp:117: [cppcoreguidelines-use-enum-class] enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:117:1)' is unscoped, use 'enum class' instead
+dump_custom.cpp:117: [performance-enum-size] enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:117:1)' uses a larger base type ('unsigned int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size
+dump_custom.h:153: [modernize-use-nodiscard] function 'x_component' should be marked [[nodiscard]]
+dump_custom.h:154: [modernize-use-nodiscard] function 'v_component' should be marked [[nodiscard]]
+dump_custom.h:155: [modernize-use-nodiscard] function 'f_component' should be marked [[nodiscard]]
+dump_custom.h:156: [modernize-use-nodiscard] function 'omega_component' should be marked [[nodiscard]]
+dump_custom.h:157: [modernize-use-nodiscard] function 'torque_component' should be marked [[nodiscard]]
+dump_hdf5.cpp:10: [modernize-deprecated-headers] inclusion of deprecated C++ header 'stdio.h'; consider using 'cstdio' instead
+dump_hdf5.cpp:11: [modernize-deprecated-headers] inclusion of deprecated C++ header 'string.h'; consider using 'cstring' instead
+dump_hdf5.cpp:36: [modernize-use-equals-default] use '= default' to define a trivial destructor
+dump_hdf5.cpp:122: [bugprone-casting-through-void] do not cast 'struct ompi_predefined_datatype_t *' to 'MPI_Datatype' (aka 'struct ompi_datatype_t *') through 'void *'; use reinterpret_cast instead
+dump_hdf5.cpp:122: [bugprone-casting-through-void] do not cast 'struct ompi_predefined_op_t *' to 'MPI_Op' (aka 'struct ompi_op_t *') through 'void *'; use reinterpret_cast instead
+dump_hdf5.cpp:123: [bugprone-casting-through-void] do not cast 'struct ompi_predefined_datatype_t *' to 'MPI_Datatype' (aka 'struct ompi_datatype_t *') through 'void *'; use reinterpret_cast instead
+dump_hdf5.cpp:123: [bugprone-casting-through-void] do not cast 'struct ompi_predefined_op_t *' to 'MPI_Op' (aka 'struct ompi_op_t *') through 'void *'; use reinterpret_cast instead
+dump_hdf5.cpp:127: [bugprone-implicit-widening-of-multiplication-result] performing an implicit widening conversion to type 'size_type' (aka 'unsigned long') of a multiplication performed in type 'int'
+dump_hdf5.cpp:128: [bugprone-implicit-widening-of-multiplication-result] performing an implicit widening conversion to type 'size_type' (aka 'unsigned long') of a multiplication performed in type 'int'
+dump_hdf5.cpp:129: [bugprone-implicit-widening-of-multiplication-result] performing an implicit widening conversion to type 'size_type' (aka 'unsigned long') of a multiplication performed in type 'int'
+dump_hdf5.cpp:130: [bugprone-implicit-widening-of-multiplication-result] performing an implicit widening conversion to type 'size_type' (aka 'unsigned long') of a multiplication performed in type 'int'
+dump_hdf5.cpp:132: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_hdf5.cpp:132: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:133: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_hdf5.cpp:133: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:134: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_hdf5.cpp:134: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:135: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_hdf5.cpp:135: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:136: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_hdf5.cpp:136: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:137: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_hdf5.cpp:137: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:144: [bugprone-casting-through-void] do not cast 'struct ompi_predefined_info_t *' to 'MPI_Info' (aka 'struct ompi_info_t *') through 'void *'; use reinterpret_cast instead
+dump_hdf5.cpp:166: [modernize-use-auto] use auto when initializing with a cast to avoid duplicating the type name
+dump_hdf5.cpp:174: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:175: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:176: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:176: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:180: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_hdf5.cpp:180: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:186: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:187: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:188: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:188: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:192: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_hdf5.cpp:192: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:198: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:199: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:200: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:200: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:204: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_hdf5.cpp:204: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:210: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:211: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:212: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:212: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:216: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_hdf5.cpp:216: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:222: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:223: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:224: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:224: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:228: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_hdf5.cpp:228: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:234: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:235: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:236: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:236: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:240: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_hdf5.cpp:240: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:247: [modernize-use-nullptr] use nullptr
+dump_hdf5.cpp:249: [modernize-use-auto] use auto when initializing with a cast to avoid duplicating the type name
+dump_hdf5.cpp:274: [cppcoreguidelines-owning-memory] initializing non-owner 'FILE *' (aka 'struct _IO_FILE *') with a newly created 'gsl::owner<>'
+dump_hdf5.cpp:283: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_hdf5.cpp:283: [modernize-use-auto] use auto when initializing with a cast to avoid duplicating the type name
+dump_hdf5.cpp:284: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_hdf5.cpp:312: [cppcoreguidelines-owning-memory] calling legacy resource function without passing a 'gsl::owner<>'
+dump_hdf5.h:24: [cppcoreguidelines-special-member-functions] class 'DumpHDF5' defines a non-default destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator
+dump_hdf5.h:27: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] prefer using 'override' or (rarely) 'final' instead of 'virtual'
+dump_hdf5.h:28: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] prefer using 'override' or (rarely) 'final' instead of 'virtual'
+dump_hdf5.h:31: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] prefer using 'override' or (rarely) 'final' instead of 'virtual'
+dump_hdf5.h:32: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] prefer using 'override' or (rarely) 'final' instead of 'virtual'
+dump_hdf5.h:33: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] prefer using 'override' or (rarely) 'final' instead of 'virtual'
+dump_hdf5.h:34: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] prefer using 'override' or (rarely) 'final' instead of 'virtual'
+dump_mesh_hdf5.cpp:14: [modernize-deprecated-headers] inclusion of deprecated C++ header 'stdio.h'; consider using 'cstdio' instead
+dump_mesh_hdf5.cpp:15: [modernize-deprecated-headers] inclusion of deprecated C++ header 'string.h'; consider using 'cstring' instead
+dump_mesh_hdf5.cpp:36: [modernize-use-nullptr] use nullptr
+dump_mesh_hdf5.cpp:37: [modernize-use-nullptr] use nullptr
+dump_mesh_hdf5.cpp:38: [modernize-use-nullptr] use nullptr
+dump_mesh_hdf5.cpp:53: [modernize-use-nullptr] use nullptr
+dump_mesh_hdf5.cpp:74: [modernize-use-equals-default] use '= default' to define a trivial destructor
+dump_mesh_hdf5.cpp:99: [modernize-use-emplace] use emplace_back instead of push_back
+dump_mesh_hdf5.cpp:113: [modernize-use-auto] use auto when initializing with a cast to avoid duplicating the type name
+dump_mesh_hdf5.cpp:114: [cppcoreguidelines-pro-type-static-cast-downcast] do not use static_cast to downcast from a base to a derived class; use dynamic_cast instead
+dump_mesh_hdf5.cpp:122: [modernize-loop-convert] use range-based for loop instead
+dump_mesh_hdf5.cpp:123: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:128: [modernize-loop-convert] use range-based for loop instead
+dump_mesh_hdf5.cpp:131: [modernize-loop-convert] use range-based for loop instead
+dump_mesh_hdf5.cpp:132: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:133: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:135: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:138: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:139: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:179: [modernize-use-nullptr] use nullptr
+dump_mesh_hdf5.cpp:182: [modernize-use-nullptr] use nullptr
+dump_mesh_hdf5.cpp:194: [modernize-use-nullptr] use nullptr
+dump_mesh_hdf5.cpp:199: [modernize-use-nullptr] use nullptr
+dump_mesh_hdf5.cpp:199: [modernize-use-nullptr] use nullptr
+dump_mesh_hdf5.cpp:217: [modernize-use-nullptr] use nullptr
+dump_mesh_hdf5.cpp:222: [modernize-use-nullptr] use nullptr
+dump_mesh_hdf5.cpp:222: [modernize-use-nullptr] use nullptr
+dump_mesh_hdf5.cpp:242: [modernize-loop-convert] use range-based for loop instead
+dump_mesh_hdf5.cpp:243: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:250: [bugprone-casting-through-void] do not cast 'struct ompi_predefined_datatype_t *' to 'MPI_Datatype' (aka 'struct ompi_datatype_t *') through 'void *'; use reinterpret_cast instead
+dump_mesh_hdf5.cpp:250: [bugprone-casting-through-void] do not cast 'struct ompi_predefined_op_t *' to 'MPI_Op' (aka 'struct ompi_op_t *') through 'void *'; use reinterpret_cast instead
+dump_mesh_hdf5.cpp:251: [bugprone-casting-through-void] do not cast 'struct ompi_predefined_datatype_t *' to 'MPI_Datatype' (aka 'struct ompi_datatype_t *') through 'void *'; use reinterpret_cast instead
+dump_mesh_hdf5.cpp:251: [bugprone-casting-through-void] do not cast 'struct ompi_predefined_op_t *' to 'MPI_Op' (aka 'struct ompi_op_t *') through 'void *'; use reinterpret_cast instead
+dump_mesh_hdf5.cpp:274: [modernize-loop-convert] use range-based for loop instead
+dump_mesh_hdf5.cpp:275: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:276: [modernize-loop-convert] use range-based for loop instead
+dump_mesh_hdf5.cpp:277: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:280: [modernize-loop-convert] use range-based for loop instead
+dump_mesh_hdf5.cpp:281: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:285: [modernize-use-nullptr] use nullptr
+dump_mesh_hdf5.cpp:286: [modernize-use-nullptr] use nullptr
+dump_mesh_hdf5.cpp:288: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:289: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:292: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:293: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:301: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:302: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:303: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:304: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:307: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:308: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:309: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:313: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:314: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:315: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:317: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:318: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:319: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:320: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:323: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:323: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:323: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:323: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:325: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:327: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:328: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:328: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:329: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:329: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:330: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:330: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:339: [bugprone-casting-through-void] do not cast 'struct ompi_predefined_info_t *' to 'MPI_Info' (aka 'struct ompi_info_t *') through 'void *'; use reinterpret_cast instead
+dump_mesh_hdf5.cpp:367: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:367: [modernize-use-nullptr] use nullptr
+dump_mesh_hdf5.cpp:374: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:374: [modernize-use-nullptr] use nullptr
+dump_mesh_hdf5.cpp:382: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:382: [modernize-use-nullptr] use nullptr
+dump_mesh_hdf5.cpp:384: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:384: [modernize-use-nullptr] use nullptr
+dump_mesh_hdf5.cpp:386: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:386: [modernize-use-nullptr] use nullptr
+dump_mesh_hdf5.cpp:388: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:388: [modernize-use-nullptr] use nullptr
+dump_mesh_hdf5.cpp:390: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:390: [modernize-use-nullptr] use nullptr
+dump_mesh_hdf5.cpp:392: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:392: [modernize-use-nullptr] use nullptr
+dump_mesh_hdf5.cpp:394: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:394: [modernize-use-nullptr] use nullptr
+dump_mesh_hdf5.cpp:396: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:396: [modernize-use-nullptr] use nullptr
+dump_mesh_hdf5.cpp:399: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:400: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:400: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:400: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:400: [modernize-use-nullptr] use nullptr
+dump_mesh_hdf5.cpp:402: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:403: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:403: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:403: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:403: [modernize-use-nullptr] use nullptr
+dump_mesh_hdf5.cpp:428: [cppcoreguidelines-owning-memory] initializing non-owner 'FILE *' (aka 'struct _IO_FILE *') with a newly created 'gsl::owner<>'
+dump_mesh_hdf5.cpp:437: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:437: [modernize-use-auto] use auto when initializing with a cast to avoid duplicating the type name
+dump_mesh_hdf5.cpp:438: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:466: [modernize-loop-convert] use range-based for loop instead
+dump_mesh_hdf5.cpp:468: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:468: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:469: [modernize-loop-convert] use range-based for loop instead
+dump_mesh_hdf5.cpp:471: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:471: [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access] possibly unsafe 'operator[]', consider bounds-safe alternatives
+dump_mesh_hdf5.cpp:479: [cppcoreguidelines-owning-memory] calling legacy resource function without passing a 'gsl::owner<>'
+dump_mesh_hdf5.h:33: [cppcoreguidelines-special-member-functions] class 'DumpMeshHDF5' defines a non-default destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator
+dump_mesh_hdf5.h:36: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] prefer using 'override' or (rarely) 'final' instead of 'virtual'
+dump_mesh_hdf5.h:37: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] prefer using 'override' or (rarely) 'final' instead of 'virtual'
+dump_mesh_hdf5.h:40: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] prefer using 'override' or (rarely) 'final' instead of 'virtual'
+dump_mesh_hdf5.h:41: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] prefer using 'override' or (rarely) 'final' instead of 'virtual'
+dump_mesh_hdf5.h:42: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] prefer using 'override' or (rarely) 'final' instead of 'virtual'
+dump_mesh_hdf5.h:43: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] prefer using 'override' or (rarely) 'final' instead of 'virtual'
+dump_mesh_hdf5.h:46: [cppcoreguidelines-use-enum-class] enum 'BuiltinProperty' is unscoped, use 'enum class' instead
+dump_mesh_hdf5.h:46: [performance-enum-size] enum 'BuiltinProperty' uses a larger base type ('unsigned int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size
+dump_mesh_hdf5.h:72: [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init] use default member initializer for 'dump_all_meshes_'
+dump_mesh_hdf5.h:73: [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init] use default member initializer for 'builtin_mask_'
+fix_adapt_liggghts.cpp:6: [modernize-deprecated-headers] inclusion of deprecated C++ header 'string.h'; consider using 'cstring' instead
+fix_adapt_liggghts.cpp:25: [cppcoreguidelines-macro-usage] macro 'SPHERE_INERTIA' used to declare a constant; consider using a 'constexpr' constant
+fix_adapt_liggghts.cpp:26: [cppcoreguidelines-macro-usage] macro 'ELLIPSOID_INERTIA' used to declare a constant; consider using a 'constexpr' constant
+fix_adapt_liggghts.cpp:33: [modernize-use-nullptr] use nullptr
+fix_adapt_liggghts.cpp:49: [cppcoreguidelines-owning-memory] assigning newly created 'gsl::owner<>' to non-owner 'Adapt *'
+fix_adapt_liggghts.cpp:51: [modernize-use-nullptr] use nullptr
+fix_adapt_liggghts.cpp:54: [modernize-use-nullptr] use nullptr
+fix_adapt_liggghts.cpp:66: [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions] narrowing conversion from 'size_t' (aka 'unsigned long') to signed type 'int' is implementation-defined
+fix_adapt_liggghts.cpp:67: [cppcoreguidelines-owning-memory] assigning newly created 'gsl::owner<>' to non-owner 'char *'
+fix_adapt_liggghts.cpp:80: [cppcoreguidelines-owning-memory] deleting a pointer through a type that is not marked 'gsl::owner<>'; consider using a smart pointer instead
+fix_adapt_liggghts.h:18: [cppcoreguidelines-special-member-functions] class 'FixAdaptLiggghts' defines a non-default destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator
+fix_adapt_liggghts.h:21: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] annotate this function with 'override' or (rarely) 'final'
+fix_adapt_liggghts.h:22: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] annotate this function with 'override' or (rarely) 'final'
+fix_adapt_liggghts.h:23: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] annotate this function with 'override' or (rarely) 'final'
+fix_adapt_liggghts.h:24: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] annotate this function with 'override' or (rarely) 'final'
+fix_adapt_liggghts.h:25: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] annotate this function with 'override' or (rarely) 'final'
+fix_adapt_liggghts.h:28: [cppcoreguidelines-use-enum-class] enum 'AdaptField' is unscoped, use 'enum class' instead
+fix_adapt_liggghts.h:28: [performance-enum-size] enum 'AdaptField' uses a larger base type ('unsigned int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size
+fix_adapt_liggghts.h:38: [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init] use default member initializer for 'nadapt'
+fix_neighlist_mesh.h:168: [cppcoreguidelines-pro-type-union-access] do not access members of unions; consider using (boost::)variant instead
+fix_neighlist_mesh.h:168: [cppcoreguidelines-pro-type-union-access] do not access members of unions; consider using (boost::)variant instead
+fix_nve.h:76: [cppcoreguidelines-non-private-member-variables-in-classes] member variable 'soa_' has protected visibility
+fix_property_global.cpp:74: [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions] narrowing conversion from 'size_t' (aka 'unsigned long') to signed type 'int' is implementation-defined
+fix_property_global.cpp:76: [cppcoreguidelines-owning-memory] assigning newly created 'gsl::owner<>' to non-owner 'char *'
+fix_property_global.cpp:81: [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions] narrowing conversion from 'size_t' (aka 'unsigned long') to signed type 'int' is implementation-defined
+fix_property_global.cpp:82: [cppcoreguidelines-owning-memory] assigning newly created 'gsl::owner<>' to non-owner 'char *'
+fix_property_global.cpp:86: [modernize-use-nullptr] use nullptr
+fix_property_global.cpp:87: [modernize-use-nullptr] use nullptr
+fix_property_global.cpp:127: [cppcoreguidelines-owning-memory] assigning newly created 'gsl::owner<>' to non-owner 'char **'
+fix_property_global.cpp:128: [cppcoreguidelines-owning-memory] assigning newly created 'gsl::owner<>' to non-owner 'int *'
+fix_property_global.cpp:130: [modernize-use-nullptr] use nullptr
+fix_property_global.cpp:139: [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions] narrowing conversion from 'size_t' (aka 'unsigned long') to signed type 'int' is implementation-defined
+fix_property_global.cpp:140: [cppcoreguidelines-owning-memory] assigning newly created 'gsl::owner<>' to non-owner 'char *'
+fix_property_global.cpp:165: [modernize-use-nullptr] use nullptr
+fix_property_global.cpp:166: [modernize-use-nullptr] use nullptr
+fix_property_global.cpp:174: [modernize-use-nullptr] use nullptr
+fix_property_global.cpp:175: [modernize-use-nullptr] use nullptr
+fix_property_global.cpp:225: [cppcoreguidelines-owning-memory] deleting a pointer through a type that is not marked 'gsl::owner<>'; consider using a smart pointer instead
+fix_property_global.cpp:263: [modernize-use-nullptr] use nullptr
+fix_property_global.cpp:274: [modernize-use-nullptr] use nullptr
+fix_property_global.cpp:280: [modernize-use-nullptr] use nullptr
+fix_property_global.cpp:566: [cppcoreguidelines-owning-memory] assigning newly created 'gsl::owner<>' to non-owner 'char *'
+fix_property_global.cpp:568: [cppcoreguidelines-owning-memory] assigning newly created 'gsl::owner<>' to non-owner 'char *'
+fix_property_global.h:58: [cppcoreguidelines-use-enum-class] enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:58:1)' is unscoped, use 'enum class' instead
+fix_property_global.h:58: [performance-enum-size] enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:58:1)' uses a larger base type ('unsigned int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size
+fix_property_global.h:74: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] annotate this function with 'override' or (rarely) 'final'
+fix_property_global.h:75: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] annotate this function with 'override' or (rarely) 'final'
+fix_property_global.h:76: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] annotate this function with 'override' or (rarely) 'final'
+fix_property_global.h:77: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] annotate this function with 'override' or (rarely) 'final'
+fix_property_global.h:78: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] annotate this function with 'override' or (rarely) 'final'
+fix_property_global.h:79: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] annotate this function with 'override' or (rarely) 'final'
+fix_property_global.h:83: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] annotate this function with 'override' or (rarely) 'final'
+fix_property_global.h:84: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] annotate this function with 'override' or (rarely) 'final'
+fix_property_global.h:85: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] annotate this function with 'override' or (rarely) 'final'
+fix_property_global.h:87: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] annotate this function with 'override' or (rarely) 'final'
+fix_property_global.h:92: [cppcoreguidelines-explicit-virtual-functions,modernize-use-override] annotate this function with 'override' or (rarely) 'final'
+fix_property_global.h:130: [modernize-use-nodiscard] function 'clamp_value' should be marked [[nodiscard]]
+fix_wall_gran.cpp:95: [cppcoreguidelines-use-enum-class] enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_wall_gran.cpp:95:3)' is unscoped, use 'enum class' instead
+fix_wall_gran.cpp:95: [performance-enum-size] enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_wall_gran.cpp:95:3)' uses a larger base type ('unsigned int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size
+global_properties.cpp:66: [cppcoreguidelines-avoid-non-const-global-variables] variable 'ADHESION_ENERGY' is non-const and globally accessible, consider making it const
+neighbor.cpp:95: [cppcoreguidelines-use-enum-class] enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.cpp:95:1)' is unscoped, use 'enum class' instead
+neighbor.cpp:95: [performance-enum-size] enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.cpp:95:1)' uses a larger base type ('unsigned int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size
+neighbor.cpp:202: [cppcoreguidelines-prefer-member-initializer] 'force_rebuild' should be initialized in a member initializer of the constructor
+neighbor.h:91: [cppcoreguidelines-non-private-member-variables-in-classes] member variable 'force_rebuild' has public visibility
+velocity.cpp:79: [cppcoreguidelines-use-enum-class] enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/velocity.cpp:79:1)' is unscoped, use 'enum class' instead
+velocity.cpp:79: [performance-enum-size] enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/velocity.cpp:79:1)' uses a larger base type ('unsigned int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size
+velocity.cpp:80: [cppcoreguidelines-use-enum-class] enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/velocity.cpp:80:1)' is unscoped, use 'enum class' instead
+velocity.cpp:80: [performance-enum-size] enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/velocity.cpp:80:1)' uses a larger base type ('unsigned int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size
+velocity.cpp:81: [cppcoreguidelines-use-enum-class] enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/velocity.cpp:81:1)' is unscoped, use 'enum class' instead
+velocity.cpp:81: [performance-enum-size] enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/velocity.cpp:81:1)' uses a larger base type ('unsigned int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size

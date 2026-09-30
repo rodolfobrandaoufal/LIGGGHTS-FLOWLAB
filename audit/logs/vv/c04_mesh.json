@@ -1,0 +1,362 @@
+{
+ "release_primitive_face_normal": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.90003920465535,
+  "vx": 0.0,
+  "wy": 0.0
+ },
+ "release_primitive_face_oblique": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.90003920465535,
+  "vx": 0.604869118003641,
+  "wy": 954.251042713075
+ },
+ "release_primitive_face_slide": {
+  "Fzmax": 7.63641776797693e-18,
+  "vz": 3.70504548056615e-16,
+  "vx": 0.142833401545309,
+  "wy": 142.874942801735
+ },
+ "release_primitive_edge_normal": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.90003920465535,
+  "vx": 0.0,
+  "wy": 0.0
+ },
+ "release_primitive_edge_oblique": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.90003920465535,
+  "vx": 0.604869118003641,
+  "wy": 954.251042713075
+ },
+ "release_primitive_edge_slide": {
+  "Fzmax": 7.63641776797693e-18,
+  "vz": 3.70504548056615e-16,
+  "vx": 0.142833401545309,
+  "wy": 142.874942801735
+ },
+ "release_primitive_diag_edge_normal": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.90003920465535,
+  "vx": 0.0,
+  "wy": 0.0
+ },
+ "release_primitive_diag_edge_oblique": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.90003920465535,
+  "vx": 0.604869118003641,
+  "wy": 954.251042713075
+ },
+ "release_primitive_diag_edge_slide": {
+  "Fzmax": 7.63641776797693e-18,
+  "vz": 3.70504548056615e-16,
+  "vx": 0.142833401545309,
+  "wy": 142.874942801735
+ },
+ "release_primitive_vertex_normal": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.90003920465535,
+  "vx": 0.0,
+  "wy": 0.0
+ },
+ "release_primitive_vertex_oblique": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.90003920465535,
+  "vx": 0.604869118003641,
+  "wy": 954.251042713075
+ },
+ "release_primitive_vertex_slide": {
+  "Fzmax": 7.63641776797693e-18,
+  "vz": 3.70504548056615e-16,
+  "vx": 0.142833401545309,
+  "wy": 142.874942801735
+ },
+ "release_primitive_outer_vertex_normal": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.90003920465535,
+  "vx": 0.0,
+  "wy": 0.0
+ },
+ "release_primitive_outer_vertex_oblique": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.90003920465535,
+  "vx": 0.604869118003641,
+  "wy": 954.251042713075
+ },
+ "release_primitive_outer_vertex_slide": {
+  "Fzmax": 7.63641776797693e-18,
+  "vz": 0.0,
+  "vx": 0.0,
+  "wy": 0.0
+ },
+ "release_mesh_face_normal": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.900039204655352,
+  "vx": 0.0,
+  "wy": 0.0
+ },
+ "release_mesh_face_oblique": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.900039204655352,
+  "vx": 0.604869118003642,
+  "wy": 954.251042713075
+ },
+ "release_mesh_face_slide": {
+  "Fzmax": 1.22006194438042e-16,
+  "vz": 5.91533654756078e-15,
+  "vx": 0.14283340154531,
+  "wy": 142.874942801736
+ },
+ "release_mesh_edge_normal": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.900039204655352,
+  "vx": 0.0,
+  "wy": 0.0
+ },
+ "release_mesh_edge_oblique": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.900039204655352,
+  "vx": 0.604869118003642,
+  "wy": 954.251042713075
+ },
+ "release_mesh_edge_slide": {
+  "Fzmax": 1.22006194438042e-16,
+  "vz": 5.91533654756078e-15,
+  "vx": 0.14283340154531,
+  "wy": 142.874942801736
+ },
+ "release_mesh_diag_edge_normal": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.900039204655352,
+  "vx": 0.0,
+  "wy": 0.0
+ },
+ "release_mesh_diag_edge_oblique": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.900039204655352,
+  "vx": 0.604869118003642,
+  "wy": 954.251042713075
+ },
+ "release_mesh_diag_edge_slide": {
+  "Fzmax": 1.22006194438042e-16,
+  "vz": 5.91533654756078e-15,
+  "vx": 0.14283340154531,
+  "wy": 142.874942801736
+ },
+ "release_mesh_vertex_normal": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.900039204655352,
+  "vx": 0.0,
+  "wy": 0.0
+ },
+ "release_mesh_vertex_oblique": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.900039204655352,
+  "vx": 0.604869118003642,
+  "wy": 954.251042713075
+ },
+ "release_mesh_vertex_slide": {
+  "Fzmax": 1.14904670208262e-16,
+  "vz": 5.91533654756034e-15,
+  "vx": 0.14283340154531,
+  "wy": 142.874942801737
+ },
+ "release_mesh_outer_vertex_normal": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.900039204655352,
+  "vx": 0.0,
+  "wy": 0.0
+ },
+ "release_mesh_outer_vertex_oblique": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.900039204655352,
+  "vx": 0.604869118003642,
+  "wy": 954.251042713075
+ },
+ "release_mesh_outer_vertex_slide": {
+  "Fzmax": 1.22006194438042e-16,
+  "vz": 0.0,
+  "vx": 0.0,
+  "wy": 0.0
+ },
+ "baseline_primitive_face_normal": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.90003920465535,
+  "vx": 0.0,
+  "wy": 0.0
+ },
+ "baseline_primitive_face_oblique": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.90003920465535,
+  "vx": 0.604869118003641,
+  "wy": 954.251042713075
+ },
+ "baseline_primitive_face_slide": {
+  "Fzmax": 7.63641776797693e-18,
+  "vz": 3.70504548056615e-16,
+  "vx": 0.142833401545309,
+  "wy": 142.874942801735
+ },
+ "baseline_primitive_edge_normal": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.90003920465535,
+  "vx": 0.0,
+  "wy": 0.0
+ },
+ "baseline_primitive_edge_oblique": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.90003920465535,
+  "vx": 0.604869118003641,
+  "wy": 954.251042713075
+ },
+ "baseline_primitive_edge_slide": {
+  "Fzmax": 7.63641776797693e-18,
+  "vz": 3.70504548056615e-16,
+  "vx": 0.142833401545309,
+  "wy": 142.874942801735
+ },
+ "baseline_primitive_diag_edge_normal": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.90003920465535,
+  "vx": 0.0,
+  "wy": 0.0
+ },
+ "baseline_primitive_diag_edge_oblique": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.90003920465535,
+  "vx": 0.604869118003641,
+  "wy": 954.251042713075
+ },
+ "baseline_primitive_diag_edge_slide": {
+  "Fzmax": 7.63641776797693e-18,
+  "vz": 3.70504548056615e-16,
+  "vx": 0.142833401545309,
+  "wy": 142.874942801735
+ },
+ "baseline_primitive_vertex_normal": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.90003920465535,
+  "vx": 0.0,
+  "wy": 0.0
+ },
+ "baseline_primitive_vertex_oblique": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.90003920465535,
+  "vx": 0.604869118003641,
+  "wy": 954.251042713075
+ },
+ "baseline_primitive_vertex_slide": {
+  "Fzmax": 7.63641776797693e-18,
+  "vz": 3.70504548056615e-16,
+  "vx": 0.142833401545309,
+  "wy": 142.874942801735
+ },
+ "baseline_primitive_outer_vertex_normal": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.90003920465535,
+  "vx": 0.0,
+  "wy": 0.0
+ },
+ "baseline_primitive_outer_vertex_oblique": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.90003920465535,
+  "vx": 0.604869118003641,
+  "wy": 954.251042713075
+ },
+ "baseline_primitive_outer_vertex_slide": {
+  "Fzmax": 7.63641776797693e-18,
+  "vz": 0.0,
+  "vx": 0.0,
+  "wy": 0.0
+ },
+ "baseline_mesh_face_normal": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.900039204655352,
+  "vx": 0.0,
+  "wy": 0.0
+ },
+ "baseline_mesh_face_oblique": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.900039204655352,
+  "vx": 0.604869118003642,
+  "wy": 954.251042713075
+ },
+ "baseline_mesh_face_slide": {
+  "Fzmax": 1.22006194438042e-16,
+  "vz": 5.91533654756078e-15,
+  "vx": 0.14283340154531,
+  "wy": 142.874942801736
+ },
+ "baseline_mesh_edge_normal": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.900039204655352,
+  "vx": 0.0,
+  "wy": 0.0
+ },
+ "baseline_mesh_edge_oblique": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.900039204655352,
+  "vx": 0.604869118003642,
+  "wy": 954.251042713075
+ },
+ "baseline_mesh_edge_slide": {
+  "Fzmax": 1.22006194438042e-16,
+  "vz": 5.91533654756078e-15,
+  "vx": 0.14283340154531,
+  "wy": 142.874942801736
+ },
+ "baseline_mesh_diag_edge_normal": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.900039204655352,
+  "vx": 0.0,
+  "wy": 0.0
+ },
+ "baseline_mesh_diag_edge_oblique": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.900039204655352,
+  "vx": 0.604869118003642,
+  "wy": 954.251042713075
+ },
+ "baseline_mesh_diag_edge_slide": {
+  "Fzmax": 1.22006194438042e-16,
+  "vz": 5.91533654756078e-15,
+  "vx": 0.14283340154531,
+  "wy": 142.874942801736
+ },
+ "baseline_mesh_vertex_normal": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.900039204655352,
+  "vx": 0.0,
+  "wy": 0.0
+ },
+ "baseline_mesh_vertex_oblique": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.900039204655352,
+  "vx": 0.604869118003642,
+  "wy": 954.251042713075
+ },
+ "baseline_mesh_vertex_slide": {
+  "Fzmax": 1.14904670208262e-16,
+  "vz": 5.91533654756034e-15,
+  "vx": 0.14283340154531,
+  "wy": 142.874942801737
+ },
+ "baseline_mesh_outer_vertex_normal": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.900039204655352,
+  "vx": 0.0,
+  "wy": 0.0
+ },
+ "baseline_mesh_outer_vertex_oblique": {
+  "Fzmax": 0.154965577103626,
+  "vz": 0.900039204655352,
+  "vx": 0.604869118003642,
+  "wy": 954.251042713075
+ },
+ "baseline_mesh_outer_vertex_slide": {
+  "Fzmax": 1.22006194438042e-16,
+  "vz": 0.0,
+  "vx": 0.0,
+  "wy": 0.0
+ }
+}

@@ -1,0 +1,133 @@
+timestamp_utc=20260929T135737Z
+repository=/media/storage/LIGGGHTS-PUBLIC-v6
+/media/storage/LIGGGHTS-PUBLIC-v6
+3d5c00f20519e6bb6eb6756f51f1ad36564e649d
+ M examples/LIGGGHTS/Tutorials_public/chute_wear/in.chute_wear
+ D examples/LIGGGHTS/Tutorials_public/chute_wear/post/.gitignore
+ M src/cohesion_model_easo_capillary_viscous.h
+ M src/cohesion_model_sjkr.h
+ M src/compute_property_atom.cpp
+ M src/compute_property_atom.h
+ M src/contact_models.h
+ M src/dump_custom.cpp
+ M src/dump_custom.h
+ M src/fix_neighlist_mesh.cpp
+ M src/fix_neighlist_mesh.h
+ M src/fix_nve.cpp
+ M src/fix_nve.h
+ M src/fix_nve_asphere_base.cpp
+ M src/fix_property_global.cpp
+ M src/fix_property_global.h
+ M src/fix_wall_gran.cpp
+ M src/fix_wall_gran_base.h
+ M src/global_properties.cpp
+ M src/global_properties.h
+ M src/granular_styles.h
+ M src/neighbor.cpp
+ M src/neighbor.h
+ M src/normal_model_luding.h
+ M src/pair_gran_base.h
+ M src/pair_gran_proxy.cpp
+ M src/rolling_model_cdt.h
+ M src/rolling_model_epsd.h
+ M src/rolling_model_luding.h
+ M src/tangential_model_history.h
+ M src/tangential_model_no_history.h
+ M src/utils.h
+ M src/velocity.cpp
+ M src/velocity.h
+?? DEVELOPMENT_PLAN.md
+?? LIGGGHTS_MODIFICATION_REPORT.txt
+?? audit/
+?? benchmarks/
+?? build/
+?? docs/
+?? examples/LIGGGHTS/Tutorials_public/chute_wear/log.liggghts
+?? examples/LIGGGHTS/Tutorials_public/chute_wear/post/chute_particles.h5
+?? examples/LIGGGHTS/Tutorials_public/chute_wear/post/chute_particles.h5.xdmf
+?? examples/LIGGGHTS/Tutorials_public/chute_wear_hpc/
+?? h5inspect_chute.o
+?? liggghts_evaluation_report/
+?? log.liggghts
+?? scripts/
+?? src/GPU_DEM/
+?? src/MAKE/Makefile.hdf5mpi
+?? src/aligned_particle_soa.h
+?? src/cohesion_model_generalized_adhesion.h
+?? src/contact_model_crtp_api.h
+?? src/dump_hdf5.cpp
+?? src/dump_hdf5.h
+?? src/dump_mesh_hdf5.cpp
+?? src/dump_mesh_hdf5.h
+?? src/fix_adapt_liggghts.cpp
+?? src/fix_adapt_liggghts.h
+?? tests/
+Linux n011 6.8.0-138-generic #138~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Fri Aug  7 13:43:15 UTC  x86_64 x86_64 x86_64 GNU/Linux
+g++ (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0
+Copyright (C) 2021 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+mpirun (Open MPI) 4.1.2
+
+Report bugs to http://www.open-mpi.org/community/help/
+cmake version 3.22.1
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+GNU Make 4.3
+Built for x86_64-pc-linux-gnu
+Architecture:                            x86_64
+CPU op-mode(s):                          32-bit, 64-bit
+Address sizes:                           48 bits physical, 48 bits virtual
+Byte Order:                              Little Endian
+CPU(s):                                  32
+On-line CPU(s) list:                     0-31
+Vendor ID:                               AuthenticAMD
+Model name:                              AMD Ryzen 9 7950X 16-Core Processor
+CPU family:                              25
+Model:                                   97
+Thread(s) per core:                      2
+Core(s) per socket:                      16
+Socket(s):                               1
+Stepping:                                2
+CPU max MHz:                             5881,0000
+CPU min MHz:                             545,0000
+BogoMIPS:                                8983.07
+Flags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good amd_lbr_v2 nopl nonstop_tsc cpuid extd_apicid aperfmperf rapl pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs skinit wdt tce topoext perfctr_core perfctr_nb bpext perfctr_llc mwaitx cpb cat_l3 cdp_l3 hw_pstate ssbd mba perfmon_v2 ibrs ibpb stibp ibrs_enhanced vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid cqm rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local user_shstk avx512_bf16 clzero irperf xsaveerptr rdpru wbnoinvd cppc amd_ibpb_ret arat npt lbrv svm_lock nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold avic vgif x2avic v_spec_ctrl vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid overflow_recov succor smca fsrm flush_l1d ibpb_exit_to_user
+Virtualization:                          AMD-V
+L1d cache:                               512 KiB (16 instances)
+L1i cache:                               512 KiB (16 instances)
+L2 cache:                                16 MiB (16 instances)
+L3 cache:                                64 MiB (2 instances)
+NUMA node(s):                            1
+NUMA node0 CPU(s):                       0-31
+Vulnerability Gather data sampling:      Not affected
+Vulnerability Indirect target selection: Not affected
+Vulnerability Itlb multihit:             Not affected
+Vulnerability L1tf:                      Not affected
+Vulnerability Mds:                       Not affected
+Vulnerability Meltdown:                  Not affected
+Vulnerability Mmio stale data:           Not affected
+Vulnerability Reg file data sampling:    Not affected
+Vulnerability Retbleed:                  Not affected
+Vulnerability Spec rstack overflow:      Mitigation; Safe RET
+Vulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl
+Vulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization
+Vulnerability Spectre v2:                Mitigation; Enhanced / Automatic IBRS; IBPB conditional; STIBP always-on; PBRSB-eIBRS Not affected; BHI Not affected
+Vulnerability Srbds:                     Not affected
+Vulnerability Tsa:                       Vulnerable: Clear CPU buffers attempted, no microcode
+Vulnerability Tsx async abort:           Not affected
+Vulnerability Vmscape:                   Mitigation; IBPB before exit to userspace
+               total        used        free      shared  buff/cache   available
+Mem:            61Gi       8,5Gi        34Gi       184Mi        18Gi        52Gi
+Swap:          2,0Gi          0B       2,0Gi
+=== extra ===
+g++ (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0
+g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -L/usr/lib/x86_64-linux-gnu/openmpi/lib -lmpi_cxx -lmpi
+mpirun (Open MPI) 4.1.2
+                   HDF5 Version: 1.10.7
+             Installation point: /usr
+                   Parallel HDF5: yes
+cmake version 3.22.1
+libhdf5-openmpi-dev 1.10.7+repack-4ubuntu2
+32

@@ -1,0 +1,34 @@
+# F-VV-3: radius growth beyond the init-time maximum radius (cutneighmax / bins / ghost cutoff are not updated).
+# Two spheres at rest, centre distance 5 mm, radius grows 1 mm -> 3 mm (overlap 1 mm at the end).
+# Expected if contacts are detected: strong repulsion (|vx| >> 0). Hypothesis: no force (missed contact).
+# Also run with -np 2 and 'processors 2 1 1' (uncomment) to test the ghost cutoff.
+atom_style    granular
+atom_modify   map array
+boundary      f f f
+newton        off
+communicate   single vel yes
+#processors   2 1 1
+units         si
+region        reg block -0.02 0.02 -0.02 0.02 -0.02 0.02 units box
+create_box    1 reg
+neighbor      0.0005 bin
+neigh_modify  delay 0
+fix  m1 all property/global youngsModulus peratomtype 1e7
+fix  m2 all property/global poissonsRatio peratomtype 0.3
+fix  m3 all property/global coefficientRestitution peratomtypepair 1 0.5
+fix  m4 all property/global coefficientFriction peratomtypepair 1 0.5
+pair_style gran model hertz tangential history
+pair_coeff * *
+timestep 1e-6
+create_atoms 1 single -0.0025 0.0 0.0
+create_atoms 1 single  0.0025 0.0 0.0
+set group all diameter 0.002 density 2500
+variable r equal 0.001+0.002*step/20000
+fix integr all nve/sphere
+fix grow all adapt/liggghts 1 radius v_r
+variable vx1 equal vx[1]
+variable vx2 equal vx[2]
+variable gap equal x[2]-x[1]-2*v_r
+thermo_style custom step v_r v_gap v_vx1 v_vx2 ke
+thermo 2000
+run 20000

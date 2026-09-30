@@ -1,0 +1,29 @@
+# deck | combination | in local Make.sh whitelist (124) | in CMake-default whitelist (4)
+examples/LIGGGHTS/Tutorials_public/ParScale/fluidizedBedTempParScale/in.liggghts_init | HERTZ,TANGENTIAL_HISTORY,COHESION_OFF,ROLLING_OFF,SURFACE_DEFAULT | yes | NO
+examples/LIGGGHTS/Tutorials_public/ParScale/fluidizedBedTempParScale/in.liggghts_run | HERTZ,TANGENTIAL_HISTORY,COHESION_OFF,ROLLING_OFF,SURFACE_DEFAULT | yes | NO
+examples/LIGGGHTS/Tutorials_public/ParScale/heatTransferBed_paScal/in.liggghts | HERTZ,TANGENTIAL_HISTORY,COHESION_OFF,ROLLING_OFF,SURFACE_DEFAULT | yes | NO
+examples/LIGGGHTS/Tutorials_public/chute_wear/in.chute_wear | HERTZ,TANGENTIAL_HISTORY,COHESION_OFF,ROLLING_OFF,SURFACE_DEFAULT | yes | NO
+examples/LIGGGHTS/Tutorials_public/chute_wear_hpc/in.chute_wear_hpc | HERTZ,TANGENTIAL_HISTORY,COHESION_GENERALIZED_ADHESION,ROLLING_OFF,SURFACE_DEFAULT | yes | NO
+examples/LIGGGHTS/Tutorials_public/cohesion/in.cohesion | HERTZ,TANGENTIAL_HISTORY,COHESION_OFF,ROLLING_OFF,SURFACE_DEFAULT | yes | NO
+examples/LIGGGHTS/Tutorials_public/cohesion/in.cohesion | HERTZ,TANGENTIAL_HISTORY,COHESION_SJKR,ROLLING_OFF,SURFACE_DEFAULT | yes | NO
+examples/LIGGGHTS/Tutorials_public/cohesion/in.noCohesion | HERTZ,TANGENTIAL_HISTORY,COHESION_OFF,ROLLING_OFF,SURFACE_DEFAULT | yes | NO
+examples/LIGGGHTS/Tutorials_public/contactModels/in.newModels | HERTZ,TANGENTIAL_HISTORY,COHESION_OFF,ROLLING_OFF,SURFACE_DEFAULT | yes | NO
+examples/LIGGGHTS/Tutorials_public/conveyor/in.conveyor | HERTZ,TANGENTIAL_HISTORY,COHESION_OFF,ROLLING_OFF,SURFACE_DEFAULT | yes | NO
+examples/LIGGGHTS/Tutorials_public/heatTransfer_1/in.heatGran | HERTZ,TANGENTIAL_HISTORY,COHESION_OFF,ROLLING_OFF,SURFACE_DEFAULT | yes | NO
+examples/LIGGGHTS/Tutorials_public/heatTransfer_2/in.heatGran | HERTZ,TANGENTIAL_HISTORY,COHESION_OFF,ROLLING_OFF,SURFACE_DEFAULT | yes | NO
+examples/LIGGGHTS/Tutorials_public/hydrogel_multicontact/in.hydrogel_default | HERTZ,TANGENTIAL_HISTORY,COHESION_OFF,ROLLING_OFF,SURFACE_DEFAULT | yes | NO
+examples/LIGGGHTS/Tutorials_public/hydrogel_multicontact/in.hydrogel_multicontact | HERTZ,TANGENTIAL_HISTORY,COHESION_OFF,ROLLING_OFF,SURFACE_MULTICONTACT | NO | NO
+examples/LIGGGHTS/Tutorials_public/hysteresis/in.hysteresis | HOOKE,TANGENTIAL_HISTORY,COHESION_OFF,ROLLING_OFF,SURFACE_DEFAULT | yes | NO
+examples/LIGGGHTS/Tutorials_public/hysteresis/in.hysteresis | HOOKE_HYSTERESIS,TANGENTIAL_HISTORY,COHESION_OFF,ROLLING_OFF,SURFACE_DEFAULT | yes | NO
+examples/LIGGGHTS/Tutorials_public/hysteresis/in.noHysteresis | HOOKE,TANGENTIAL_HISTORY,COHESION_OFF,ROLLING_OFF,SURFACE_DEFAULT | yes | NO
+examples/LIGGGHTS/Tutorials_public/insert_stream/in.insert_stream | HERTZ,TANGENTIAL_HISTORY,COHESION_OFF,ROLLING_OFF,SURFACE_DEFAULT | yes | NO
+examples/LIGGGHTS/Tutorials_public/insert_stream/in.insert_stream_reset_timestep | HERTZ,TANGENTIAL_HISTORY,COHESION_OFF,ROLLING_OFF,SURFACE_DEFAULT | yes | NO
+examples/LIGGGHTS/Tutorials_public/meshGran/in.meshGran | HOOKE,TANGENTIAL_HISTORY,COHESION_OFF,ROLLING_OFF,SURFACE_DEFAULT | yes | NO
+examples/LIGGGHTS/Tutorials_public/mesh_tet/in.mesh_tet | HERTZ,TANGENTIAL_HISTORY,COHESION_OFF,ROLLING_OFF,SURFACE_DEFAULT | yes | NO
+examples/LIGGGHTS/Tutorials_public/movingMeshGran/in.movingMeshGran | HOOKE,TANGENTIAL_HISTORY,COHESION_OFF,ROLLING_OFF,SURFACE_DEFAULT | yes | NO
+examples/LIGGGHTS/Tutorials_public/multisphere_stone_restitution/in.multisphere | HERTZ,TANGENTIAL_HISTORY,COHESION_OFF,ROLLING_OFF,SURFACE_DEFAULT | yes | NO
+examples/LIGGGHTS/Tutorials_public/packing/in.packing | HERTZ,TANGENTIAL_HISTORY,COHESION_OFF,ROLLING_OFF,SURFACE_DEFAULT | yes | NO
+examples/LIGGGHTS/Tutorials_public/superquadric/in.particle_particle | HERTZ,TANGENTIAL_HISTORY,COHESION_OFF,ROLLING_EPSD2,SURFACE_SUPERQUADRIC | NO | NO
+tests/regression/in.asphere_scheme4_requires_implicit | HERTZ,TANGENTIAL_HISTORY,COHESION_OFF,ROLLING_EPSD2,SURFACE_SUPERQUADRIC | NO | NO
+
+selections parsed: 26 ; missing from local whitelist: 3 ; missing from CMake-default whitelist: 26

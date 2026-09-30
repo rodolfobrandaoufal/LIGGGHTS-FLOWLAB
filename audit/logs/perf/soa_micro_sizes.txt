@@ -1,0 +1,5 @@
+100000  SoA initial: load 23.711 kernel 7.495 store 3.674 | final: load 23.978 kernel 2.035 store 1.755 | SoA total 62.649 (median 62.647) 100000  ratio SoA/AoS (median) 8.19 ; copy share of SoA 84.8% 
+150000  SoA initial: load 24.285 kernel 8.513 store 5.187 | final: load 24.220 kernel 3.560 store 2.538 | SoA total 68.304 (median 67.622) 150000  ratio SoA/AoS (median) 6.43 ; copy share of SoA 82.3% 
+199999  SoA initial: load 24.042 kernel 7.640 store 6.065 | final: load 24.156 kernel 2.524 store 2.836 | SoA total 67.264 (median 67.538) 199999  ratio SoA/AoS (median) 6.09 ; copy share of SoA 84.9% 
+200704  SoA initial: load 24.125 kernel 7.562 store 6.045 | final: load 24.239 kernel 2.543 store 2.864 | SoA total 67.377 (median 67.587) 200704  ratio SoA/AoS (median) 6.03 ; copy share of SoA 85.0% 
+300000  SoA initial: load 25.072 kernel 9.053 store 7.486 | final: load 25.309 kernel 3.142 store 3.548 | SoA total 73.609 (median 73.357) 300000  ratio SoA/AoS (median) 5.83 ; copy share of SoA 83.4% 

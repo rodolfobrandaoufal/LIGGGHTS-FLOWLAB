@@ -1,0 +1,84 @@
+# g++ 11.4.0 flags: -O2
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(0,5e+19,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(0,5e+149,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(0,5e+153,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(0,5e+154,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(0,5e+299,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(0,inf,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(0,-inf,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(-0,5e+19,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(-0,5e+149,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(-0,5e+153,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(-0,5e+154,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(-0,5e+299,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(-0,inf,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(-0,-inf,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(4.94066e-324,5e+19,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(4.94066e-324,5e+149,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(4.94066e-324,5e+153,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(4.94066e-324,5e+154,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(4.94066e-324,5e+299,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(4.94066e-324,inf,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(4.94066e-324,-inf,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(1e-310,5e+19,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(1e-310,5e+149,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(1e-310,5e+153,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(1e-310,5e+154,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(1e-310,5e+299,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(1e-310,inf,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(1e-310,-inf,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(1e-160,5e+19,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(1e-160,5e+149,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(1e-160,5e+153,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(1e-160,5e+154,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(1e-160,5e+299,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(1e-160,inf,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(1e-160,-inf,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(1e-155,5e+19,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(1e-155,5e+149,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(1e-155,5e+153,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(1e-155,5e+154,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+  no_hist diff: Fn=0 gammat=4.94066e-324 v=(1e-155,5e+299,0): OLD br=1 g=0  NEW br=0 g=4.9406564584124654e-324
+no_history special-value grid (18^4)         n=   104976 branch_mismatch=   8694 non_bitwise_outputs=   8626 max_ulp=9218868437227405312
+  checkpoint vrel==0  gammat=5 Fn=1  : OLD g=5  NEW g=5
+  checkpoint vrel==0  gammat=5 Fn=0  : OLD g=5  NEW g=5
+  checkpoint gammat==0 v=1 Fn=1      : OLD g=0  NEW g=0
+  checkpoint gammat==0 v=0 Fn=0      : OLD g=0  NEW g=0
+  checkpoint Fn==0 (Ft_friction=0) v=1 gammat=5 : OLD g=0 NEW g=0
+  checkpoint gammat<0 (-5) v=1 Fn=1  : OLD g=-5  NEW g=-5
+  checkpoint gammat=inf v=0 Fn=1     : OLD g=inf  NEW g=inf
+  checkpoint vtr=1e-160 gammat=1 Fn=1e-170 : OLD br=1 g=1.0000055664551363e-10  NEW br=1 g=1.0000055664551363e-10
+  checkpoint gammat*vrel=1e200, Fn=1e190 (overflow of squares): OLD br=1 NEW br=0
+no_history random physical (2e7)             n= 20000000 branch_mismatch=      0 non_bitwise_outputs=      0 max_ulp=0
+no_history near-tie (+-4ulp, 5e6)            n=  5000000 branch_mismatch= 205535 non_bitwise_outputs=  46192 max_ulp=2
+history random physical (2e7)                n= 20000000 branch_mismatch=      0 non_bitwise_outputs=      0 max_ulp=0
+history near-tie (+-4ulp, 5e6)               n=  5000000 branch_mismatch= 205061 non_bitwise_outputs= 765403 max_ulp=9213972248032939799
+  history diff: kt=4.94066e-324 Fn=0 shear0=1 : OLD br=1 Ft0=-0  NEW br=0 Ft0=-1
+  history diff: kt=4.94066e-324 Fn=0 shear0=1e+20 : OLD br=1 Ft0=-0  NEW br=0 Ft0=-1
+  history diff: kt=4.94066e-324 Fn=0 shear0=1e+150 : OLD br=1 Ft0=-0  NEW br=0 Ft0=-1
+  history diff: kt=4.94066e-324 Fn=0 shear0=1e+154 : OLD br=1 Ft0=-0  NEW br=0 Ft0=-1
+  history diff: kt=4.94066e-324 Fn=0 shear0=1e+155 : OLD br=1 Ft0=-0  NEW br=0 Ft0=-1
+  history diff: kt=4.94066e-324 Fn=0 shear0=1e+300 : OLD br=1 Ft0=-0  NEW br=0 Ft0=-1
+  history diff: kt=4.94066e-324 Fn=0 shear0=inf : OLD br=1 Ft0=-nan  NEW br=0 Ft0=-inf
+  history diff: kt=4.94066e-324 Fn=0 shear0=-inf : OLD br=1 Ft0=-nan  NEW br=0 Ft0=inf
+  history diff: kt=4.94066e-324 Fn=0 shear0=-1 : OLD br=1 Ft0=0  NEW br=0 Ft0=-1
+  history diff: kt=4.94066e-324 Fn=-0 shear0=1 : OLD br=1 Ft0=-0  NEW br=0 Ft0=-1
+  history diff: kt=4.94066e-324 Fn=-0 shear0=1e+20 : OLD br=1 Ft0=-0  NEW br=0 Ft0=-1
+  history diff: kt=4.94066e-324 Fn=-0 shear0=1e+150 : OLD br=1 Ft0=-0  NEW br=0 Ft0=-1
+  history diff: kt=4.94066e-324 Fn=-0 shear0=1e+154 : OLD br=1 Ft0=-0  NEW br=0 Ft0=-1
+  history diff: kt=4.94066e-324 Fn=-0 shear0=1e+155 : OLD br=1 Ft0=-0  NEW br=0 Ft0=-1
+  history diff: kt=4.94066e-324 Fn=-0 shear0=1e+300 : OLD br=1 Ft0=-0  NEW br=0 Ft0=-1
+  history diff: kt=4.94066e-324 Fn=-0 shear0=inf : OLD br=1 Ft0=-nan  NEW br=0 Ft0=-inf
+  history diff: kt=4.94066e-324 Fn=-0 shear0=-inf : OLD br=1 Ft0=-nan  NEW br=0 Ft0=inf
+  history diff: kt=4.94066e-324 Fn=-0 shear0=-1 : OLD br=1 Ft0=0  NEW br=0 Ft0=-1
+  history diff: kt=4.94066e-324 Fn=4.94066e-324 shear0=1 : OLD br=1 Ft0=-0  NEW br=0 Ft0=-1
+  history diff: kt=4.94066e-324 Fn=4.94066e-324 shear0=1e+20 : OLD br=1 Ft0=-0  NEW br=0 Ft0=-1
+  history diff: kt=4.94066e-324 Fn=4.94066e-324 shear0=1e+150 : OLD br=1 Ft0=-0  NEW br=0 Ft0=-1
+  history diff: kt=4.94066e-324 Fn=4.94066e-324 shear0=1e+154 : OLD br=1 Ft0=-0  NEW br=0 Ft0=-1
+  history diff: kt=4.94066e-324 Fn=4.94066e-324 shear0=1e+155 : OLD br=1 Ft0=-0  NEW br=0 Ft0=-1
+  history diff: kt=4.94066e-324 Fn=4.94066e-324 shear0=1e+300 : OLD br=1 Ft0=-0  NEW br=0 Ft0=-1
+  history diff: kt=4.94066e-324 Fn=4.94066e-324 shear0=inf : OLD br=1 Ft0=-nan  NEW br=0 Ft0=-inf
+history special-value grid (18^3)            n=     5832 branch_mismatch=    665 non_bitwise_outputs=   3117 max_ulp=9223372036854775807
+luding gamma (5e6 + specials)                n=  5000016 branch_mismatch=      0 non_bitwise_outputs=      0 max_ulp=0
+rolling cdt wrmag>0 vs wrsq>0                n=  5005832 branch_mismatch=      0 non_bitwise_outputs=      0 max_ulp=0
+rolling epsd/luding omega!=0 vs omega_sq!=0  n=  5005832 branch_mismatch=      0 non_bitwise_outputs=      0 max_ulp=0

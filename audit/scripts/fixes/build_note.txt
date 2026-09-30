@@ -1,0 +1,5 @@
+Binary used for the measured runs in audit/logs/fixes/:
+  copy of the working tree src/ (without GPU_DEM) built with 'make -j32 hdf5mpi'
+  (src/MAKE/Makefile.hdf5mpi: mpic++ -O3 -march=native, -DLIGGGHTS_HDF5, HDF5 1.10.7 parallel, OpenMPI 4.1.2)
+  build date 2026-09-29T14:18:12Z; location: session scratchpad (not kept in repo).
+  Reproduce: rsync -a --exclude GPU_DEM src/ <dir>/src && cd <dir>/src && make -j hdf5mpi

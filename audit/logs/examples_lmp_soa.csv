@@ -1,0 +1,23 @@
+chute_wear_hpc__in.chute_wear_hpc,COMPLETED,0,.567729934,
+chute_wear__in.chute_wear,COMPLETED,0,.544865388,
+cohesion__in.cohesion,COMPLETED,0,.455589396,
+cohesion__in.noCohesion,COMPLETED,0,.444829101,
+contactModels__in.newModels,COMPLETED,0,.495984743,
+contactModels__in.oldModels,FAILED,1,.464237512,ERROR: Invalid pair style (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/force.cpp:247)
+conveyor__in.conveyor,COMPLETED,0,.459151762,
+heatTransfer_1__in.heatGran,COMPLETED,0,.455782650,
+heatTransfer_2__in.heatGran,COMPLETED,0,.443950821,
+hydrogel_multicontact__in.hydrogel_default,COMPLETED,0,.488342088,
+hydrogel_multicontact__in.hydrogel_multicontact,WHITELIST_ERROR,1,.447404633,ERROR: Granular contact model combination is not compiled into the static contact-model whitelist (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/pa
+hysteresis__in.hysteresis,COMPLETED,0,.461286124,
+hysteresis__in.noHysteresis,COMPLETED,0,.493829963,
+insert_stream__in.insert_stream,COMPLETED,0,.471585873,
+insert_stream__in.insert_stream_reset_timestep,FAILED,1,.400868534,
+meshGran__in.meshGran,COMPLETED,0,.467861372,
+mesh_tet__in.mesh_tet,COMPLETED,0,.763786408,
+movingMeshGran__in.movingMeshGran,COMPLETED,0,.506418925,
+multisphere_stone_restitution__in.multisphere,COMPLETED,0,.813066473,
+packing__in.packing,COMPLETED,0,.478598905,
+sph_1__in.sph_1,COMPLETED,0,.479140853,
+sph_2__in.sph_2,COMPLETED,0,.504019945,
+superquadric__in.particle_particle,FAILED,1,.469965127,ERROR: Invalid atom style (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/atom.cpp:459)

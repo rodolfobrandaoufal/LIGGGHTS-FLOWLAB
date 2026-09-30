@@ -1,0 +1,328 @@
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:21:3: warning: use 'using' instead of 'typedef' [modernize-use-using]
+   21 |   typedef T value_type;
+      |   ^~~~~~~~~~~~~~~~~~~~
+      |   using value_type = T
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:22:3: warning: use 'using' instead of 'typedef' [modernize-use-using]
+   22 |   typedef T *pointer;
+      |   ^~~~~~~~~~~~~~~~~~
+      |   using pointer = T *
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:23:3: warning: use 'using' instead of 'typedef' [modernize-use-using]
+   23 |   typedef const T *const_pointer;
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |   using const_pointer = T *
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:24:3: warning: use 'using' instead of 'typedef' [modernize-use-using]
+   24 |   typedef T &reference;
+      |   ^~~~~~~~~~~~~~~~~~~~
+      |   using reference = T &
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:25:3: warning: use 'using' instead of 'typedef' [modernize-use-using]
+   25 |   typedef const T &const_reference;
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |   using const_reference = T &
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:26:3: warning: use 'using' instead of 'typedef' [modernize-use-using]
+   26 |   typedef std::size_t size_type;
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |   using size_type = std::size_t
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:27:3: warning: use 'using' instead of 'typedef' [modernize-use-using]
+   27 |   typedef std::ptrdiff_t difference_type;
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |   using difference_type = std::ptrdiff_t
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:31:5: warning: use 'using' instead of 'typedef' [modernize-use-using]
+   31 |     typedef AlignedAllocator<U, Alignment> other;
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |     using other = AlignedAllocator<U, Alignment>
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:34:3: warning: use '= default' to define a trivial default constructor [modernize-use-equals-default]
+   34 |   AlignedAllocator() throw() {}
+      |   ^                          ~~
+      |                              = default;
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:34:22: warning: dynamic exception specification 'throw()' is deprecated; consider using 'noexcept' instead [modernize-use-noexcept]
+   34 |   AlignedAllocator() throw() {}
+      |                      ^~~~~~~
+      |                      noexcept
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:37:60: warning: dynamic exception specification 'throw()' is deprecated; consider using 'noexcept' instead [modernize-use-noexcept]
+   37 |   AlignedAllocator(const AlignedAllocator<U, Alignment> &) throw() {}
+      |                                                            ^~~~~~~
+      |                                                            noexcept
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:39:48: warning: use nullptr [modernize-use-nullptr]
+   39 |   pointer allocate(size_type n, const void * = 0)
+      |                                                ^
+      |                                                nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:41:17: warning: use nullptr [modernize-use-nullptr]
+   41 |     void *ptr = 0;
+      |                 ^
+      |                 nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:42:24: warning: use nullptr [modernize-use-nullptr]
+   42 |     if (n == 0) return 0;
+      |                        ^
+      |                        nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:48:41: warning: dynamic exception specification 'throw()' is deprecated; consider using 'noexcept' instead [modernize-use-noexcept]
+   48 |   void deallocate(pointer p, size_type) throw()
+      |                                         ^~~~~~~
+      |                                         noexcept
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:50:5: warning: calling legacy resource function without passing a 'gsl::owner<>' [cppcoreguidelines-owning-memory]
+   50 |     std::free(p);
+      |     ^~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:50:5: warning: do not manage memory manually; use RAII [cppcoreguidelines-no-malloc]
+   50 |     std::free(p);
+      |     ^~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:53:3: warning: function 'max_size' should be marked [[nodiscard]] [modernize-use-nodiscard]
+   53 |   size_type max_size() const throw()
+      |   ^
+      |   [[nodiscard]] 
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:53:30: warning: dynamic exception specification 'throw()' is deprecated; consider using 'noexcept' instead [modernize-use-noexcept]
+   53 |   size_type max_size() const throw()
+      |                              ^~~~~~~
+      |                              noexcept
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:85:3: warning: use 'using' instead of 'typedef' [modernize-use-using]
+   85 |   typedef std::vector<double, AlignedAllocator<double, 64> > AlignedDoubleVector;
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |   using AlignedDoubleVector = std::vector<double, AlignedAllocator<double, 64> >
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:115:13: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  115 |       pos_x_[i] = x[i][0];
+      |             ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:116:13: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  116 |       pos_y_[i] = x[i][1];
+      |             ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:117:13: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  117 |       pos_z_[i] = x[i][2];
+      |             ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:118:13: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  118 |       vel_x_[i] = v[i][0];
+      |             ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:119:13: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  119 |       vel_y_[i] = v[i][1];
+      |             ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:120:13: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  120 |       vel_z_[i] = v[i][2];
+      |             ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:121:15: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  121 |       force_x_[i] = f[i][0];
+      |               ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:122:15: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  122 |       force_y_[i] = f[i][1];
+      |               ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:123:15: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  123 |       force_z_[i] = f[i][2];
+      |               ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:124:16: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  124 |       inv_mass_[i] = rmass ? 1.0 / rmass[i] : 1.0 / mass[type[i]];
+      |                ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:131:23: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  131 |       x[i][0] = pos_x_[i];
+      |                       ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:132:23: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  132 |       x[i][1] = pos_y_[i];
+      |                       ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:133:23: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  133 |       x[i][2] = pos_z_[i];
+      |                       ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:134:23: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  134 |       v[i][0] = vel_x_[i];
+      |                       ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:135:23: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  135 |       v[i][1] = vel_y_[i];
+      |                       ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:136:23: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  136 |       v[i][2] = vel_z_[i];
+      |                       ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:143:23: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  143 |       v[i][0] = vel_x_[i];
+      |                       ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:144:23: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  144 |       v[i][1] = vel_y_[i];
+      |                       ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:145:23: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  145 |       v[i][2] = vel_z_[i];
+      |                       ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:152:35: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  152 |     double * const pos_x = &pos_x_[0];
+      |                                   ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:153:35: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  153 |     double * const pos_y = &pos_y_[0];
+      |                                   ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:154:35: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  154 |     double * const pos_z = &pos_z_[0];
+      |                                   ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:155:35: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  155 |     double * const vel_x = &vel_x_[0];
+      |                                   ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:156:35: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  156 |     double * const vel_y = &vel_y_[0];
+      |                                   ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:157:35: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  157 |     double * const vel_z = &vel_z_[0];
+      |                                   ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:158:45: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  158 |     const double * const force_x = &force_x_[0];
+      |                                             ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:159:45: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  159 |     const double * const force_y = &force_y_[0];
+      |                                             ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:160:45: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  160 |     const double * const force_z = &force_z_[0];
+      |                                             ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:161:47: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  161 |     const double * const inv_mass = &inv_mass_[0];
+      |                                               ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:178:35: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  178 |     double * const vel_x = &vel_x_[0];
+      |                                   ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:179:35: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  179 |     double * const vel_y = &vel_y_[0];
+      |                                   ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:180:35: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  180 |     double * const vel_z = &vel_z_[0];
+      |                                   ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:181:45: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  181 |     const double * const force_x = &force_x_[0];
+      |                                             ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:182:45: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  182 |     const double * const force_y = &force_y_[0];
+      |                                             ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:183:45: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  183 |     const double * const force_z = &force_z_[0];
+      |                                             ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:184:47: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  184 |     const double * const inv_mass = &inv_mass_[0];
+      |                                               ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:196:3: warning: function 'size' should be marked [[nodiscard]] [modernize-use-nodiscard]
+  196 |   int size() const { return n_; }
+      |   ^
+      |   [[nodiscard]] 
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/aligned_particle_soa.h:199:7: warning: use default member initializer for 'n_' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+   87 |   int n_;
+      |       ^ 
+      |         {0}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_nve.cpp:46:10: warning: inclusion of deprecated C++ header 'stdio.h'; consider using 'cstdio' instead [modernize-deprecated-headers]
+   46 | #include <stdio.h>
+      |          ^~~~~~~~~
+      |          <cstdio>
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_nve.cpp:47:10: warning: inclusion of deprecated C++ header 'string.h'; consider using 'cstring' instead [modernize-deprecated-headers]
+   47 | #include <string.h>
+      |          ^~~~~~~~~~
+      |          <cstring>
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_nve.cpp:60:1: warning: constructor does not initialize these fields: dtv, dtf, step_respa, mass_require [cppcoreguidelines-pro-type-member-init]
+   60 | FixNVE::FixNVE(LAMMPS *lmp, int narg, char **arg) :
+      | ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_nve.cpp:89:19: warning: C-style casts are discouraged; use static_cast [modernize-avoid-c-style-cast]
+   89 |     step_respa = ((Respa *) update->integrate)->step;
+      |                   ^~~~~~~~~                  
+      |                   static_cast<Respa *>(      )
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_nve.cpp:89:19: warning: do not use C-style cast to downcast from a base to a derived class; use dynamic_cast instead [cppcoreguidelines-pro-type-cstyle-cast]
+note: this fix will not be applied because it overlaps with another fix
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_nve.cpp:113:10: warning: variable 'dtfm' is not initialized [cppcoreguidelines-init-variables]
+   46 |   double dtfm;
+      |          ^   
+      |               = NAN
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_nve.cpp:172:10: warning: variable 'dtfm' is not initialized [cppcoreguidelines-init-variables]
+  172 |   double dtfm;
+      |          ^   
+      |               = NAN
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_nve.h:60:7: warning: class 'FixNVE' defines a non-default destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+   60 | class FixNVE : public Fix {
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_nve.h:63:11: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   63 |   virtual ~FixNVE() {}
+      |   ~~~~~~~ ^
+      |                     override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_nve.h:63:11: warning: use '= default' to define a trivial destructor [modernize-use-equals-default]
+   63 |   virtual ~FixNVE() {}
+      |           ^         ~~
+      |                     = default;
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_nve.h:64:7: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   64 |   int setmask();
+      |       ^        
+      |                 override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_nve.h:65:16: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   65 |   virtual void init();
+      |   ~~~~~~~      ^     
+      |                       override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_nve.h:66:16: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   66 |   virtual void initial_integrate(int);
+      |   ~~~~~~~      ^                     
+      |                                       override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_nve.h:67:16: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   67 |   virtual void final_integrate();
+      |   ~~~~~~~      ^                
+      |                                  override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_nve.h:68:16: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   68 |   virtual void initial_integrate_respa(int, int, int);
+      |   ~~~~~~~      ^                                     
+      |                                                       override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_nve.h:69:16: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   69 |   virtual void final_integrate_respa(int, int);
+      |   ~~~~~~~      ^                              
+      |                                                override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_nve.h:70:16: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   70 |   virtual void reset_dt();
+      |   ~~~~~~~      ^         
+      |                           override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_nve.h:73:10: warning: member variable 'dtv' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   73 |   double dtv,dtf;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_nve.h:73:14: warning: member variable 'dtf' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   73 |   double dtv,dtf;
+      |              ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_nve.h:74:11: warning: member variable 'step_respa' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   74 |   double *step_respa;
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_nve.h:75:7: warning: member variable 'mass_require' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   75 |   int mass_require;
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_nve.h:76:15: warning: member variable 'soa_' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   76 |   ParticleSoA soa_;
+      |               ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:58:1: warning: enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:58:1)' is unscoped, use 'enum class' instead [cppcoreguidelines-use-enum-class]
+   58 | enum
+      | ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:58:1: warning: enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:58:1)' uses a larger base type ('unsigned int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size [performance-enum-size]
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:65:7: warning: class 'FixPropertyGlobal' defines a destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+   65 | class FixPropertyGlobal : public Fix {
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:74:3: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   74 |   ~FixPropertyGlobal();
+      |   ^                   
+      |                        override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:75:7: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   75 |   int setmask();
+      |       ^        
+      |                 override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:76:8: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   76 |   void init();
+      |        ^     
+      |               override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:77:8: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   77 |   void setup_pre_force(int);
+      |        ^                   
+      |                             override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:78:8: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   78 |   void pre_force(int);
+      |        ^             
+      |                       override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:79:8: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   79 |   void pre_delete(bool unfixflag);
+      |        ^                         
+      |                                   override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:83:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   83 |   double memory_usage();
+      |          ^             
+      |                         override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:84:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   84 |   double compute_scalar();
+      |          ^               
+      |                           override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:85:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   85 |   double compute_vector(int);
+      |          ^                  
+      |                              override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:87:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   87 |   double compute_array(int,int);
+      |          ^                     
+      |                                 override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:92:7: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   92 |   int modify_param(int narg, char **arg);
+      |       ^                                 
+      |                                          override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:130:3: warning: function 'clamp_value' should be marked [[nodiscard]] [modernize-use-nodiscard]
+  130 |   double clamp_value(double) const;
+      |   ^
+      |   [[nodiscard]] 

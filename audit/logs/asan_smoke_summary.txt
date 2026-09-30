@@ -1,0 +1,10 @@
+packing_np1_leaks0 rc=0 wall=1.713972468s ubsan_runtime_errors=1 asan_files=0
+chute_wear_np1_leaks0 rc=0 wall=2.554086139s ubsan_runtime_errors=1 asan_files=0
+packing_np2_leaks0 rc=0 wall=1.520029487s ubsan_runtime_errors=2 asan_files=0
+chute_wear_np2_leaks0 rc=0 wall=2.058378928s ubsan_runtime_errors=2 asan_files=0
+packing_np1_leaks1 rc=1 wall=3.983385030s ubsan_runtime_errors=1 asan_files=0
+chute_wear_np1_leaks1 rc=1 wall=4.925539996s ubsan_runtime_errors=1 asan_files=0
+chute_wear_hpc_chute_wear_hpc_np1 rc=0 wall=2.151587440s ubsan=1 asan=0 
+chute_wear_hpc_chute_wear_hpc_np2 rc=0 wall=1.832900993s ubsan=2 asan=0 
+cohesion_cohesion_np2 rc=0 wall=1.392761467s ubsan=2 asan=0 
+hydrogel_multicontact_hydrogel_default_np2 rc=0 wall=1.861700184s ubsan=2 asan=0 

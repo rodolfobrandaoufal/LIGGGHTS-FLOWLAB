@@ -1,0 +1,98 @@
+{
+ "R": {
+  "rc": 0,
+  "dt": 1.2980974882835316e-05,
+  "nwarn": 138,
+  "first_warning": "WARNING: time-step is 20.053476 % of rayleigh time (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_check_timestep_gran.cpp:200)",
+  "rows": [
+   {
+    "step": 500,
+    "R": 0.00098,
+    "E": 10000000.0,
+    "frac_R_code": 0.153061224489796,
+    "frac_R_true": 0.15306122448979595,
+    "frac_H_code": 0.0603264688763601
+   },
+   {
+    "step": 4500,
+    "R": 0.00082,
+    "E": 10000000.0,
+    "frac_R_code": 0.182926829268293,
+    "frac_R_true": 0.1829268292682927,
+    "frac_H_code": 0.0724113766323549
+   },
+   {
+    "step": 8500,
+    "R": 0.00066,
+    "E": 10000000.0,
+    "frac_R_code": 0.227272727272727,
+    "frac_R_true": 0.2272727272727273,
+    "frac_H_code": 0.08996564975535
+   },
+   {
+    "step": 12500,
+    "R": 0.0005,
+    "E": 10000000.0,
+    "frac_R_code": 0.3,
+    "frac_R_true": 0.3,
+    "frac_H_code": 0.118754657677062
+   },
+   {
+    "step": 16500,
+    "R": 0.00034,
+    "E": 10000000.0,
+    "frac_R_code": 0.441176470588235,
+    "frac_R_true": 0.4411764705882353,
+    "frac_H_code": 0.174639202466268
+   }
+  ]
+ },
+ "Y": {
+  "rc": 0,
+  "dt": 1.2980974882835316e-05,
+  "nwarn": 199,
+  "first_warning": "WARNING: time-step is 21.160104 % of rayleigh time (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_check_timestep_gran.cpp:200)",
+  "rows": [
+   {
+    "step": 500,
+    "R": 0.001,
+    "E": 34750000.0,
+    "frac_R_code": 0.279620278234609,
+    "frac_R_true": 0.2796202782346087,
+    "frac_H_code": 0.0590808414501263
+   },
+   {
+    "step": 4500,
+    "R": 0.001,
+    "E": 232750000.0,
+    "frac_R_code": 0.723662559484737,
+    "frac_R_true": 0.7236625594847368,
+    "frac_H_code": 0.0590808414501263
+   },
+   {
+    "step": 8500,
+    "R": 0.001,
+    "E": 430750000.0,
+    "frac_R_code": 0.984473209386624,
+    "frac_R_true": 0.9844732093866243,
+    "frac_H_code": 0.0590808414501263
+   },
+   {
+    "step": 12500,
+    "R": 0.001,
+    "E": 628750000.0,
+    "frac_R_code": 1.18940636453653,
+    "frac_R_true": 1.189406364536528,
+    "frac_H_code": 0.061311754133488
+   },
+   {
+    "step": 16500,
+    "R": 0.001,
+    "E": 826750000.0,
+    "frac_R_code": 1.36388690880146,
+    "frac_R_true": 1.3638869088014594,
+    "frac_H_code": 0.0596521463707444
+   }
+  ]
+ }
+}

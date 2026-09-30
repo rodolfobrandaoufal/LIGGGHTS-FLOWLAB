@@ -1,0 +1,53 @@
+{
+ "vv11": {
+  "rc": 0,
+  "h5_id_dtype": "int64",
+  "h5_ids": [
+   16777217,
+   16777218,
+   16777219,
+   16777220
+  ],
+  "h5_y": [
+   0.0012345678901234567,
+   0.0012345678901234567,
+   0.0012345678901234567,
+   0.0012345678901234567
+  ],
+  "xdmf_has_precision": false,
+  "vtk_ids": [
+   16777216.0,
+   16777218.0,
+   16777220.0,
+   16777220.0
+  ],
+  "vtk_y": [
+   0.0012345678405836225,
+   0.0012345678405836225,
+   0.0012345678405836225,
+   0.0012345678405836225
+  ],
+  "vtk_report": "/media/storage/LIGGGHTS-PUBLIC-v6/audit/cases/vv/c10_hdf5/vv11_bigids/post/big.h5.xdmf: steps=3 first/last t=0.0/20.0 npts=4 ncells=4 celltype0=2\n   point arrays: {'id': ('float', (16777216.0, 16777220.0)), 'velocity': ('float', (0.0, 0.0)), 'force': ('float', (0.0, 0.0)), 'omega': ('float', (0.0, 0.0)), 'radius': ('float', (0.001, 0.001))}\n   cell arrays : {}"
+ },
+ "vv13": {
+  "rc1": 0,
+  "rc2": 0,
+  "groups_after_job1": [
+   "Step_0",
+   "Step_1000",
+   "Step_200",
+   "Step_400",
+   "Step_600",
+   "Step_800"
+  ],
+  "groups_after_job2": [
+   "Step_1000",
+   "Step_1200",
+   "Step_1400",
+   "Step_1600",
+   "Step_1800",
+   "Step_2000"
+  ],
+  "err2": []
+ }
+}

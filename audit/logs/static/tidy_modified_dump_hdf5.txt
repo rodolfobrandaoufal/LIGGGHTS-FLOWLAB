@@ -1,0 +1,340 @@
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:10:10: warning: inclusion of deprecated C++ header 'stdio.h'; consider using 'cstdio' instead [modernize-deprecated-headers]
+   10 | #include <stdio.h>
+      |          ^~~~~~~~~
+      |          <cstdio>
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:11:10: warning: inclusion of deprecated C++ header 'string.h'; consider using 'cstring' instead [modernize-deprecated-headers]
+   11 | #include <string.h>
+      |          ^~~~~~~~~~
+      |          <cstring>
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:36:11: warning: use '= default' to define a trivial destructor [modernize-use-equals-default]
+   36 | DumpHDF5::~DumpHDF5()
+      |           ^
+   37 | {
+      | ~
+      | = default;
+   38 | }
+      | ~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:122:52: warning: do not cast 'struct ompi_predefined_datatype_t *' to 'MPI_Datatype' (aka 'struct ompi_datatype_t *') through 'void *'; use reinterpret_cast instead [bugprone-casting-through-void]
+  122 |   MPI_Allreduce(&local_count_ll,&global_count_ll,1,MPI_LONG_LONG,MPI_SUM,world);
+      |                                                    ^
+/usr/lib/x86_64-linux-gnu/openmpi/include/mpi.h:1188:23: note: expanded from macro 'MPI_LONG_LONG'
+ 1188 | #define MPI_LONG_LONG OMPI_PREDEFINED_GLOBAL(MPI_Datatype, ompi_mpi_long_long_int)
+      |                       ^
+/usr/lib/x86_64-linux-gnu/openmpi/include/mpi.h:400:66: note: expanded from macro 'OMPI_PREDEFINED_GLOBAL'
+  400 | #define OMPI_PREDEFINED_GLOBAL(type, global) (static_cast<type> (static_cast<void *> (&(global))))
+      |                                                                  ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:122:66: warning: do not cast 'struct ompi_predefined_op_t *' to 'MPI_Op' (aka 'struct ompi_op_t *') through 'void *'; use reinterpret_cast instead [bugprone-casting-through-void]
+  122 |   MPI_Allreduce(&local_count_ll,&global_count_ll,1,MPI_LONG_LONG,MPI_SUM,world);
+      |                                                                  ^
+/usr/lib/x86_64-linux-gnu/openmpi/include/mpi.h:1149:17: note: expanded from macro 'MPI_SUM'
+ 1149 | #define MPI_SUM OMPI_PREDEFINED_GLOBAL(MPI_Op, ompi_mpi_op_sum)
+      |                 ^
+/usr/lib/x86_64-linux-gnu/openmpi/include/mpi.h:400:66: note: expanded from macro 'OMPI_PREDEFINED_GLOBAL'
+  400 | #define OMPI_PREDEFINED_GLOBAL(type, global) (static_cast<type> (static_cast<void *> (&(global))))
+      |                                                                  ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:123:43: warning: do not cast 'struct ompi_predefined_datatype_t *' to 'MPI_Datatype' (aka 'struct ompi_datatype_t *') through 'void *'; use reinterpret_cast instead [bugprone-casting-through-void]
+  123 |   MPI_Exscan(&local_count_ll,&offset_ll,1,MPI_LONG_LONG,MPI_SUM,world);
+      |                                           ^
+/usr/lib/x86_64-linux-gnu/openmpi/include/mpi.h:1188:23: note: expanded from macro 'MPI_LONG_LONG'
+ 1188 | #define MPI_LONG_LONG OMPI_PREDEFINED_GLOBAL(MPI_Datatype, ompi_mpi_long_long_int)
+      |                       ^
+/usr/lib/x86_64-linux-gnu/openmpi/include/mpi.h:400:66: note: expanded from macro 'OMPI_PREDEFINED_GLOBAL'
+  400 | #define OMPI_PREDEFINED_GLOBAL(type, global) (static_cast<type> (static_cast<void *> (&(global))))
+      |                                                                  ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:123:57: warning: do not cast 'struct ompi_predefined_op_t *' to 'MPI_Op' (aka 'struct ompi_op_t *') through 'void *'; use reinterpret_cast instead [bugprone-casting-through-void]
+  123 |   MPI_Exscan(&local_count_ll,&offset_ll,1,MPI_LONG_LONG,MPI_SUM,world);
+      |                                                         ^
+/usr/lib/x86_64-linux-gnu/openmpi/include/mpi.h:1149:17: note: expanded from macro 'MPI_SUM'
+ 1149 | #define MPI_SUM OMPI_PREDEFINED_GLOBAL(MPI_Op, ompi_mpi_op_sum)
+      |                 ^
+/usr/lib/x86_64-linux-gnu/openmpi/include/mpi.h:400:66: note: expanded from macro 'OMPI_PREDEFINED_GLOBAL'
+  400 | #define OMPI_PREDEFINED_GLOBAL(type, global) (static_cast<type> (static_cast<void *> (&(global))))
+      |                                                                  ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:127:33: warning: performing an implicit widening conversion to type 'size_type' (aka 'unsigned long') of a multiplication performed in type 'int' [bugprone-implicit-widening-of-multiplication-result]
+  127 |   std::vector<double> positions(3*nlocal_selected);
+      |                                 ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:127:33: note: make conversion explicit to silence this warning
+   15 |   std::vector<double> positions(3*nlocal_selected);
+      |                                 ^~~~~~~~~~~~~~~~~
+      |                                 static_cast<size_type>( )
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:127:33: note: perform multiplication in a wider type
+  127 |   std::vector<double> positions(3*nlocal_selected);
+      |                                 ^
+      |                                 static_cast<long>( )
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:128:34: warning: performing an implicit widening conversion to type 'size_type' (aka 'unsigned long') of a multiplication performed in type 'int' [bugprone-implicit-widening-of-multiplication-result]
+  128 |   std::vector<double> velocities(3*nlocal_selected);
+      |                                  ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:128:34: note: make conversion explicit to silence this warning
+  128 |   std::vector<double> velocities(3*nlocal_selected);
+      |                                  ^~~~~~~~~~~~~~~~~
+      |                                  static_cast<size_type>( )
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:128:34: note: perform multiplication in a wider type
+  128 |   std::vector<double> velocities(3*nlocal_selected);
+      |                                  ^
+      |                                  static_cast<long>( )
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:129:30: warning: performing an implicit widening conversion to type 'size_type' (aka 'unsigned long') of a multiplication performed in type 'int' [bugprone-implicit-widening-of-multiplication-result]
+  129 |   std::vector<double> forces(3*nlocal_selected);
+      |                              ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:129:30: note: make conversion explicit to silence this warning
+  129 |   std::vector<double> forces(3*nlocal_selected);
+      |                              ^~~~~~~~~~~~~~~~~
+      |                              static_cast<size_type>( )
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:129:30: note: perform multiplication in a wider type
+  129 |   std::vector<double> forces(3*nlocal_selected);
+      |                              ^
+      |                              static_cast<long>( )
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:130:30: warning: performing an implicit widening conversion to type 'size_type' (aka 'unsigned long') of a multiplication performed in type 'int' [bugprone-implicit-widening-of-multiplication-result]
+  130 |   std::vector<double> omegas(3*nlocal_selected);
+      |                              ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:130:30: note: make conversion explicit to silence this warning
+  130 |   std::vector<double> omegas(3*nlocal_selected);
+      |                              ^~~~~~~~~~~~~~~~~
+      |                              static_cast<size_type>( )
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:130:30: note: perform multiplication in a wider type
+  130 |   std::vector<double> omegas(3*nlocal_selected);
+      |                              ^
+      |                              static_cast<long>( )
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:132:28: warning: use nullptr [modernize-use-nullptr]
+  132 |   pack_local(ids.empty() ? 0 : &ids[0],
+      |                            ^
+      |                            nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:132:36: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  132 |   pack_local(ids.empty() ? 0 : &ids[0],
+      |                                    ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:133:34: warning: use nullptr [modernize-use-nullptr]
+  133 |              positions.empty() ? 0 : &positions[0],
+      |                                  ^
+      |                                  nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:133:48: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  133 |              positions.empty() ? 0 : &positions[0],
+      |                                                ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:134:35: warning: use nullptr [modernize-use-nullptr]
+  134 |              velocities.empty() ? 0 : &velocities[0],
+      |                                   ^
+      |                                   nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:134:50: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  134 |              velocities.empty() ? 0 : &velocities[0],
+      |                                                  ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:135:31: warning: use nullptr [modernize-use-nullptr]
+  135 |              forces.empty() ? 0 : &forces[0],
+      |                               ^
+      |                               nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:135:42: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  135 |              forces.empty() ? 0 : &forces[0],
+      |                                          ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:136:31: warning: use nullptr [modernize-use-nullptr]
+  136 |              omegas.empty() ? 0 : &omegas[0],
+      |                               ^
+      |                               nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:136:42: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  136 |              omegas.empty() ? 0 : &omegas[0],
+      |                                          ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:137:30: warning: use nullptr [modernize-use-nullptr]
+  137 |              radii.empty() ? 0 : &radii[0],
+      |                              ^
+      |                              nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:137:40: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  137 |              radii.empty() ? 0 : &radii[0],
+      |                                        ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:144:32: warning: do not cast 'struct ompi_predefined_info_t *' to 'MPI_Info' (aka 'struct ompi_info_t *') through 'void *'; use reinterpret_cast instead [bugprone-casting-through-void]
+  144 |   H5Pset_fapl_mpio(plist,world,MPI_INFO_NULL);
+      |                                ^
+/usr/lib/x86_64-linux-gnu/openmpi/include/mpi.h:859:23: note: expanded from macro 'MPI_INFO_NULL'
+  859 | #define MPI_INFO_NULL OMPI_PREDEFINED_GLOBAL(MPI_Info, ompi_mpi_info_null)
+      |                       ^
+/usr/lib/x86_64-linux-gnu/openmpi/include/mpi.h:400:66: note: expanded from macro 'OMPI_PREDEFINED_GLOBAL'
+  400 | #define OMPI_PREDEFINED_GLOBAL(type, global) (static_cast<type> (static_cast<void *> (&(global))))
+      |                                                                  ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:166:9: warning: use auto when initializing with a cast to avoid duplicating the type name [modernize-use-auto]
+  166 |   const hsize_t chunk_rows =
+      |         ^~~~~~~
+      |         auto
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:174:52: warning: use nullptr [modernize-use-nullptr]
+  174 |   hid_t filespace = H5Screate_simple(1,scalar_dims,NULL);
+      |                                                    ^~~~
+      |                                                    nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:175:52: warning: use nullptr [modernize-use-nullptr]
+  175 |   hid_t memspace = H5Screate_simple(1,scalar_count,NULL);
+      |                                                    ^~~~
+      |                                                    nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:176:62: warning: use nullptr [modernize-use-nullptr]
+  176 |   H5Sselect_hyperslab(filespace,H5S_SELECT_SET,scalar_offset,NULL,scalar_count,NULL);
+      |                                                              ^~~~
+      |                                                              nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:176:80: warning: use nullptr [modernize-use-nullptr]
+  176 |   H5Sselect_hyperslab(filespace,H5S_SELECT_SET,scalar_offset,NULL,scalar_count,NULL);
+      |                                                                                ^~~~
+      |                                                                                nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:180:72: warning: use nullptr [modernize-use-nullptr]
+  180 |   H5Dwrite(dset,H5T_NATIVE_LLONG,memspace,filespace,dxpl,ids.empty() ? 0 : &ids[0]);
+      |                                                                        ^
+      |                                                                        nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:180:80: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  180 |   H5Dwrite(dset,H5T_NATIVE_LLONG,memspace,filespace,dxpl,ids.empty() ? 0 : &ids[0]);
+      |                                                                                ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:186:46: warning: use nullptr [modernize-use-nullptr]
+  186 |   filespace = H5Screate_simple(2,vector_dims,NULL);
+      |                                              ^~~~
+      |                                              nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:187:46: warning: use nullptr [modernize-use-nullptr]
+  187 |   memspace = H5Screate_simple(2,vector_count,NULL);
+      |                                              ^~~~
+      |                                              nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:188:62: warning: use nullptr [modernize-use-nullptr]
+  188 |   H5Sselect_hyperslab(filespace,H5S_SELECT_SET,vector_offset,NULL,vector_count,NULL);
+      |                                                              ^~~~
+      |                                                              nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:188:80: warning: use nullptr [modernize-use-nullptr]
+  188 |   H5Sselect_hyperslab(filespace,H5S_SELECT_SET,vector_offset,NULL,vector_count,NULL);
+      |                                                                                ^~~~
+      |                                                                                nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:192:79: warning: use nullptr [modernize-use-nullptr]
+  192 |   H5Dwrite(dset,H5T_NATIVE_DOUBLE,memspace,filespace,dxpl,positions.empty() ? 0 : &positions[0]);
+      |                                                                               ^
+      |                                                                               nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:192:93: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  192 |   H5Dwrite(dset,H5T_NATIVE_DOUBLE,memspace,filespace,dxpl,positions.empty() ? 0 : &positions[0]);
+      |                                                                                             ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:198:46: warning: use nullptr [modernize-use-nullptr]
+  198 |   filespace = H5Screate_simple(2,vector_dims,NULL);
+      |                                              ^~~~
+      |                                              nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:199:46: warning: use nullptr [modernize-use-nullptr]
+  199 |   memspace = H5Screate_simple(2,vector_count,NULL);
+      |                                              ^~~~
+      |                                              nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:200:62: warning: use nullptr [modernize-use-nullptr]
+  200 |   H5Sselect_hyperslab(filespace,H5S_SELECT_SET,vector_offset,NULL,vector_count,NULL);
+      |                                                              ^~~~
+      |                                                              nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:200:80: warning: use nullptr [modernize-use-nullptr]
+  200 |   H5Sselect_hyperslab(filespace,H5S_SELECT_SET,vector_offset,NULL,vector_count,NULL);
+      |                                                                                ^~~~
+      |                                                                                nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:204:80: warning: use nullptr [modernize-use-nullptr]
+  204 |   H5Dwrite(dset,H5T_NATIVE_DOUBLE,memspace,filespace,dxpl,velocities.empty() ? 0 : &velocities[0]);
+      |                                                                                ^
+      |                                                                                nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:204:95: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  204 |   H5Dwrite(dset,H5T_NATIVE_DOUBLE,memspace,filespace,dxpl,velocities.empty() ? 0 : &velocities[0]);
+      |                                                                                               ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:210:46: warning: use nullptr [modernize-use-nullptr]
+  210 |   filespace = H5Screate_simple(2,vector_dims,NULL);
+      |                                              ^~~~
+      |                                              nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:211:46: warning: use nullptr [modernize-use-nullptr]
+  211 |   memspace = H5Screate_simple(2,vector_count,NULL);
+      |                                              ^~~~
+      |                                              nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:212:62: warning: use nullptr [modernize-use-nullptr]
+  212 |   H5Sselect_hyperslab(filespace,H5S_SELECT_SET,vector_offset,NULL,vector_count,NULL);
+      |                                                              ^~~~
+      |                                                              nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:212:80: warning: use nullptr [modernize-use-nullptr]
+  212 |   H5Sselect_hyperslab(filespace,H5S_SELECT_SET,vector_offset,NULL,vector_count,NULL);
+      |                                                                                ^~~~
+      |                                                                                nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:216:76: warning: use nullptr [modernize-use-nullptr]
+  216 |   H5Dwrite(dset,H5T_NATIVE_DOUBLE,memspace,filespace,dxpl,forces.empty() ? 0 : &forces[0]);
+      |                                                                            ^
+      |                                                                            nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:216:87: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  216 |   H5Dwrite(dset,H5T_NATIVE_DOUBLE,memspace,filespace,dxpl,forces.empty() ? 0 : &forces[0]);
+      |                                                                                       ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:222:46: warning: use nullptr [modernize-use-nullptr]
+  222 |   filespace = H5Screate_simple(2,vector_dims,NULL);
+      |                                              ^~~~
+      |                                              nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:223:46: warning: use nullptr [modernize-use-nullptr]
+  223 |   memspace = H5Screate_simple(2,vector_count,NULL);
+      |                                              ^~~~
+      |                                              nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:224:62: warning: use nullptr [modernize-use-nullptr]
+  224 |   H5Sselect_hyperslab(filespace,H5S_SELECT_SET,vector_offset,NULL,vector_count,NULL);
+      |                                                              ^~~~
+      |                                                              nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:224:80: warning: use nullptr [modernize-use-nullptr]
+  224 |   H5Sselect_hyperslab(filespace,H5S_SELECT_SET,vector_offset,NULL,vector_count,NULL);
+      |                                                                                ^~~~
+      |                                                                                nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:228:76: warning: use nullptr [modernize-use-nullptr]
+  228 |   H5Dwrite(dset,H5T_NATIVE_DOUBLE,memspace,filespace,dxpl,omegas.empty() ? 0 : &omegas[0]);
+      |                                                                            ^
+      |                                                                            nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:228:87: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  228 |   H5Dwrite(dset,H5T_NATIVE_DOUBLE,memspace,filespace,dxpl,omegas.empty() ? 0 : &omegas[0]);
+      |                                                                                       ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:234:46: warning: use nullptr [modernize-use-nullptr]
+  234 |   filespace = H5Screate_simple(1,scalar_dims,NULL);
+      |                                              ^~~~
+      |                                              nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:235:46: warning: use nullptr [modernize-use-nullptr]
+  235 |   memspace = H5Screate_simple(1,scalar_count,NULL);
+      |                                              ^~~~
+      |                                              nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:236:62: warning: use nullptr [modernize-use-nullptr]
+  236 |   H5Sselect_hyperslab(filespace,H5S_SELECT_SET,scalar_offset,NULL,scalar_count,NULL);
+      |                                                              ^~~~
+      |                                                              nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:236:80: warning: use nullptr [modernize-use-nullptr]
+  236 |   H5Sselect_hyperslab(filespace,H5S_SELECT_SET,scalar_offset,NULL,scalar_count,NULL);
+      |                                                                                ^~~~
+      |                                                                                nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:240:75: warning: use nullptr [modernize-use-nullptr]
+  240 |   H5Dwrite(dset,H5T_NATIVE_DOUBLE,memspace,filespace,dxpl,radii.empty() ? 0 : &radii[0]);
+      |                                                                           ^
+      |                                                                           nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:240:85: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  240 |   H5Dwrite(dset,H5T_NATIVE_DOUBLE,memspace,filespace,dxpl,radii.empty() ? 0 : &radii[0]);
+      |                                                                                     ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:247:51: warning: use nullptr [modernize-use-nullptr]
+  247 |   hid_t attr_space = H5Screate_simple(1,attr_dims,NULL);
+      |                                                   ^~~~
+      |                                                   nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:249:3: warning: use auto when initializing with a cast to avoid duplicating the type name [modernize-use-auto]
+  249 |   long long step_ll = static_cast<long long>(update->ntimestep);
+      |   ^~~~~~~~~
+      |   auto
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:274:3: warning: initializing non-owner 'FILE *' (aka 'struct _IO_FILE *') with a newly created 'gsl::owner<>' [cppcoreguidelines-owning-memory]
+  274 |   FILE *xmf = fopen(xdmfname,"w");
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:283:11: warning: use auto when initializing with a cast to avoid duplicating the type name [modernize-use-auto]
+  283 |     const long long step = static_cast<long long>(written_steps_[i]);
+      |           ^~~~~~~~~
+      |           auto
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:283:65: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  283 |     const long long step = static_cast<long long>(written_steps_[i]);
+      |                                                                 ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:284:44: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  284 |     const long long count = written_counts_[i];
+      |                                            ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.cpp:312:3: warning: calling legacy resource function without passing a 'gsl::owner<>' [cppcoreguidelines-owning-memory]
+  312 |   fclose(xmf);
+      |   ^~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.h:24:7: warning: class 'DumpHDF5' defines a non-default destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+   24 | class DumpHDF5 : public Dump {
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.h:27:11: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   27 |   virtual ~DumpHDF5();
+      |   ~~~~~~~ ^          
+      |                       override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.h:28:16: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   28 |   virtual void write();
+      |   ~~~~~~~      ^      
+      |                        override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.h:31:16: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   31 |   virtual void init_style();
+      |   ~~~~~~~      ^           
+      |                             override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.h:32:16: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   32 |   virtual void write_header(bigint) {}
+      |   ~~~~~~~      ^
+      |                                     override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.h:33:16: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   33 |   virtual void pack(int *) {}
+      |   ~~~~~~~      ^
+      |                            override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_hdf5.h:34:16: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   34 |   virtual void write_data(int, double *) {}
+      |   ~~~~~~~      ^
+      |                                          override

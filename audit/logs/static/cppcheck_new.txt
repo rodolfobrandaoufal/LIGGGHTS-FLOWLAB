@@ -1,0 +1,97 @@
+# cppcheck --enable=all --inconclusive, scope files: modified=665 baseline=587 new(line-insensitive)=87
+#    42 warning/nullPointerOutOfResources
+#    27 style/missingOverride
+#     8 performance/functionStatic
+#     4 style/constVariablePointer
+#     2 information/normalCheckLevelMaxBranches
+#     1 style/noExplicitConstructor
+#     1 style/functionConst
+#     1 warning/noCopyConstructor
+#     1 warning/noOperatorEq
+aligned_particle_soa.h:37: style: noExplicitConstructor: Class 'AlignedAllocator < double , 64 >' has a constructor with 1 argument that is not explicit.
+aligned_particle_soa.h:39: performance: functionStatic: Technically the member function 'AlignedAllocator < double , 64 >::allocate' can be static (but you may consider moving to unnamed namespace).
+aligned_particle_soa.h:48: performance: functionStatic: Technically the member function 'AlignedAllocator < double , 64 >::deallocate' can be static (but you may consider moving to unnamed namespace).
+aligned_particle_soa.h:53: performance: functionStatic: Technically the member function 'AlignedAllocator < double , 64 >::max_size' can be static (but you may consider moving to unnamed namespace).
+aligned_particle_soa.h:58: performance: functionStatic: Technically the member function 'AlignedAllocator < double , 64 >::construct' can be static (but you may consider moving to unnamed namespace).
+aligned_particle_soa.h:63: performance: functionStatic: Technically the member function 'AlignedAllocator < double , 64 >::destroy' can be static (but you may consider moving to unnamed namespace).
+cohesion_model_generalized_adhesion.h:34: style: missingOverride: The function 'registerSettings' overrides a function in a base class but is not marked with a 'override' specifier.
+cohesion_model_generalized_adhesion.h:39: style: missingOverride: The function 'postSettings' overrides a function in a base class but is not marked with a 'override' specifier.
+cohesion_model_generalized_adhesion.h:41: style: missingOverride: The function 'connectToProperties' overrides a function in a base class but is not marked with a 'override' specifier.
+cohesion_model_generalized_adhesion.h:58: style: missingOverride: The function 'surfacesIntersect' overrides a function in a base class but is not marked with a 'override' specifier.
+cohesion_model_generalized_adhesion.h:63: style: missingOverride: The function 'endSurfacesIntersect' overrides a function in a base class but is not marked with a 'override' specifier.
+cohesion_model_generalized_adhesion.h:64: style: missingOverride: The function 'beginPass' overrides a function in a base class but is not marked with a 'override' specifier.
+cohesion_model_generalized_adhesion.h:65: style: missingOverride: The function 'endPass' overrides a function in a base class but is not marked with a 'override' specifier.
+cohesion_model_generalized_adhesion.h:67: style: missingOverride: The function 'surfacesClose' overrides a function in a base class but is not marked with a 'override' specifier.
+cohesion_model_generalized_adhesion.h:76: performance: functionStatic: Technically the member function 'LIGGGHTS::ContactModels::CohesionModel < COHESION_GENERALIZED_ADHESION >::effectiveRadius' can be static (but you may consider moving to unnamed namespace).
+cohesion_model_generalized_adhesion.h:113: style: functionConst: Technically the member function 'LIGGGHTS::ContactModels::CohesionModel < COHESION_GENERALIZED_ADHESION >::addCohesion' can be const.
+dump_hdf5.cpp:77: style: constVariablePointer: Variable 'tag' can be declared as pointer to const
+dump_hdf5.cpp:82: style: constVariablePointer: Variable 'radius' can be declared as pointer to const
+dump_hdf5.cpp:83: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+dump_hdf5.cpp:277: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:278: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:279: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:280: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:285: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:286: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:287: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:288: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:289: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:290: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:291: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:292: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:293: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:294: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:295: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:296: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:297: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:298: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:299: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:300: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:301: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:302: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:303: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:304: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:305: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:306: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:309: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:310: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:311: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.cpp:312: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_hdf5.h:27: style: missingOverride: The destructor '~DumpHDF5' overrides a destructor in a base class but is not marked with a 'override' specifier.
+dump_hdf5.h:28: style: missingOverride: The function 'write' overrides a function in a base class but is not marked with a 'override' specifier.
+dump_hdf5.h:31: style: missingOverride: The function 'init_style' overrides a function in a base class but is not marked with a 'override' specifier.
+dump_hdf5.h:32: style: missingOverride: The function 'write_header' overrides a function in a base class but is not marked with a 'override' specifier.
+dump_hdf5.h:33: style: missingOverride: The function 'pack' overrides a function in a base class but is not marked with a 'override' specifier.
+dump_hdf5.h:34: style: missingOverride: The function 'write_data' overrides a function in a base class but is not marked with a 'override' specifier.
+dump_mesh_hdf5.cpp:0: information: normalCheckLevelMaxBranches: Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches.
+dump_mesh_hdf5.cpp:431: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_mesh_hdf5.cpp:432: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_mesh_hdf5.cpp:433: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_mesh_hdf5.cpp:434: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_mesh_hdf5.cpp:440: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_mesh_hdf5.cpp:441: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_mesh_hdf5.cpp:442: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_mesh_hdf5.cpp:443: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_mesh_hdf5.cpp:444: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_mesh_hdf5.cpp:445: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_mesh_hdf5.cpp:446: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_mesh_hdf5.cpp:447: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: xmf
+dump_mesh_hdf5.h:36: style: missingOverride: The destructor '~DumpMeshHDF5' overrides a destructor in a base class but is not marked with a 'override' specifier.
+dump_mesh_hdf5.h:37: style: missingOverride: The function 'write' overrides a function in a base class but is not marked with a 'override' specifier.
+dump_mesh_hdf5.h:40: style: missingOverride: The function 'init_style' overrides a function in a base class but is not marked with a 'override' specifier.
+dump_mesh_hdf5.h:41: style: missingOverride: The function 'write_header' overrides a function in a base class but is not marked with a 'override' specifier.
+dump_mesh_hdf5.h:42: style: missingOverride: The function 'pack' overrides a function in a base class but is not marked with a 'override' specifier.
+dump_mesh_hdf5.h:43: style: missingOverride: The function 'write_data' overrides a function in a base class but is not marked with a 'override' specifier.
+fix_adapt_liggghts.cpp:0: information: normalCheckLevelMaxBranches: Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches.
+fix_adapt_liggghts.cpp:49: warning: noCopyConstructor: Class 'FixAdaptLiggghts' does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s).
+fix_adapt_liggghts.cpp:49: warning: noOperatorEq: Class 'FixAdaptLiggghts' does not have a operator= which is recommended since it has dynamic memory/resource allocation(s).
+fix_adapt_liggghts.cpp:135: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+fix_adapt_liggghts.h:21: style: missingOverride: The destructor '~FixAdaptLiggghts' overrides a destructor in a base class but is not marked with a 'override' specifier.
+fix_adapt_liggghts.h:22: style: missingOverride: The function 'setmask' overrides a function in a base class but is not marked with a 'override' specifier.
+fix_adapt_liggghts.h:23: style: missingOverride: The function 'init' overrides a function in a base class but is not marked with a 'override' specifier.
+fix_adapt_liggghts.h:24: style: missingOverride: The function 'setup_pre_force' overrides a function in a base class but is not marked with a 'override' specifier.
+fix_adapt_liggghts.h:25: style: missingOverride: The function 'pre_force' overrides a function in a base class but is not marked with a 'override' specifier.
+fix_property_global.h:77: style: missingOverride: The function 'setup_pre_force' overrides a function in a base class but is not marked with a 'override' specifier.
+fix_property_global.h:78: style: missingOverride: The function 'pre_force' overrides a function in a base class but is not marked with a 'override' specifier.
+velocity.h:88: performance: functionStatic: Technically the member function 'LAMMPS_NS::Velocity::sync_linear_sphere_soa' can be static (but you may consider moving to unnamed namespace).
+velocity.h:89: performance: functionStatic: Technically the member function 'LAMMPS_NS::Velocity::sync_angular_sphere_soa' can be static (but you may consider moving to unnamed namespace).

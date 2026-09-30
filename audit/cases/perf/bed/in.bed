@@ -1,0 +1,23 @@
+# Benchmark: settled bidisperse bed, hertz/history, primitive bottom wall.
+# vars: restart, nsteps, integ (nve/sphere|nve), nmod (extra neigh_modify args)
+atom_style granular
+atom_modify map array
+boundary p p f
+newton off
+communicate single vel yes
+units si
+variable px index *
+variable py index *
+variable pz index *
+processors ${px} ${py} ${pz}
+read_restart ${restart}
+neighbor 0.0005 bin
+neigh_modify delay 0 ${nmod}
+timestep 1e-5
+variable props index in.common_props
+include ${props}
+fix integr all ${integ}
+modify_timing on
+thermo_style custom step atoms ke
+thermo 1000
+run ${nsteps}

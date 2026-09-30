@@ -1,0 +1,876 @@
+In file included from /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/ompi/mpi/cxx/mpicxx.h:277,
+                 from /usr/lib/x86_64-linux-gnu/openmpi/include/mpi.h:2887,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:52:
+/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/ompi/mpi/cxx/op_inln.h: In member function ‘virtual void MPI::Op::Init(void (*)(const void*, void*, int, const MPI::Datatype&), bool)’:
+/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/ompi/mpi/cxx/op_inln.h:121:25: warning: cast between incompatible function types from ‘void (*)(void*, void*, int*, ompi_datatype_t**, void (*)(void*, void*, int*, ompi_datatype_t**))’ to ‘void (*)(void*, void*, int*, ompi_datatype_t**)’ [-Wcast-function-type]
+  121 |     (void)MPI_Op_create((MPI_User_function*) ompi_mpi_cxx_op_intercept,
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/ompi/mpi/cxx/op_inln.h:123:38: warning: cast between incompatible function types from ‘void (*)(const void*, void*, int, const MPI::Datatype&)’ to ‘void (*)(void*, void*, int*, ompi_datatype_t**)’ [-Wcast-function-type]
+  123 |     ompi_op_set_cxx_callback(mpi_op, (MPI_User_function*) func);
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/atom_vec_atomic.h:55,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_atom.h:2,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:57:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/atom_vec.h: In member function ‘virtual void LAMMPS_NS::AtomVec::pack_data(double**, int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/atom_vec.h:126:43: warning: unused parameter ‘tag_offset’ [-Wunused-parameter]
+  126 |   virtual void pack_data(double **buf,int tag_offset) { pack_data(buf); }
+      |                                       ~~~~^~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/atom_vec.h: In member function ‘virtual void LAMMPS_NS::AtomVec::pack_vel(double**, int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/atom_vec.h:131:42: warning: unused parameter ‘tag_offset’ [-Wunused-parameter]
+  131 |   virtual void pack_vel(double **buf,int tag_offset) { pack_vel(buf); }
+      |                                      ~~~~^~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_compute.h:29,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:60:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/compute_pair_gran_local.h: In member function ‘virtual bool LAMMPS_NS::ComputePairGranLocal::decide_add(double*, double*&)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/compute_pair_gran_local.h:84:35: warning: unused parameter ‘hist’ [-Wunused-parameter]
+   84 |   virtual bool decide_add(double *hist, double * &contact_pos)
+      |                           ~~~~~~~~^~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/compute_pair_gran_local.h:84:51: warning: unused parameter ‘contact_pos’ [-Wunused-parameter]
+   84 |   virtual bool decide_add(double *hist, double * &contact_pos)
+      |                                         ~~~~~~~~~~^~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_adapt.h:61,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:2,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix.h: In member function ‘virtual void LAMMPS_NS::Fix::reset_timestep(LAMMPS_NS::bigint, LAMMPS_NS::bigint)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix.h:224:53: warning: unused parameter ‘oldstep’ [-Wunused-parameter]
+  224 |   virtual void reset_timestep(bigint newstep,bigint oldstep)
+      |                                              ~~~~~~~^~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix.h: In member function ‘virtual double* LAMMPS_NS::Fix::getCreateMeshTriNode(int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix.h:261:51: warning: unused parameter ‘i’ [-Wunused-parameter]
+  261 |   virtual double * getCreateMeshTriNode(const int i)
+      |                                         ~~~~~~~~~~^
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/domain_wedge.h:1,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/multi_node_mesh_parallel.h:53,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/tracking_mesh.h:51,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/surface_mesh.h:47,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/tri_mesh.h:47,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_contact_history_mesh.h:61,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:24,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/domain_wedge_dummy.h: In member function ‘void LAMMPS_NS::DomainWedge::set_domain(LAMMPS_NS::RegWedge*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/domain_wedge_dummy.h:57:37: warning: unused parameter ‘rw’ [-Wunused-parameter]
+   57 |     void set_domain(class RegWedge *rw) {}
+      |                     ~~~~~~~~~~~~~~~~^~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/domain_wedge_dummy.h: In member function ‘void LAMMPS_NS::DomainWedge::n1(double*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/domain_wedge_dummy.h:65:28: warning: unused parameter ‘_n1’ [-Wunused-parameter]
+   65 |     inline void n1(double *_n1)
+      |                    ~~~~~~~~^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/domain_wedge_dummy.h: In member function ‘void LAMMPS_NS::DomainWedge::n2(double*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/domain_wedge_dummy.h:68:28: warning: unused parameter ‘_n2’ [-Wunused-parameter]
+   68 |     inline void n2(double *_n2)
+      |                    ~~~~~~~~^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/domain_wedge_dummy.h: In member function ‘void LAMMPS_NS::DomainWedge::center(double*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/domain_wedge_dummy.h:71:32: warning: unused parameter ‘_c’ [-Wunused-parameter]
+   71 |     inline void center(double *_c)
+      |                        ~~~~~~~~^~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/region_neighbor_list.h:183,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/surface_mesh.h:54,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/tri_mesh.h:47,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_contact_history_mesh.h:61,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:24,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/region_neighbor_list_I.h: In member function ‘void LAMMPS_NS::RegionNeighborList<INTERPOLATE>::setBoundingBox_calc_interpolation_stencil(LAMMPS_NS::Bin<INTERPOLATE>&, int, int, int, int) const [with bool INTERPOLATE = true]’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/region_neighbor_list_I.h:318:99: warning: unused parameter ‘ibin’ [-Wunused-parameter]
+  318 | inline void RegionNeighborList<true>::setBoundingBox_calc_interpolation_stencil(Bin<true> &it,int ibin,int ix,int iy, int iz) const
+      |                                                                                               ~~~~^~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/region_neighbor_list_I.h: In member function ‘void LAMMPS_NS::RegionNeighborList<INTERPOLATE>::coord2bin_calc_interpolation_weights(double*, int, int, int, int, int&, double&, double&, double&) const [with bool INTERPOLATE = true]’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/region_neighbor_list_I.h:603:99: warning: unused parameter ‘ix’ [-Wunused-parameter]
+  603 | inline void RegionNeighborList<true>::coord2bin_calc_interpolation_weights(double *x,int ibin,int ix,int iy, int iz,int &quadrant,double &wx,double &wy,double &wz) const
+      |                                                                                               ~~~~^~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/region_neighbor_list_I.h:603:106: warning: unused parameter ‘iy’ [-Wunused-parameter]
+  603 | inline void RegionNeighborList<true>::coord2bin_calc_interpolation_weights(double *x,int ibin,int ix,int iy, int iz,int &quadrant,double &wx,double &wy,double &wz) const
+      |                                                                                                      ~~~~^~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/region_neighbor_list_I.h:603:114: warning: unused parameter ‘iz’ [-Wunused-parameter]
+  603 | inline void RegionNeighborList<true>::coord2bin_calc_interpolation_weights(double *x,int ibin,int ix,int iy, int iz,int &quadrant,double &wx,double &wy,double &wz) const
+      |                                                                                                              ~~~~^~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/tri_mesh.h:129,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_contact_history_mesh.h:61,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:24,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/tri_mesh_I.h: In member function ‘double LAMMPS_NS::TriMesh::resolveTriSphereContactBary(int, int, double, double*, double*, double*, int&, bool)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/tri_mesh_I.h:65:58: warning: unused parameter ‘iPart’ [-Wunused-parameter]
+   65 |   inline double TriMesh::resolveTriSphereContactBary(int iPart, int nTri, double rSphere,
+      |                                                      ~~~~^~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_mesh_surface.h:61,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_contact_property_atom_wall.h:53,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:26,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/mesh_module.h: In member function ‘virtual void LAMMPS_NS::MeshModule::setup(int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/mesh_module.h:66:32: warning: unused parameter ‘vflag’ [-Wunused-parameter]
+   66 |         virtual void setup(int vflag) {}
+      |                            ~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/mesh_module.h: In member function ‘virtual void LAMMPS_NS::MeshModule::setup_pre_force(int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/mesh_module.h:67:42: warning: unused parameter ‘vflag’ [-Wunused-parameter]
+   67 |         virtual void setup_pre_force(int vflag) {}
+      |                                      ~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/mesh_module.h: In member function ‘virtual void LAMMPS_NS::MeshModule::pre_force(int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/mesh_module.h:68:36: warning: unused parameter ‘vflag’ [-Wunused-parameter]
+   68 |         virtual void pre_force(int vflag) {}
+      |                                ~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/mesh_module.h: In member function ‘virtual void LAMMPS_NS::MeshModule::initial_integrate(int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/mesh_module.h:69:44: warning: unused parameter ‘vflag’ [-Wunused-parameter]
+   69 |         virtual void initial_integrate(int vflag) {}
+      |                                        ~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/mesh_module.h: In member function ‘virtual double LAMMPS_NS::MeshModule::compute_vector(int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/mesh_module.h:73:43: warning: unused parameter ‘n’ [-Wunused-parameter]
+   73 |         virtual double compute_vector(int n) { return 0.0; }
+      |                                       ~~~~^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/mesh_module.h: In member function ‘virtual void LAMMPS_NS::MeshModule::add_particle_contribution(int, double*, double*, int, double*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/mesh_module.h:74:52: warning: unused parameter ‘ip’ [-Wunused-parameter]
+   74 |         virtual void add_particle_contribution(int ip, double *frc, double *delta, int iTri, double *v_wall) {}
+      |                                                ~~~~^~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/mesh_module.h:74:64: warning: unused parameter ‘frc’ [-Wunused-parameter]
+   74 |         virtual void add_particle_contribution(int ip, double *frc, double *delta, int iTri, double *v_wall) {}
+      |                                                        ~~~~~~~~^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/mesh_module.h:74:77: warning: unused parameter ‘delta’ [-Wunused-parameter]
+   74 |         virtual void add_particle_contribution(int ip, double *frc, double *delta, int iTri, double *v_wall) {}
+      |                                                                     ~~~~~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/mesh_module.h:74:88: warning: unused parameter ‘iTri’ [-Wunused-parameter]
+   74 |         virtual void add_particle_contribution(int ip, double *frc, double *delta, int iTri, double *v_wall) {}
+      |                                                                                    ~~~~^~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/mesh_module.h:74:102: warning: unused parameter ‘v_wall’ [-Wunused-parameter]
+   74 |         virtual void add_particle_contribution(int ip, double *frc, double *delta, int iTri, double *v_wall) {}
+      |                                                                                              ~~~~~~~~^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/mesh_module.h: In member function ‘virtual int LAMMPS_NS::MeshModule::modify_param(int, char**)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/mesh_module.h:75:38: warning: unused parameter ‘narg’ [-Wunused-parameter]
+   75 |         virtual int modify_param(int narg, char **arg) { return 0; }
+      |                                  ~~~~^~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/mesh_module.h:75:51: warning: unused parameter ‘arg’ [-Wunused-parameter]
+   75 |         virtual int modify_param(int narg, char **arg) { return 0; }
+      |                                            ~~~~~~~^~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:54,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_multicontact_halfspace.h: At global scope:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_multicontact_halfspace.h:74:5: warning: type qualifiers ignored on function return type [-Wignored-qualifiers]
+   74 |     const char get_type()
+      |     ^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_multicontact_halfspace.h:76:5: warning: type qualifiers ignored on function return type [-Wignored-qualifiers]
+   76 |     void* const get_ptr()
+      |     ^~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_multicontact_halfspace.h:78:5: warning: type qualifiers ignored on function return type [-Wignored-qualifiers]
+   78 |     const int get_offset()
+      |     ^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_multicontact_halfspace.h:81:5: warning: type qualifiers ignored on function return type [-Wignored-qualifiers]
+   81 |     const int get_npartners(const int i);
+      |     ^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_multicontact_halfspace.h:82:5: warning: type qualifiers ignored on function return type [-Wignored-qualifiers]
+   82 |     double * const get_data_ptr(const int i, const int j);
+      |     ^~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/multisphere.h:278,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/multisphere_parallel.h:47,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_multisphere.h:55,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:55,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/multisphere_I.h: In member function ‘void LAMMPS_NS::Multisphere::release(int, int, double*, double*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/multisphere_I.h:151:38: warning: unused parameter ‘iatom’ [-Wunused-parameter]
+  151 | inline void Multisphere::release(int iatom,int body,double *v_toInsert,double *omega_toInsert)
+      |                                  ~~~~^~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:55,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_multisphere.h: In member function ‘int LAMMPS_NS::FixMultisphere::getMask(int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_multisphere.h:282:30: warning: unused parameter ‘ibody’ [-Wunused-parameter]
+  282 |       inline int getMask(int ibody)
+      |                          ~~~~^~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:73,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_property_atom_region_tracer.h: In member function ‘virtual double LAMMPS_NS::FixPropertyAtomRegionTracer::trace_multiplier(int) const’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_property_atom_region_tracer.h:73:54: warning: unused parameter ‘i’ [-Wunused-parameter]
+   73 |     virtual inline double trace_multiplier(const int i) const
+      |                                            ~~~~~~~~~~^
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_template_sphere.h:56,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_template_multiplespheres.h:52,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:97,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/probability_distribution.h: In function ‘double LMP_PROBABILITY_NS::rand_value(LMP_PROBABILITY_NS::PDF*, LAMMPS_NS::RanPark*) [with int RAND_STYLE = 0]’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/probability_distribution.h:143:85: warning: unused parameter ‘rp’ [-Wunused-parameter]
+  143 |   template<> inline double rand_value<RANDOM_CONSTANT>(PDF *pdf,LAMMPS_NS::RanPark *rp)
+      |                                                                 ~~~~~~~~~~~~~~~~~~~~^~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:102,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran.h: In member function ‘virtual int LAMMPS_NS::FixWallGran::add_history_value(std::string, std::string)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran.h:103:37: warning: unused parameter ‘name’ [-Wunused-parameter]
+  103 |   int add_history_value(std::string name, std::string newtonflag)
+      |                         ~~~~~~~~~~~~^~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran.h:103:55: warning: unused parameter ‘newtonflag’ [-Wunused-parameter]
+  103 |   int add_history_value(std::string name, std::string newtonflag)
+      |                                           ~~~~~~~~~~~~^~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran.h:50,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_pair.h:2,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:68:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair.h: In member function ‘virtual void LAMMPS_NS::Pair::read_restart(FILE*, int, int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair.h:186:47: warning: unused parameter ‘major’ [-Wunused-parameter]
+  186 |   virtual void read_restart(FILE *, const int major, const int minor) {}
+      |                                     ~~~~~~~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair.h:186:64: warning: unused parameter ‘minor’ [-Wunused-parameter]
+  186 |   virtual void read_restart(FILE *, const int major, const int minor) {}
+      |                                                      ~~~~~~~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair.h: In member function ‘virtual void LAMMPS_NS::Pair::read_restart_settings(FILE*, int, int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair.h:188:56: warning: unused parameter ‘major’ [-Wunused-parameter]
+  188 |   virtual void read_restart_settings(FILE *, const int major, const int minor) {}
+      |                                              ~~~~~~~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair.h:188:73: warning: unused parameter ‘minor’ [-Wunused-parameter]
+  188 |   virtual void read_restart_settings(FILE *, const int major, const int minor) {}
+      |                                                               ~~~~~~~~~~^~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_pair.h:2,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:68:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran.h: In member function ‘virtual void LAMMPS_NS::PairGran::read_restart_settings(FILE*, int, int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran.h:90:56: warning: unused parameter ‘major’ [-Wunused-parameter]
+   90 |   virtual void read_restart_settings(FILE *, const int major, const int minor){}
+      |                                              ~~~~~~~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran.h:90:73: warning: unused parameter ‘minor’ [-Wunused-parameter]
+   90 |   virtual void read_restart_settings(FILE *, const int major, const int minor){}
+      |                                                               ~~~~~~~~~~^~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_pair.h:8,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:68:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_sph.h: In member function ‘virtual void LAMMPS_NS::PairSph::read_restart(FILE*, int, int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_sph.h:73:47: warning: unused parameter ‘major’ [-Wunused-parameter]
+   73 |   virtual void read_restart(FILE *, const int major, const int minor){}
+      |                                     ~~~~~~~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_sph.h:73:64: warning: unused parameter ‘minor’ [-Wunused-parameter]
+   73 |   virtual void read_restart(FILE *, const int major, const int minor){}
+      |                                                      ~~~~~~~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_sph.h: In member function ‘virtual void LAMMPS_NS::PairSph::read_restart_settings(FILE*, int, int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_sph.h:75:56: warning: unused parameter ‘major’ [-Wunused-parameter]
+   75 |   virtual void read_restart_settings(FILE *, const int major, const int minor){}
+      |                                              ~~~~~~~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_sph.h:75:73: warning: unused parameter ‘minor’ [-Wunused-parameter]
+   75 |   virtual void read_restart_settings(FILE *, const int major, const int minor){}
+      |                                                               ~~~~~~~~~~^~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:61,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/normal_model_base.h: In member function ‘virtual void LIGGGHTS::ContactModels::NormalModel<9>::postSettings(LIGGGHTS::IContactHistorySetup*, LIGGGHTS::ContactModels::ContactModelBase*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/normal_model_base.h:98:53: warning: unused parameter ‘hsetup’ [-Wunused-parameter]
+   98 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/normal_model_base.h:98:79: warning: unused parameter ‘cmb’ [-Wunused-parameter]
+   98 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                                                             ~~~~~~~~~~~~~~~~~~^~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:62,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/tangential_model_base.h: In member function ‘virtual void LIGGGHTS::ContactModels::TangentialModel<0>::postSettings(LIGGGHTS::IContactHistorySetup*, LIGGGHTS::ContactModels::ContactModelBase*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/tangential_model_base.h:94:53: warning: unused parameter ‘hsetup’ [-Wunused-parameter]
+   94 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/tangential_model_base.h:94:79: warning: unused parameter ‘cmb’ [-Wunused-parameter]
+   94 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                                                             ~~~~~~~~~~~~~~~~~~^~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:63,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/rolling_model_base.h: In member function ‘virtual void LIGGGHTS::ContactModels::RollingModel<0>::postSettings(LIGGGHTS::IContactHistorySetup*, LIGGGHTS::ContactModels::ContactModelBase*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/rolling_model_base.h:94:53: warning: unused parameter ‘hsetup’ [-Wunused-parameter]
+   94 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/rolling_model_base.h:94:79: warning: unused parameter ‘cmb’ [-Wunused-parameter]
+   94 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                                                             ~~~~~~~~~~~~~~~~~~^~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:64,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_base.h: In member function ‘virtual void LIGGGHTS::ContactModels::CohesionModel<0>::postSettings(LIGGGHTS::IContactHistorySetup*, LIGGGHTS::ContactModels::ContactModelBase*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_base.h:95:46: warning: unused parameter ‘hsetup’ [-Wunused-parameter]
+   95 |     void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb){}
+      |                       ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_base.h:95:72: warning: unused parameter ‘cmb’ [-Wunused-parameter]
+   95 |     void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb){}
+      |                                                      ~~~~~~~~~~~~~~~~~~^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_base.h: In member function ‘virtual void LIGGGHTS::ContactModels::CohesionModel<0>::endSurfacesIntersect(LIGGGHTS::ContactModels::SurfacesIntersectData&, LIGGGHTS::ContactModels::ForceData&, LIGGGHTS::ContactModels::ForceData&)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_base.h:98:54: warning: unused parameter ‘sidata’ [-Wunused-parameter]
+   98 |     void endSurfacesIntersect(SurfacesIntersectData &sidata, ForceData&, ForceData&) {}
+      |                               ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_surface_model.h:3,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:65,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/surface_model_default.h: In member function ‘virtual bool LIGGGHTS::ContactModels::SurfaceModel<0>::checkSurfaceIntersect(LIGGGHTS::ContactModels::SurfacesIntersectData&)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/surface_model_default.h:131:63: warning: unused parameter ‘sidata’ [-Wunused-parameter]
+  131 |     inline bool checkSurfaceIntersect(SurfacesIntersectData & sidata)
+      |                                       ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/surface_model_default.h: In member function ‘virtual void LIGGGHTS::ContactModels::SurfaceModel<0>::endSurfacesIntersect(LIGGGHTS::ContactModels::SurfacesIntersectData&, LAMMPS_NS::TriMesh*, double*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/surface_model_default.h:207:61: warning: unused parameter ‘sidata’ [-Wunused-parameter]
+  207 |     inline void endSurfacesIntersect(SurfacesIntersectData &sidata,TriMesh *, double * const) {}
+      |                                      ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/surface_model_default.h: In member function ‘virtual void LIGGGHTS::ContactModels::SurfaceModel<0>::surfacesClose(LIGGGHTS::ContactModels::SurfacesCloseData&, LIGGGHTS::ContactModels::ForceData&, LIGGGHTS::ContactModels::ForceData&)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/surface_model_default.h:208:50: warning: unused parameter ‘scdata’ [-Wunused-parameter]
+  208 |     inline void surfacesClose(SurfacesCloseData &scdata, ForceData&, ForceData&) {}
+      |                               ~~~~~~~~~~~~~~~~~~~^~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_surface_model.h:4,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:65,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/surface_model_multicontact.h: In member function ‘virtual void LIGGGHTS::ContactModels::SurfaceModel<2>::postSettings(LIGGGHTS::IContactHistorySetup*, LIGGGHTS::ContactModels::ContactModelBase*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/surface_model_multicontact.h:81:57: warning: unused parameter ‘hsetup’ [-Wunused-parameter]
+   81 |         inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/surface_model_multicontact.h:81:83: warning: unused parameter ‘cmb’ [-Wunused-parameter]
+   81 |         inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                                                                 ~~~~~~~~~~~~~~~~~~^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/surface_model_multicontact.h: In member function ‘virtual bool LIGGGHTS::ContactModels::SurfaceModel<2>::checkSurfaceIntersect(LIGGGHTS::ContactModels::SurfacesIntersectData&)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/surface_model_multicontact.h:92:67: warning: unused parameter ‘sidata’ [-Wunused-parameter]
+   92 |         inline bool checkSurfaceIntersect(SurfacesIntersectData & sidata)
+      |                                           ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/surface_model_multicontact.h: In member function ‘virtual void LIGGGHTS::ContactModels::SurfaceModel<2>::endSurfacesIntersect(LIGGGHTS::ContactModels::SurfacesIntersectData&, LAMMPS_NS::TriMesh*, double*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/surface_model_multicontact.h:182:83: warning: unused parameter ‘mesh’ [-Wunused-parameter]
+  182 |         inline void endSurfacesIntersect(SurfacesIntersectData& sidata, TriMesh * mesh, double * const i_forces)
+      |                                                                         ~~~~~~~~~~^~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:60,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/surface_model_superquadric.h: In member function ‘virtual void LIGGGHTS::ContactModels::SurfaceModel<5>::postSettings(LIGGGHTS::IContactHistorySetup*, LIGGGHTS::ContactModels::ContactModelBase*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/surface_model_base.h:113:53: warning: unused parameter ‘hsetup’ [-Wunused-parameter]
+  113 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {} \
+      |                              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/surface_model_superquadric.h:240:1: note: in expansion of macro ‘SURFACE_MODEL_DUMMY’
+  240 | SURFACE_MODEL_DUMMY(SURFACE_SUPERQUADRIC, "Surface model used without support for superquadric particles")
+      | ^~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/surface_model_base.h:113:79: warning: unused parameter ‘cmb’ [-Wunused-parameter]
+  113 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {} \
+      |                                                             ~~~~~~~~~~~~~~~~~~^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/surface_model_superquadric.h:240:1: note: in expansion of macro ‘SURFACE_MODEL_DUMMY’
+  240 | SURFACE_MODEL_DUMMY(SURFACE_SUPERQUADRIC, "Surface model used without support for superquadric particles")
+      | ^~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_normal_model.h:3,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:66,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/normal_model_edinburgh.h: In member function ‘double LIGGGHTS::ContactModels::NormalModel<10>::calculate_deltan_p_max(double, double*, int, double, double, double, double, double, double, double)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/normal_model_edinburgh.h:130:113: warning: unused parameter ‘f_0’ [-Wunused-parameter]
+  130 |     inline double calculate_deltan_p_max (double deltan_p, double * const history, int count_flag, const double f_0, double fTmp, const double k2, double dex, double dex_i, double deltan, double k_adh)
+      |                                                                                                    ~~~~~~~~~~~~~^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/normal_model_edinburgh.h:130:125: warning: unused parameter ‘fTmp’ [-Wunused-parameter]
+  130 |     inline double calculate_deltan_p_max (double deltan_p, double * const history, int count_flag, const double f_0, double fTmp, const double k2, double dex, double dex_i, double deltan, double k_adh)
+      |                                                                                                                      ~~~~~~~^~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/normal_model_edinburgh.h:130:181: warning: unused parameter ‘deltan’ [-Wunused-parameter]
+  130 |     inline double calculate_deltan_p_max (double deltan_p, double * const history, int count_flag, const double f_0, double fTmp, const double k2, double dex, double dex_i, double deltan, double k_adh)
+      |                                                                                                                                                                              ~~~~~~~^~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_normal_model.h:4,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:66,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/normal_model_edinburgh_stiffness.h: In member function ‘double LIGGGHTS::ContactModels::NormalModel<11>::calculate_deltan_p_max(double, double*, int, double, double, double, double, double, double, double)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/normal_model_edinburgh_stiffness.h:125:113: warning: unused parameter ‘f_0’ [-Wunused-parameter]
+  125 |     inline double calculate_deltan_p_max (double deltan_p, double * const history, int count_flag, const double f_0, double fTmp, const double k2, double dex, double dex_i, double deltan, double k_adh)
+      |                                                                                                    ~~~~~~~~~~~~~^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/normal_model_edinburgh_stiffness.h:125:125: warning: unused parameter ‘fTmp’ [-Wunused-parameter]
+  125 |     inline double calculate_deltan_p_max (double deltan_p, double * const history, int count_flag, const double f_0, double fTmp, const double k2, double dex, double dex_i, double deltan, double k_adh)
+      |                                                                                                                      ~~~~~~~^~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_normal_model.h:4,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:66,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/normal_model_edinburgh_stiffness.h:125:181: warning: unused parameter ‘deltan’ [-Wunused-parameter]
+  125 |     inline double calculate_deltan_p_max (double deltan_p, double * const history, int count_flag, const double f_0, double fTmp, const double k2, double dex, double dex_i, double deltan, double k_adh)
+      |                                                                                                                                                                              ~~~~~~~^~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_normal_model.h:6,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:66,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/normal_model_hertz_stiffness.h: In member function ‘virtual void LIGGGHTS::ContactModels::NormalModel<4>::postSettings(LIGGGHTS::IContactHistorySetup*, LIGGGHTS::ContactModels::ContactModelBase*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/normal_model_hertz_stiffness.h:80:53: warning: unused parameter ‘hsetup’ [-Wunused-parameter]
+   80 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/normal_model_hertz_stiffness.h:80:79: warning: unused parameter ‘cmb’ [-Wunused-parameter]
+   80 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                                                             ~~~~~~~~~~~~~~~~~~^~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_normal_model.h:8,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:66,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/normal_model_hooke_hysteresis.h: In member function ‘virtual void LIGGGHTS::ContactModels::NormalModel<2>::postSettings(LIGGGHTS::IContactHistorySetup*, LIGGGHTS::ContactModels::ContactModelBase*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/normal_model_hooke_hysteresis.h:78:53: warning: unused parameter ‘hsetup’ [-Wunused-parameter]
+   78 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/normal_model_hooke_hysteresis.h:78:79: warning: unused parameter ‘cmb’ [-Wunused-parameter]
+   78 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                                                             ~~~~~~~~~~~~~~~~~~^~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_normal_model.h:10,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:66,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/normal_model_luding.h: In member function ‘virtual void LIGGGHTS::ContactModels::NormalModel<12>::postSettings(LIGGGHTS::IContactHistorySetup*, LIGGGHTS::ContactModels::ContactModelBase*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/normal_model_luding.h:80:53: warning: unused parameter ‘hsetup’ [-Wunused-parameter]
+   80 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/normal_model_luding.h:80:79: warning: unused parameter ‘cmb’ [-Wunused-parameter]
+   80 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                                                             ~~~~~~~~~~~~~~~~~~^~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_tangential_model.h:3,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:67,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/tangential_model_history.h: In member function ‘virtual void LIGGGHTS::ContactModels::TangentialModel<2>::postSettings(LIGGGHTS::IContactHistorySetup*, LIGGGHTS::ContactModels::ContactModelBase*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/tangential_model_history.h:84:53: warning: unused parameter ‘hsetup’ [-Wunused-parameter]
+   84 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb)
+      |                              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_tangential_model.h:4,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:67,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/tangential_model_luding_tn.h: In member function ‘virtual void LIGGGHTS::ContactModels::TangentialModel<4>::postSettings(LIGGGHTS::IContactHistorySetup*, LIGGGHTS::ContactModels::ContactModelBase*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/tangential_model_luding_tn.h:90:53: warning: unused parameter ‘hsetup’ [-Wunused-parameter]
+   90 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/tangential_model_luding_tn.h:90:79: warning: unused parameter ‘cmb’ [-Wunused-parameter]
+   90 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                                                             ~~~~~~~~~~~~~~~~~~^~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_tangential_model.h:5,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:67,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/tangential_model_no_history.h: In member function ‘virtual void LIGGGHTS::ContactModels::TangentialModel<1>::postSettings(LIGGGHTS::IContactHistorySetup*, LIGGGHTS::ContactModels::ContactModelBase*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/tangential_model_no_history.h:83:53: warning: unused parameter ‘hsetup’ [-Wunused-parameter]
+   83 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb)
+      |                              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_rolling_model.h:3,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:68,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/rolling_model_cdt.h: In member function ‘virtual void LIGGGHTS::ContactModels::RollingModel<1>::postSettings(LIGGGHTS::IContactHistorySetup*, LIGGGHTS::ContactModels::ContactModelBase*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/rolling_model_cdt.h:76:53: warning: unused parameter ‘hsetup’ [-Wunused-parameter]
+   76 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb)
+      |                              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/rolling_model_cdt.h:76:79: warning: unused parameter ‘cmb’ [-Wunused-parameter]
+   76 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb)
+      |                                                             ~~~~~~~~~~~~~~~~~~^~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_rolling_model.h:4,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:68,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/rolling_model_epsd.h: In member function ‘virtual void LIGGGHTS::ContactModels::RollingModel<2>::postSettings(LIGGGHTS::IContactHistorySetup*, LIGGGHTS::ContactModels::ContactModelBase*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/rolling_model_epsd.h:82:53: warning: unused parameter ‘hsetup’ [-Wunused-parameter]
+   82 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb)
+      |                              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/rolling_model_epsd.h:82:79: warning: unused parameter ‘cmb’ [-Wunused-parameter]
+   82 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb)
+      |                                                             ~~~~~~~~~~~~~~~~~~^~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_rolling_model.h:5,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:68,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/rolling_model_epsd2.h: In member function ‘virtual void LIGGGHTS::ContactModels::RollingModel<3>::postSettings(LIGGGHTS::IContactHistorySetup*, LIGGGHTS::ContactModels::ContactModelBase*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/rolling_model_epsd2.h:86:53: warning: unused parameter ‘hsetup’ [-Wunused-parameter]
+   86 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb)
+      |                              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/rolling_model_epsd2.h:86:79: warning: unused parameter ‘cmb’ [-Wunused-parameter]
+   86 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb)
+      |                                                             ~~~~~~~~~~~~~~~~~~^~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_rolling_model.h:6,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:68,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/rolling_model_epsd3.h: In member function ‘virtual void LIGGGHTS::ContactModels::RollingModel<4>::postSettings(LIGGGHTS::IContactHistorySetup*, LIGGGHTS::ContactModels::ContactModelBase*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/rolling_model_epsd3.h:82:53: warning: unused parameter ‘hsetup’ [-Wunused-parameter]
+   82 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb)
+      |                              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/rolling_model_epsd3.h:82:79: warning: unused parameter ‘cmb’ [-Wunused-parameter]
+   82 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb)
+      |                                                             ~~~~~~~~~~~~~~~~~~^~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_rolling_model.h:7,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:68,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/rolling_model_luding.h: In member function ‘virtual void LIGGGHTS::ContactModels::RollingModel<6>::postSettings(LIGGGHTS::IContactHistorySetup*, LIGGGHTS::ContactModels::ContactModelBase*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/rolling_model_luding.h:78:53: warning: unused parameter ‘hsetup’ [-Wunused-parameter]
+   78 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/rolling_model_luding.h:78:79: warning: unused parameter ‘cmb’ [-Wunused-parameter]
+   78 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                                                             ~~~~~~~~~~~~~~~~~~^~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_cohesion_model.h:3,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:69,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_easo_capillary_viscous.h: In function ‘ScalarProperty* MODEL_PARAMS::createliquidContentInitialEaso(PropertyRegistry&, const char*, bool)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_easo_capillary_viscous.h:59:121: warning: unused parameter ‘sanity_checks’ [-Wunused-parameter]
+   59 |     inline static ScalarProperty* createliquidContentInitialEaso(PropertyRegistry & registry, const char * caller, bool sanity_checks)
+      |                                                                                                                    ~~~~~^~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_cohesion_model.h:3,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:69,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_easo_capillary_viscous.h: In function ‘ScalarProperty* MODEL_PARAMS::createMinSeparationDistanceRatioEaso(PropertyRegistry&, const char*, bool)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_easo_capillary_viscous.h:65:127: warning: unused parameter ‘sanity_checks’ [-Wunused-parameter]
+   65 |     inline static ScalarProperty* createMinSeparationDistanceRatioEaso(PropertyRegistry & registry, const char * caller, bool sanity_checks)
+      |                                                                                                                          ~~~~~^~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_easo_capillary_viscous.h: In function ‘ScalarProperty* MODEL_PARAMS::createMaxSeparationDistanceRatioEaso(PropertyRegistry&, const char*, bool)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_easo_capillary_viscous.h:71:127: warning: unused parameter ‘sanity_checks’ [-Wunused-parameter]
+   71 |     inline static ScalarProperty* createMaxSeparationDistanceRatioEaso(PropertyRegistry & registry, const char * caller, bool sanity_checks)
+      |                                                                                                                          ~~~~~^~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_easo_capillary_viscous.h: In function ‘ScalarProperty* MODEL_PARAMS::createFluidViscosityEaso(PropertyRegistry&, const char*, bool)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_easo_capillary_viscous.h:77:115: warning: unused parameter ‘sanity_checks’ [-Wunused-parameter]
+   77 |     inline static ScalarProperty* createFluidViscosityEaso(PropertyRegistry & registry, const char * caller, bool sanity_checks)
+      |                                                                                                              ~~~~~^~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_easo_capillary_viscous.h: In member function ‘virtual void LIGGGHTS::ContactModels::CohesionModel<8>::postSettings(LIGGGHTS::IContactHistorySetup*, LIGGGHTS::ContactModels::ContactModelBase*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_easo_capillary_viscous.h:116:53: warning: unused parameter ‘hsetup’ [-Wunused-parameter]
+  116 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_easo_capillary_viscous.h:116:79: warning: unused parameter ‘cmb’ [-Wunused-parameter]
+  116 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                                                             ~~~~~~~~~~~~~~~~~~^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_easo_capillary_viscous.h: In member function ‘virtual void LIGGGHTS::ContactModels::CohesionModel<8>::endSurfacesIntersect(LIGGGHTS::ContactModels::SurfacesIntersectData&, LIGGGHTS::ContactModels::ForceData&, LIGGGHTS::ContactModels::ForceData&)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_easo_capillary_viscous.h:185:61: warning: unused parameter ‘sidata’ [-Wunused-parameter]
+  185 |     inline void endSurfacesIntersect(SurfacesIntersectData &sidata, ForceData&, ForceData&) {}
+      |                                      ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_easo_capillary_viscous.h: In member function ‘virtual void LIGGGHTS::ContactModels::CohesionModel<8>::surfacesClose(LIGGGHTS::ContactModels::SurfacesCloseData&, LIGGGHTS::ContactModels::ForceData&, LIGGGHTS::ContactModels::ForceData&)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_easo_capillary_viscous.h:336:20: warning: unused variable ‘v’ [-Wunused-variable]
+  336 |           double **v = atom->v;
+      |                    ^
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_cohesion_model.h:4,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:69,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_generalized_adhesion.h: In member function ‘virtual void LIGGGHTS::ContactModels::CohesionModel<9>::postSettings(LIGGGHTS::IContactHistorySetup*, LIGGGHTS::ContactModels::ContactModelBase*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_generalized_adhesion.h:39:53: warning: unused parameter ‘hsetup’ [-Wunused-parameter]
+   39 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_generalized_adhesion.h:39:79: warning: unused parameter ‘cmb’ [-Wunused-parameter]
+   39 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                                                             ~~~~~~~~~~~~~~~~~~^~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_cohesion_model.h:4,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:69,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_generalized_adhesion.h: In member function ‘virtual void LIGGGHTS::ContactModels::CohesionModel<9>::endSurfacesIntersect(LIGGGHTS::ContactModels::SurfacesIntersectData&, LIGGGHTS::ContactModels::ForceData&, LIGGGHTS::ContactModels::ForceData&)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_generalized_adhesion.h:63:61: warning: unused parameter ‘sidata’ [-Wunused-parameter]
+   63 |     inline void endSurfacesIntersect(SurfacesIntersectData &sidata, ForceData&, ForceData&) {}
+      |                                      ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_cohesion_model.h:5,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:69,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_sjkr.h: In member function ‘virtual void LIGGGHTS::ContactModels::CohesionModel<1>::postSettings(LIGGGHTS::IContactHistorySetup*, LIGGGHTS::ContactModels::ContactModelBase*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_sjkr.h:75:53: warning: unused parameter ‘hsetup’ [-Wunused-parameter]
+   75 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_sjkr.h:75:79: warning: unused parameter ‘cmb’ [-Wunused-parameter]
+   75 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                                                             ~~~~~~~~~~~~~~~~~~^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_sjkr.h: In member function ‘virtual void LIGGGHTS::ContactModels::CohesionModel<1>::endSurfacesIntersect(LIGGGHTS::ContactModels::SurfacesIntersectData&, LIGGGHTS::ContactModels::ForceData&, LIGGGHTS::ContactModels::ForceData&)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_sjkr.h:133:61: warning: unused parameter ‘sidata’ [-Wunused-parameter]
+  133 |     inline void endSurfacesIntersect(SurfacesIntersectData &sidata, ForceData&, ForceData&) {}
+      |                                      ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_cohesion_model.h:6,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:69,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_sjkr2.h: In member function ‘virtual void LIGGGHTS::ContactModels::CohesionModel<2>::postSettings(LIGGGHTS::IContactHistorySetup*, LIGGGHTS::ContactModels::ContactModelBase*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_sjkr2.h:75:53: warning: unused parameter ‘hsetup’ [-Wunused-parameter]
+   75 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_sjkr2.h:75:79: warning: unused parameter ‘cmb’ [-Wunused-parameter]
+   75 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                                                             ~~~~~~~~~~~~~~~~~~^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_sjkr2.h: In member function ‘virtual void LIGGGHTS::ContactModels::CohesionModel<2>::endSurfacesIntersect(LIGGGHTS::ContactModels::SurfacesIntersectData&, LIGGGHTS::ContactModels::ForceData&, LIGGGHTS::ContactModels::ForceData&)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_sjkr2.h:126:61: warning: unused parameter ‘sidata’ [-Wunused-parameter]
+  126 |     inline void endSurfacesIntersect(SurfacesIntersectData &sidata, ForceData&, ForceData&) {}
+      |                                      ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_cohesion_model.h:7,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:69,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_washino_capillary_viscous.h: In function ‘ScalarProperty* MODEL_PARAMS::createliquidContentInitialWashino(PropertyRegistry&, const char*, bool)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_washino_capillary_viscous.h:60:124: warning: unused parameter ‘sanity_checks’ [-Wunused-parameter]
+   60 |     inline static ScalarProperty* createliquidContentInitialWashino(PropertyRegistry & registry, const char * caller, bool sanity_checks)
+      |                                                                                                                       ~~~~~^~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_cohesion_model.h:7,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:69,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_washino_capillary_viscous.h: In function ‘ScalarProperty* MODEL_PARAMS::createMinSeparationDistanceRatioWashino(PropertyRegistry&, const char*, bool)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_washino_capillary_viscous.h:66:130: warning: unused parameter ‘sanity_checks’ [-Wunused-parameter]
+   66 |     inline static ScalarProperty* createMinSeparationDistanceRatioWashino(PropertyRegistry & registry, const char * caller, bool sanity_checks)
+      |                                                                                                                             ~~~~~^~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_washino_capillary_viscous.h: In function ‘ScalarProperty* MODEL_PARAMS::createMaxSeparationDistanceRatioWashino(PropertyRegistry&, const char*, bool)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_washino_capillary_viscous.h:72:130: warning: unused parameter ‘sanity_checks’ [-Wunused-parameter]
+   72 |     inline static ScalarProperty* createMaxSeparationDistanceRatioWashino(PropertyRegistry & registry, const char * caller, bool sanity_checks)
+      |                                                                                                                             ~~~~~^~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_washino_capillary_viscous.h: In function ‘ScalarProperty* MODEL_PARAMS::createFluidViscosityWashino(PropertyRegistry&, const char*, bool)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_washino_capillary_viscous.h:78:118: warning: unused parameter ‘sanity_checks’ [-Wunused-parameter]
+   78 |     inline static ScalarProperty* createFluidViscosityWashino(PropertyRegistry & registry, const char * caller, bool sanity_checks)
+      |                                                                                                                 ~~~~~^~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_washino_capillary_viscous.h: In member function ‘virtual void LIGGGHTS::ContactModels::CohesionModel<7>::postSettings(LIGGGHTS::IContactHistorySetup*, LIGGGHTS::ContactModels::ContactModelBase*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_washino_capillary_viscous.h:133:53: warning: unused parameter ‘hsetup’ [-Wunused-parameter]
+  133 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_washino_capillary_viscous.h:133:79: warning: unused parameter ‘cmb’ [-Wunused-parameter]
+  133 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                                                             ~~~~~~~~~~~~~~~~~~^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_washino_capillary_viscous.h: In member function ‘virtual void LIGGGHTS::ContactModels::CohesionModel<7>::endSurfacesIntersect(LIGGGHTS::ContactModels::SurfacesIntersectData&, LIGGGHTS::ContactModels::ForceData&, LIGGGHTS::ContactModels::ForceData&)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/cohesion_model_washino_capillary_viscous.h:227:61: warning: unused parameter ‘sidata’ [-Wunused-parameter]
+  227 |     inline void endSurfacesIntersect(SurfacesIntersectData &sidata, ForceData&, ForceData&) {}
+      |                                      ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:75,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h: In instantiation of ‘LIGGGHTS::ContactModels::ContactModel<Style>::ContactModel(LAMMPS_NS::LAMMPS*, LIGGGHTS::IContactHistorySetup*, bool, int64_t) [with Style = LIGGGHTS::ContactModels::GranStyle<3, 2, 1, 3, 0>; int64_t = long int]’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran_base.h:97:5:   required from ‘LIGGGHTS::PairStyles::Granular<ContactModel>::Granular(LAMMPS_NS::LAMMPS*, LAMMPS_NS::PairGran*, int64_t) [with ContactModel = LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 2, 1, 3, 0> >; int64_t = long int]’
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:114:20:   required from ‘static LIGGGHTS::PairStyles::IGranularPairStyle* LAMMPS_NS::RegisterGranularStyles::create_pair_style_instance(LAMMPS_NS::LAMMPS*, LAMMPS_NS::PairGran*, int64_t) [with T = LIGGGHTS::PairStyles::Granular<LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 2, 1, 3, 0> > >; int64_t = long int]’
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:146:25:   required from ‘void LAMMPS_NS::RegisterGranularStyles::registerPair(const string&, LIGGGHTS::PairStyles::Factory&) [with int MODEL = 3; int TANGENTIAL = 2; int COHESION = 1; int ROLLING = 3; int SURFACE = 0; std::string = std::__cxx11::basic_string<char>]’
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_contact_model.h:2:1:   required from here
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:151:92: warning: unused parameter ‘hash’ [-Wunused-parameter]
+  151 |     ContactModel(LAMMPS * lmp, IContactHistorySetup * hsetup, bool _is_wall, const int64_t hash) :
+      |                                                                              ~~~~~~~~~~~~~~^~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h: In instantiation of ‘LIGGGHTS::ContactModels::ContactModel<Style>::ContactModel(LAMMPS_NS::LAMMPS*, LIGGGHTS::IContactHistorySetup*, bool, int64_t) [with Style = LIGGGHTS::ContactModels::GranStyle<3, 2, 2, 3, 0>; int64_t = long int]’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran_base.h:97:5:   required from ‘LIGGGHTS::PairStyles::Granular<ContactModel>::Granular(LAMMPS_NS::LAMMPS*, LAMMPS_NS::PairGran*, int64_t) [with ContactModel = LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 2, 2, 3, 0> >; int64_t = long int]’
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:114:20:   required from ‘static LIGGGHTS::PairStyles::IGranularPairStyle* LAMMPS_NS::RegisterGranularStyles::create_pair_style_instance(LAMMPS_NS::LAMMPS*, LAMMPS_NS::PairGran*, int64_t) [with T = LIGGGHTS::PairStyles::Granular<LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 2, 2, 3, 0> > >; int64_t = long int]’
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:146:25:   required from ‘void LAMMPS_NS::RegisterGranularStyles::registerPair(const string&, LIGGGHTS::PairStyles::Factory&) [with int MODEL = 3; int TANGENTIAL = 2; int COHESION = 2; int ROLLING = 3; int SURFACE = 0; std::string = std::__cxx11::basic_string<char>]’
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_contact_model.h:3:1:   required from here
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:151:92: warning: unused parameter ‘hash’ [-Wunused-parameter]
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h: In instantiation of ‘LIGGGHTS::ContactModels::ContactModel<Style>::ContactModel(LAMMPS_NS::LAMMPS*, LIGGGHTS::IContactHistorySetup*, bool, int64_t) [with Style = LIGGGHTS::ContactModels::GranStyle<3, 1, 1, 3, 0>; int64_t = long int]’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran_base.h:97:5:   required from ‘LIGGGHTS::PairStyles::Granular<ContactModel>::Granular(LAMMPS_NS::LAMMPS*, LAMMPS_NS::PairGran*, int64_t) [with ContactModel = LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 1, 1, 3, 0> >; int64_t = long int]’
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:114:20:   required from ‘static LIGGGHTS::PairStyles::IGranularPairStyle* LAMMPS_NS::RegisterGranularStyles::create_pair_style_instance(LAMMPS_NS::LAMMPS*, LAMMPS_NS::PairGran*, int64_t) [with T = LIGGGHTS::PairStyles::Granular<LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 1, 1, 3, 0> > >; int64_t = long int]’
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:146:25:   required from ‘void LAMMPS_NS::RegisterGranularStyles::registerPair(const string&, LIGGGHTS::PairStyles::Factory&) [with int MODEL = 3; int TANGENTIAL = 1; int COHESION = 1; int ROLLING = 3; int SURFACE = 0; std::string = std::__cxx11::basic_string<char>]’
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_contact_model.h:4:1:   required from here
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:151:92: warning: unused parameter ‘hash’ [-Wunused-parameter]
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h: In instantiation of ‘LIGGGHTS::ContactModels::ContactModel<Style>::ContactModel(LAMMPS_NS::LAMMPS*, LIGGGHTS::IContactHistorySetup*, bool, int64_t) [with Style = LIGGGHTS::ContactModels::GranStyle<3, 1, 2, 3, 0>; int64_t = long int]’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran_base.h:97:5:   required from ‘LIGGGHTS::PairStyles::Granular<ContactModel>::Granular(LAMMPS_NS::LAMMPS*, LAMMPS_NS::PairGran*, int64_t) [with ContactModel = LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 1, 2, 3, 0> >; int64_t = long int]’
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:114:20:   required from ‘static LIGGGHTS::PairStyles::IGranularPairStyle* LAMMPS_NS::RegisterGranularStyles::create_pair_style_instance(LAMMPS_NS::LAMMPS*, LAMMPS_NS::PairGran*, int64_t) [with T = LIGGGHTS::PairStyles::Granular<LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 1, 2, 3, 0> > >; int64_t = long int]’
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:146:25:   required from ‘void LAMMPS_NS::RegisterGranularStyles::registerPair(const string&, LIGGGHTS::PairStyles::Factory&) [with int MODEL = 3; int TANGENTIAL = 1; int COHESION = 2; int ROLLING = 3; int SURFACE = 0; std::string = std::__cxx11::basic_string<char>]’
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_contact_model.h:5:1:   required from here
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_models.h:151:92: warning: unused parameter ‘hash’ [-Wunused-parameter]
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:82,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran_base.h: In instantiation of ‘void LIGGGHTS::Walls::Granular<ContactModel>::compute_force(LAMMPS_NS::FixWallGran*, LIGGGHTS::ContactModels::SurfacesIntersectData&, bool, double*, LAMMPS_NS::FixMeshSurface*, int, LAMMPS_NS::TriMesh*, int) [with ContactModel = LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 1, 2, 3, 0> >]’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran_base.h:148:16:   required from here
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran_base.h:175:11: warning: ‘void* memset(void*, int, size_t)’ clearing an object of non-trivial type ‘struct LIGGGHTS::ContactModels::ForceData’; use assignment or value-initialization instead [-Wclass-memaccess]
+  175 |     memset(&i_forces, 0, sizeof(ForceData));
+      |     ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran.h:54,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:102,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_interface.h:169:8: note: ‘struct LIGGGHTS::ContactModels::ForceData’ declared here
+  169 | struct ForceData {
+      |        ^~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:82,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran_base.h:176:11: warning: ‘void* memset(void*, int, size_t)’ clearing an object of non-trivial type ‘struct LIGGGHTS::ContactModels::ForceData’; use assignment or value-initialization instead [-Wclass-memaccess]
+  176 |     memset(&j_forces, 0, sizeof(ForceData));
+      |     ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran.h:54,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:102,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_interface.h:169:8: note: ‘struct LIGGGHTS::ContactModels::ForceData’ declared here
+  169 | struct ForceData {
+      |        ^~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:81,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran_base.h: In instantiation of ‘void LIGGGHTS::PairStyles::Granular<ContactModel>::compute_force(LAMMPS_NS::PairGran*, int, int, int) [with ContactModel = LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 1, 2, 3, 0> >]’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran_base.h:187:16:   required from here
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran_base.h:238:11: warning: ‘void* memset(void*, int, size_t)’ clearing an object of non-trivial type ‘struct LIGGGHTS::ContactModels::SurfacesIntersectData’; use assignment or value-initialization instead [-Wclass-memaccess]
+  238 |     memset(aligned_sidata, 0, sizeof(SurfacesIntersectData));
+      |     ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran.h:54,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:102,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_interface.h:134:8: note: ‘struct LIGGGHTS::ContactModels::SurfacesIntersectData’ declared here
+  134 | struct SurfacesIntersectData : SurfacesCloseData {
+      |        ^~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:81,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran_base.h:239:11: warning: ‘void* memset(void*, int, size_t)’ clearing an object of non-trivial type ‘struct LIGGGHTS::ContactModels::ForceData’; use assignment or value-initialization instead [-Wclass-memaccess]
+  239 |     memset(aligned_i_forces, 0, sizeof(ForceData));
+      |     ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran.h:54,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:102,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_interface.h:169:8: note: ‘struct LIGGGHTS::ContactModels::ForceData’ declared here
+  169 | struct ForceData {
+      |        ^~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:81,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran_base.h:240:11: warning: ‘void* memset(void*, int, size_t)’ clearing an object of non-trivial type ‘struct LIGGGHTS::ContactModels::ForceData’; use assignment or value-initialization instead [-Wclass-memaccess]
+  240 |     memset(aligned_j_forces, 0, sizeof(ForceData));
+      |     ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran.h:54,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:102,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_interface.h:169:8: note: ‘struct LIGGGHTS::ContactModels::ForceData’ declared here
+  169 | struct ForceData {
+      |        ^~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:82,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran_base.h: In instantiation of ‘void LIGGGHTS::Walls::Granular<ContactModel>::compute_force(LAMMPS_NS::FixWallGran*, LIGGGHTS::ContactModels::SurfacesIntersectData&, bool, double*, LAMMPS_NS::FixMeshSurface*, int, LAMMPS_NS::TriMesh*, int) [with ContactModel = LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 1, 1, 3, 0> >]’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran_base.h:148:16:   required from here
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran_base.h:175:11: warning: ‘void* memset(void*, int, size_t)’ clearing an object of non-trivial type ‘struct LIGGGHTS::ContactModels::ForceData’; use assignment or value-initialization instead [-Wclass-memaccess]
+  175 |     memset(&i_forces, 0, sizeof(ForceData));
+      |     ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran.h:54,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:102,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_interface.h:169:8: note: ‘struct LIGGGHTS::ContactModels::ForceData’ declared here
+  169 | struct ForceData {
+      |        ^~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:82,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran_base.h:176:11: warning: ‘void* memset(void*, int, size_t)’ clearing an object of non-trivial type ‘struct LIGGGHTS::ContactModels::ForceData’; use assignment or value-initialization instead [-Wclass-memaccess]
+  176 |     memset(&j_forces, 0, sizeof(ForceData));
+      |     ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran.h:54,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:102,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_interface.h:169:8: note: ‘struct LIGGGHTS::ContactModels::ForceData’ declared here
+  169 | struct ForceData {
+      |        ^~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:81,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran_base.h: In instantiation of ‘void LIGGGHTS::PairStyles::Granular<ContactModel>::compute_force(LAMMPS_NS::PairGran*, int, int, int) [with ContactModel = LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 1, 1, 3, 0> >]’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran_base.h:187:16:   required from here
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran_base.h:238:11: warning: ‘void* memset(void*, int, size_t)’ clearing an object of non-trivial type ‘struct LIGGGHTS::ContactModels::SurfacesIntersectData’; use assignment or value-initialization instead [-Wclass-memaccess]
+  238 |     memset(aligned_sidata, 0, sizeof(SurfacesIntersectData));
+      |     ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran.h:54,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:102,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_interface.h:134:8: note: ‘struct LIGGGHTS::ContactModels::SurfacesIntersectData’ declared here
+  134 | struct SurfacesIntersectData : SurfacesCloseData {
+      |        ^~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:81,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran_base.h:239:11: warning: ‘void* memset(void*, int, size_t)’ clearing an object of non-trivial type ‘struct LIGGGHTS::ContactModels::ForceData’; use assignment or value-initialization instead [-Wclass-memaccess]
+  239 |     memset(aligned_i_forces, 0, sizeof(ForceData));
+      |     ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran.h:54,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:102,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_interface.h:169:8: note: ‘struct LIGGGHTS::ContactModels::ForceData’ declared here
+  169 | struct ForceData {
+      |        ^~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:81,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran_base.h:240:11: warning: ‘void* memset(void*, int, size_t)’ clearing an object of non-trivial type ‘struct LIGGGHTS::ContactModels::ForceData’; use assignment or value-initialization instead [-Wclass-memaccess]
+  240 |     memset(aligned_j_forces, 0, sizeof(ForceData));
+      |     ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran.h:54,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:102,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_interface.h:169:8: note: ‘struct LIGGGHTS::ContactModels::ForceData’ declared here
+  169 | struct ForceData {
+      |        ^~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:82,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran_base.h: In instantiation of ‘void LIGGGHTS::Walls::Granular<ContactModel>::compute_force(LAMMPS_NS::FixWallGran*, LIGGGHTS::ContactModels::SurfacesIntersectData&, bool, double*, LAMMPS_NS::FixMeshSurface*, int, LAMMPS_NS::TriMesh*, int) [with ContactModel = LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 2, 2, 3, 0> >]’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran_base.h:148:16:   required from here
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran_base.h:175:11: warning: ‘void* memset(void*, int, size_t)’ clearing an object of non-trivial type ‘struct LIGGGHTS::ContactModels::ForceData’; use assignment or value-initialization instead [-Wclass-memaccess]
+  175 |     memset(&i_forces, 0, sizeof(ForceData));
+      |     ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran.h:54,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:102,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_interface.h:169:8: note: ‘struct LIGGGHTS::ContactModels::ForceData’ declared here
+  169 | struct ForceData {
+      |        ^~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:82,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran_base.h:176:11: warning: ‘void* memset(void*, int, size_t)’ clearing an object of non-trivial type ‘struct LIGGGHTS::ContactModels::ForceData’; use assignment or value-initialization instead [-Wclass-memaccess]
+  176 |     memset(&j_forces, 0, sizeof(ForceData));
+      |     ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran.h:54,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:102,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_interface.h:169:8: note: ‘struct LIGGGHTS::ContactModels::ForceData’ declared here
+  169 | struct ForceData {
+      |        ^~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:81,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran_base.h: In instantiation of ‘void LIGGGHTS::PairStyles::Granular<ContactModel>::compute_force(LAMMPS_NS::PairGran*, int, int, int) [with ContactModel = LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 2, 2, 3, 0> >]’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran_base.h:187:16:   required from here
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran_base.h:238:11: warning: ‘void* memset(void*, int, size_t)’ clearing an object of non-trivial type ‘struct LIGGGHTS::ContactModels::SurfacesIntersectData’; use assignment or value-initialization instead [-Wclass-memaccess]
+  238 |     memset(aligned_sidata, 0, sizeof(SurfacesIntersectData));
+      |     ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran.h:54,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:102,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_interface.h:134:8: note: ‘struct LIGGGHTS::ContactModels::SurfacesIntersectData’ declared here
+  134 | struct SurfacesIntersectData : SurfacesCloseData {
+      |        ^~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:81,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran_base.h:239:11: warning: ‘void* memset(void*, int, size_t)’ clearing an object of non-trivial type ‘struct LIGGGHTS::ContactModels::ForceData’; use assignment or value-initialization instead [-Wclass-memaccess]
+  239 |     memset(aligned_i_forces, 0, sizeof(ForceData));
+      |     ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran.h:54,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:102,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_interface.h:169:8: note: ‘struct LIGGGHTS::ContactModels::ForceData’ declared here
+  169 | struct ForceData {
+      |        ^~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:81,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran_base.h:240:11: warning: ‘void* memset(void*, int, size_t)’ clearing an object of non-trivial type ‘struct LIGGGHTS::ContactModels::ForceData’; use assignment or value-initialization instead [-Wclass-memaccess]
+  240 |     memset(aligned_j_forces, 0, sizeof(ForceData));
+      |     ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran.h:54,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:102,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_interface.h:169:8: note: ‘struct LIGGGHTS::ContactModels::ForceData’ declared here
+  169 | struct ForceData {
+      |        ^~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:82,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran_base.h: In instantiation of ‘void LIGGGHTS::Walls::Granular<ContactModel>::compute_force(LAMMPS_NS::FixWallGran*, LIGGGHTS::ContactModels::SurfacesIntersectData&, bool, double*, LAMMPS_NS::FixMeshSurface*, int, LAMMPS_NS::TriMesh*, int) [with ContactModel = LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 2, 1, 3, 0> >]’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran_base.h:148:16:   required from here
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran_base.h:175:11: warning: ‘void* memset(void*, int, size_t)’ clearing an object of non-trivial type ‘struct LIGGGHTS::ContactModels::ForceData’; use assignment or value-initialization instead [-Wclass-memaccess]
+  175 |     memset(&i_forces, 0, sizeof(ForceData));
+      |     ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran.h:54,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:102,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_interface.h:169:8: note: ‘struct LIGGGHTS::ContactModels::ForceData’ declared here
+  169 | struct ForceData {
+      |        ^~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:82,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran_base.h:176:11: warning: ‘void* memset(void*, int, size_t)’ clearing an object of non-trivial type ‘struct LIGGGHTS::ContactModels::ForceData’; use assignment or value-initialization instead [-Wclass-memaccess]
+  176 |     memset(&j_forces, 0, sizeof(ForceData));
+      |     ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran.h:54,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:102,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_interface.h:169:8: note: ‘struct LIGGGHTS::ContactModels::ForceData’ declared here
+  169 | struct ForceData {
+      |        ^~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:81,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran_base.h: In instantiation of ‘void LIGGGHTS::PairStyles::Granular<ContactModel>::compute_force(LAMMPS_NS::PairGran*, int, int, int) [with ContactModel = LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 2, 1, 3, 0> >]’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran_base.h:187:16:   required from here
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran_base.h:238:11: warning: ‘void* memset(void*, int, size_t)’ clearing an object of non-trivial type ‘struct LIGGGHTS::ContactModels::SurfacesIntersectData’; use assignment or value-initialization instead [-Wclass-memaccess]
+  238 |     memset(aligned_sidata, 0, sizeof(SurfacesIntersectData));
+      |     ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran.h:54,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:102,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_interface.h:134:8: note: ‘struct LIGGGHTS::ContactModels::SurfacesIntersectData’ declared here
+  134 | struct SurfacesIntersectData : SurfacesCloseData {
+      |        ^~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:81,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran_base.h:239:11: warning: ‘void* memset(void*, int, size_t)’ clearing an object of non-trivial type ‘struct LIGGGHTS::ContactModels::ForceData’; use assignment or value-initialization instead [-Wclass-memaccess]
+  239 |     memset(aligned_i_forces, 0, sizeof(ForceData));
+      |     ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran.h:54,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:102,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_interface.h:169:8: note: ‘struct LIGGGHTS::ContactModels::ForceData’ declared here
+  169 | struct ForceData {
+      |        ^~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:81,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran_base.h:240:11: warning: ‘void* memset(void*, int, size_t)’ clearing an object of non-trivial type ‘struct LIGGGHTS::ContactModels::ForceData’; use assignment or value-initialization instead [-Wclass-memaccess]
+  240 |     memset(aligned_j_forces, 0, sizeof(ForceData));
+      |     ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_wall_gran.h:54,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/style_fix.h:102,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:63:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/contact_interface.h:169:8: note: ‘struct LIGGGHTS::ContactModels::ForceData’ declared here
+  169 | struct ForceData {
+      |        ^~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair_gran_base.h:63,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/granular_styles.h:81,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/lammps.cpp:87:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/os_specific.h: In function ‘T* aligned_malloc(size_t) [with T = LIGGGHTS::ContactModels::SurfacesIntersectData]’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/os_specific.h:80:17: warning: ignoring return value of ‘int posix_memalign(void**, size_t, size_t)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   80 |   posix_memalign(&ptr, alignment, sizeof(T));
+      |   ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/os_specific.h: In function ‘T* aligned_malloc(size_t) [with T = LIGGGHTS::ContactModels::ForceData]’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/os_specific.h:80:17: warning: ignoring return value of ‘int posix_memalign(void**, size_t, size_t)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]

@@ -1,0 +1,6 @@
+lmp_baseline packing rc=0 wall=.594351060s natoms=atoms,  post=0
+lmp_baseline chute_wear rc=1 wall=.527498074s natoms=atoms, ERROR: Invalid dump style (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/output.cpp:634) post=0
+lmp_release packing rc=0 wall=.561622104s natoms=atoms,  post=0
+lmp_release chute_wear rc=0 wall=.716099616s natoms=atoms,  post=4
+lmp_soa packing rc=0 wall=.588467952s natoms=atoms,  post=0
+lmp_soa chute_wear rc=0 wall=.703186566s natoms=atoms,  post=4

@@ -1,0 +1,1642 @@
+[
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/angle.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/angle.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/angle.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/angle_hybrid.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/angle_hybrid.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/angle_hybrid.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/atom.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/atom_map.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_map.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_map.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/atom_vec.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/atom_vec_atomic.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_atomic.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_atomic.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/atom_vec_charge.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_charge.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_charge.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/atom_vec_ellipsoid.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_ellipsoid.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_ellipsoid.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/atom_vec_full.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_full.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_full.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/atom_vec_hybrid.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_hybrid.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_hybrid.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/atom_vec_line.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_line.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_line.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/atom_vec_molecular.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_molecular.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_molecular.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/atom_vec_sph.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_sph.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_sph.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/atom_vec_sph_var.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_sph_var.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_sph_var.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/atom_vec_sphere.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_sphere.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_sphere.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/atom_vec_sphere_w.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_sphere_w.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_sphere_w.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/atom_vec_superquadric.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_superquadric.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_superquadric.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/atom_vec_tri.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_tri.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_tri.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/bond.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/bond.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/bond.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/bond_harmonic.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/bond_harmonic.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/bond_harmonic.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/bond_hybrid.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/bond_hybrid.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/bond_hybrid.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/bounding_box.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/bounding_box.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/bounding_box.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/cfd_datacoupling.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cfd_datacoupling.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cfd_datacoupling.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/cfd_datacoupling_file.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cfd_datacoupling_file.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cfd_datacoupling_file.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/cfd_datacoupling_mpi.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cfd_datacoupling_mpi.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cfd_datacoupling_mpi.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/cfd_regionmodel_none.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cfd_regionmodel_none.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cfd_regionmodel_none.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/change_box.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/change_box.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/change_box.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/citeme.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/citeme.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/citeme.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/comm.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/comm.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/comm.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_atom_molecule.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_atom_molecule.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_atom_molecule.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_bond_local.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_bond_local.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_bond_local.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_centro_atom.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_centro_atom.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_centro_atom.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_cluster_atom.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_cluster_atom.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_cluster_atom.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_cna_atom.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_cna_atom.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_cna_atom.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_com.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_com.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_com.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_com_molecule.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_com_molecule.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_com_molecule.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_contact_atom.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_contact_atom.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_contact_atom.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_contact_atom_gran.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_contact_atom_gran.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_contact_atom_gran.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_coord_atom.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_coord_atom.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_coord_atom.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_displace_atom.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_displace_atom.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_displace_atom.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_erotate.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_erotate.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_erotate.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_erotate_asphere.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_erotate_asphere.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_erotate_asphere.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_erotate_multisphere.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_erotate_multisphere.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_erotate_multisphere.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_erotate_sphere.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_erotate_sphere.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_erotate_sphere.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_erotate_sphere_atom.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_erotate_sphere_atom.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_erotate_sphere_atom.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_erotate_superquadric.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_erotate_superquadric.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_erotate_superquadric.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_group_group.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_group_group.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_group_group.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_gyration.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_gyration.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_gyration.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_gyration_molecule.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_gyration_molecule.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_gyration_molecule.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_inertia_molecule.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_inertia_molecule.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_inertia_molecule.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_ke.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_ke.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_ke.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_ke_atom.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_ke_atom.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_ke_atom.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_ke_multisphere.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_ke_multisphere.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_ke_multisphere.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_msd.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_msd.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_msd.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_msd_molecule.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_msd_molecule.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_msd_molecule.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_nparticles_tracer_region.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_nparticles_tracer_region.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_nparticles_tracer_region.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_pair_gran_local.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_pair_gran_local.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_pair_gran_local.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_pe.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_pe.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_pe.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_pe_atom.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_pe_atom.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_pe_atom.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_pressure.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_pressure.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_pressure.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_property_atom.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_property_local.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_local.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_local.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_property_molecule.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_molecule.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_molecule.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_rdf.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_rdf.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_rdf.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_reduce.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_reduce.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_reduce.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_reduce_region.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_reduce_region.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_reduce_region.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_rigid.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_rigid.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_rigid.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_slice.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_slice.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_slice.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_stress_atom.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_stress_atom.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_stress_atom.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/compute_temp.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_temp.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_temp.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/contact_models.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/contact_models.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/contact_models.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/container_base.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/container_base.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/container_base.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/create_atoms.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/create_atoms.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/create_atoms.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/create_box.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/create_box.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/create_box.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/custom_value_tracker.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/custom_value_tracker.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/custom_value_tracker.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/delete_atoms.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/delete_atoms.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/delete_atoms.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/delete_bonds.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/delete_bonds.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/delete_bonds.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/dihedral.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dihedral.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dihedral.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/dihedral_hybrid.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dihedral_hybrid.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dihedral_hybrid.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/displace_atoms.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/displace_atoms.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/displace_atoms.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/domain.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/domain.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/domain.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/dump.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/dump_atom_vtk.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_atom_vtk.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_atom_vtk.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/dump_custom.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/dump_custom_vtk.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom_vtk.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom_vtk.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/dump_custom_vtm.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom_vtm.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom_vtm.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/dump_decomposition_vtk.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_decomposition_vtk.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_decomposition_vtk.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/dump_euler_vtk.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_euler_vtk.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_euler_vtk.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/dump_image.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_image.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_image.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/dump_local.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_local.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_local.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/dump_local_gran.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_local_gran.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_local_gran.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/dump_local_gran_vtk.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_local_gran_vtk.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_local_gran_vtk.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/dump_mesh.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_mesh.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_mesh.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/dump_mesh_stl.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_mesh_stl.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_mesh_stl.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/dump_mesh_vtk.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_mesh_vtk.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_mesh_vtk.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/dump_mesh_vtm.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_mesh_vtm.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_mesh_vtm.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/dump_movie.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_movie.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_movie.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/dump_particle.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_particle.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_particle.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/dump_vtk.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_vtk.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_vtk.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/dump_xyz.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_xyz.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_xyz.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/error.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/error.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/error.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/finish.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/finish.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/finish.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_adapt.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_adapt.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_adapt.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_addforce.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_addforce.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_addforce.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_ave_atom.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_ave_atom.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_ave_atom.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_ave_correlate.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_ave_correlate.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_ave_correlate.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_ave_euler.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_ave_euler.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_ave_euler.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_ave_histo.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_ave_histo.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_ave_histo.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_ave_spatial.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_ave_spatial.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_ave_spatial.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_ave_time.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_ave_time.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_ave_time.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_aveforce.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_aveforce.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_aveforce.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_base_liggghts.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_base_liggghts.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_base_liggghts.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_box_relax.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_box_relax.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_box_relax.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_buoyancy.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_buoyancy.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_buoyancy.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_cfd_coupling.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_cfd_coupling.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_cfd_coupling.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_cfd_coupling_convection.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_cfd_coupling_convection.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_cfd_coupling_convection.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_cfd_coupling_convection_impl.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_cfd_coupling_convection_impl.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_cfd_coupling_convection_impl.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_cfd_coupling_convection_species.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_cfd_coupling_convection_species.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_cfd_coupling_convection_species.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_cfd_coupling_force.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_cfd_coupling_force.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_cfd_coupling_force.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_cfd_coupling_force_implicit.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_cfd_coupling_force_implicit.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_cfd_coupling_force_implicit.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_check_timestep_gran.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_check_timestep_gran.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_check_timestep_gran.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_check_timestep_sph.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_check_timestep_sph.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_check_timestep_sph.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_contact_history.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_contact_history.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_contact_history.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_contact_history_mesh.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_contact_history_mesh.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_contact_history_mesh.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_contact_property_atom.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_contact_property_atom.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_contact_property_atom.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_contact_property_atom_wall.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_contact_property_atom_wall.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_contact_property_atom_wall.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_continuum_weighted.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_continuum_weighted.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_continuum_weighted.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_deform.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_deform.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_deform.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_deform_check.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_deform_check.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_deform_check.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_diam_max.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_diam_max.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_diam_max.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_drag.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_drag.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_drag.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_dt_reset.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_dt_reset.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_dt_reset.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_efield.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_efield.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_efield.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_enforce2d.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_enforce2d.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_enforce2d.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_external.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_external.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_external.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_fiber_spring_simple.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_fiber_spring_simple.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_fiber_spring_simple.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_freeze.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_freeze.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_freeze.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_gravity.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_gravity.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_gravity.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_heat_gran.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_heat_gran.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_heat_gran.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_heat_gran_conduction.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_heat_gran_conduction.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_heat_gran_conduction.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_insert.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_insert.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_insert.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_insert_pack.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_insert_pack.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_insert_pack.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_insert_rate_region.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_insert_rate_region.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_insert_rate_region.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_insert_stream.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_insert_stream.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_insert_stream.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_lb_coupling_onetoone.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_lb_coupling_onetoone.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_lb_coupling_onetoone.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_lineforce.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_lineforce.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_lineforce.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_massflow_mesh.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_massflow_mesh.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_massflow_mesh.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_massflow_mesh_sieve.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_massflow_mesh_sieve.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_massflow_mesh_sieve.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_mesh.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_mesh.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_mesh.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_mesh_surface.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_mesh_surface.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_mesh_surface.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_minimize.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_minimize.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_minimize.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_momentum.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_momentum.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_momentum.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_move.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_move.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_move.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_move_mesh.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_move_mesh.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_move_mesh.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_multicontact_halfspace.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_multicontact_halfspace.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_multicontact_halfspace.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_multisphere.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_multisphere.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_multisphere.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_multisphere_break.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_multisphere_break.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_multisphere_break.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_multisphere_comm.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_multisphere_comm.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_multisphere_comm.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_neighlist_mesh.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_nve.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_nve_asphere.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_nve_asphere_base.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_nve_asphere_noforce.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_noforce.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_noforce.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_nve_limit.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_limit.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_limit.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_nve_line.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_line.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_line.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_nve_noforce.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_noforce.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_noforce.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_nve_sph.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_sph.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_sph.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_nve_sph_stationary.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_sph_stationary.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_sph_stationary.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_nve_sphere.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_sphere.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_sphere.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_nve_superquadric.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_superquadric.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_superquadric.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_particledistribution_discrete.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_particledistribution_discrete.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_particledistribution_discrete.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_planeforce.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_planeforce.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_planeforce.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_print.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_print.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_print.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_property_atom.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_atom.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_atom.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_property_atom_region_tracer.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_atom_region_tracer.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_atom_region_tracer.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_property_atom_tracer.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_atom_tracer.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_atom_tracer.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_property_atom_tracer_stream.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_atom_tracer_stream.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_atom_tracer_stream.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_property_global.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_read_restart.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_read_restart.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_read_restart.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_region_variable.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_region_variable.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_region_variable.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_respa.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_respa.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_respa.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_rigid.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_rigid.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_rigid.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_scalar_transport_equation.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_scalar_transport_equation.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_scalar_transport_equation.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_setforce.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_setforce.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_setforce.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_sph.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_sph.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_sph.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_sph_density_continuity.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_sph_density_continuity.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_sph_density_continuity.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_sph_density_corr.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_sph_density_corr.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_sph_density_corr.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_sph_density_drift_corr.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_sph_density_drift_corr.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_sph_density_drift_corr.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_sph_density_summation.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_sph_density_summation.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_sph_density_summation.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_sph_integrity.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_sph_integrity.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_sph_integrity.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_sph_mixidx.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_sph_mixidx.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_sph_mixidx.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_sph_pressure.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_sph_pressure.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_sph_pressure.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_sph_velgrad.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_sph_velgrad.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_sph_velgrad.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_spring.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_spring.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_spring.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_spring_rg.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_spring_rg.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_spring_rg.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_spring_self.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_spring_self.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_spring_self.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_store.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_store.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_store.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_store_force.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_store_force.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_store_force.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_store_state.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_store_state.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_store_state.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_template_multiplespheres.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_template_multiplespheres.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_template_multiplespheres.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_template_multisphere.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_template_multisphere.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_template_multisphere.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_template_sphere.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_template_sphere.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_template_sphere.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_template_superquadric.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_template_superquadric.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_template_superquadric.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_viscous.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_viscous.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_viscous.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_wall.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_wall_gran.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_wall_region.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_region.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_region.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_wall_region_sph.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_region_sph.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_region_sph.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_wall_sph.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_sph.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_sph.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_wall_sph_general.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_sph_general.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_sph_general.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_wall_sph_general_base.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_sph_general_base.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_sph_general_base.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/fix_wall_sph_general_gap.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_sph_general_gap.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_sph_general_gap.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/force.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/force.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/force.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/global_properties.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/global_properties.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/global_properties.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/granular_pair_style.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/granular_pair_style.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/granular_pair_style.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/granular_wall.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/granular_wall.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/granular_wall.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/group.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/group.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/group.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/image.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/image.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/image.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/improper.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/improper.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/improper.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/improper_hybrid.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/improper_hybrid.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/improper_hybrid.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/info.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/info.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/info.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/input.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/input.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/input.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/input_mesh_tet.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/input_mesh_tet.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/input_mesh_tet.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/input_mesh_tri.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/input_mesh_tri.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/input_mesh_tri.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/input_multisphere.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/input_multisphere.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/input_multisphere.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/integrate.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/integrate.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/integrate.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/irregular.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/irregular.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/irregular.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/kspace.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/kspace.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/kspace.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/lammps.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/lammps.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/lammps.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/lattice.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/lattice.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/lattice.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/library.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/library.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/library.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/library_cfd_coupling.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/library_cfd_coupling.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/library_cfd_coupling.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/main.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/main.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/main.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/math_extra.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/math_extra.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/math_extra.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/math_extra_liggghts_nonspherical.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/math_extra_liggghts_nonspherical.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/math_extra_liggghts_nonspherical.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/math_extra_liggghts_superquadric.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/math_extra_liggghts_superquadric.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/math_extra_liggghts_superquadric.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/memory.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/memory.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/memory.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/mesh_module.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/mesh_module_liquidtransfer.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module_liquidtransfer.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module_liquidtransfer.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/mesh_module_stress.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module_stress.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module_stress.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/mesh_module_stress_servo.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module_stress_servo.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module_stress_servo.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/mesh_mover_linear.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_mover_linear.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_mover_linear.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/mesh_mover_rotation.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_mover_rotation.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_mover_rotation.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/min.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/min.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/min.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/min_cg.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/min_cg.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/min_cg.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/min_linesearch.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/min_linesearch.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/min_linesearch.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/minimize.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/minimize.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/minimize.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/modified_andrew.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/modified_andrew.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/modified_andrew.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/modify.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/modify.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/modify.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/modify_liggghts.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/modify_liggghts.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/modify_liggghts.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/multisphere.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/multisphere.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/multisphere.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/multisphere_parallel.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/multisphere_parallel.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/multisphere_parallel.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/neigh_bond.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neigh_bond.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neigh_bond.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/neigh_derive.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neigh_derive.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neigh_derive.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/neigh_dummy.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neigh_dummy.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neigh_dummy.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/neigh_full.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neigh_full.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neigh_full.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/neigh_gran.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neigh_gran.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neigh_gran.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/neigh_half_bin.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neigh_half_bin.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neigh_half_bin.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/neigh_half_multi.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neigh_half_multi.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neigh_half_multi.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/neigh_half_nsq.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neigh_half_nsq.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neigh_half_nsq.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/neigh_list.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neigh_list.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neigh_list.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/neigh_request.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neigh_request.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neigh_request.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/neigh_respa.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neigh_respa.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neigh_respa.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/neigh_stencil.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neigh_stencil.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neigh_stencil.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/neighbor.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/output.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/output.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/output.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/pair.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/pair_gran.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_gran.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_gran.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/pair_gran_proxy.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_gran_proxy.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_gran_proxy.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/pair_hybrid.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_hybrid.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_hybrid.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/pair_hybrid_overlay.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_hybrid_overlay.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_hybrid_overlay.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/pair_line_lj.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_line_lj.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_line_lj.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/pair_soft.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_soft.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_soft.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/pair_sph.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_sph.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_sph.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/pair_sph_artvisc_tenscorr.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_sph_artvisc_tenscorr.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_sph_artvisc_tenscorr.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/pair_sph_morris_tenscorr.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_sph_morris_tenscorr.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_sph_morris_tenscorr.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/particleToInsert.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/particleToInsert.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/particleToInsert.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/particleToInsertSuperquadric.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/particleToInsertSuperquadric.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/particleToInsertSuperquadric.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/particleToInsert_multisphere.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/particleToInsert_multisphere.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/particleToInsert_multisphere.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/procmap.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/procmap.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/procmap.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/properties.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/properties.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/properties.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/property_registry.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/property_registry.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/property_registry.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/random.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/random.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/random.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/random_mars.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/random_mars.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/random_mars.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/random_park.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/random_park.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/random_park.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/read_data.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/read_data.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/read_data.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/read_dump.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/read_dump.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/read_dump.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/read_restart.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/read_restart.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/read_restart.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/reader.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/reader.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/reader.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/reader_native.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/reader_native.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/reader_native.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/reader_xyz.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/reader_xyz.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/reader_xyz.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/region.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/region_block.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_block.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_block.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/region_cone.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_cone.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_cone.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/region_cylinder.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_cylinder.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_cylinder.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/region_intersect.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_intersect.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_intersect.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/region_mesh_tet.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_mesh_tet.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_mesh_tet.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/region_neighbor_list.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_neighbor_list.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_neighbor_list.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/region_plane.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_plane.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_plane.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/region_prism.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_prism.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_prism.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/region_sphere.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_sphere.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_sphere.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/region_union.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_union.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_union.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/region_wedge.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_wedge.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_wedge.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/replicate.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/replicate.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/replicate.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/respa.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/respa.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/respa.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/rotate.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rotate.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rotate.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/run.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/run.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/run.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/run_time.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/run_time.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/run_time.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/set.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/set.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/set.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/signal_handling.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/signal_handling.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/signal_handling.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/sort_buffer.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/sort_buffer.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/sort_buffer.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/special.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/special.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/special.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/superquadric.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/superquadric.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/superquadric.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/tet_mesh.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/tet_mesh.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/tet_mesh.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/thermo.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/thermo.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/thermo.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/timer.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/timer.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/timer.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/tri_mesh.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/tri_mesh.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/tri_mesh.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/tri_mesh_planar.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/tri_mesh_planar.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/tri_mesh_planar.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/universe.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/universe.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/universe.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/update.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/update.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/update.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/variable.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/variable.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/variable.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/velocity.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/velocity.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/velocity.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/verlet.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/verlet.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/verlet.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/write_data.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/write_data.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/write_data.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/write_dump.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/write_dump.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/write_dump.cpp"
+ },
+ {
+  "directory": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline",
+  "command": "/usr/bin/g++ -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -DLAMMPS_SMALLBIG   -O2 -ffast-math -funroll-loops -fstrict-aliasing -Wall -Wextra -Wno-uninitialized  -fPIC -O3 -march=native -DNDEBUG -fno-fast-math -std=gnu++17 -o CMakeFiles/liggghts_obj.dir/write_restart.cpp.o -c /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/write_restart.cpp",
+  "file": "/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/write_restart.cpp"
+ }
+]

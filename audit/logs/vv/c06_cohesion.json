@@ -1,0 +1,134 @@
+{
+ "pull_status": {
+  "pull_release_hertz_sjkr_np1": [
+   0,
+   ""
+  ],
+  "pull_release_hertz_sjkr_np2": [
+   0,
+   ""
+  ],
+  "pull_release_hertz_sjkr_np4": [
+   0,
+   ""
+  ],
+  "pull_release_hertz_generalized_adhesion_np1": [
+   0,
+   ""
+  ],
+  "pull_release_hertz_generalized_adhesion_np2": [
+   0,
+   ""
+  ],
+  "pull_release_hertz_generalized_adhesion_np4": [
+   0,
+   ""
+  ],
+  "pull_release_hooke_sjkr_np1": [
+   0,
+   ""
+  ],
+  "pull_release_hooke_sjkr_np2": [
+   0,
+   ""
+  ],
+  "pull_release_hooke_sjkr_np4": [
+   0,
+   ""
+  ],
+  "pull_release_hooke_generalized_adhesion_np1": [
+   0,
+   ""
+  ],
+  "pull_release_hooke_generalized_adhesion_np2": [
+   0,
+   ""
+  ],
+  "pull_release_hooke_generalized_adhesion_np4": [
+   0,
+   ""
+  ],
+  "pull_baseline_hertz_sjkr_np1": [
+   0,
+   ""
+  ],
+  "pull_baseline_hertz_sjkr_np2": [
+   0,
+   ""
+  ],
+  "pull_baseline_hertz_sjkr_np4": [
+   0,
+   ""
+  ],
+  "pull_baseline_hooke_sjkr_np1": [
+   0,
+   ""
+  ],
+  "pull_baseline_hooke_sjkr_np2": [
+   0,
+   ""
+  ],
+  "pull_baseline_hooke_sjkr_np4": [
+   0,
+   ""
+  ]
+ },
+ "wall_sjkr_type1": {
+  "rc": 0,
+  "fz": null
+ },
+ "wall_sjkr_type2": {
+  "rc": 0,
+  "fz": null
+ },
+ "wall_generalized_adhesion_type1": {
+  "rc": 0,
+  "fz": null
+ },
+ "wall_generalized_adhesion_type2": {
+  "rc": 0,
+  "fz": null
+ },
+ "asym_release": {
+  "rc": 1,
+  "err": [
+   "ERROR: Fix property/global (id m6): per-atomtype property matrix must be symmetric (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.cpp:200)"
+  ]
+ },
+ "asym_baseline": {
+  "rc": 1,
+  "err": [
+   "ERROR: Fix property/global (id m6): per-atomtype property matrix must be symmetric (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.cpp:170)"
+  ]
+ },
+ "hooke_w0.0": {
+  "rc": 0,
+  "kn": 1090.821262460105,
+  "w": 0.0,
+  "e_out": 0.500126249902402,
+  "dmax": 5.140000880012041e-06,
+  "tc": 0.000223,
+  "separated": true,
+  "final_overlap": -0.0002889199983630601
+ },
+ "hooke_w0.5": {
+  "rc": 0,
+  "kn": 1090.821262460105,
+  "w": 347219.19190053485,
+  "e_out": 0.366053515203896,
+  "dmax": 6.545765708321997e-06,
+  "tc": 0.000323,
+  "separated": true,
+  "final_overlap": -0.00020779629192428
+ },
+ "hooke_w1.2": {
+  "rc": 0,
+  "kn": 1090.821262460105,
+  "w": 833326.0605612836,
+  "e_out": -0.11220379624851239,
+  "dmax": 0.002302507654706334,
+  "tc": 0.006,
+  "separated": false,
+  "final_overlap": 0.0020000032471867656
+ }
+}

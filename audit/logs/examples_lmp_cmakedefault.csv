@@ -1,0 +1,23 @@
+chute_wear_hpc__in.chute_wear_hpc,WHITELIST_ERROR,1,.519732990,ERROR: Granular contact model combination is not compiled into the static contact-model whitelist (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cm
+chute_wear__in.chute_wear,WHITELIST_ERROR,1,.479509657,ERROR: Granular contact model combination is not compiled into the static contact-model whitelist (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cm
+cohesion__in.cohesion,WHITELIST_ERROR,1,.469095512,ERROR: Granular contact model combination is not compiled into the static contact-model whitelist (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cm
+cohesion__in.noCohesion,WHITELIST_ERROR,1,.473680921,ERROR: Granular contact model combination is not compiled into the static contact-model whitelist (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cm
+contactModels__in.newModels,WHITELIST_ERROR,1,.449793002,ERROR: Granular contact model combination is not compiled into the static contact-model whitelist (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cm
+contactModels__in.oldModels,FAILED,1,.530223076,ERROR: Invalid pair style (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/force.cpp:247)
+conveyor__in.conveyor,WHITELIST_ERROR,1,.485921097,ERROR: Granular contact model combination is not compiled into the static contact-model whitelist (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cm
+heatTransfer_1__in.heatGran,WHITELIST_ERROR,1,.490430514,ERROR: Granular contact model combination is not compiled into the static contact-model whitelist (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cm
+heatTransfer_2__in.heatGran,WHITELIST_ERROR,1,.453371859,ERROR: Granular contact model combination is not compiled into the static contact-model whitelist (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cm
+hydrogel_multicontact__in.hydrogel_default,WHITELIST_ERROR,1,.452907396,ERROR: Granular contact model combination is not compiled into the static contact-model whitelist (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cm
+hydrogel_multicontact__in.hydrogel_multicontact,WHITELIST_ERROR,1,.431306886,ERROR: Granular contact model combination is not compiled into the static contact-model whitelist (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cm
+hysteresis__in.hysteresis,WHITELIST_ERROR,1,.452649511,ERROR: Granular contact model combination is not compiled into the static contact-model whitelist (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cm
+hysteresis__in.noHysteresis,WHITELIST_ERROR,1,.488473695,ERROR: Granular contact model combination is not compiled into the static contact-model whitelist (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cm
+insert_stream__in.insert_stream,WHITELIST_ERROR,1,.461837250,ERROR: Granular contact model combination is not compiled into the static contact-model whitelist (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cm
+insert_stream__in.insert_stream_reset_timestep,FAILED,1,.421705008,
+meshGran__in.meshGran,WHITELIST_ERROR,1,.444447264,ERROR: Granular contact model combination is not compiled into the static contact-model whitelist (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cm
+mesh_tet__in.mesh_tet,WHITELIST_ERROR,1,.497059072,ERROR: Granular contact model combination is not compiled into the static contact-model whitelist (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cm
+movingMeshGran__in.movingMeshGran,WHITELIST_ERROR,1,.471646798,ERROR: Granular contact model combination is not compiled into the static contact-model whitelist (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cm
+multisphere_stone_restitution__in.multisphere,WHITELIST_ERROR,1,.484575799,ERROR: Granular contact model combination is not compiled into the static contact-model whitelist (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cm
+packing__in.packing,WHITELIST_ERROR,1,.460066202,ERROR: Granular contact model combination is not compiled into the static contact-model whitelist (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cm
+sph_1__in.sph_1,COMPLETED,0,.481651012,
+sph_2__in.sph_2,COMPLETED,0,.483043408,
+superquadric__in.particle_particle,FAILED,1,.446549936,ERROR: Invalid atom style (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/atom.cpp:459)

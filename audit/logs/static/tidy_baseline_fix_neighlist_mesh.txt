@@ -1,0 +1,722 @@
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:56:10: warning: inclusion of deprecated C++ header 'stdio.h'; consider using 'cstdio' instead [modernize-deprecated-headers]
+   56 | #include <stdio.h>
+      |          ^~~~~~~~~
+      |          <cstdio>
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:63:25: warning: macro replacement list should be enclosed in parentheses [bugprone-macro-parentheses]
+   63 | #define SMALL_DELTA skin/(70.*M_PI)
+      |                         ^          
+      |                     (              )
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:67:16: warning: use nullptr [modernize-use-nullptr]
+note: this fix will not be applied because it overlaps with another fix
+   67 |   fix_nneighs_(0),
+      |                ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:68:21: warning: use nullptr [modernize-use-nullptr]
+note: this fix will not be applied because it overlaps with another fix
+   68 |   fix_nneighs_name_(0),
+      |                     ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:76:8: warning: use nullptr [modernize-use-nullptr]
+   76 |   bins(NULL),
+      |        ^~~~
+      |        nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:77:11: warning: use nullptr [modernize-use-nullptr]
+   77 |   binhead(NULL),
+      |           ^~~~
+      |           nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:80:5: warning: use nullptr [modernize-use-nullptr]
+   80 |   x(NULL),
+      |     ^~~~
+      |     nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:81:5: warning: use nullptr [modernize-use-nullptr]
+   81 |   r(NULL),
+      |     ^~~~
+      |     nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:85:8: warning: use nullptr [modernize-use-nullptr]
+note: this fix will not be applied because it overlaps with another fix
+   85 |   avec(0),
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:91:15: warning: do not use static_cast to downcast from a base to a derived class; use dynamic_cast instead [cppcoreguidelines-pro-type-static-cast-downcast]
+   91 |     caller_ = static_cast<FixMeshSurface*>(modify->find_fix_id(arg[3]));
+      |               ^~~~~~~~~~~
+      |               dynamic_cast
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:124:9: warning: assigning newly created 'gsl::owner<>' to non-owner 'char *' [cppcoreguidelines-owning-memory]
+  124 |         fix_nneighs_name_ = new char[strlen(mesh_->mesh_id())+strlen(id)+1+20];
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:141:56: warning: do not use const_cast to remove const qualifier [cppcoreguidelines-pro-type-const-cast]
+  141 |         fix_nneighs_ = modify->add_fix_property_atom(9,const_cast<char**>(fixarg),style);
+      |                                                        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:147:12: warning: C-style casts are discouraged; use static_cast [modernize-avoid-c-style-cast]
+  147 |     avec = (AtomVecEllipsoid *) atom->style_match("ellipsoid");
+      |            ^~~~~~~~~~~~~~~~~~~~                               
+      |            static_cast<AtomVecEllipsoid *>(                   )
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:147:12: warning: do not use C-style cast to downcast from a base to a derived class; use dynamic_cast instead [cppcoreguidelines-pro-type-cstyle-cast]
+note: this fix will not be applied because it overlaps with another fix
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:166:19: warning: use emplace_back instead of push_back [modernize-use-emplace]
+  166 |         triangles.push_back(TriangleNeighlist());
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                   emplace_back(
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:170:49: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  170 |         TriangleNeighlist & triangle = triangles[iTri];
+      |                                                 ^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:292:47: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  292 |       TriangleNeighlist & triangle = triangles[iTri];
+      |                                               ^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:293:22: warning: narrowing conversion from 'size_t' (aka 'unsigned long') to signed type 'int' is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+  293 |       handleTriangle(iTri);
+      |                      ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:294:26: warning: narrowing conversion from 'size_type' (aka 'unsigned long') to signed type 'int' is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+  294 |       numAllContacts_ += triangle.contacts.size();
+      |                          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:328:10: warning: converting integer literal to bool, use bool literal instead [modernize-use-bool-literals]
+  328 |       if(0) {}
+      |          ^
+      |          false
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:360:45: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  360 |     TriangleNeighlist & triangle = triangles[iTri];
+      |                                             ^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:369:38: warning: use nullptr [modernize-use-nullptr]
+  369 |     AtomVecEllipsoid::Bonus *bonus = 0;
+      |                                      ^
+      |                                      nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:370:21: warning: use nullptr [modernize-use-nullptr]
+  370 |     double *shape = 0;
+      |                     ^
+      |                     nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:399:30: warning: narrowing conversion from 'size_type' (aka 'unsigned long') to signed type 'int' is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+  399 |         const int bincount = triangleBins.size();
+      |                              ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:401:40: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  401 |           const int iBin = triangleBins[i];
+      |                                        ^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:437:38: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  437 |     const BinBoundary & b = triangles[iTri].boundary;
+      |                                      ^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:467:47: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  467 |       TriangleNeighlist & triangle = triangles[iTri];
+      |                                               ^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:472:63: warning: narrowing conversion from 'size_t' (aka 'unsigned long') to signed type 'int' is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+  472 |       BoundingBox b = mesh_->getElementBoundingBoxOnSubdomain(iTri);
+      |                                                               ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:490:51: warning: narrowing conversion from 'size_t' (aka 'unsigned long') to signed type 'int' is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+  490 |             if (mesh_->resolveTriSphereNeighbuild(iTri, maxdiag, center, distmax + skin))
+      |                                                   ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:76:7: warning: use default member initializer for 'nchecked' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+   76 |   int nchecked;
+      |       ^       
+      |               {0}
+   77 | 
+   78 |   TriangleNeighlist() : nchecked(0) {}
+      |                         ~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:78:3: warning: constructor does not initialize these fields: boundary [cppcoreguidelines-pro-type-member-init]
+   75 |   BinBoundary boundary;
+      |                       
+      |                       {}
+   76 |   int nchecked;
+   77 | 
+   78 |   TriangleNeighlist() : nchecked(0) {}
+      |   ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:81:7: warning: class 'FixNeighlistMesh' defines a non-default destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+   81 | class FixNeighlistMesh : public Fix
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:87:5: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   86 |     virtual
+      |     ~~~~~~~
+   87 |     ~FixNeighlistMesh();
+      |     ^                  
+      |                         override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:88:17: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   88 |     virtual int setmask();
+      |     ~~~~~~~     ^        
+      |                           override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:89:18: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   89 |     virtual void post_create();
+      |     ~~~~~~~      ^            
+      |                                override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:90:18: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   90 |     virtual void pre_delete(bool unfixflag);
+      |     ~~~~~~~      ^                         
+      |                                             override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:93:18: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   93 |     virtual void setup_pre_force(int);
+      |     ~~~~~~~      ^                   
+      |                                       override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:94:18: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   94 |     virtual void min_setup_pre_force(int);
+      |     ~~~~~~~      ^                       
+      |                                           override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:96:18: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   96 |     virtual void pre_neighbor(); 
+      |     ~~~~~~~      ^             
+      |                                 override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:97:18: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   97 |     virtual void pre_force(int vflag); 
+      |     ~~~~~~~      ^                   
+      |                                       override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:98:18: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   98 |     virtual void min_pre_force(int vflag); 
+      |     ~~~~~~~      ^                       
+      |                                           override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:100:18: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  100 |     virtual void post_run();
+      |     ~~~~~~~      ^         
+      |                             override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:102:5: warning: function 'get_contact_list' should be marked [[nodiscard]] [modernize-use-nodiscard]
+  102 |     const std::vector<int> & get_contact_list(int iTri) const {
+      |     ^
+      |     [[nodiscard]] 
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:103:23: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  103 |       return triangles[iTri].contacts;
+      |                       ^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:117:47: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  117 |       std::vector<int> & neighbors = triangles[iTri].contacts;
+      |                                               ^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:125:9: warning: member variable 'groupbit_wall_mesh' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  125 |     int groupbit_wall_mesh;
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:133:27: warning: member variable 'caller_' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  133 |     class FixMeshSurface *caller_;
+      |                           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:134:20: warning: member variable 'mesh_' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  134 |     class TriMesh *mesh_;
+      |                    ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:136:28: warning: member variable 'fix_nneighs_' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  136 |     class FixPropertyAtom *fix_nneighs_;
+      |                            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:136:28: warning: use default member initializer for 'fix_nneighs_' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+  136 |     class FixPropertyAtom *fix_nneighs_;
+      |                            ^           
+      |                                        {0}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:137:11: warning: member variable 'fix_nneighs_name_' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  137 |     char *fix_nneighs_name_;
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:137:11: warning: use default member initializer for 'fix_nneighs_name_' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+  137 |     char *fix_nneighs_name_;
+      |           ^                
+      |                            {0}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:139:10: warning: member variable 'buildNeighList' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  139 |     bool buildNeighList;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:139:10: warning: use default member initializer for 'buildNeighList' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+  139 |     bool buildNeighList;
+      |          ^             
+      |                        {false}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:141:36: warning: member variable 'triangles' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  141 |     std::vector<TriangleNeighlist> triangles;
+      |                                    ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:143:9: warning: member variable 'numAllContacts_' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  143 |     int numAllContacts_;
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:143:9: warning: use default member initializer for 'numAllContacts_' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+  143 |     int numAllContacts_;
+      |         ^              
+      |                        {0}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:144:10: warning: member variable 'globalNumAllContacts_' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  144 |     bool globalNumAllContacts_;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:144:10: warning: use default member initializer for 'globalNumAllContacts_' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+  144 |     bool globalNumAllContacts_;
+      |          ^                    
+      |                               {false}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:146:9: warning: member variable 'mbinx' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  146 |     int mbinx,mbiny,mbinz,maxhead, *bins, *binhead;
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:146:9: warning: use default member initializer for 'mbinx' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+  146 |     int mbinx,mbiny,mbinz,maxhead, *bins, *binhead;
+      |         ^    
+      |              {0}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:146:15: warning: member variable 'mbiny' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  146 |     int mbinx,mbiny,mbinz,maxhead, *bins, *binhead;
+      |               ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:146:15: warning: use default member initializer for 'mbiny' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+  146 |     int mbinx,mbiny,mbinz,maxhead, *bins, *binhead;
+      |               ^    
+      |                    {0}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:146:21: warning: member variable 'mbinz' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  146 |     int mbinx,mbiny,mbinz,maxhead, *bins, *binhead;
+      |                     ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:146:21: warning: use default member initializer for 'mbinz' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+  146 |     int mbinx,mbiny,mbinz,maxhead, *bins, *binhead;
+      |                     ^    
+      |                          {0}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:146:27: warning: member variable 'maxhead' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  146 |     int mbinx,mbiny,mbinz,maxhead, *bins, *binhead;
+      |                           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:146:27: warning: use default member initializer for 'maxhead' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+  146 |     int mbinx,mbiny,mbinz,maxhead, *bins, *binhead;
+      |                           ^      
+      |                                  {0}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:146:37: warning: member variable 'bins' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  146 |     int mbinx,mbiny,mbinz,maxhead, *bins, *binhead;
+      |                                     ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:146:44: warning: member variable 'binhead' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  146 |     int mbinx,mbiny,mbinz,maxhead, *bins, *binhead;
+      |                                            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:147:12: warning: member variable 'skin' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  147 |     double skin;
+      |            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:147:12: warning: use default member initializer for 'skin' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+  147 |     double skin;
+      |            ^   
+      |                {0.0}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:150:12: warning: member variable 'distmax' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  150 |     double distmax;
+      |            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:150:12: warning: use default member initializer for 'distmax' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+  150 |     double distmax;
+      |            ^      
+      |                   {0.0}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:152:14: warning: member variable 'x' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  152 |     double **x, *r;
+      |              ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:152:18: warning: member variable 'r' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  152 |     double **x, *r;
+      |                  ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:154:10: warning: member variable 'changingMesh' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  154 |     bool changingMesh;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:154:10: warning: use default member initializer for 'changingMesh' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+  154 |     bool changingMesh;
+      |          ^           
+      |                      {false}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:155:10: warning: member variable 'changingDomain' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  155 |     bool changingDomain;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:155:10: warning: use default member initializer for 'changingDomain' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+  155 |     bool changingDomain;
+      |          ^             
+      |                        {false}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:157:12: warning: member variable 'last_bin_update' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  157 |     bigint last_bin_update;
+      |            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:157:12: warning: use default member initializer for 'last_bin_update' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+  157 |     bigint last_bin_update;
+      |            ^              
+      |                           {-1}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:161:29: warning: member variable 'avec' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  161 |     class AtomVecEllipsoid *avec;
+      |                             ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:161:29: warning: use default member initializer for 'avec' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+  161 |     class AtomVecEllipsoid *avec;
+      |                             ^   
+      |                                 {0}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:163:10: warning: member variable 'otherList_' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  163 |     bool otherList_;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:163:10: warning: use default member initializer for 'otherList_' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+  163 |     bool otherList_;
+      |          ^         
+      |                    {false}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:60:7: warning: class 'Neighbor' defines a destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+   60 | class Neighbor : protected Pointers {
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:70:7: warning: member variable 'style' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   70 |   int style;                       // 0,1,2 = nsq, bin, multi
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:71:7: warning: member variable 'every' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   71 |   int every;                       // build every this many steps
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:72:7: warning: member variable 'delay' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   72 |   int delay;                       // delay build for this many steps
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:73:10: warning: member variable 'contactDistanceFactor' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   73 |   double contactDistanceFactor;    // contact distance factor used to compute non-touch contact (forces without radius overlap)
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:74:7: warning: member variable 'dist_check' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   74 |   int dist_check;                  // 0 = always build, 1 = only if 1/2 dist
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:75:7: warning: member variable 'ago' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   75 |   int ago;                         // how many steps ago neighboring occurred
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:76:7: warning: member variable 'pgsize' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   76 |   int pgsize;                      // size of neighbor page
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:77:7: warning: member variable 'oneatom' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   77 |   int oneatom;                     // max # of neighbors for one atom
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:78:7: warning: member variable 'includegroup' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   78 |   int includegroup;                // only build pairwise lists for this group
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:79:7: warning: member variable 'build_once' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   79 |   int build_once;                  // 1 if only build lists once per run
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:80:7: warning: member variable 'cudable' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   80 |   int cudable;                     // GPU <-> CPU communication flag for CUDA
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:82:10: warning: member variable 'skin' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   82 |   double skin;                     // skin distance
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:83:10: warning: member variable 'cutneighmin' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   83 |   double cutneighmin;              // min neighbor cutoff for all type pairs
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:84:10: warning: member variable 'cutneighmax' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   84 |   double cutneighmax;              // max neighbor cutoff for all type pairs
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:86:11: warning: member variable 'cuttype' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   86 |   double *cuttype;                 // for each type, max neigh cut w/ others
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:88:10: warning: member variable 'ncalls' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   88 |   bigint ncalls;                   // # of times build has been called
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:89:10: warning: member variable 'ndanger' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   89 |   bigint ndanger;                  // # of dangerous builds
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:90:10: warning: member variable 'lastcall' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   90 |   bigint lastcall;                 // timestep of last neighbor::build() call
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:92:10: warning: member variable 'last_setup_bins_timestep' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   92 |   bigint last_setup_bins_timestep;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:94:7: warning: member variable 'nrequest' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   94 |   int nrequest;                    // requests for pairwise neighbor lists
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:95:24: warning: member variable 'requests' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   95 |   class NeighRequest **requests;   // from Pair, Fix, Compute, Command classes
+      |                        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:96:7: warning: member variable 'maxrequest' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   96 |   int maxrequest;
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:98:7: warning: member variable 'old_style' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   98 |   int old_style;                   // previous run info to avoid
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:99:7: warning: member variable 'old_nrequest' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   99 |   int old_nrequest;                // re-creation of pairwise neighbor lists
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:100:7: warning: member variable 'old_triclinic' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  100 |   int old_triclinic;
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:101:7: warning: member variable 'old_pgsize' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  101 |   int old_pgsize;
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:102:7: warning: member variable 'old_oneatom' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  102 |   int old_oneatom;
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:103:24: warning: member variable 'old_requests' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  103 |   class NeighRequest **old_requests;
+      |                        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:105:7: warning: member variable 'nlist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  105 |   int nlist;                       // pairwise neighbor lists
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:106:21: warning: member variable 'lists' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  106 |   class NeighList **lists;
+      |                     ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:108:7: warning: member variable 'nbondlist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  108 |   int nbondlist;                   // list of bonds to compute
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:109:9: warning: member variable 'bondlist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  109 |   int **bondlist;                  
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:110:12: warning: member variable 'bondhistlist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  110 |   double **bondhistlist;
+      |            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:111:7: warning: member variable 'nanglelist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  111 |   int nanglelist;                  // list of angles to compute
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:112:9: warning: member variable 'anglelist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  112 |   int **anglelist;
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:113:7: warning: member variable 'ndihedrallist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  113 |   int ndihedrallist;               // list of dihedrals to compute
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:114:9: warning: member variable 'dihedrallist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  114 |   int **dihedrallist;
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:115:7: warning: member variable 'nimproperlist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  115 |   int nimproperlist;               // list of impropers to compute
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:116:9: warning: member variable 'improperlist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  116 |   int **improperlist;
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:119:11: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  119 |   virtual ~Neighbor();
+      |   ~~~~~~~ ^          
+      |                       override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:145:7: warning: member variable 'me' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  145 |   int me,nprocs;
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:145:10: warning: member variable 'nprocs' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  145 |   int me,nprocs;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:147:7: warning: member variable 'maxatom' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  147 |   int maxatom;                     // size of atom-based NeighList arrays
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:148:7: warning: member variable 'maxbond' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  148 |   int maxbond,maxangle,maxdihedral,maximproper;   // size of bond lists
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:148:15: warning: member variable 'maxangle' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  148 |   int maxbond,maxangle,maxdihedral,maximproper;   // size of bond lists
+      |               ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:148:24: warning: member variable 'maxdihedral' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  148 |   int maxbond,maxangle,maxdihedral,maximproper;   // size of bond lists
+      |                        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:148:36: warning: member variable 'maximproper' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  148 |   int maxbond,maxangle,maxdihedral,maximproper;   // size of bond lists
+      |                                    ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:149:7: warning: member variable 'maxwt' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  149 |   int maxwt;                       // max weighting factor applied + 1
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:151:7: warning: member variable 'must_check' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  151 |   int must_check;                  // 1 if must check other classes to reneigh
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:152:7: warning: member variable 'restart_check' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  152 |   int restart_check;               // 1 if restart enabled, 0 if no
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:153:7: warning: member variable 'fix_check' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  153 |   int fix_check;                   // # of fixes that induce reneigh
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:154:8: warning: member variable 'fixchecklist' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  154 |   int *fixchecklist;               // which fixes to check
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:156:12: warning: member variable 'cutneighsq' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  156 |   double **cutneighsq;             // neighbor cutneigh sq for each type pair
+      |            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:157:12: warning: member variable 'cutneighghostsq' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  157 |   double **cutneighghostsq;        // neighbor cutnsq for each ghost type pair
+      |            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:158:10: warning: member variable 'cutneighmaxsq' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  158 |   double cutneighmaxsq;            // cutneighmax squared
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:159:11: warning: member variable 'cuttypesq' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  159 |   double *cuttypesq;               // cuttype squared
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:161:10: warning: member variable 'triggersq' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  161 |   double triggersq;                // trigger = build when atom moves this dist
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:162:7: warning: member variable 'cluster_check' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  162 |   int cluster_check;               // 1 if check bond/angle/etc satisfies minimg
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:164:12: warning: member variable 'xhold' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  164 |   double **xhold;                      // atom coords at last neighbor build
+      |            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:166:11: warning: member variable 'rhold' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  166 |   double *rhold;                       // atom radii at last neighbor build
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:167:7: warning: member variable 'maxhold' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  167 |   int maxhold;                         // size of xhold array
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:168:7: warning: member variable 'boxcheck' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  168 |   int boxcheck;                        // 1 if need to store box size
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:169:10: warning: member variable 'boxlo_hold' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  169 |   double boxlo_hold[3],boxhi_hold[3];  // box size at last neighbor build
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:169:24: warning: member variable 'boxhi_hold' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  169 |   double boxlo_hold[3],boxhi_hold[3];  // box size at last neighbor build
+      |                        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:170:10: warning: member variable 'corners_hold' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  170 |   double corners_hold[8][3];           // box corners at last neighbor build
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:172:7: warning: member variable 'nbinx' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  172 |   int nbinx,nbiny,nbinz;           // # of global bins
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:172:13: warning: member variable 'nbiny' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  172 |   int nbinx,nbiny,nbinz;           // # of global bins
+      |             ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:172:19: warning: member variable 'nbinz' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  172 |   int nbinx,nbiny,nbinz;           // # of global bins
+      |                   ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:173:8: warning: member variable 'bins' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  173 |   int *bins;                       // ptr to next atom in each bin
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:174:7: warning: member variable 'maxbin' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  174 |   int maxbin;                      // size of bins array
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:176:8: warning: member variable 'binhead' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  176 |   int *binhead;                    // ptr to 1st atom in each bin
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:177:7: warning: member variable 'maxhead' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  177 |   int maxhead;                     // size of binhead array
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:178:25: warning: member variable 'mlg' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  178 |   class MultiLevelGrid* mlg;       
+      |                         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:180:7: warning: member variable 'mbins' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  180 |   int mbins;                       // # of local bins and offset
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:181:7: warning: member variable 'mbinx' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  181 |   int mbinx,mbiny,mbinz;
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:181:13: warning: member variable 'mbiny' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  181 |   int mbinx,mbiny,mbinz;
+      |             ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:181:19: warning: member variable 'mbinz' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  181 |   int mbinx,mbiny,mbinz;
+      |                   ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:182:7: warning: member variable 'mbinxlo' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  182 |   int mbinxlo,mbinylo,mbinzlo;
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:182:15: warning: member variable 'mbinylo' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  182 |   int mbinxlo,mbinylo,mbinzlo;
+      |               ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:182:23: warning: member variable 'mbinzlo' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  182 |   int mbinxlo,mbinylo,mbinzlo;
+      |                       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:184:7: warning: member variable 'binsizeflag' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  184 |   int binsizeflag;                 // user-chosen bin size
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:185:10: warning: member variable 'binsize_user' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  185 |   double binsize_user;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:187:10: warning: member variable 'binsizex' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  187 |   double binsizex,binsizey,binsizez;  // actual bin sizes and inverse sizes
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:187:19: warning: member variable 'binsizey' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  187 |   double binsizex,binsizey,binsizez;  // actual bin sizes and inverse sizes
+      |                   ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:187:28: warning: member variable 'binsizez' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  187 |   double binsizex,binsizey,binsizez;  // actual bin sizes and inverse sizes
+      |                            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:188:10: warning: member variable 'bininvx' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  188 |   double bininvx,bininvy,bininvz;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:188:18: warning: member variable 'bininvy' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  188 |   double bininvx,bininvy,bininvz;
+      |                  ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:188:26: warning: member variable 'bininvz' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  188 |   double bininvx,bininvy,bininvz;
+      |                          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:190:7: warning: member variable 'sx' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  190 |   int sx,sy,sz,smax;               // bin stencil extents
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:190:10: warning: member variable 'sy' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  190 |   int sx,sy,sz,smax;               // bin stencil extents
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:190:13: warning: member variable 'sz' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  190 |   int sx,sy,sz,smax;               // bin stencil extents
+      |             ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:190:16: warning: member variable 'smax' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  190 |   int sx,sy,sz,smax;               // bin stencil extents
+      |                ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:192:7: warning: member variable 'dimension' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  192 |   int dimension;                   // 2/3 for 2d/3d
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:193:7: warning: member variable 'triclinic' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  193 |   int triclinic;                   // 0 if domain is orthog, 1 if triclinic
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:194:7: warning: member variable 'newton_pair' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  194 |   int newton_pair;                 // 0 if newton off, 1 if on for pairwise
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:196:11: warning: member variable 'bboxlo' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  196 |   double *bboxlo,*bboxhi;          // ptrs to full domain bounding box
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:196:19: warning: member variable 'bboxhi' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  196 |   double *bboxlo,*bboxhi;          // ptrs to full domain bounding box
+      |                   ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:197:12: warning: member variable 'corners' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  197 |   double (*corners)[3];            // ptr to 8 corners of triclinic box
+      |            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:199:10: warning: member variable 'inner' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  199 |   double inner[2],middle[2];       // rRESPA cutoffs for extra lists
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:199:19: warning: member variable 'middle' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  199 |   double inner[2],middle[2];       // rRESPA cutoffs for extra lists
+      |                   ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:200:10: warning: member variable 'cut_inner_sq' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  200 |   double cut_inner_sq;                   // outer cutoff for inner neighbor list
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:201:10: warning: member variable 'cut_middle_sq' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  201 |   double cut_middle_sq;            // outer cutoff for middle neighbor list
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:202:10: warning: member variable 'cut_middle_inside_sq' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  202 |   double cut_middle_inside_sq;     // inner cutoff for middle neighbor list
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:204:7: warning: member variable 'special_flag' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  204 |   int special_flag[4];             // flags for 1-2, 1-3, 1-4 neighbors
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:206:7: warning: member variable 'anyghostlist' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  206 |   int anyghostlist;                // 1 if any non-occasional list
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:209:7: warning: member variable 'exclude' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  209 |   int exclude;                     // 0 if no type/group exclusions, 1 if yes
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:211:7: warning: member variable 'nex_type' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  211 |   int nex_type;                    // # of entries in type exclusion list
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:212:7: warning: member variable 'maxex_type' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  212 |   int maxex_type;                  // max # in type list
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:213:8: warning: member variable 'ex1_type' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  213 |   int *ex1_type,*ex2_type;         // pairs of types to exclude
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:213:18: warning: member variable 'ex2_type' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  213 |   int *ex1_type,*ex2_type;         // pairs of types to exclude
+      |                  ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:214:9: warning: member variable 'ex_type' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  214 |   int **ex_type;                   // 2d array of excluded type pairs
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:216:7: warning: member variable 'nex_group' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  216 |   int nex_group;                   // # of entries in group exclusion list
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:217:7: warning: member variable 'maxex_group' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  217 |   int maxex_group;                 // max # in group list
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:218:8: warning: member variable 'ex1_group' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  218 |   int *ex1_group,*ex2_group;       // pairs of group #'s to exclude
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:218:19: warning: member variable 'ex2_group' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  218 |   int *ex1_group,*ex2_group;       // pairs of group #'s to exclude
+      |                   ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:219:8: warning: member variable 'ex1_bit' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  219 |   int *ex1_bit,*ex2_bit;           // pairs of group bits to exclude
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:219:17: warning: member variable 'ex2_bit' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  219 |   int *ex1_bit,*ex2_bit;           // pairs of group bits to exclude
+      |                 ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:221:7: warning: member variable 'nex_mol' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  221 |   int nex_mol;                     // # of entries in molecule exclusion list
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:222:7: warning: member variable 'maxex_mol' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  222 |   int maxex_mol;                   // max # in molecule list
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:223:8: warning: member variable 'ex_mol_group' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  223 |   int *ex_mol_group;               // molecule group #'s to exclude
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:224:8: warning: member variable 'ex_mol_bit' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  224 |   int *ex_mol_bit;                 // molecule group bits to exclude
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:226:7: warning: member variable 'nblist' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  226 |   int nblist,nglist,nslist;    // # of pairwise neigh lists of various kinds
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:226:14: warning: member variable 'nglist' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  226 |   int nblist,nglist,nslist;    // # of pairwise neigh lists of various kinds
+      |              ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:226:21: warning: member variable 'nslist' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  226 |   int nblist,nglist,nslist;    // # of pairwise neigh lists of various kinds
+      |                     ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:227:8: warning: member variable 'blist' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  227 |   int *blist;                  // lists to build every reneighboring
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:228:8: warning: member variable 'glist' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  228 |   int *glist;                  // lists to grow atom arrays every reneigh
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:229:8: warning: member variable 'slist' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  229 |   int *slist;                  // lists to grow stencil arrays every reneigh
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:251:3: warning: use 'using' instead of 'typedef' [modernize-use-using]
+  251 |   typedef void (Neighbor::*PairPtr)(class NeighList *);
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |   using PairPtr = void (Neighbor::*)(class NeighList *)
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:252:12: warning: member variable 'pair_build' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  252 |   PairPtr *pair_build;
+      |            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:304:3: warning: use 'using' instead of 'typedef' [modernize-use-using]
+  304 |   typedef void (Neighbor::*StencilPtr)(class NeighList *, int, int, int);
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |   using StencilPtr = void (Neighbor::*)(class NeighList *, int, int, int)
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:305:15: warning: member variable 'stencil_create' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  305 |   StencilPtr *stencil_create;
+      |               ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:334:3: warning: use 'using' instead of 'typedef' [modernize-use-using]
+  334 |   typedef void (Neighbor::*BondPtr)();   // ptrs to topology build functions
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |   using BondPtr = void (Neighbor::*)()
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:336:11: warning: member variable 'bond_build' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  336 |   BondPtr bond_build;                 // ptr to bond list functions
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:341:11: warning: member variable 'angle_build' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  341 |   BondPtr angle_build;                // ptr to angle list functions
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:346:11: warning: member variable 'dihedral_build' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  346 |   BondPtr dihedral_build;             // ptr to dihedral list functions
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:351:11: warning: member variable 'improper_build' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  351 |   BondPtr improper_build;             // ptr to improper list functions
+      |           ^

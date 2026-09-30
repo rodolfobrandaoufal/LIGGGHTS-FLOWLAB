@@ -1,0 +1,3 @@
+   text	   data	    bss	    dec	    hex	filename
+ 365667	  11992	      1	 377660	  5c33c	/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/1a65bfbd-9e1c-4ff4-86d2-4b846b033fd6/scratchpad/obj_basecmdef_lammps.cpp.o
+-rw-rw-r-- 1 n011 n011 1066960 Sep 29 14:51 /tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/1a65bfbd-9e1c-4ff4-86d2-4b846b033fd6/scratchpad/obj_basecmdef_lammps.cpp.o

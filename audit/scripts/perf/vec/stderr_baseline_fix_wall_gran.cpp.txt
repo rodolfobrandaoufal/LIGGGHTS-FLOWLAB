@@ -1,0 +1,197 @@
+In file included from /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/ompi/mpi/cxx/mpicxx.h:277,
+                 from /usr/lib/x86_64-linux-gnu/openmpi/include/mpi.h:2887,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pointers.h:63,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix.h:55,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_base_liggghts.h:50,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_mesh.h:52,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_mesh_surface.h:55,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:53,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:50:
+/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/ompi/mpi/cxx/op_inln.h: In member function ‘virtual void MPI::Op::Init(void (*)(const void*, void*, int, const MPI::Datatype&), bool)’:
+/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/ompi/mpi/cxx/op_inln.h:121:25: warning: cast between incompatible function types from ‘void (*)(void*, void*, int*, ompi_datatype_t**, void (*)(void*, void*, int*, ompi_datatype_t**))’ to ‘void (*)(void*, void*, int*, ompi_datatype_t**)’ [-Wcast-function-type]
+  121 |     (void)MPI_Op_create((MPI_User_function*) ompi_mpi_cxx_op_intercept,
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/ompi/mpi/cxx/op_inln.h:123:38: warning: cast between incompatible function types from ‘void (*)(const void*, void*, int, const MPI::Datatype&)’ to ‘void (*)(void*, void*, int*, ompi_datatype_t**)’ [-Wcast-function-type]
+  123 |     ompi_op_set_cxx_callback(mpi_op, (MPI_User_function*) func);
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_base_liggghts.h:50,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_mesh.h:52,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_mesh_surface.h:55,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:53,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:50:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix.h: In member function ‘virtual void LAMMPS_NS::Fix::reset_timestep(LAMMPS_NS::bigint, LAMMPS_NS::bigint)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix.h:224:53: warning: unused parameter ‘oldstep’ [-Wunused-parameter]
+  224 |   virtual void reset_timestep(bigint newstep,bigint oldstep)
+      |                                              ~~~~~~~^~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix.h: In member function ‘virtual double* LAMMPS_NS::Fix::getCreateMeshTriNode(int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix.h:261:51: warning: unused parameter ‘i’ [-Wunused-parameter]
+  261 |   virtual double * getCreateMeshTriNode(const int i)
+      |                                         ~~~~~~~~~~^
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/domain_wedge.h:1,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/multi_node_mesh_parallel.h:53,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/tracking_mesh.h:51,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/surface_mesh.h:47,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/tri_mesh.h:47,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_mesh_surface.h:56,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:53,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:50:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/domain_wedge_dummy.h: In member function ‘void LAMMPS_NS::DomainWedge::set_domain(LAMMPS_NS::RegWedge*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/domain_wedge_dummy.h:57:37: warning: unused parameter ‘rw’ [-Wunused-parameter]
+   57 |     void set_domain(class RegWedge *rw) {}
+      |                     ~~~~~~~~~~~~~~~~^~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/domain_wedge_dummy.h: In member function ‘void LAMMPS_NS::DomainWedge::n1(double*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/domain_wedge_dummy.h:65:28: warning: unused parameter ‘_n1’ [-Wunused-parameter]
+   65 |     inline void n1(double *_n1)
+      |                    ~~~~~~~~^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/domain_wedge_dummy.h: In member function ‘void LAMMPS_NS::DomainWedge::n2(double*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/domain_wedge_dummy.h:68:28: warning: unused parameter ‘_n2’ [-Wunused-parameter]
+   68 |     inline void n2(double *_n2)
+      |                    ~~~~~~~~^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/domain_wedge_dummy.h: In member function ‘void LAMMPS_NS::DomainWedge::center(double*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/domain_wedge_dummy.h:71:32: warning: unused parameter ‘_c’ [-Wunused-parameter]
+   71 |     inline void center(double *_c)
+      |                        ~~~~~~~~^~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_neighbor_list.h:183,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/surface_mesh.h:54,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/tri_mesh.h:47,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_mesh_surface.h:56,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:53,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:50:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_neighbor_list_I.h: In member function ‘void LAMMPS_NS::RegionNeighborList<INTERPOLATE>::setBoundingBox_calc_interpolation_stencil(LAMMPS_NS::Bin<INTERPOLATE>&, int, int, int, int) const [with bool INTERPOLATE = true]’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_neighbor_list_I.h:318:99: warning: unused parameter ‘ibin’ [-Wunused-parameter]
+  318 | inline void RegionNeighborList<true>::setBoundingBox_calc_interpolation_stencil(Bin<true> &it,int ibin,int ix,int iy, int iz) const
+      |                                                                                               ~~~~^~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_neighbor_list_I.h: In member function ‘void LAMMPS_NS::RegionNeighborList<INTERPOLATE>::coord2bin_calc_interpolation_weights(double*, int, int, int, int, int&, double&, double&, double&) const [with bool INTERPOLATE = true]’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_neighbor_list_I.h:603:99: warning: unused parameter ‘ix’ [-Wunused-parameter]
+  603 | inline void RegionNeighborList<true>::coord2bin_calc_interpolation_weights(double *x,int ibin,int ix,int iy, int iz,int &quadrant,double &wx,double &wy,double &wz) const
+      |                                                                                               ~~~~^~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_neighbor_list_I.h:603:106: warning: unused parameter ‘iy’ [-Wunused-parameter]
+  603 | inline void RegionNeighborList<true>::coord2bin_calc_interpolation_weights(double *x,int ibin,int ix,int iy, int iz,int &quadrant,double &wx,double &wy,double &wz) const
+      |                                                                                                      ~~~~^~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/region_neighbor_list_I.h:603:114: warning: unused parameter ‘iz’ [-Wunused-parameter]
+  603 | inline void RegionNeighborList<true>::coord2bin_calc_interpolation_weights(double *x,int ibin,int ix,int iy, int iz,int &quadrant,double &wx,double &wy,double &wz) const
+      |                                                                                                              ~~~~^~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/tri_mesh.h:129,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_mesh_surface.h:56,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:53,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:50:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/tri_mesh_I.h: In member function ‘double LAMMPS_NS::TriMesh::resolveTriSphereContactBary(int, int, double, double*, double*, double*, int&, bool)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/tri_mesh_I.h:65:58: warning: unused parameter ‘iPart’ [-Wunused-parameter]
+   65 |   inline double TriMesh::resolveTriSphereContactBary(int iPart, int nTri, double rSphere,
+      |                                                      ~~~~^~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec_ellipsoid.h:55,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:56,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_mesh_surface.h:59,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:53,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:50:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec.h: In member function ‘virtual void LAMMPS_NS::AtomVec::pack_data(double**, int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec.h:126:43: warning: unused parameter ‘tag_offset’ [-Wunused-parameter]
+  126 |   virtual void pack_data(double **buf,int tag_offset) { pack_data(buf); }
+      |                                       ~~~~^~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec.h: In member function ‘virtual void LAMMPS_NS::AtomVec::pack_vel(double**, int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/atom_vec.h:131:42: warning: unused parameter ‘tag_offset’ [-Wunused-parameter]
+  131 |   virtual void pack_vel(double **buf,int tag_offset) { pack_vel(buf); }
+      |                                      ~~~~^~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_mesh_surface.h:61,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:53,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:50:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module.h: In member function ‘virtual void LAMMPS_NS::MeshModule::setup(int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module.h:66:32: warning: unused parameter ‘vflag’ [-Wunused-parameter]
+   66 |         virtual void setup(int vflag) {}
+      |                            ~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module.h: In member function ‘virtual void LAMMPS_NS::MeshModule::setup_pre_force(int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module.h:67:42: warning: unused parameter ‘vflag’ [-Wunused-parameter]
+   67 |         virtual void setup_pre_force(int vflag) {}
+      |                                      ~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module.h: In member function ‘virtual void LAMMPS_NS::MeshModule::pre_force(int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module.h:68:36: warning: unused parameter ‘vflag’ [-Wunused-parameter]
+   68 |         virtual void pre_force(int vflag) {}
+      |                                ~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module.h: In member function ‘virtual void LAMMPS_NS::MeshModule::initial_integrate(int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module.h:69:44: warning: unused parameter ‘vflag’ [-Wunused-parameter]
+   69 |         virtual void initial_integrate(int vflag) {}
+      |                                        ~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module.h: In member function ‘virtual double LAMMPS_NS::MeshModule::compute_vector(int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module.h:73:43: warning: unused parameter ‘n’ [-Wunused-parameter]
+   73 |         virtual double compute_vector(int n) { return 0.0; }
+      |                                       ~~~~^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module.h: In member function ‘virtual void LAMMPS_NS::MeshModule::add_particle_contribution(int, double*, double*, int, double*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module.h:74:52: warning: unused parameter ‘ip’ [-Wunused-parameter]
+   74 |         virtual void add_particle_contribution(int ip, double *frc, double *delta, int iTri, double *v_wall) {}
+      |                                                ~~~~^~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module.h:74:64: warning: unused parameter ‘frc’ [-Wunused-parameter]
+   74 |         virtual void add_particle_contribution(int ip, double *frc, double *delta, int iTri, double *v_wall) {}
+      |                                                        ~~~~~~~~^~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module.h:74:77: warning: unused parameter ‘delta’ [-Wunused-parameter]
+   74 |         virtual void add_particle_contribution(int ip, double *frc, double *delta, int iTri, double *v_wall) {}
+      |                                                                     ~~~~~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module.h:74:88: warning: unused parameter ‘iTri’ [-Wunused-parameter]
+   74 |         virtual void add_particle_contribution(int ip, double *frc, double *delta, int iTri, double *v_wall) {}
+      |                                                                                    ~~~~^~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module.h:74:102: warning: unused parameter ‘v_wall’ [-Wunused-parameter]
+   74 |         virtual void add_particle_contribution(int ip, double *frc, double *delta, int iTri, double *v_wall) {}
+      |                                                                                              ~~~~~~~~^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module.h: In member function ‘virtual int LAMMPS_NS::MeshModule::modify_param(int, char**)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module.h:75:38: warning: unused parameter ‘narg’ [-Wunused-parameter]
+   75 |         virtual int modify_param(int narg, char **arg) { return 0; }
+      |                                  ~~~~^~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/mesh_module.h:75:51: warning: unused parameter ‘arg’ [-Wunused-parameter]
+   75 |         virtual int modify_param(int narg, char **arg) { return 0; }
+      |                                            ~~~~~~~^~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:59,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:50:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_pair_gran_local.h: In member function ‘virtual bool LAMMPS_NS::ComputePairGranLocal::decide_add(double*, double*&)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_pair_gran_local.h:84:35: warning: unused parameter ‘hist’ [-Wunused-parameter]
+   84 |   virtual bool decide_add(double *hist, double * &contact_pos)
+      |                           ~~~~~~~~^~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_pair_gran_local.h:84:51: warning: unused parameter ‘contact_pos’ [-Wunused-parameter]
+   84 |   virtual bool decide_add(double *hist, double * &contact_pos)
+      |                                         ~~~~~~~~~~^~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:50:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h: In member function ‘virtual int LAMMPS_NS::FixWallGran::add_history_value(std::string, std::string)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:103:37: warning: unused parameter ‘name’ [-Wunused-parameter]
+  103 |   int add_history_value(std::string name, std::string newtonflag)
+      |                         ~~~~~~~~~~~~^~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:103:55: warning: unused parameter ‘newtonflag’ [-Wunused-parameter]
+  103 |   int add_history_value(std::string name, std::string newtonflag)
+      |                                           ~~~~~~~~~~~~^~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_gran.h:50,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:55:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair.h: In member function ‘virtual void LAMMPS_NS::Pair::read_restart(FILE*, int, int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair.h:186:47: warning: unused parameter ‘major’ [-Wunused-parameter]
+  186 |   virtual void read_restart(FILE *, const int major, const int minor) {}
+      |                                     ~~~~~~~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair.h:186:64: warning: unused parameter ‘minor’ [-Wunused-parameter]
+  186 |   virtual void read_restart(FILE *, const int major, const int minor) {}
+      |                                                      ~~~~~~~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair.h: In member function ‘virtual void LAMMPS_NS::Pair::read_restart_settings(FILE*, int, int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair.h:188:56: warning: unused parameter ‘major’ [-Wunused-parameter]
+  188 |   virtual void read_restart_settings(FILE *, const int major, const int minor) {}
+      |                                              ~~~~~~~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair.h:188:73: warning: unused parameter ‘minor’ [-Wunused-parameter]
+  188 |   virtual void read_restart_settings(FILE *, const int major, const int minor) {}
+      |                                                               ~~~~~~~~~~^~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:55:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_gran.h: In member function ‘virtual void LAMMPS_NS::PairGran::read_restart_settings(FILE*, int, int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_gran.h:90:56: warning: unused parameter ‘major’ [-Wunused-parameter]
+   90 |   virtual void read_restart_settings(FILE *, const int major, const int minor){}
+      |                                              ~~~~~~~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_gran.h:90:73: warning: unused parameter ‘minor’ [-Wunused-parameter]
+   90 |   virtual void read_restart_settings(FILE *, const int major, const int minor){}
+      |                                                               ~~~~~~~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp: In member function ‘virtual void LAMMPS_NS::FixWallGran::pre_force(int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:708:33: warning: unused parameter ‘vflag’ [-Wunused-parameter]
+  708 | void FixWallGran::pre_force(int vflag)
+      |                             ~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp: In member function ‘virtual void LAMMPS_NS::FixWallGran::post_force_respa(int, int, int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:836:63: warning: unused parameter ‘iloop’ [-Wunused-parameter]
+  836 | void FixWallGran::post_force_respa(int vflag, int ilevel, int iloop)
+      |                                                           ~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp: In member function ‘virtual void LAMMPS_NS::FixWallGran::post_force_mesh(int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:845:39: warning: unused parameter ‘vflag’ [-Wunused-parameter]
+  845 | void FixWallGran::post_force_mesh(int vflag)
+      |                                   ~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp: In member function ‘virtual void LAMMPS_NS::FixWallGran::post_force_primitive(int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:1024:44: warning: unused parameter ‘vflag’ [-Wunused-parameter]
+ 1024 | void FixWallGran::post_force_primitive(int vflag)
+      |                                        ~~~~^~~~~

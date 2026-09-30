@@ -1,0 +1,23 @@
+{
+ "pair_release_V0.001_th0.0": "ok",
+ "pair_baseline_V0.001_th0.0": "ok",
+ "pair_release_V0.001_th20.0": "ok",
+ "pair_baseline_V0.001_th20.0": "ok",
+ "pair_release_V0.001_th40.0": "ok",
+ "pair_baseline_V0.001_th40.0": "ok",
+ "wall_cap_V0.001": "ok",
+ "pair_release_V0.01_th0.0": "ok",
+ "pair_baseline_V0.01_th0.0": "ok",
+ "pair_release_V0.01_th20.0": "ok",
+ "pair_baseline_V0.01_th20.0": "ok",
+ "pair_release_V0.01_th40.0": "ok",
+ "pair_baseline_V0.01_th40.0": "ok",
+ "wall_cap_V0.01": "ok",
+ "wall_visc": "ok",
+ "wall_visc_ref_nocap": "ok",
+ "pair_visc": "ok",
+ "wall_visc_min0.001": "ok",
+ "wall_visc_ref_nocap_min0.001": "ok",
+ "pair_visc_min0.001": "ok",
+ "pair_nocap_min0.001": "ok"
+}

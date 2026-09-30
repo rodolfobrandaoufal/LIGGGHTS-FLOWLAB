@@ -1,0 +1,31 @@
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/velocity.cpp:75:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/multisphere_I.h: In member function ‘void LAMMPS_NS::Multisphere::release(int, int, double*, double*)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/multisphere_I.h:151:38: warning: unused parameter ‘iatom’ [-Wunused-parameter]
+  151 | inline void Multisphere::release(int iatom,int body,double *v_toInsert,double *omega_toInsert)
+      |                                  ~~~~^~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/velocity.cpp:75:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_multisphere.h: In member function ‘int LAMMPS_NS::FixMultisphere::getMask(int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_multisphere.h:282:30: warning: unused parameter ‘ibody’ [-Wunused-parameter]
+  282 |       inline int getMask(int ibody)
+      |                          ~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/velocity.cpp: In member function ‘void LAMMPS_NS::Velocity::set(int, char**)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/velocity.cpp:183:24: warning: unused parameter ‘narg’ [-Wunused-parameter]
+  183 | void Velocity::set(int narg, char **arg)
+      |                    ~~~~^~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/velocity.cpp: In member function ‘void LAMMPS_NS::Velocity::setAngular(int, char**)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/velocity.cpp:348:31: warning: unused parameter ‘narg’ [-Wunused-parameter]
+  348 | void Velocity::setAngular(int narg, char **arg)
+      |                           ~~~~^~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/velocity.cpp: In member function ‘void LAMMPS_NS::Velocity::ramp(int, char**)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/velocity.cpp:515:25: warning: unused parameter ‘narg’ [-Wunused-parameter]
+  515 | void Velocity::ramp(int narg, char **arg)
+      |                     ~~~~^~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/velocity.cpp: In member function ‘void LAMMPS_NS::Velocity::zero(int, char**)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/velocity.cpp:598:25: warning: unused parameter ‘narg’ [-Wunused-parameter]
+  598 | void Velocity::zero(int narg, char **arg)
+      |                     ~~~~^~~~
+[100%] Built target liggghts_obj
+[100%] Linking CXX executable liggghts
+[100%] Built target liggghts_bin
+489.13 s
+warning_lines=4219

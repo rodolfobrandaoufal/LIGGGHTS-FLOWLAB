@@ -1,0 +1,60 @@
+n=12544 iters=399 [ns/atom/step]
+ SoA initial: load 3.868 kernel 2.777 store 1.952 | final: load 3.681 kernel 1.394 store 0.985 | SoA total 14.656 (median 14.504)
+ AoS initial 3.110 final 1.950 | AoS total 5.061 (median 5.031)
+ ratio SoA/AoS (median) 2.88 ; copy share of SoA 71.5%
+n=12544 iters=399 [ns/atom/step]
+ SoA initial: load 3.906 kernel 2.764 store 1.955 | final: load 3.709 kernel 1.398 store 0.985 | SoA total 14.718 (median 14.567)
+ AoS initial 3.143 final 1.957 | AoS total 5.100 (median 5.074)
+ ratio SoA/AoS (median) 2.87 ; copy share of SoA 71.7%
+n=12544 iters=399 [ns/atom/step]
+ SoA initial: load 3.880 kernel 2.772 store 1.957 | final: load 3.669 kernel 1.391 store 0.983 | SoA total 14.652 (median 14.517)
+ AoS initial 3.166 final 1.934 | AoS total 5.100 (median 5.068)
+ ratio SoA/AoS (median) 2.86 ; copy share of SoA 71.6%
+n=12544 iters=399 [ns/atom/step]
+ SoA initial: load 3.915 kernel 2.771 store 1.933 | final: load 3.696 kernel 1.395 store 0.963 | SoA total 14.673 (median 14.502)
+ AoS initial 3.114 final 1.937 | AoS total 5.051 (median 5.035)
+ ratio SoA/AoS (median) 2.88 ; copy share of SoA 71.6%
+n=12544 iters=399 [ns/atom/step]
+ SoA initial: load 3.907 kernel 2.781 store 1.953 | final: load 3.691 kernel 1.396 store 0.965 | SoA total 14.693 (median 14.540)
+ AoS initial 3.124 final 1.939 | AoS total 5.063 (median 5.038)
+ ratio SoA/AoS (median) 2.89 ; copy share of SoA 71.6%
+n=200704 iters=99 [ns/atom/step]
+ SoA initial: load 36.187 kernel 6.551 store 5.764 | final: load 36.321 kernel 2.767 store 2.710 | SoA total 90.300 (median 101.373)
+ AoS initial 5.930 final 3.924 | AoS total 9.854 (median 9.257)
+ ratio SoA/AoS (median) 10.95 ; copy share of SoA 89.7%
+n=200704 iters=99 [ns/atom/step]
+ SoA initial: load 42.125 kernel 5.450 store 5.376 | final: load 42.105 kernel 2.616 store 2.398 | SoA total 100.070 (median 99.816)
+ AoS initial 5.359 final 3.425 | AoS total 8.784 (median 8.892)
+ ratio SoA/AoS (median) 11.23 ; copy share of SoA 91.9%
+n=200704 iters=99 [ns/atom/step]
+ SoA initial: load 40.973 kernel 5.538 store 5.517 | final: load 40.985 kernel 2.609 store 2.418 | SoA total 98.040 (median 99.123)
+ AoS initial 5.462 final 3.524 | AoS total 8.986 (median 8.998)
+ ratio SoA/AoS (median) 11.02 ; copy share of SoA 91.7%
+n=200704 iters=99 [ns/atom/step]
+ SoA initial: load 38.695 kernel 5.749 store 5.408 | final: load 38.881 kernel 2.566 store 2.449 | SoA total 93.748 (median 99.535)
+ AoS initial 5.499 final 3.521 | AoS total 9.021 (median 9.047)
+ ratio SoA/AoS (median) 11.00 ; copy share of SoA 91.1%
+n=200704 iters=99 [ns/atom/step]
+ SoA initial: load 42.267 kernel 5.473 store 5.364 | final: load 42.228 kernel 2.650 store 2.406 | SoA total 100.388 (median 100.196)
+ AoS initial 5.377 final 3.503 | AoS total 8.880 (median 8.978)
+ ratio SoA/AoS (median) 11.16 ; copy share of SoA 91.9%
+n=2000000 iters=19 [ns/atom/step]
+ SoA initial: load 42.748 kernel 6.226 store 6.491 | final: load 42.345 kernel 3.061 store 2.800 | SoA total 103.670 (median 103.972)
+ AoS initial 6.443 final 3.874 | AoS total 10.317 (median 10.329)
+ ratio SoA/AoS (median) 10.07 ; copy share of SoA 91.0%
+n=2000000 iters=19 [ns/atom/step]
+ SoA initial: load 40.937 kernel 6.226 store 6.064 | final: load 41.666 kernel 3.016 store 2.852 | SoA total 100.762 (median 101.638)
+ AoS initial 6.153 final 3.989 | AoS total 10.141 (median 10.114)
+ ratio SoA/AoS (median) 10.05 ; copy share of SoA 90.8%
+n=2000000 iters=19 [ns/atom/step]
+ SoA initial: load 42.392 kernel 5.933 store 6.204 | final: load 41.420 kernel 3.044 store 2.896 | SoA total 101.889 (median 103.005)
+ AoS initial 6.197 final 4.027 | AoS total 10.224 (median 10.189)
+ ratio SoA/AoS (median) 10.11 ; copy share of SoA 91.2%
+n=2000000 iters=19 [ns/atom/step]
+ SoA initial: load 41.376 kernel 6.284 store 6.585 | final: load 42.619 kernel 3.096 store 2.798 | SoA total 102.759 (median 104.067)
+ AoS initial 6.565 final 3.948 | AoS total 10.514 (median 10.598)
+ ratio SoA/AoS (median) 9.82 ; copy share of SoA 90.9%
+n=2000000 iters=19 [ns/atom/step]
+ SoA initial: load 42.034 kernel 5.716 store 6.358 | final: load 41.902 kernel 3.134 store 2.797 | SoA total 101.940 (median 102.275)
+ AoS initial 6.397 final 3.892 | AoS total 10.289 (median 10.347)
+ ratio SoA/AoS (median) 9.88 ; copy share of SoA 91.3%

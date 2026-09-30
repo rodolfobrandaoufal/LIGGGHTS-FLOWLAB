@@ -1,0 +1,31 @@
+      |                                              ~~~~~~~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/pair.h:188:73: warning: unused parameter ‘minor’ [-Wunused-parameter]
+  188 |   virtual void read_restart_settings(FILE *, const int major, const int minor) {}
+      |                                                               ~~~~~~~~~~^~~~~
+[100%] Built target liggghts_obj
+[100%] Linking CXX executable liggghts
+[100%] Built target liggghts_bin
+	Command being timed: "cmake --build build_audit/release --target liggghts_bin -j32"
+	User time (seconds): 390.23
+	System time (seconds): 41.07
+	Percent of CPU this job got: 785%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:54.90
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 751848
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 71
+	Minor (reclaiming a frame) page faults: 11991527
+	Voluntary context switches: 5824
+	Involuntary context switches: 160078
+	Swaps: 0
+	File system inputs: 9616
+	File system outputs: 438680
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+warning_lines=4212

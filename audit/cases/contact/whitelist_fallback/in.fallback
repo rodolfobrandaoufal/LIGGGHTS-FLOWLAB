@@ -1,0 +1,23 @@
+# C-VV: combination NOT in the static whitelist (HERTZ, TANGENTIAL_HISTORY, COHESION_OFF, ROLLING_EPSD2, SURFACE_DEFAULT)
+atom_style    granular
+atom_modify   map array
+boundary      f f f
+newton        off
+communicate   single vel yes
+units         si
+region        domain block -0.01 0.01 -0.01 0.01 -0.01 0.01 units box
+create_box    1 domain
+neighbor      0.0005 bin
+timestep      1e-6
+fix  m1 all property/global youngsModulus peratomtype 1.e7
+fix  m2 all property/global poissonsRatio peratomtype 0.3
+fix  m3 all property/global coefficientRestitution peratomtypepair 1 0.5
+fix  m4 all property/global coefficientFriction peratomtypepair 1 0.5
+fix  m5 all property/global coefficientRollingFriction peratomtypepair 1 0.1
+pair_style  gran model hertz tangential history rolling_friction epsd2
+pair_coeff  * *
+create_atoms  1 single -0.00099 0 0 units box
+create_atoms  1 single  0.00099 0 0 units box
+set atom * diameter 0.002 density 2500
+fix integr all nve/sphere
+run 10

@@ -1,0 +1,1446 @@
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:84:1: warning: nested namespaces can be concatenated [modernize-concat-nested-namespaces]
+   84 | namespace LIGGGHTS {
+      | ^~~~~~~~~~~~~~~~~~~~
+   85 | 
+   86 | namespace ContactModels {
+      | ~~~~~~~~~~~~~~~~~~~~~~~
+      | namespace LIGGGHTS::ContactModels
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:92:5: warning: constructor does not initialize these fields: ln1overMinSeparationDistanceRatio, tangentialReduce_ [cppcoreguidelines-pro-type-member-init]
+   92 |     CohesionModel(LAMMPS * lmp, IContactHistorySetup * hsetup,class ContactModelBase *cmb) :
+      |     ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:95:20: warning: use nullptr [modernize-use-nullptr]
+note: this fix will not be applied because it overlaps with another fix
+   95 |       contactAngle(0),
+      |                    ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:96:29: warning: use nullptr [modernize-use-nullptr]
+   96 |       surface_energy_matrix(NULL),
+      |                             ^~~~
+      |                             nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:101:32: warning: use nullptr [modernize-use-nullptr]
+note: this fix will not be applied because it overlaps with another fix
+  101 |       fix_surfaceliquidcontent(0),
+      |                                ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:102:22: warning: use nullptr [modernize-use-nullptr]
+note: this fix will not be applied because it overlaps with another fix
+  102 |       fix_liquidflux(0),
+      |                      ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:103:15: warning: use nullptr [modernize-use-nullptr]
+note: this fix will not be applied because it overlaps with another fix
+  103 |       fix_ste(0)
+      |               ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:111:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  111 |     void registerSettings(Settings& settings)
+      |          ^                                   
+      |                                               override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:116:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  116 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                 ^
+      |                                                                                    override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:118:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  118 |     void connectToProperties(PropertyRegistry & registry)
+      |          ^                                               
+      |                                                           override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:166:28: warning: do not use const_cast to remove const qualifier [cppcoreguidelines-pro-type-const-cast]
+  166 |         modify->add_fix(15,const_cast<char**>(newarg));
+      |                            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:169:34: warning: do not use static_cast to downcast from a base to a derived class; use dynamic_cast instead [cppcoreguidelines-pro-type-static-cast-downcast]
+  169 |       fix_surfaceliquidcontent = static_cast<FixPropertyAtom*>(modify->find_fix_property("surfaceLiquidContent","property/atom","scalar",0,0,"cohesion_model easo/capillary/viscous"));
+      |                                  ^~~~~~~~~~~
+      |                                  dynamic_cast
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:170:24: warning: do not use static_cast to downcast from a base to a derived class; use dynamic_cast instead [cppcoreguidelines-pro-type-static-cast-downcast]
+  170 |       fix_liquidflux = static_cast<FixPropertyAtom*>(modify->find_fix_property("liquidFlux","property/atom","scalar",0,0,"cohesion_model easo/capillary/viscous"));
+      |                        ^~~~~~~~~~~
+      |                        dynamic_cast
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:185:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  185 |     inline void endSurfacesIntersect(SurfacesIntersectData &sidata, ForceData&, ForceData&) {}
+      |                 ^
+      |                                                                                             override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:186:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  186 |     void beginPass(SurfacesIntersectData&, ForceData&, ForceData&){}
+      |          ^                                                        
+      |                                                                    override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:187:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  187 |     void endPass(SurfacesIntersectData&, ForceData&, ForceData&){}
+      |          ^                                                      
+      |                                                                  override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:189:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  189 |     void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+      |          ^                                                                                            
+      |                                                                                                        override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:281:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  281 |     void surfacesClose(SurfacesCloseData & scdata, ForceData & i_forces, ForceData & j_forces)
+      |          ^                                                                                    
+      |                                                                                                override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:324:7: warning: repeated branch body in conditional chain [bugprone-branch-clone]
+  324 |       {
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:326:8: note: end of the original
+  326 |       }
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:330:9: note: clone 1 starts here
+  330 |         bridge_breaks = true;
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:384:18: warning: variable 'wr1' is not initialized [cppcoreguidelines-init-variables]
+   50 |           double wr1, wr2, wr3;
+      |                  ^  
+      |                      = NAN
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:384:23: warning: variable 'wr2' is not initialized [cppcoreguidelines-init-variables]
+  384 |           double wr1, wr2, wr3;
+      |                       ^  
+      |                           = NAN
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:384:28: warning: variable 'wr3' is not initialized [cppcoreguidelines-init-variables]
+  384 |           double wr1, wr2, wr3;
+      |                            ^  
+      |                                = NAN
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:483:12: warning: use default member initializer for 'surfaceLiquidContentInitial' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+   94 |     double surfaceLiquidContentInitial, *contactAngle;
+      |            ^                          
+      |                                       {0.0}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:483:42: warning: use default member initializer for 'contactAngle' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+   95 |     double surfaceLiquidContentInitial, *contactAngle;
+      |                                          ^           
+      |                                                      {0}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:485:12: warning: use default member initializer for 'minSeparationDistanceRatio' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+   97 |     double minSeparationDistanceRatio, maxSeparationDistanceRatio, fluidViscosity;
+      |            ^                         
+      |                                      {0.0}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:485:40: warning: use default member initializer for 'maxSeparationDistanceRatio' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+   98 |     double minSeparationDistanceRatio, maxSeparationDistanceRatio, fluidViscosity;
+      |                                        ^                         
+      |                                                                  {0.0}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:485:68: warning: use default member initializer for 'fluidViscosity' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+   99 |     double minSeparationDistanceRatio, maxSeparationDistanceRatio, fluidViscosity;
+      |                                                                    ^             
+      |                                                                                  {0.}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:487:9: warning: use default member initializer for 'history_offset' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+  100 |     int history_offset;
+      |         ^             
+      |                       {0}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:488:22: warning: use default member initializer for 'fix_surfaceliquidcontent' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+  101 |     FixPropertyAtom *fix_surfaceliquidcontent;
+      |                      ^                       
+      |                                              {0}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:489:22: warning: use default member initializer for 'fix_liquidflux' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+  102 |     FixPropertyAtom *fix_liquidflux;
+      |                      ^             
+      |                                    {0}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_easo_capillary_viscous.h:490:33: warning: use default member initializer for 'fix_ste' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+  103 |     FixScalarTransportEquation *fix_ste;
+      |                                 ^      
+      |                                        {0}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_generalized_adhesion.h:21:1: warning: nested namespaces can be concatenated [modernize-concat-nested-namespaces]
+   21 | namespace LIGGGHTS {
+      | ^~~~~~~~~~~~~~~~~~~~
+   22 | namespace ContactModels {
+      | ~~~~~~~~~~~~~~~~~~~~~~~
+      | namespace LIGGGHTS::ContactModels
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_generalized_adhesion.h:30:33: warning: use nullptr [modernize-use-nullptr]
+   30 |         adhesion_energy_matrix_(NULL),
+      |                                 ^~~~
+      |                                 nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_generalized_adhesion.h:34:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   34 |     void registerSettings(Settings& settings)
+      |          ^                                   
+      |                                               override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_generalized_adhesion.h:39:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   39 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                 ^
+      |                                                                                    override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_generalized_adhesion.h:41:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   41 |     void connectToProperties(PropertyRegistry & registry)
+      |          ^                                               
+      |                                                           override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_generalized_adhesion.h:58:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   58 |     void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+      |          ^                                                                                            
+      |                                                                                                        override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_generalized_adhesion.h:63:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   63 |     inline void endSurfacesIntersect(SurfacesIntersectData &sidata, ForceData&, ForceData&) {}
+      |                 ^
+      |                                                                                             override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_generalized_adhesion.h:64:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   64 |     void beginPass(SurfacesIntersectData&, ForceData&, ForceData&){}
+      |          ^                                                        
+      |                                                                    override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_generalized_adhesion.h:65:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   65 |     void endPass(SurfacesIntersectData&, ForceData&, ForceData&){}
+      |          ^                                                      
+      |                                                                  override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_generalized_adhesion.h:67:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   67 |     void surfacesClose(SurfacesCloseData& scdata, ForceData&, ForceData&)
+      |          ^                                                               
+      |                                                                           override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_generalized_adhesion.h:74:10: warning: use default member initializer for 'tangentialReduce_' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+   31 |     bool tangentialReduce_;
+      |          ^                
+      |                           {false}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_generalized_adhesion.h:76:5: warning: function 'effectiveRadius' should be marked [[nodiscard]] [modernize-use-nodiscard]
+   76 |     inline double effectiveRadius(const SurfacesIntersectData &sidata) const
+      |     ^
+      |     [[nodiscard]] 
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_generalized_adhesion.h:86:5: warning: function 'effectiveArea' should be marked [[nodiscard]] [modernize-use-nodiscard]
+   86 |     inline double effectiveArea(const SurfacesIntersectData &sidata) const
+      |     ^
+      |     [[nodiscard]] 
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_generalized_adhesion.h:104:5: warning: function 'adhesiveForceMagnitude' should be marked [[nodiscard]] [modernize-use-nodiscard]
+  104 |     inline double adhesiveForceMagnitude(const SurfacesIntersectData &sidata) const
+      |     ^
+      |     [[nodiscard]] 
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_sjkr.h:55:1: warning: nested namespaces can be concatenated [modernize-concat-nested-namespaces]
+   55 | namespace LIGGGHTS {
+      | ^~~~~~~~~~~~~~~~~~~~
+   56 | namespace ContactModels {
+      | ~~~~~~~~~~~~~~~~~~~~~~~
+      | namespace LIGGGHTS::ContactModels
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_sjkr.h:63:5: warning: constructor does not initialize these fields: tangentialReduce_ [cppcoreguidelines-pro-type-member-init]
+   63 |     CohesionModel(LAMMPS * lmp, IContactHistorySetup * hsetup, class ContactModelBase * c) :
+      |     ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_sjkr.h:65:32: warning: use nullptr [modernize-use-nullptr]
+   65 |         cohesion_energy_matrix(NULL)
+      |                                ^~~~
+      |                                nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_sjkr.h:70:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   70 |     void registerSettings(Settings& settings) 
+      |          ^
+      |                                               override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_sjkr.h:75:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   75 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                 ^
+      |                                                                                    override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_sjkr.h:77:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   77 |     void connectToProperties(PropertyRegistry & registry)
+      |          ^                                               
+      |                                                           override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_sjkr.h:92:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   92 |     void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+      |          ^                                                                                            
+      |                                                                                                        override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_sjkr.h:99:14: warning: variable 'Acont' is not initialized [cppcoreguidelines-init-variables]
+   53 |       double Acont;
+      |              ^    
+      |                    = NAN
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_sjkr.h:133:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  133 |     inline void endSurfacesIntersect(SurfacesIntersectData &sidata, ForceData&, ForceData&) {}
+      |                 ^
+      |                                                                                             override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_sjkr.h:134:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  134 |     void beginPass(SurfacesIntersectData&, ForceData&, ForceData&){}
+      |          ^                                                        
+      |                                                                    override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_sjkr.h:135:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  135 |     void endPass(SurfacesIntersectData&, ForceData&, ForceData&){}
+      |          ^                                                      
+      |                                                                  override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/cohesion_model_sjkr.h:137:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  137 |     void surfacesClose(SurfacesCloseData& scdata, ForceData&, ForceData&)
+      |          ^                                                               
+      |                                                                           override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/contact_models.h:73:1: warning: nested namespaces can be concatenated [modernize-concat-nested-namespaces]
+   73 | namespace LIGGGHTS
+      | ^~~~~~~~~~~~~~~~~~
+   74 | {
+      | ~
+   75 | 
+   76 | namespace ContactModels
+      | ~~~~~~~~~~~~~~~~~~~~~~~
+      | namespace LIGGGHTS::ContactModels
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/contact_models.h:97:11: warning: C-style casts are discouraged; use static_cast/const_cast/reinterpret_cast [modernize-avoid-c-style-cast]
+   97 |         (((int64_t)M)      ) |
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/contact_models.h:98:11: warning: C-style casts are discouraged; use static_cast/const_cast/reinterpret_cast [modernize-avoid-c-style-cast]
+   98 |         (((int64_t)T) <<  6) |
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/contact_models.h:99:11: warning: C-style casts are discouraged; use static_cast/const_cast/reinterpret_cast [modernize-avoid-c-style-cast]
+   99 |         (((int64_t)C) << 12) |
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/contact_models.h:100:11: warning: C-style casts are discouraged; use static_cast/const_cast/reinterpret_cast [modernize-avoid-c-style-cast]
+  100 |         (((int64_t)R) << 18) |
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/contact_models.h:101:11: warning: C-style casts are discouraged; use static_cast/const_cast/reinterpret_cast [modernize-avoid-c-style-cast]
+  101 |         (((int64_t)S) << 24) ;
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/contact_models.h:104:7: warning: class 'Factory' defines a copy constructor but does not define a destructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+  104 | class Factory
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/contact_models.h:106:5: warning: use 'using' instead of 'typedef' [modernize-use-using]
+  106 |     typedef std::map<std::string, int> ModelTable;
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |     using ModelTable = std::map<std::string, int>
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/contact_models.h:213:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  213 |     void tally_pp(double val,int i, int j, int index)
+      |          ^                                           
+      |                                                       override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/contact_models.h:218:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  218 |     void tally_pw(double val,int i, int j, int index)
+      |          ^                                           
+      |                                                       override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/contact_models.h:255:42: warning: the const qualified parameter 'mtype' of type 'const std::string' (aka 'const basic_string<char>') is copied for each invocation; consider making it a reference [performance-unnecessary-value-param]
+  255 |     bool contact_match(const std::string mtype, const std::string model)
+      |                                          ^
+      |                                         &
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/contact_models.h:255:67: warning: the const qualified parameter 'model' of type 'const std::string' (aka 'const basic_string<char>') is copied for each invocation; consider making it a reference [performance-unnecessary-value-param]
+  255 |     bool contact_match(const std::string mtype, const std::string model)
+      |                                                                   ^
+      |                                                                  &
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:76:7: warning: use default member initializer for 'nchecked' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+   76 |   int nchecked;
+      |       ^       
+      |               {0}
+   77 | 
+   78 |   TriangleNeighlist() : nchecked(0) {}
+      |                         ~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:78:3: warning: constructor does not initialize these fields: boundary [cppcoreguidelines-pro-type-member-init]
+   75 |   BinBoundary boundary;
+      |                       
+      |                       {}
+   76 |   int nchecked;
+   77 | 
+   78 |   TriangleNeighlist() : nchecked(0) {}
+      |   ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:81:7: warning: class 'FixNeighlistMesh' defines a destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+   81 | class FixNeighlistMesh : public Fix
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:87:5: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   86 |     virtual
+      |     ~~~~~~~
+   87 |     ~FixNeighlistMesh();
+      |     ^                  
+      |                         override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:88:17: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   88 |     virtual int setmask();
+      |     ~~~~~~~     ^        
+      |                           override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:89:18: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   89 |     virtual void post_create();
+      |     ~~~~~~~      ^            
+      |                                override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:90:18: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   90 |     virtual void pre_delete(bool unfixflag);
+      |     ~~~~~~~      ^                         
+      |                                             override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:93:18: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   93 |     virtual void setup_pre_force(int);
+      |     ~~~~~~~      ^                   
+      |                                       override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:94:18: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   94 |     virtual void min_setup_pre_force(int);
+      |     ~~~~~~~      ^                       
+      |                                           override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:96:18: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   96 |     virtual void pre_neighbor(); 
+      |     ~~~~~~~      ^             
+      |                                 override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:97:18: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   97 |     virtual void pre_force(int vflag); 
+      |     ~~~~~~~      ^                   
+      |                                       override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:98:18: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   98 |     virtual void min_pre_force(int vflag); 
+      |     ~~~~~~~      ^                       
+      |                                           override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:100:18: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  100 |     virtual void post_run();
+      |     ~~~~~~~      ^         
+      |                             override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:102:5: warning: function 'get_contact_list' should be marked [[nodiscard]] [modernize-use-nodiscard]
+  102 |     const std::vector<int> & get_contact_list(int iTri) const {
+      |     ^
+      |     [[nodiscard]] 
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:103:23: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  103 |       return triangles[iTri].contacts;
+      |                       ^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:117:47: warning: possibly unsafe 'operator[]', consider bounds-safe alternatives [cppcoreguidelines-pro-bounds-avoid-unchecked-container-access]
+  117 |       std::vector<int> & neighbors = triangles[iTri].contacts;
+      |                                               ^~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:125:9: warning: member variable 'groupbit_wall_mesh' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  125 |     int groupbit_wall_mesh;
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:133:27: warning: member variable 'caller_' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  133 |     class FixMeshSurface *caller_;
+      |                           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:134:20: warning: member variable 'mesh_' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  134 |     class TriMesh *mesh_;
+      |                    ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:136:28: warning: member variable 'fix_nneighs_' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  136 |     class FixPropertyAtom *fix_nneighs_;
+      |                            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:137:11: warning: member variable 'fix_nneighs_name_' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  137 |     char *fix_nneighs_name_;
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:139:10: warning: member variable 'buildNeighList' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  139 |     bool buildNeighList;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:141:36: warning: member variable 'triangles' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  141 |     std::vector<TriangleNeighlist> triangles;
+      |                                    ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:143:9: warning: member variable 'numAllContacts_' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  143 |     int numAllContacts_;
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:144:10: warning: member variable 'globalNumAllContacts_' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  144 |     bool globalNumAllContacts_;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:146:9: warning: member variable 'mbinx' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  146 |     int mbinx,mbiny,mbinz,maxhead, *bins, *binhead;
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:146:15: warning: member variable 'mbiny' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  146 |     int mbinx,mbiny,mbinz,maxhead, *bins, *binhead;
+      |               ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:146:21: warning: member variable 'mbinz' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  146 |     int mbinx,mbiny,mbinz,maxhead, *bins, *binhead;
+      |                     ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:146:27: warning: member variable 'maxhead' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  146 |     int mbinx,mbiny,mbinz,maxhead, *bins, *binhead;
+      |                           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:146:37: warning: member variable 'bins' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  146 |     int mbinx,mbiny,mbinz,maxhead, *bins, *binhead;
+      |                                     ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:146:44: warning: member variable 'binhead' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  146 |     int mbinx,mbiny,mbinz,maxhead, *bins, *binhead;
+      |                                            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:147:12: warning: member variable 'skin' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  147 |     double skin;
+      |            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:150:12: warning: member variable 'distmax' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  150 |     double distmax;
+      |            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:152:14: warning: member variable 'x' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  152 |     double **x, *r;
+      |              ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:152:18: warning: member variable 'r' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  152 |     double **x, *r;
+      |                  ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:154:10: warning: member variable 'changingMesh' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  154 |     bool changingMesh;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:155:10: warning: member variable 'changingDomain' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  155 |     bool changingDomain;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:157:12: warning: member variable 'last_bin_update' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  157 |     bigint last_bin_update;
+      |            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:161:29: warning: member variable 'avec' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  161 |     class AtomVecEllipsoid *avec;
+      |                             ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:163:10: warning: member variable 'otherList_' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  163 |     bool otherList_;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:168:41: warning: do not access members of unions; consider using (boost::)variant instead [cppcoreguidelines-pro-type-union-access]
+  168 |       values[index] = Fix::ubuf(current.i + 1).d;
+      |                                         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_neighlist_mesh.h:168:48: warning: do not access members of unions; consider using (boost::)variant instead [cppcoreguidelines-pro-type-union-access]
+  168 |       values[index] = Fix::ubuf(current.i + 1).d;
+      |                                                ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:58:1: warning: enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:58:1)' is unscoped, use 'enum class' instead [cppcoreguidelines-use-enum-class]
+   58 | enum
+      | ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:58:1: warning: enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:58:1)' uses a larger base type ('unsigned int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size [performance-enum-size]
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:65:7: warning: class 'FixPropertyGlobal' defines a destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+   65 | class FixPropertyGlobal : public Fix {
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:74:3: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   74 |   ~FixPropertyGlobal();
+      |   ^                   
+      |                        override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:75:7: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   75 |   int setmask();
+      |       ^        
+      |                 override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:76:8: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   76 |   void init();
+      |        ^     
+      |               override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:77:8: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   77 |   void setup_pre_force(int);
+      |        ^                   
+      |                             override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:78:8: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   78 |   void pre_force(int);
+      |        ^             
+      |                       override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:79:8: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   79 |   void pre_delete(bool unfixflag);
+      |        ^                         
+      |                                   override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:83:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   83 |   double memory_usage();
+      |          ^             
+      |                         override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:84:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   84 |   double compute_scalar();
+      |          ^               
+      |                           override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:85:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   85 |   double compute_vector(int);
+      |          ^                  
+      |                              override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:87:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   87 |   double compute_array(int,int);
+      |          ^                     
+      |                                 override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:92:7: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   92 |   int modify_param(int narg, char **arg);
+      |       ^                                 
+      |                                          override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:130:3: warning: function 'clamp_value' should be marked [[nodiscard]] [modernize-use-nodiscard]
+  130 |   double clamp_value(double) const;
+      |   ^
+      |   [[nodiscard]] 
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/global_properties.h:49:9: warning: macro 'BIG' used to declare a constant; consider using a 'constexpr' constant [cppcoreguidelines-macro-usage]
+   49 | #define BIG 1.0e20
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:60:7: warning: class 'Neighbor' defines a destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+   60 | class Neighbor : protected Pointers {
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:70:7: warning: member variable 'style' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   70 |   int style;                       // 0,1,2 = nsq, bin, multi
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:71:7: warning: member variable 'every' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   71 |   int every;                       // build every this many steps
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:72:7: warning: member variable 'delay' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   72 |   int delay;                       // delay build for this many steps
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:73:10: warning: member variable 'contactDistanceFactor' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   73 |   double contactDistanceFactor;    // contact distance factor used to compute non-touch contact (forces without radius overlap)
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:74:7: warning: member variable 'dist_check' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   74 |   int dist_check;                  // 0 = always build, 1 = only if 1/2 dist
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:75:7: warning: member variable 'ago' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   75 |   int ago;                         // how many steps ago neighboring occurred
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:76:7: warning: member variable 'pgsize' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   76 |   int pgsize;                      // size of neighbor page
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:77:7: warning: member variable 'oneatom' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   77 |   int oneatom;                     // max # of neighbors for one atom
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:78:7: warning: member variable 'includegroup' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   78 |   int includegroup;                // only build pairwise lists for this group
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:79:7: warning: member variable 'build_once' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   79 |   int build_once;                  // 1 if only build lists once per run
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:80:7: warning: member variable 'cudable' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   80 |   int cudable;                     // GPU <-> CPU communication flag for CUDA
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:82:10: warning: member variable 'skin' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   82 |   double skin;                     // skin distance
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:83:10: warning: member variable 'cutneighmin' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   83 |   double cutneighmin;              // min neighbor cutoff for all type pairs
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:84:10: warning: member variable 'cutneighmax' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   84 |   double cutneighmax;              // max neighbor cutoff for all type pairs
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:86:11: warning: member variable 'cuttype' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   86 |   double *cuttype;                 // for each type, max neigh cut w/ others
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:88:10: warning: member variable 'ncalls' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   88 |   bigint ncalls;                   // # of times build has been called
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:89:10: warning: member variable 'ndanger' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   89 |   bigint ndanger;                  // # of dangerous builds
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:90:10: warning: member variable 'lastcall' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   90 |   bigint lastcall;                 // timestep of last neighbor::build() call
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:91:7: warning: member variable 'force_rebuild' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   91 |   int force_rebuild;               // 1 if a fix has explicitly requested rebuild
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:93:10: warning: member variable 'last_setup_bins_timestep' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   93 |   bigint last_setup_bins_timestep;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:95:7: warning: member variable 'nrequest' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   95 |   int nrequest;                    // requests for pairwise neighbor lists
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:96:24: warning: member variable 'requests' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   96 |   class NeighRequest **requests;   // from Pair, Fix, Compute, Command classes
+      |                        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:97:7: warning: member variable 'maxrequest' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   97 |   int maxrequest;
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:99:7: warning: member variable 'old_style' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   99 |   int old_style;                   // previous run info to avoid
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:100:7: warning: member variable 'old_nrequest' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  100 |   int old_nrequest;                // re-creation of pairwise neighbor lists
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:101:7: warning: member variable 'old_triclinic' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  101 |   int old_triclinic;
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:102:7: warning: member variable 'old_pgsize' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  102 |   int old_pgsize;
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:103:7: warning: member variable 'old_oneatom' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  103 |   int old_oneatom;
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:104:24: warning: member variable 'old_requests' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  104 |   class NeighRequest **old_requests;
+      |                        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:106:7: warning: member variable 'nlist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  106 |   int nlist;                       // pairwise neighbor lists
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:107:21: warning: member variable 'lists' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  107 |   class NeighList **lists;
+      |                     ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:109:7: warning: member variable 'nbondlist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  109 |   int nbondlist;                   // list of bonds to compute
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:110:9: warning: member variable 'bondlist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  110 |   int **bondlist;                  
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:111:12: warning: member variable 'bondhistlist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  111 |   double **bondhistlist;
+      |            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:112:7: warning: member variable 'nanglelist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  112 |   int nanglelist;                  // list of angles to compute
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:113:9: warning: member variable 'anglelist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  113 |   int **anglelist;
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:114:7: warning: member variable 'ndihedrallist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  114 |   int ndihedrallist;               // list of dihedrals to compute
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:115:9: warning: member variable 'dihedrallist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  115 |   int **dihedrallist;
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:116:7: warning: member variable 'nimproperlist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  116 |   int nimproperlist;               // list of impropers to compute
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:117:9: warning: member variable 'improperlist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  117 |   int **improperlist;
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:120:11: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  120 |   virtual ~Neighbor();
+      |   ~~~~~~~ ^          
+      |                       override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:147:7: warning: member variable 'me' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  147 |   int me,nprocs;
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:147:10: warning: member variable 'nprocs' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  147 |   int me,nprocs;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:149:7: warning: member variable 'maxatom' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  149 |   int maxatom;                     // size of atom-based NeighList arrays
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:150:7: warning: member variable 'maxbond' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  150 |   int maxbond,maxangle,maxdihedral,maximproper;   // size of bond lists
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:150:15: warning: member variable 'maxangle' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  150 |   int maxbond,maxangle,maxdihedral,maximproper;   // size of bond lists
+      |               ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:150:24: warning: member variable 'maxdihedral' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  150 |   int maxbond,maxangle,maxdihedral,maximproper;   // size of bond lists
+      |                        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:150:36: warning: member variable 'maximproper' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  150 |   int maxbond,maxangle,maxdihedral,maximproper;   // size of bond lists
+      |                                    ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:151:7: warning: member variable 'maxwt' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  151 |   int maxwt;                       // max weighting factor applied + 1
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:153:7: warning: member variable 'must_check' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  153 |   int must_check;                  // 1 if must check other classes to reneigh
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:154:7: warning: member variable 'restart_check' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  154 |   int restart_check;               // 1 if restart enabled, 0 if no
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:155:7: warning: member variable 'fix_check' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  155 |   int fix_check;                   // # of fixes that induce reneigh
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:156:8: warning: member variable 'fixchecklist' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  156 |   int *fixchecklist;               // which fixes to check
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:158:12: warning: member variable 'cutneighsq' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  158 |   double **cutneighsq;             // neighbor cutneigh sq for each type pair
+      |            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:159:12: warning: member variable 'cutneighghostsq' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  159 |   double **cutneighghostsq;        // neighbor cutnsq for each ghost type pair
+      |            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:160:10: warning: member variable 'cutneighmaxsq' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  160 |   double cutneighmaxsq;            // cutneighmax squared
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:161:11: warning: member variable 'cuttypesq' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  161 |   double *cuttypesq;               // cuttype squared
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:163:10: warning: member variable 'triggersq' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  163 |   double triggersq;                // trigger = build when atom moves this dist
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:164:7: warning: member variable 'cluster_check' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  164 |   int cluster_check;               // 1 if check bond/angle/etc satisfies minimg
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:166:12: warning: member variable 'xhold' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  166 |   double **xhold;                      // atom coords at last neighbor build
+      |            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:168:11: warning: member variable 'rhold' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  168 |   double *rhold;                       // atom radii at last neighbor build
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:169:7: warning: member variable 'maxhold' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  169 |   int maxhold;                         // size of xhold array
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:170:7: warning: member variable 'boxcheck' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  170 |   int boxcheck;                        // 1 if need to store box size
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:171:10: warning: member variable 'boxlo_hold' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  171 |   double boxlo_hold[3],boxhi_hold[3];  // box size at last neighbor build
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:171:24: warning: member variable 'boxhi_hold' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  171 |   double boxlo_hold[3],boxhi_hold[3];  // box size at last neighbor build
+      |                        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:172:10: warning: member variable 'corners_hold' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  172 |   double corners_hold[8][3];           // box corners at last neighbor build
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:174:7: warning: member variable 'nbinx' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  174 |   int nbinx,nbiny,nbinz;           // # of global bins
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:174:13: warning: member variable 'nbiny' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  174 |   int nbinx,nbiny,nbinz;           // # of global bins
+      |             ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:174:19: warning: member variable 'nbinz' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  174 |   int nbinx,nbiny,nbinz;           // # of global bins
+      |                   ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:175:8: warning: member variable 'bins' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  175 |   int *bins;                       // ptr to next atom in each bin
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:176:7: warning: member variable 'maxbin' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  176 |   int maxbin;                      // size of bins array
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:178:8: warning: member variable 'binhead' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  178 |   int *binhead;                    // ptr to 1st atom in each bin
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:179:7: warning: member variable 'maxhead' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  179 |   int maxhead;                     // size of binhead array
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:180:25: warning: member variable 'mlg' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  180 |   class MultiLevelGrid* mlg;       
+      |                         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:182:7: warning: member variable 'mbins' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  182 |   int mbins;                       // # of local bins and offset
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:183:7: warning: member variable 'mbinx' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  183 |   int mbinx,mbiny,mbinz;
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:183:13: warning: member variable 'mbiny' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  183 |   int mbinx,mbiny,mbinz;
+      |             ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:183:19: warning: member variable 'mbinz' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  183 |   int mbinx,mbiny,mbinz;
+      |                   ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:184:7: warning: member variable 'mbinxlo' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  184 |   int mbinxlo,mbinylo,mbinzlo;
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:184:15: warning: member variable 'mbinylo' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  184 |   int mbinxlo,mbinylo,mbinzlo;
+      |               ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:184:23: warning: member variable 'mbinzlo' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  184 |   int mbinxlo,mbinylo,mbinzlo;
+      |                       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:186:7: warning: member variable 'binsizeflag' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  186 |   int binsizeflag;                 // user-chosen bin size
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:187:10: warning: member variable 'binsize_user' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  187 |   double binsize_user;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:189:10: warning: member variable 'binsizex' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  189 |   double binsizex,binsizey,binsizez;  // actual bin sizes and inverse sizes
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:189:19: warning: member variable 'binsizey' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  189 |   double binsizex,binsizey,binsizez;  // actual bin sizes and inverse sizes
+      |                   ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:189:28: warning: member variable 'binsizez' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  189 |   double binsizex,binsizey,binsizez;  // actual bin sizes and inverse sizes
+      |                            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:190:10: warning: member variable 'bininvx' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  190 |   double bininvx,bininvy,bininvz;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:190:18: warning: member variable 'bininvy' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  190 |   double bininvx,bininvy,bininvz;
+      |                  ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:190:26: warning: member variable 'bininvz' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  190 |   double bininvx,bininvy,bininvz;
+      |                          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:192:7: warning: member variable 'sx' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  192 |   int sx,sy,sz,smax;               // bin stencil extents
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:192:10: warning: member variable 'sy' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  192 |   int sx,sy,sz,smax;               // bin stencil extents
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:192:13: warning: member variable 'sz' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  192 |   int sx,sy,sz,smax;               // bin stencil extents
+      |             ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:192:16: warning: member variable 'smax' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  192 |   int sx,sy,sz,smax;               // bin stencil extents
+      |                ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:194:7: warning: member variable 'dimension' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  194 |   int dimension;                   // 2/3 for 2d/3d
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:195:7: warning: member variable 'triclinic' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  195 |   int triclinic;                   // 0 if domain is orthog, 1 if triclinic
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:196:7: warning: member variable 'newton_pair' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  196 |   int newton_pair;                 // 0 if newton off, 1 if on for pairwise
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:198:11: warning: member variable 'bboxlo' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  198 |   double *bboxlo,*bboxhi;          // ptrs to full domain bounding box
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:198:19: warning: member variable 'bboxhi' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  198 |   double *bboxlo,*bboxhi;          // ptrs to full domain bounding box
+      |                   ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:199:12: warning: member variable 'corners' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  199 |   double (*corners)[3];            // ptr to 8 corners of triclinic box
+      |            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:201:10: warning: member variable 'inner' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  201 |   double inner[2],middle[2];       // rRESPA cutoffs for extra lists
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:201:19: warning: member variable 'middle' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  201 |   double inner[2],middle[2];       // rRESPA cutoffs for extra lists
+      |                   ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:202:10: warning: member variable 'cut_inner_sq' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  202 |   double cut_inner_sq;                   // outer cutoff for inner neighbor list
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:203:10: warning: member variable 'cut_middle_sq' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  203 |   double cut_middle_sq;            // outer cutoff for middle neighbor list
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:204:10: warning: member variable 'cut_middle_inside_sq' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  204 |   double cut_middle_inside_sq;     // inner cutoff for middle neighbor list
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:206:7: warning: member variable 'special_flag' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  206 |   int special_flag[4];             // flags for 1-2, 1-3, 1-4 neighbors
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:208:7: warning: member variable 'anyghostlist' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  208 |   int anyghostlist;                // 1 if any non-occasional list
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:211:7: warning: member variable 'exclude' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  211 |   int exclude;                     // 0 if no type/group exclusions, 1 if yes
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:213:7: warning: member variable 'nex_type' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  213 |   int nex_type;                    // # of entries in type exclusion list
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:214:7: warning: member variable 'maxex_type' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  214 |   int maxex_type;                  // max # in type list
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:215:8: warning: member variable 'ex1_type' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  215 |   int *ex1_type,*ex2_type;         // pairs of types to exclude
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:215:18: warning: member variable 'ex2_type' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  215 |   int *ex1_type,*ex2_type;         // pairs of types to exclude
+      |                  ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:216:9: warning: member variable 'ex_type' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  216 |   int **ex_type;                   // 2d array of excluded type pairs
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:218:7: warning: member variable 'nex_group' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  218 |   int nex_group;                   // # of entries in group exclusion list
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:219:7: warning: member variable 'maxex_group' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  219 |   int maxex_group;                 // max # in group list
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:220:8: warning: member variable 'ex1_group' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  220 |   int *ex1_group,*ex2_group;       // pairs of group #'s to exclude
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:220:19: warning: member variable 'ex2_group' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  220 |   int *ex1_group,*ex2_group;       // pairs of group #'s to exclude
+      |                   ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:221:8: warning: member variable 'ex1_bit' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  221 |   int *ex1_bit,*ex2_bit;           // pairs of group bits to exclude
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:221:17: warning: member variable 'ex2_bit' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  221 |   int *ex1_bit,*ex2_bit;           // pairs of group bits to exclude
+      |                 ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:223:7: warning: member variable 'nex_mol' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  223 |   int nex_mol;                     // # of entries in molecule exclusion list
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:224:7: warning: member variable 'maxex_mol' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  224 |   int maxex_mol;                   // max # in molecule list
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:225:8: warning: member variable 'ex_mol_group' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  225 |   int *ex_mol_group;               // molecule group #'s to exclude
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:226:8: warning: member variable 'ex_mol_bit' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  226 |   int *ex_mol_bit;                 // molecule group bits to exclude
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:228:7: warning: member variable 'nblist' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  228 |   int nblist,nglist,nslist;    // # of pairwise neigh lists of various kinds
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:228:14: warning: member variable 'nglist' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  228 |   int nblist,nglist,nslist;    // # of pairwise neigh lists of various kinds
+      |              ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:228:21: warning: member variable 'nslist' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  228 |   int nblist,nglist,nslist;    // # of pairwise neigh lists of various kinds
+      |                     ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:229:8: warning: member variable 'blist' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  229 |   int *blist;                  // lists to build every reneighboring
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:230:8: warning: member variable 'glist' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  230 |   int *glist;                  // lists to grow atom arrays every reneigh
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:231:8: warning: member variable 'slist' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  231 |   int *slist;                  // lists to grow stencil arrays every reneigh
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:253:3: warning: use 'using' instead of 'typedef' [modernize-use-using]
+  253 |   typedef void (Neighbor::*PairPtr)(class NeighList *);
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |   using PairPtr = void (Neighbor::*)(class NeighList *)
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:254:12: warning: member variable 'pair_build' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  254 |   PairPtr *pair_build;
+      |            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:306:3: warning: use 'using' instead of 'typedef' [modernize-use-using]
+  306 |   typedef void (Neighbor::*StencilPtr)(class NeighList *, int, int, int);
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |   using StencilPtr = void (Neighbor::*)(class NeighList *, int, int, int)
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:307:15: warning: member variable 'stencil_create' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  307 |   StencilPtr *stencil_create;
+      |               ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:336:3: warning: use 'using' instead of 'typedef' [modernize-use-using]
+  336 |   typedef void (Neighbor::*BondPtr)();   // ptrs to topology build functions
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |   using BondPtr = void (Neighbor::*)()
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:338:11: warning: member variable 'bond_build' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  338 |   BondPtr bond_build;                 // ptr to bond list functions
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:343:11: warning: member variable 'angle_build' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  343 |   BondPtr angle_build;                // ptr to angle list functions
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:348:11: warning: member variable 'dihedral_build' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  348 |   BondPtr dihedral_build;             // ptr to dihedral list functions
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:353:11: warning: member variable 'improper_build' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  353 |   BondPtr improper_build;             // ptr to improper list functions
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:52:1: warning: nested namespaces can be concatenated [modernize-concat-nested-namespaces]
+   52 | namespace LIGGGHTS {
+      | ^~~~~~~~~~~~~~~~~~~~
+   53 | namespace ContactModels
+      | ~~~~~~~~~~~~~~~~~~~~~~~
+      | namespace LIGGGHTS::ContactModels
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:59:5: warning: constructor does not initialize these fields: tangential_damping [cppcoreguidelines-pro-type-member-init]
+   59 |     NormalModel(LAMMPS * lmp, IContactHistorySetup * hsetup,class ContactModelBase *c) :
+      |     ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:61:17: warning: use nullptr [modernize-use-nullptr]
+   61 |       K_elastic(NULL),
+      |                 ^~~~
+      |                 nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:62:20: warning: use nullptr [modernize-use-nullptr]
+   62 |       CoeffRestLog(NULL),
+      |                    ^~~~
+      |                    nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:63:13: warning: use nullptr [modernize-use-nullptr]
+   63 |       kn2k1(NULL),
+      |             ^~~~
+      |             nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:64:13: warning: use nullptr [modernize-use-nullptr]
+   64 |       kn2kc(NULL),
+      |             ^~~~
+      |             nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:65:12: warning: use nullptr [modernize-use-nullptr]
+   65 |       phiF(NULL),
+      |            ^~~~
+      |            nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:66:13: warning: use nullptr [modernize-use-nullptr]
+   66 |       f_adh(NULL),
+      |             ^~~~
+      |             nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:76:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   76 |     inline void registerSettings(Settings & settings){
+      |                 ^                                    
+      |                                                       override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:80:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   80 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                 ^
+      |                                                                                    override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:82:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   82 |     inline void connectToProperties(PropertyRegistry & registry) {
+      |                 ^
+      |                                                                  override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:104:19: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  104 |     inline double stressStrainExponent()
+      |                   ^                     
+      |                                          override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:109:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  109 |     inline void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+      |                 ^                                                                                            
+      |                                                                                                               override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:146:14: warning: variable 'deltaMax' is not initialized [cppcoreguidelines-init-variables]
+   46 |       double deltaMax; // the 4th value of the history array is deltaMax
+      |              ^       
+      |                       = NAN
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:158:14: warning: variable 'k2' is not initialized [cppcoreguidelines-init-variables]
+  158 |       double k2, fHys;
+      |              ^ 
+      |                 = NAN
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:158:18: warning: variable 'fHys' is not initialized [cppcoreguidelines-init-variables]
+  158 |       double k2, fHys;
+      |                  ^   
+      |                       = NAN
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:253:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  253 |     inline void surfacesClose(SurfacesCloseData & scdata, ForceData&, ForceData&)
+      |                 ^                                                                
+      |                                                                                   override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:260:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  260 |     void beginPass(SurfacesIntersectData&, ForceData&, ForceData&){}
+      |          ^                                                        
+      |                                                                    override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:261:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  261 |     void endPass(SurfacesIntersectData&, ForceData&, ForceData&){}
+      |          ^                                                      
+      |                                                                  override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:264:14: warning: member variable 'K_elastic' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  264 |     double **K_elastic;
+      |              ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:265:14: warning: member variable 'CoeffRestLog' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  265 |     double **CoeffRestLog;
+      |              ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:266:14: warning: member variable 'kn2k1' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  266 |     double **kn2k1;
+      |              ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:267:14: warning: member variable 'kn2kc' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  267 |     double **kn2kc;
+      |              ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:268:14: warning: member variable 'phiF' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  268 |     double **phiF;
+      |              ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:269:14: warning: member variable 'f_adh' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  269 |     double **f_adh;
+      |              ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:271:9: warning: member variable 'history_offset' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  271 |     int history_offset;
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:272:9: warning: member variable 'kc_offset' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  272 |     int kc_offset;
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:273:9: warning: member variable 'fo_offset' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  273 |     int fo_offset;
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:275:10: warning: member variable 'tangential_damping' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  275 |     bool tangential_damping;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:276:10: warning: member variable 'limitForce' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  276 |     bool limitForce;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/normal_model_luding.h:276:10: warning: use default member initializer for 'limitForce' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+   67 |     bool limitForce;
+      |          ^         
+      |                    {false}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/pair_gran_proxy.cpp:54:66: warning: use nullptr [modernize-use-nullptr]
+   54 | PairGranProxy::PairGranProxy(LAMMPS * lmp) : PairGran(lmp), impl(NULL)
+      |                                                                  ^~~~
+      |                                                                  nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/pair_gran_proxy.cpp:99:15: warning: narrowing conversion from constant value 18446744073709551608 (0xFFFFFFFFFFFFFFF8) of type '__size_t' (aka 'unsigned long') to signed type 'long' is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+   99 |     fseek(fp, -sizeof(int64_t), SEEK_CUR);
+      |               ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/pair_gran_proxy.cpp:101:13: warning: buffer type 'int64_t' does not match the MPI datatype 'MPI_CHAR' [mpi-type-mismatch]
+  101 |   MPI_Bcast(&selected,8,MPI_CHAR,0,world);
+      |             ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/pair_gran_proxy.cpp:101:25: warning: do not cast 'struct ompi_predefined_datatype_t *' to 'MPI_Datatype' (aka 'struct ompi_datatype_t *') through 'void *'; use reinterpret_cast instead [bugprone-casting-through-void]
+  101 |   MPI_Bcast(&selected,8,MPI_CHAR,0,world);
+      |                         ^
+/usr/lib/x86_64-linux-gnu/openmpi/include/mpi.h:1166:18: note: expanded from macro 'MPI_CHAR'
+ 1166 | #define MPI_CHAR OMPI_PREDEFINED_GLOBAL(MPI_Datatype, ompi_mpi_char)
+      |                  ^
+/usr/lib/x86_64-linux-gnu/openmpi/include/mpi.h:400:66: note: expanded from macro 'OMPI_PREDEFINED_GLOBAL'
+  400 | #define OMPI_PREDEFINED_GLOBAL(type, global) (static_cast<type> (static_cast<void *> (&(global))))
+      |                                                                  ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/pair_gran_proxy.cpp:108:21: warning: narrowing conversion from 'int64_t' (aka 'long') to signed type 'int' is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+  108 |       const int M = (15) & selected;
+      |                     ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/pair_gran_proxy.cpp:109:21: warning: narrowing conversion from 'int64_t' (aka 'long') to signed type 'int' is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+  109 |       const int T = (15) & selected >> 4;
+      |                     ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/pair_gran_proxy.cpp:110:21: warning: narrowing conversion from 'int64_t' (aka 'long') to signed type 'int' is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+  110 |       const int C = (15) & selected >> 8;
+      |                     ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/pair_gran_proxy.cpp:111:21: warning: narrowing conversion from 'int64_t' (aka 'long') to signed type 'int' is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+  111 |       const int R = (15) & selected >> 12;
+      |                     ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/pair_gran_proxy.cpp:112:21: warning: narrowing conversion from 'int64_t' (aka 'long') to signed type 'int' is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+  112 |       const int S = (15) & selected >> 16;
+      |                     ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/pair_gran_proxy.cpp:140:57: warning: the const qualified parameter 'hname' of type 'const std::string' (aka 'const basic_string<char>') is copied for each invocation; consider making it a reference [performance-unnecessary-value-param]
+  140 | int PairGranProxy::get_history_offset(const std::string hname)
+      |                                                         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_cdt.h:57:1: warning: nested namespaces can be concatenated [modernize-concat-nested-namespaces]
+   57 | namespace LIGGGHTS {
+      | ^~~~~~~~~~~~~~~~~~~~
+   58 | namespace ContactModels
+      | ~~~~~~~~~~~~~~~~~~~~~~~
+      | namespace LIGGGHTS::ContactModels
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_cdt.h:65:5: warning: constructor does not initialize these fields: torsion_torque [cppcoreguidelines-pro-type-member-init]
+   65 |     RollingModel(LAMMPS * lmp, IContactHistorySetup * hsetup, class ContactModelBase * c) :
+      |     ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_cdt.h:66:58: warning: use nullptr [modernize-use-nullptr]
+   66 |         RollingModelBase(lmp, hsetup, c), coeffRollFrict(NULL)
+      |                                                          ^~~~
+      |                                                          nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_cdt.h:71:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   71 |     void registerSettings(Settings& settings)
+      |          ^                                   
+      |                                               override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_cdt.h:76:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   76 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb)
+      |                 ^                                                                 
+      |                                                                                    override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_cdt.h:79:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   79 |     void connectToProperties(PropertyRegistry & registry)
+      |          ^                                               
+      |                                                           override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_cdt.h:89:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   89 |     void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces) 
+      |          ^
+      |                                                                                                        override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_cdt.h:170:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  170 |     void beginPass(SurfacesIntersectData&, ForceData&, ForceData&){}
+      |          ^                                                        
+      |                                                                    override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_cdt.h:171:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  171 |     void endPass(SurfacesIntersectData&, ForceData&, ForceData&){}
+      |          ^                                                      
+      |                                                                  override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_cdt.h:172:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  172 |     void surfacesClose(SurfacesCloseData&, ForceData&, ForceData&){}
+      |          ^                                                        
+      |                                                                    override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_epsd.h:59:1: warning: nested namespaces can be concatenated [modernize-concat-nested-namespaces]
+   59 | namespace LIGGGHTS {
+      | ^~~~~~~~~~~~~~~~~~~~
+   60 | namespace ContactModels
+      | ~~~~~~~~~~~~~~~~~~~~~~~
+      | namespace LIGGGHTS::ContactModels
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_epsd.h:68:5: warning: constructor does not initialize these fields: torsion_torque [cppcoreguidelines-pro-type-member-init]
+   68 |     RollingModel(class LAMMPS * lmp, IContactHistorySetup * hsetup,class ContactModelBase * c) :
+      |     ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_epsd.h:69:58: warning: use nullptr [modernize-use-nullptr]
+   69 |         RollingModelBase(lmp, hsetup, c), coeffRollFrict(NULL), coeffRollVisc(NULL)
+      |                                                          ^~~~
+      |                                                          nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_epsd.h:69:79: warning: use nullptr [modernize-use-nullptr]
+   69 |         RollingModelBase(lmp, hsetup, c), coeffRollFrict(NULL), coeffRollVisc(NULL)
+      |                                                                               ^~~~
+      |                                                                               nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_epsd.h:77:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   77 |     void registerSettings(Settings& settings)
+      |          ^                                   
+      |                                               override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_epsd.h:82:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   82 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb)
+      |                 ^                                                                 
+      |                                                                                    override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_epsd.h:85:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   85 |     void connectToProperties(PropertyRegistry & registry) {
+      |          ^
+      |                                                           override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_epsd.h:96:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   96 |     void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+      |          ^                                                                                            
+      |                                                                                                        override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_epsd.h:166:16: warning: variable 'r_inertia_red_i' is not initialized [cppcoreguidelines-init-variables]
+   54 |         double r_inertia_red_i, r_inertia_red_j;
+      |                ^              
+      |                                = NAN
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_epsd.h:166:33: warning: variable 'r_inertia_red_j' is not initialized [cppcoreguidelines-init-variables]
+  166 |         double r_inertia_red_i, r_inertia_red_j;
+      |                                 ^              
+      |                                                 = NAN
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_epsd.h:230:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  230 |     void surfacesClose(SurfacesCloseData & scdata, ForceData&, ForceData&)
+      |          ^                                                                
+      |                                                                            override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_epsd.h:239:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  239 |     void beginPass(SurfacesIntersectData&, ForceData&, ForceData&){}
+      |          ^                                                        
+      |                                                                    override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_epsd.h:240:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  240 |     void endPass(SurfacesIntersectData&, ForceData&, ForceData&){}
+      |          ^                                                      
+      |                                                                  override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_luding.h:52:1: warning: nested namespaces can be concatenated [modernize-concat-nested-namespaces]
+   52 | namespace LIGGGHTS {
+      | ^~~~~~~~~~~~~~~~~~~~
+   53 | namespace ContactModels
+      | ~~~~~~~~~~~~~~~~~~~~~~~
+      | namespace LIGGGHTS::ContactModels
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_luding.h:62:150: warning: use nullptr [modernize-use-nullptr]
+   62 |     RollingModel(class LAMMPS * lmp, IContactHistorySetup * hsetup,class ContactModelBase *cmb) : RollingModelBase(lmp, hsetup, cmb), coeffRollFrict(NULL), coeffRollVisc(NULL), kR2kcMax(NULL),torsion(false)
+      |                                                                                                                                                      ^~~~
+      |                                                                                                                                                      nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_luding.h:62:171: warning: use nullptr [modernize-use-nullptr]
+   62 |     RollingModel(class LAMMPS * lmp, IContactHistorySetup * hsetup,class ContactModelBase *cmb) : RollingModelBase(lmp, hsetup, cmb), coeffRollFrict(NULL), coeffRollVisc(NULL), kR2kcMax(NULL),torsion(false)
+      |                                                                                                                                                                           ^~~~
+      |                                                                                                                                                                           nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_luding.h:62:187: warning: use nullptr [modernize-use-nullptr]
+   62 |     RollingModel(class LAMMPS * lmp, IContactHistorySetup * hsetup,class ContactModelBase *cmb) : RollingModelBase(lmp, hsetup, cmb), coeffRollFrict(NULL), coeffRollVisc(NULL), kR2kcMax(NULL),torsion(false)
+      |                                                                                                                                                                                           ^~~~
+      |                                                                                                                                                                                           nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_luding.h:74:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   74 |     void registerSettings(Settings& settings) {
+      |          ^
+      |                                               override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_luding.h:78:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   78 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb) {}
+      |                 ^
+      |                                                                                    override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_luding.h:80:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   80 |     void connectToProperties(PropertyRegistry & registry) {
+      |          ^
+      |                                                           override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_luding.h:94:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   94 |     void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+      |          ^                                                                                            
+      |                                                                                                        override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_luding.h:155:18: warning: variable 'crossOmegaI' is not initialized [cppcoreguidelines-init-variables]
+   46 |           double crossOmegaI;
+      |                  ^          
+      |                              = NAN
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_luding.h:173:16: warning: variable 'r_inertia_red_i' is not initialized [cppcoreguidelines-init-variables]
+  173 |         double r_inertia_red_i, r_inertia_red_j;
+      |                ^              
+      |                                = NAN
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_luding.h:173:33: warning: variable 'r_inertia_red_j' is not initialized [cppcoreguidelines-init-variables]
+  173 |         double r_inertia_red_i, r_inertia_red_j;
+      |                                 ^              
+      |                                                 = NAN
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_luding.h:232:18: warning: variable 'crossOmegaI' is not initialized [cppcoreguidelines-init-variables]
+  232 |           double crossOmegaI;
+      |                  ^          
+      |                              = NAN
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_luding.h:233:18: warning: variable 'crossOmegaJ' is not initialized [cppcoreguidelines-init-variables]
+  233 |           double crossOmegaJ;
+      |                  ^          
+      |                              = NAN
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_luding.h:262:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  262 |     void surfacesClose(SurfacesCloseData & scdata, ForceData&, ForceData&)
+      |          ^                                                                
+      |                                                                            override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_luding.h:275:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  275 |     void beginPass(SurfacesIntersectData&, ForceData&, ForceData&){}
+      |          ^                                                        
+      |                                                                    override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_luding.h:276:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  276 |     void endPass(SurfacesIntersectData&, ForceData&, ForceData&){}
+      |          ^                                                      
+      |                                                                  override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/rolling_model_luding.h:285:10: warning: use default member initializer for 'torsion' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+   62 |     bool torsion;
+      |          ^      
+      |                 {false}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_history.h:56:1: warning: nested namespaces can be concatenated [modernize-concat-nested-namespaces]
+   56 | namespace LIGGGHTS {
+      | ^~~~~~~~~~~~~~~~~~~~
+   57 | namespace ContactModels
+      | ~~~~~~~~~~~~~~~~~~~~~~~
+      | namespace LIGGGHTS::ContactModels
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_history.h:68:20: warning: use nullptr [modernize-use-nullptr]
+   68 |         coeffFrict(NULL),
+      |                    ^~~~
+      |                    nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_history.h:76:25: warning: use nullptr [modernize-use-nullptr]
+   76 |         fix_dissipated_(NULL)
+      |                         ^~~~
+      |                         nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_history.h:84:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   84 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb)
+      |                 ^                                                                 
+      |                                                                                    override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_history.h:96:35: warning: do not use static_cast to downcast from a base to a derived class; use dynamic_cast instead [cppcoreguidelines-pro-type-static-cast-downcast]
+   96 |                 fix_dissipated_ = static_cast<FixPropertyAtom*>(modify->find_fix_property("dissipated_energy_wall", "property/atom", "vector", 0, 0, "dissipated energy"));
+      |                                   ^~~~~~~~~~~
+      |                                   dynamic_cast
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_history.h:102:35: warning: do not use static_cast to downcast from a base to a derived class; use dynamic_cast instead [cppcoreguidelines-pro-type-static-cast-downcast]
+  102 |                 fix_dissipated_ = static_cast<FixPropertyAtom*>(modify->find_fix_property("dissipated_energy", "property/atom", "vector", 0, 0, "dissipated energy"));
+      |                                   ^~~~~~~~~~~
+      |                                   dynamic_cast
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_history.h:108:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  108 |     inline void registerSettings(Settings& settings)
+      |                 ^                                   
+      |                                                      override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_history.h:117:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  117 |     inline void connectToProperties(PropertyRegistry & registry)
+      |                 ^                                               
+      |                                                                  override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_history.h:130:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  130 |     inline void surfacesIntersect(const SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+      |                 ^                                                                                                  
+      |                                                                                                                     override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_history.h:361:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  361 |     inline void surfacesClose(SurfacesCloseData & scdata, ForceData&, ForceData&)
+      |                 ^                                                                
+      |                                                                                   override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_history.h:374:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  374 |     inline void beginPass(SurfacesIntersectData&, ForceData&, ForceData&){}
+      |                 ^                                                        
+      |                                                                           override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_history.h:375:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  375 |     inline void endPass(SurfacesIntersectData&, ForceData&, ForceData&){}
+      |                 ^                                                      
+      |                                                                         override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_history.h:378:10: warning: member variable 'heating' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  378 |     bool heating;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_history.h:378:10: warning: use default member initializer for 'heating' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+   69 |     bool heating;
+      |          ^      
+      |                 {false}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_history.h:379:10: warning: member variable 'heating_track' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  379 |     bool heating_track;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_history.h:379:10: warning: use default member initializer for 'heating_track' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+   70 |     bool heating_track;
+      |          ^            
+      |                       {false}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_history.h:380:29: warning: member variable 'cmb' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  380 |     class ContactModelBase *cmb;
+      |                             ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_history.h:381:9: warning: member variable 'elastic_potential_offset_' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  381 |     int elastic_potential_offset_;
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_history.h:381:9: warning: use default member initializer for 'elastic_potential_offset_' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+   72 |     int elastic_potential_offset_;
+      |         ^                        
+      |                                  {-1}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_history.h:382:10: warning: member variable 'elasticpotflag_' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  382 |     bool elasticpotflag_;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_history.h:382:10: warning: use default member initializer for 'elasticpotflag_' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+   73 |     bool elasticpotflag_;
+      |          ^              
+      |                         {false}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_history.h:383:9: warning: member variable 'dissipation_history_offset_' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  383 |     int dissipation_history_offset_;
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_history.h:383:9: warning: use default member initializer for 'dissipation_history_offset_' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+   74 |     int dissipation_history_offset_;
+      |         ^                          
+      |                                    {-1}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_history.h:384:10: warning: member variable 'dissipatedflag_' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  384 |     bool dissipatedflag_;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_history.h:384:10: warning: use default member initializer for 'dissipatedflag_' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+   75 |     bool dissipatedflag_;
+      |          ^              
+      |                         {false}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_history.h:385:22: warning: member variable 'fix_dissipated_' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  385 |     FixPropertyAtom *fix_dissipated_;
+      |                      ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_no_history.h:56:1: warning: nested namespaces can be concatenated [modernize-concat-nested-namespaces]
+   56 | namespace LIGGGHTS {
+      | ^~~~~~~~~~~~~~~~~~~~
+   57 | namespace ContactModels
+      | ~~~~~~~~~~~~~~~~~~~~~~~
+      | namespace LIGGGHTS::ContactModels
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_no_history.h:67:18: warning: use nullptr [modernize-use-nullptr]
+   67 |       coeffFrict(NULL),
+      |                  ^~~~
+      |                  nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_no_history.h:72:23: warning: use nullptr [modernize-use-nullptr]
+   72 |       fix_dissipated_(NULL)
+      |                       ^~~~
+      |                       nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_no_history.h:77:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   77 |     inline void registerSettings(Settings &settings)
+      |                 ^                                   
+      |                                                      override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_no_history.h:83:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   83 |     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb)
+      |                 ^                                                                 
+      |                                                                                    override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_no_history.h:95:31: warning: do not use static_cast to downcast from a base to a derived class; use dynamic_cast instead [cppcoreguidelines-pro-type-static-cast-downcast]
+   95 |             fix_dissipated_ = static_cast<FixPropertyAtom*>(modify->find_fix_property("dissipated_energy_wall", "property/atom", "vector", 0, 0, "dissipated energy"));
+      |                               ^~~~~~~~~~~
+      |                               dynamic_cast
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_no_history.h:101:31: warning: do not use static_cast to downcast from a base to a derived class; use dynamic_cast instead [cppcoreguidelines-pro-type-static-cast-downcast]
+  101 |             fix_dissipated_ = static_cast<FixPropertyAtom*>(modify->find_fix_property("dissipated_energy", "property/atom", "vector", 0, 0, "dissipated energy"));
+      |                               ^~~~~~~~~~~
+      |                               dynamic_cast
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_no_history.h:107:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  107 |     inline void connectToProperties(PropertyRegistry & registry){
+      |                 ^                                               
+      |                                                                  override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_no_history.h:112:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  112 |     inline void surfacesIntersect(const SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces) {
+      |                 ^
+      |                                                                                                                     override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_no_history.h:240:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  240 |     inline void beginPass(SurfacesIntersectData&, ForceData&, ForceData&){}
+      |                 ^                                                        
+      |                                                                           override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_no_history.h:241:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  241 |     inline void endPass(SurfacesIntersectData&, ForceData&, ForceData&){}
+      |                 ^                                                      
+      |                                                                         override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_no_history.h:243:17: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  243 |     inline void surfacesClose(SurfacesCloseData &scdata, ForceData&, ForceData&)
+      |                 ^                                                               
+      |                                                                                  override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_no_history.h:250:10: warning: use default member initializer for 'disable_when_bonded_' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+   68 |     bool disable_when_bonded_;
+      |          ^                   
+      |                              {false}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_no_history.h:251:9: warning: use default member initializer for 'bond_history_offset_' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+   69 |     int bond_history_offset_;
+      |         ^                   
+      |                             {-1}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_no_history.h:252:9: warning: use default member initializer for 'dissipation_history_offset_' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+   70 |     int dissipation_history_offset_;
+      |         ^                          
+      |                                    {-1}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/tangential_model_no_history.h:253:10: warning: use default member initializer for 'dissipatedflag_' [cppcoreguidelines-use-default-member-init,modernize-use-default-member-init]
+   71 |     bool dissipatedflag_;
+      |          ^              
+      |                         {false}
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/utils.h:61:14: warning: C-style casts are discouraged; use static_cast [modernize-avoid-c-style-cast]
+   61 |     return (((int64_t)model)           ) |
+      |              ^~~~~~~~~     
+      |              static_cast<int64_t>( )
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/utils.h:62:14: warning: C-style casts are discouraged; use static_cast [modernize-avoid-c-style-cast]
+   62 |            (((int64_t)tangential) <<  6) |
+      |              ^~~~~~~~~          
+      |              static_cast<int64_t>( )
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/utils.h:63:14: warning: C-style casts are discouraged; use static_cast [modernize-avoid-c-style-cast]
+   63 |            (((int64_t)cohesion)   << 12) |
+      |              ^~~~~~~~~        
+      |              static_cast<int64_t>( )
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/utils.h:64:14: warning: C-style casts are discouraged; use static_cast [modernize-avoid-c-style-cast]
+   64 |            (((int64_t)rolling)    << 18) |
+      |              ^~~~~~~~~       
+      |              static_cast<int64_t>( )
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/utils.h:65:14: warning: C-style casts are discouraged; use static_cast [modernize-avoid-c-style-cast]
+   65 |            (((int64_t)surface)    << 24) ;
+      |              ^~~~~~~~~       
+      |              static_cast<int64_t>( )
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/utils.h:98:9: warning: class 'AbstractFactory' defines a copy constructor and a copy assignment operator but does not define a destructor, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+   98 |   class AbstractFactory {
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/utils.h:99:5: warning: use 'using' instead of 'typedef' [modernize-use-using]
+   99 |     typedef typename Interface::ParentType ParentType;
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |     using ParentType = typename Interface::ParentType
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/utils.h:100:5: warning: use 'using' instead of 'typedef' [modernize-use-using]
+  100 |     typedef Interface * (*Creator)(class LAMMPS * lmp, ParentType* parent, int64_t hash);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |     using Creator = Interface * (*)(class LAMMPS * lmp, ParentType* parent, int64_t hash)
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/utils.h:101:5: warning: use 'using' instead of 'typedef' [modernize-use-using]
+  101 |     typedef int64_t (*VariantSelector)(int & argc, char ** & argv, Custom_contact_models ccm);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |     using VariantSelector = int64_t (*)(int & argc, char ** & argv, Custom_contact_models ccm)
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/utils.h:102:5: warning: use 'using' instead of 'typedef' [modernize-use-using]
+  102 |     typedef std::map<std::pair<std::string, int>, Creator> StyleTable;
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |     using StyleTable = std::map<std::pair<std::string, int>, Creator>
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/utils.h:103:5: warning: use 'using' instead of 'typedef' [modernize-use-using]
+  103 |     typedef std::map<std::string, VariantSelector> VariantSelectorTable;
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |     using VariantSelectorTable = std::map<std::string, VariantSelector>
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/utils.h:118:14: warning: use nullptr [modernize-use-nullptr]
+  118 |       return NULL;
+      |              ^~~~
+      |              nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/utils.h:123:54: warning: parameter 'ccm' of type 'Custom_contact_models' is passed by value and only copied once; consider moving it to avoid unnecessary copies [performance-unnecessary-value-param]
+   53 |         return variantSelectorTable[name](argc, argv,ccm);
+      |                                                      ^  
+      |                                                      std::move( )
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/utils.h:131:138: warning: do not use 'std::endl' with streams; use '\n' instead [performance-avoid-endl]
+  131 |         std::cerr << "WARNING! Style collision detected! Duplicate entry (" << key.first << ", " << key.second << ") in style table." << std::endl;
+      |                                                                                                                                          ^~~~~~~~~
+      |                                                                                                                                          '\n'
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/utils.h:138:132: warning: do not use 'std::endl' with streams; use '\n' instead [performance-avoid-endl]
+  138 |         std::cerr << "WARNING! VariantSelector collision detected! Duplicate entry '" << name << "' in variant selector table." << std::endl;
+      |                                                                                                                                    ^~~~~~~~~
+      |                                                                                                                                    '\n'

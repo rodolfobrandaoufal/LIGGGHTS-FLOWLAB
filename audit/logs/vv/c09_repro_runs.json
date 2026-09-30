@@ -1,0 +1,50 @@
+{
+ "release_np1_nvesphere": {
+  "rc": 0,
+  "wall": 12.493129968643188
+ },
+ "release_np2_nvesphere": {
+  "rc": 0,
+  "wall": 11.962453365325928
+ },
+ "baseline_np1_nvesphere": {
+  "rc": 0,
+  "wall": 13.249370574951172
+ },
+ "soa_np1_nvesphere": {
+  "rc": 0,
+  "wall": 12.537599802017212
+ },
+ "release_np1_nve": {
+  "rc": 0,
+  "wall": 6.773330926895142
+ },
+ "soa_np1_nve": {
+  "rc": 0,
+  "wall": 7.847514629364014
+ },
+ "baseline_np1_nve": {
+  "rc": 0,
+  "wall": 5.604331731796265
+ },
+ "release_np1_nvesphere_again": {
+  "rc": 0,
+  "wall": 12.124731063842773
+ },
+ "release_np4_nvesphere": {
+  "rc": 0,
+  "wall": 7.041452884674072
+ },
+ "release_np8_nvesphere": {
+  "rc": 0,
+  "wall": 5.965859651565552
+ },
+ "baseline_np8_nvesphere": {
+  "rc": 0,
+  "wall": 5.051699161529541
+ },
+ "soa_np4_nvesphere": {
+  "rc": 0,
+  "wall": 7.090925216674805
+ }
+}

@@ -1,0 +1,50 @@
+{
+ "none_np1": {
+  "rc": 0,
+  "loop": 0.259062,
+  "output_time": 1.8455e-05,
+  "bytes": 0,
+  "xdmf_bytes": 0,
+  "wall": 0.773857831954956
+ },
+ "custom_np1": {
+  "rc": 0,
+  "loop": 1.1105,
+  "output_time": 0.848037,
+  "bytes": 34542512,
+  "xdmf_bytes": 0,
+  "wall": 1.6382899284362793
+ },
+ "hdf5_np1": {
+  "rc": 0,
+  "loop": 1.32886,
+  "output_time": 1.07052,
+  "bytes": 49152232,
+  "xdmf_bytes": 242120,
+  "wall": 1.8397061824798584
+ },
+ "none_np4": {
+  "rc": 0,
+  "loop": 0.174879,
+  "output_time": 2.85835e-05,
+  "bytes": 0,
+  "xdmf_bytes": 0,
+  "wall": 0.7372736930847168
+ },
+ "custom_np4": {
+  "rc": 0,
+  "loop": 0.502076,
+  "output_time": 0.329739,
+  "bytes": 34542512,
+  "xdmf_bytes": 0,
+  "wall": 1.061802864074707
+ },
+ "hdf5_np4": {
+  "rc": 0,
+  "loop": 0.644947,
+  "output_time": 0.287563,
+  "bytes": 49152232,
+  "xdmf_bytes": 242120,
+  "wall": 1.1873767375946045
+ }
+}

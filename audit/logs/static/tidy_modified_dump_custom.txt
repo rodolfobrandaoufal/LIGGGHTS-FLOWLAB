@@ -1,0 +1,1260 @@
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:53:10: warning: inclusion of deprecated C++ header 'stdlib.h'; consider using 'cstdlib' instead [modernize-deprecated-headers]
+   53 | #include <stdlib.h>
+      |          ^~~~~~~~~~
+      |          <cstdlib>
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:54:10: warning: inclusion of deprecated C++ header 'string.h'; consider using 'cstring' instead [modernize-deprecated-headers]
+   54 | #include <string.h>
+      |          ^~~~~~~~~~
+      |          <cstring>
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:102:1: warning: enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:102:1)' is unscoped, use 'enum class' instead [cppcoreguidelines-use-enum-class]
+  102 | enum{ID,MOL,TYPE,ELEMENT,MASS,
+      | ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:102:1: warning: enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:102:1)' uses a larger base type ('unsigned int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size [performance-enum-size]
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:116:1: warning: enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:116:1)' is unscoped, use 'enum class' instead [cppcoreguidelines-use-enum-class]
+  116 | enum{LT,LE,GT,GE,EQ,NEQ};
+      | ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:116:1: warning: enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:116:1)' uses a larger base type ('unsigned int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size [performance-enum-size]
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:117:1: warning: enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:117:1)' is unscoped, use 'enum class' instead [cppcoreguidelines-use-enum-class]
+  117 | enum{INT,DOUBLE,STRING};    // same as in DumpCFG
+      | ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:117:1: warning: enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:117:1)' uses a larger base type ('unsigned int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size [performance-enum-size]
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:119:1: warning: replace macro with enum [cppcoreguidelines-macro-to-enum,modernize-macro-to-enum]
+  119 | #define ONEFIELD 32
+      | ^~~~~~~            
+      |                  = ,
+  120 | #define DELTA 1048576
+      | ~~~~~~~
+      |               =
+  121 | 
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:119:9: warning: macro 'ONEFIELD' defines an integral constant; prefer an enum instead [cppcoreguidelines-macro-to-enum,modernize-macro-to-enum]
+  119 | #define ONEFIELD 32
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:119:9: warning: macro 'ONEFIELD' used to declare a constant; consider using a 'constexpr' constant [cppcoreguidelines-macro-usage]
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:120:9: warning: macro 'DELTA' defines an integral constant; prefer an enum instead [cppcoreguidelines-macro-to-enum,modernize-macro-to-enum]
+  120 | #define DELTA 1048576
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:120:9: warning: macro 'DELTA' used to declare a constant; consider using a 'constexpr' constant [cppcoreguidelines-macro-usage]
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:124:1: warning: constructor does not initialize these fields: nchoose, field2index, argindex, header_choice, convert_choice, write_choice [cppcoreguidelines-pro-type-member-init]
+  124 | DumpCustom::DumpCustom(LAMMPS *lmp, int narg, char **arg) :
+      | ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:136:3: warning: assigning newly created 'gsl::owner<>' to non-owner 'FnPtrPack *' (aka 'void (DumpCustom::**)(int)') [cppcoreguidelines-owning-memory]
+  136 |   pack_choice = new FnPtrPack[nfield];
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:137:3: warning: assigning newly created 'gsl::owner<>' to non-owner 'int *' [cppcoreguidelines-owning-memory]
+  137 |   vtype = new int[nfield];
+      |   ^~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:142:14: warning: use nullptr [modernize-use-nullptr]
+  142 |   idregion = NULL;
+      |              ^~~~
+      |              nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:144:18: warning: use nullptr [modernize-use-nullptr]
+  144 |   thresh_array = NULL;
+      |                  ^~~~
+      |                  nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:145:15: warning: use nullptr [modernize-use-nullptr]
+  145 |   thresh_op = NULL;
+      |               ^~~~
+      |               nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:146:18: warning: use nullptr [modernize-use-nullptr]
+  146 |   thresh_value = NULL;
+      |                  ^~~~
+      |                  nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:154:16: warning: use nullptr [modernize-use-nullptr]
+  154 |   id_compute = NULL;
+      |                ^~~~
+      |                nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:155:13: warning: use nullptr [modernize-use-nullptr]
+  155 |   compute = NULL;
+      |             ^~~~
+      |             nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:158:12: warning: use nullptr [modernize-use-nullptr]
+  158 |   id_fix = NULL;
+      |            ^~~~
+      |            nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:159:9: warning: use nullptr [modernize-use-nullptr]
+  159 |   fix = NULL;
+      |         ^~~~
+      |         nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:162:17: warning: use nullptr [modernize-use-nullptr]
+  162 |   id_variable = NULL;
+      |                 ^~~~
+      |                 nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:163:14: warning: use nullptr [modernize-use-nullptr]
+  163 |   variable = NULL;
+      |              ^~~~
+      |              nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:164:10: warning: use nullptr [modernize-use-nullptr]
+  164 |   vbuf = NULL;
+      |          ^~~~
+      |          nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:179:12: warning: use nullptr [modernize-use-nullptr]
+  179 |   choose = NULL;
+      |            ^~~~
+      |            nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:180:13: warning: use nullptr [modernize-use-nullptr]
+  180 |   dchoose = NULL;
+      |             ^~~~
+      |             nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:181:11: warning: use nullptr [modernize-use-nullptr]
+  181 |   clist = NULL;
+      |           ^~~~
+      |           nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:186:15: warning: use nullptr [modernize-use-nullptr]
+  186 |   typenames = NULL;
+      |               ^~~~
+      |               nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:190:3: warning: assigning newly created 'gsl::owner<>' to non-owner 'char **' [cppcoreguidelines-owning-memory]
+  190 |   vformat = new char*[size_one];
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:192:3: warning: assigning newly created 'gsl::owner<>' to non-owner 'char *' [cppcoreguidelines-owning-memory]
+  192 |   format_default = new char[3*size_one+1];
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:199:18: warning: use nullptr [modernize-use-nullptr]
+  199 |     vformat[i] = NULL;
+      |                  ^~~~
+      |                  nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:205:48: warning: narrowing conversion from 'size_t' (aka 'unsigned long') to signed type 'int' is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+  205 |   for (int iarg = 5; iarg < narg; iarg++) n += strlen(arg[iarg]) + 2;
+      |                                                ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:206:3: warning: assigning newly created 'gsl::owner<>' to non-owner 'char *' [cppcoreguidelines-owning-memory]
+  206 |   columns = new char[n];
+      |   ^~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:213:11: warning: use nullptr [modernize-use-nullptr]
+  213 |   label = NULL; 
+      |           ^~~~
+      |           nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:230:38: warning: deleting a pointer through a type that is not marked 'gsl::owner<>'; consider using a smart pointer instead [cppcoreguidelines-owning-memory]
+  230 |   for (int i = 0; i < ncompute; i++) delete [] id_compute[i];
+      |                                      ^                    ~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:230:8: note: variable declared here
+  230 |   for (int i = 0; i < ncompute; i++) delete [] id_compute[i];
+      |        ^~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:231:17: warning: multilevel pointer conversion from 'char **' to 'void *', please use explicit cast [bugprone-multi-level-implicit-pointer-conversion]
+  231 |   memory->sfree(id_compute);
+      |                 ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:234:34: warning: deleting a pointer through a type that is not marked 'gsl::owner<>'; consider using a smart pointer instead [cppcoreguidelines-owning-memory]
+  234 |   for (int i = 0; i < nfix; i++) delete [] id_fix[i];
+      |                                  ^                ~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:234:8: note: variable declared here
+  234 |   for (int i = 0; i < nfix; i++) delete [] id_fix[i];
+      |        ^~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:235:17: warning: multilevel pointer conversion from 'char **' to 'void *', please use explicit cast [bugprone-multi-level-implicit-pointer-conversion]
+  235 |   memory->sfree(id_fix);
+      |                 ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:238:39: warning: deleting a pointer through a type that is not marked 'gsl::owner<>'; consider using a smart pointer instead [cppcoreguidelines-owning-memory]
+  238 |   for (int i = 0; i < nvariable; i++) delete [] id_variable[i];
+      |                                       ^                     ~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:238:8: note: variable declared here
+  238 |   for (int i = 0; i < nvariable; i++) delete [] id_variable[i];
+      |        ^~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:239:17: warning: multilevel pointer conversion from 'char **' to 'void *', please use explicit cast [bugprone-multi-level-implicit-pointer-conversion]
+  239 |   memory->sfree(id_variable);
+      |                 ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:249:39: warning: deleting a pointer through a type that is not marked 'gsl::owner<>'; consider using a smart pointer instead [cppcoreguidelines-owning-memory]
+  249 |     for (int i = 1; i <= ntypes; i++) delete [] typenames[i];
+      |                                       ^                   ~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:249:10: note: variable declared here
+  249 |     for (int i = 1; i <= ntypes; i++) delete [] typenames[i];
+      |          ^~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:253:38: warning: deleting a pointer through a type that is not marked 'gsl::owner<>'; consider using a smart pointer instead [cppcoreguidelines-owning-memory]
+  253 |   for (int i = 0; i < size_one; i++) delete [] vformat[i];
+      |                                      ^                 ~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:253:8: note: variable declared here
+  253 |   for (int i = 0; i < size_one; i++) delete [] vformat[i];
+      |        ^~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:264:9: warning: variable 'str' is not initialized [cppcoreguidelines-init-variables]
+  264 |   char *str;
+      |         ^  
+      |             = nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:268:11: warning: narrowing conversion from 'size_t' (aka 'unsigned long') to signed type 'int' is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+  268 |   int n = strlen(str) + 1;
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:269:3: warning: assigning newly created 'gsl::owner<>' to non-owner 'char *' [cppcoreguidelines-owning-memory]
+  269 |   format = new char[n];
+      |   ^~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:274:20: warning: use nullptr [modernize-use-nullptr]
+  274 |   if (typenames == NULL) {
+      |                    ^~~~
+      |                    nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:275:5: warning: assigning newly created 'gsl::owner<>' to non-owner 'char **' [cppcoreguidelines-owning-memory]
+  275 |     typenames = new char*[ntypes+1];
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:277:7: warning: assigning newly created 'gsl::owner<>' to non-owner 'char *' [cppcoreguidelines-owning-memory]
+  277 |       typenames[itype] = new char[2];
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:284:9: warning: variable 'ptr' is not initialized [cppcoreguidelines-init-variables]
+  284 |   char *ptr;
+      |         ^  
+      |             = nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:286:23: warning: function is not thread safe [concurrency-mt-unsafe]
+  286 |     if (i == 0) ptr = strtok(format," \0");
+      |                       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:287:16: warning: function is not thread safe [concurrency-mt-unsafe]
+  287 |     else ptr = strtok(NULL," \0");
+      |                ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:287:23: warning: use nullptr [modernize-use-nullptr]
+  287 |     else ptr = strtok(NULL," \0");
+      |                       ^~~~
+      |                       nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:288:16: warning: use nullptr [modernize-use-nullptr]
+  288 |     if (ptr == NULL) error->all(FLERR,"Dump_modify format string is too short");
+      |                ^~~~
+      |                nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:289:5: warning: deleting a pointer through a type that is not marked 'gsl::owner<>'; consider using a smart pointer instead [cppcoreguidelines-owning-memory]
+  289 |     delete [] vformat[i];
+      |     ^                 ~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:285:8: note: variable declared here
+  285 |   for (int i = 0; i < size_one; i++) {
+      |        ^~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:290:5: warning: assigning newly created 'gsl::owner<>' to non-owner 'char *' [cppcoreguidelines-owning-memory]
+  290 |     vformat[i] = new char[strlen(ptr) + 2];
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:317:7: warning: variable 'icompute' is not initialized [cppcoreguidelines-init-variables]
+  317 |   int icompute;
+      |       ^       
+      |                = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:324:7: warning: variable 'ifix' is not initialized [cppcoreguidelines-init-variables]
+  324 |   int ifix;
+      |       ^   
+      |            = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:333:7: warning: variable 'ivariable' is not initialized [cppcoreguidelines-init-variables]
+  333 |   int ivariable;
+      |       ^        
+      |                 = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:358:18: warning: repeated branch body in conditional chain [bugprone-branch-clone]
+  358 |   if (multiproc) (this->*header_choice)(ndump);
+      |                  ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:358:47: note: end of the original
+  358 |   if (multiproc) (this->*header_choice)(ndump);
+      |                                               ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:359:21: note: clone 1 starts here
+  359 |   else if (me == 0) (this->*header_choice)(ndump);
+      |                     ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:409:16: warning: use nullptr [modernize-use-nullptr]
+  409 |   if (label != NULL) { 
+      |                ^~~~
+      |                nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:441:7: warning: variable 'i' is not initialized [cppcoreguidelines-init-variables]
+  441 |   int i;
+      |       ^
+      |         = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:503:13: warning: variable 'ptr' is not initialized [cppcoreguidelines-init-variables]
+  503 |     double *ptr;
+      |             ^  
+      |                 = nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:504:12: warning: variable 'value' is not initialized [cppcoreguidelines-init-variables]
+   53 |     double value;
+      |            ^    
+      |                  = NAN
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:505:9: warning: variable 'nstride' is not initialized [cppcoreguidelines-init-variables]
+  505 |     int nstride;
+      |         ^      
+      |                 = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:629:13: warning: variable 'xbox' is not initialized [cppcoreguidelines-init-variables]
+  629 |         int xbox,ybox,zbox;
+      |             ^   
+      |                  = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:629:18: warning: variable 'ybox' is not initialized [cppcoreguidelines-init-variables]
+  629 |         int xbox,ybox,zbox;
+      |                  ^   
+      |                       = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:629:23: warning: variable 'zbox' is not initialized [cppcoreguidelines-init-variables]
+  629 |         int xbox,ybox,zbox;
+      |                       ^   
+      |                            = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:641:13: warning: variable 'ybox' is not initialized [cppcoreguidelines-init-variables]
+  641 |         int ybox,zbox;
+      |             ^   
+      |                  = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:641:18: warning: variable 'zbox' is not initialized [cppcoreguidelines-init-variables]
+  641 |         int ybox,zbox;
+      |                  ^   
+      |                       = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:652:13: warning: variable 'zbox' is not initialized [cppcoreguidelines-init-variables]
+  652 |         int zbox;
+      |             ^   
+      |                  = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:984:7: warning: variable 'i' is not initialized [cppcoreguidelines-init-variables]
+  984 |   int i,j;
+      |       ^
+      |         = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:984:9: warning: variable 'j' is not initialized [cppcoreguidelines-init-variables]
+  984 |   int i,j;
+      |         ^
+      |           = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:990:11: warning: C-style casts are discouraged; use static_cast [modernize-avoid-c-style-cast]
+  990 |       if ((bigint) maxsbuf + DELTA > MAXSMALLINT) return -1;
+      |           ^~~~~~~~
+      |           static_cast<bigint>( )
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1001:62: warning: C-style casts are discouraged; use static_cast [modernize-avoid-c-style-cast]
+ 1001 |         offset += sprintf(&sbuf[offset],vformat[j],typenames[(int) mybuf[m]]);
+      |                                                              ^~~~~         
+      |                                                              static_cast<int>( )
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1037:7: warning: variable 'i' is not initialized [cppcoreguidelines-init-variables]
+ 1037 |   int i,j;
+      |       ^
+      |         = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1037:9: warning: variable 'j' is not initialized [cppcoreguidelines-init-variables]
+ 1037 |   int i,j;
+      |         ^
+      |           = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1045:41: warning: C-style casts are discouraged; use static_cast [modernize-avoid-c-style-cast]
+ 1045 |         fprintf(fp,vformat[j],typenames[(int) mybuf[m]]);
+      |                                         ^~~~~         
+      |                                         static_cast<int>( )
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1058:7: warning: variable 'i' is not initialized [cppcoreguidelines-init-variables]
+ 1058 |   int i;
+      |       ^
+      |         = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1343:15: warning: narrowing conversion from 'size_t' (aka 'unsigned long') to signed type 'int' is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+ 1343 |       int n = strlen(arg[iarg]);
+      |               ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1344:7: warning: initializing non-owner 'char *' with a newly created 'gsl::owner<>' [cppcoreguidelines-owning-memory]
+ 1344 |       char *suffix = new char[n];
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1351:23: warning: 'atoi' used to convert a string to an integer value, but function will not report conversion errors; consider using 'strtol' instead [bugprone-unchecked-string-to-number-conversion]
+ 1351 |         argindex[i] = atoi(ptr+1);
+      |                       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1370:7: warning: deleting a pointer through a type that is not marked 'gsl::owner<>'; consider using a smart pointer instead [cppcoreguidelines-owning-memory]
+ 1370 |       delete [] suffix;
+      |       ^         ~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1344:7: note: variable declared here
+ 1344 |       char *suffix = new char[n];
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1379:15: warning: narrowing conversion from 'size_t' (aka 'unsigned long') to signed type 'int' is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+ 1379 |       int n = strlen(arg[iarg]);
+      |               ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1380:7: warning: initializing non-owner 'char *' with a newly created 'gsl::owner<>' [cppcoreguidelines-owning-memory]
+ 1380 |       char *suffix = new char[n];
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1387:23: warning: 'atoi' used to convert a string to an integer value, but function will not report conversion errors; consider using 'strtol' instead [bugprone-unchecked-string-to-number-conversion]
+ 1387 |         argindex[i] = atoi(ptr+1);
+      |                       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1404:7: warning: deleting a pointer through a type that is not marked 'gsl::owner<>'; consider using a smart pointer instead [cppcoreguidelines-owning-memory]
+ 1404 |       delete [] suffix;
+      |       ^         ~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1380:7: note: variable declared here
+ 1380 |       char *suffix = new char[n];
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1412:15: warning: narrowing conversion from 'size_t' (aka 'unsigned long') to signed type 'int' is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+ 1412 |       int n = strlen(arg[iarg]);
+      |               ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1413:7: warning: initializing non-owner 'char *' with a newly created 'gsl::owner<>' [cppcoreguidelines-owning-memory]
+ 1413 |       char *suffix = new char[n];
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1424:7: warning: deleting a pointer through a type that is not marked 'gsl::owner<>'; consider using a smart pointer instead [cppcoreguidelines-owning-memory]
+ 1424 |       delete [] suffix;
+      |       ^         ~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1413:7: note: variable declared here
+ 1413 |       char *suffix = new char[n];
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1440:7: warning: variable 'icompute' is not initialized [cppcoreguidelines-init-variables]
+ 1440 |   int icompute;
+      |       ^       
+      |                = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1445:16: warning: C-style casts are discouraged; use static_cast [modernize-avoid-c-style-cast]
+ 1445 |   id_compute = (char **)
+      |                ^~~~~~~~~
+      |                static_cast<char **>(
+ 1446 |     memory->srealloc(id_compute,(ncompute+1)*sizeof(char *),"dump:id_compute");
+      |                                                                               
+      |                                                                               )
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1445:16: warning: do not use C-style cast to convert between unrelated types [cppcoreguidelines-pro-type-cstyle-cast]
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1446:22: warning: multilevel pointer conversion from 'char **' to 'void *', please use explicit cast [bugprone-multi-level-implicit-pointer-conversion]
+ 1446 |     memory->srealloc(id_compute,(ncompute+1)*sizeof(char *),"dump:id_compute");
+      |                      ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1446:33: warning: narrowing conversion from '__size_t' (aka 'unsigned long') to signed type 'bigint' (aka 'long') is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+ 1446 |     memory->srealloc(id_compute,(ncompute+1)*sizeof(char *),"dump:id_compute");
+      |                                 ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1448:3: warning: assigning newly created 'gsl::owner<>' to non-owner 'class Compute **' [cppcoreguidelines-owning-memory]
+ 1448 |   compute = new Compute*[ncompute+1];
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1450:11: warning: narrowing conversion from 'size_t' (aka 'unsigned long') to signed type 'int' is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+ 1450 |   int n = strlen(id) + 1;
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1451:3: warning: assigning newly created 'gsl::owner<>' to non-owner 'char *' [cppcoreguidelines-owning-memory]
+ 1451 |   id_compute[ncompute] = new char[n];
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1465:7: warning: variable 'ifix' is not initialized [cppcoreguidelines-init-variables]
+ 1465 |   int ifix;
+      |       ^   
+      |            = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1470:12: warning: C-style casts are discouraged; use static_cast [modernize-avoid-c-style-cast]
+ 1470 |   id_fix = (char **)
+      |            ^~~~~~~~~
+      |            static_cast<char **>(
+ 1471 |     memory->srealloc(id_fix,(nfix+1)*sizeof(char *),"dump:id_fix");
+      |                                                                   
+      |                                                                   )
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1470:12: warning: do not use C-style cast to convert between unrelated types [cppcoreguidelines-pro-type-cstyle-cast]
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1471:22: warning: multilevel pointer conversion from 'char **' to 'void *', please use explicit cast [bugprone-multi-level-implicit-pointer-conversion]
+ 1471 |     memory->srealloc(id_fix,(nfix+1)*sizeof(char *),"dump:id_fix");
+      |                      ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1471:29: warning: narrowing conversion from '__size_t' (aka 'unsigned long') to signed type 'bigint' (aka 'long') is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+ 1471 |     memory->srealloc(id_fix,(nfix+1)*sizeof(char *),"dump:id_fix");
+      |                             ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1473:3: warning: assigning newly created 'gsl::owner<>' to non-owner 'class Fix **' [cppcoreguidelines-owning-memory]
+ 1473 |   fix = new Fix*[nfix+1];
+      |   ^~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1475:11: warning: narrowing conversion from 'size_t' (aka 'unsigned long') to signed type 'int' is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+ 1475 |   int n = strlen(id) + 1;
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1476:3: warning: assigning newly created 'gsl::owner<>' to non-owner 'char *' [cppcoreguidelines-owning-memory]
+ 1476 |   id_fix[nfix] = new char[n];
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1490:7: warning: variable 'ivariable' is not initialized [cppcoreguidelines-init-variables]
+ 1490 |   int ivariable;
+      |       ^        
+      |                 = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1495:17: warning: C-style casts are discouraged; use static_cast [modernize-avoid-c-style-cast]
+ 1495 |   id_variable = (char **)
+      |                 ^~~~~~~~~
+      |                 static_cast<char **>(
+ 1496 |     memory->srealloc(id_variable,(nvariable+1)*sizeof(char *),
+ 1497 |                      "dump:id_variable");
+      |                                         
+      |                                         )
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1495:17: warning: do not use C-style cast to convert between unrelated types [cppcoreguidelines-pro-type-cstyle-cast]
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1496:22: warning: multilevel pointer conversion from 'char **' to 'void *', please use explicit cast [bugprone-multi-level-implicit-pointer-conversion]
+ 1496 |     memory->srealloc(id_variable,(nvariable+1)*sizeof(char *),
+      |                      ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1496:34: warning: narrowing conversion from '__size_t' (aka 'unsigned long') to signed type 'bigint' (aka 'long') is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+ 1496 |     memory->srealloc(id_variable,(nvariable+1)*sizeof(char *),
+      |                                  ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1499:3: warning: assigning newly created 'gsl::owner<>' to non-owner 'int *' [cppcoreguidelines-owning-memory]
+ 1499 |   variable = new int[nvariable+1];
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1501:3: warning: assigning newly created 'gsl::owner<>' to non-owner 'double **' [cppcoreguidelines-owning-memory]
+ 1501 |   vbuf = new double*[nvariable+1];
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1502:50: warning: use nullptr [modernize-use-nullptr]
+ 1502 |   for (int i = 0; i <= nvariable; i++) vbuf[i] = NULL;
+      |                                                  ^~~~
+      |                                                  nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1504:11: warning: narrowing conversion from 'size_t' (aka 'unsigned long') to signed type 'int' is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+ 1504 |   int n = strlen(id) + 1;
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1505:3: warning: assigning newly created 'gsl::owner<>' to non-owner 'char *' [cppcoreguidelines-owning-memory]
+ 1505 |   id_variable[nvariable] = new char[n];
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1523:15: warning: narrowing conversion from 'size_t' (aka 'unsigned long') to signed type 'int' is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+ 1523 |       int n = strlen(arg[1]) + 1;
+      |               ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1524:7: warning: assigning newly created 'gsl::owner<>' to non-owner 'char *' [cppcoreguidelines-owning-memory]
+ 1524 |       idregion = new char[n];
+      |       ^~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1533:14: warning: narrowing conversion from 'size_t' (aka 'unsigned long') to signed type 'int' is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+ 1533 |      int n = strlen(arg[1]) + 1;
+      |              ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1534:6: warning: assigning newly created 'gsl::owner<>' to non-owner 'char *' [cppcoreguidelines-owning-memory]
+ 1534 |      label = new char[n];
+      |      ^~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1544:41: warning: deleting a pointer through a type that is not marked 'gsl::owner<>'; consider using a smart pointer instead [cppcoreguidelines-owning-memory]
+ 1544 |       for (int i = 1; i <= ntypes; i++) delete [] typenames[i];
+      |                                         ^                   ~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1544:12: note: variable declared here
+ 1544 |       for (int i = 1; i <= ntypes; i++) delete [] typenames[i];
+      |            ^~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1546:19: warning: use nullptr [modernize-use-nullptr]
+ 1546 |       typenames = NULL;
+      |                   ^~~~
+      |                   nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1549:5: warning: assigning newly created 'gsl::owner<>' to non-owner 'char **' [cppcoreguidelines-owning-memory]
+ 1549 |     typenames = new char*[ntypes+1];
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1551:15: warning: narrowing conversion from 'size_t' (aka 'unsigned long') to signed type 'int' is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+ 1551 |       int n = strlen(arg[itype]) + 1;
+      |               ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1552:7: warning: assigning newly created 'gsl::owner<>' to non-owner 'char *' [cppcoreguidelines-owning-memory]
+ 1552 |       typenames[itype] = new char[n];
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1565:24: warning: use nullptr [modernize-use-nullptr]
+ 1565 |         thresh_array = NULL;
+      |                        ^~~~
+      |                        nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1566:21: warning: use nullptr [modernize-use-nullptr]
+ 1566 |         thresh_op = NULL;
+      |                     ^~~~
+      |                     nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1567:24: warning: use nullptr [modernize-use-nullptr]
+ 1567 |         thresh_value = NULL;
+      |                        ^~~~
+      |                        nullptr
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1688:15: warning: narrowing conversion from 'size_t' (aka 'unsigned long') to signed type 'int' is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+ 1688 |       int n = strlen(arg[1]);
+      |               ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1689:7: warning: initializing non-owner 'char *' with a newly created 'gsl::owner<>' [cppcoreguidelines-owning-memory]
+ 1689 |       char *suffix = new char[n];
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1696:36: warning: 'atoi' used to convert a string to an integer value, but function will not report conversion errors; consider using 'strtol' instead [bugprone-unchecked-string-to-number-conversion]
+ 1696 |         argindex[nfield+nthresh] = atoi(ptr+1);
+      |                                    ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1719:7: warning: deleting a pointer through a type that is not marked 'gsl::owner<>'; consider using a smart pointer instead [cppcoreguidelines-owning-memory]
+ 1719 |       delete [] suffix;
+      |       ^         ~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1689:7: note: variable declared here
+ 1689 |       char *suffix = new char[n];
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1729:15: warning: narrowing conversion from 'size_t' (aka 'unsigned long') to signed type 'int' is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+ 1729 |       int n = strlen(arg[1]);
+      |               ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1730:7: warning: initializing non-owner 'char *' with a newly created 'gsl::owner<>' [cppcoreguidelines-owning-memory]
+ 1730 |       char *suffix = new char[n];
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1737:36: warning: 'atoi' used to convert a string to an integer value, but function will not report conversion errors; consider using 'strtol' instead [bugprone-unchecked-string-to-number-conversion]
+ 1737 |         argindex[nfield+nthresh] = atoi(ptr+1);
+      |                                    ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1757:7: warning: deleting a pointer through a type that is not marked 'gsl::owner<>'; consider using a smart pointer instead [cppcoreguidelines-owning-memory]
+ 1757 |       delete [] suffix;
+      |       ^         ~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1730:7: note: variable declared here
+ 1730 |       char *suffix = new char[n];
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1766:15: warning: narrowing conversion from 'size_t' (aka 'unsigned long') to signed type 'int' is implementation-defined [bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions]
+ 1766 |       int n = strlen(arg[1]);
+      |               ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1767:7: warning: initializing non-owner 'char *' with a newly created 'gsl::owner<>' [cppcoreguidelines-owning-memory]
+ 1767 |       char *suffix = new char[n];
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1778:7: warning: deleting a pointer through a type that is not marked 'gsl::owner<>'; consider using a smart pointer instead [cppcoreguidelines-owning-memory]
+ 1778 |       delete [] suffix;
+      |       ^         ~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:1767:7: note: variable declared here
+ 1767 |       char *suffix = new char[n];
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:2015:7: warning: variable 'j' is not initialized [cppcoreguidelines-init-variables]
+ 2015 |   int j;
+      |       ^
+      |         = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:2032:7: warning: variable 'j' is not initialized [cppcoreguidelines-init-variables]
+ 2032 |   int j;
+      |       ^
+      |         = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:2062:7: warning: variable 'j' is not initialized [cppcoreguidelines-init-variables]
+ 2062 |   int j;
+      |       ^
+      |         = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:2078:7: warning: variable 'j' is not initialized [cppcoreguidelines-init-variables]
+ 2078 |   int j;
+      |       ^
+      |         = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:2094:7: warning: variable 'j' is not initialized [cppcoreguidelines-init-variables]
+ 2094 |   int j;
+      |       ^
+      |         = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:2110:7: warning: variable 'j' is not initialized [cppcoreguidelines-init-variables]
+ 2110 |   int j;
+      |       ^
+      |         = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:2114:7: warning: variable 'xbox' is not initialized [cppcoreguidelines-init-variables]
+ 2114 |   int xbox,ybox,zbox;
+      |       ^   
+      |            = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:2114:12: warning: variable 'ybox' is not initialized [cppcoreguidelines-init-variables]
+ 2114 |   int xbox,ybox,zbox;
+      |            ^   
+      |                 = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:2114:17: warning: variable 'zbox' is not initialized [cppcoreguidelines-init-variables]
+ 2114 |   int xbox,ybox,zbox;
+      |                 ^   
+      |                      = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:2130:7: warning: variable 'j' is not initialized [cppcoreguidelines-init-variables]
+ 2130 |   int j;
+      |       ^
+      |         = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:2134:7: warning: variable 'ybox' is not initialized [cppcoreguidelines-init-variables]
+ 2134 |   int ybox,zbox;
+      |       ^   
+      |            = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:2134:12: warning: variable 'zbox' is not initialized [cppcoreguidelines-init-variables]
+ 2134 |   int ybox,zbox;
+      |            ^   
+      |                 = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:2149:7: warning: variable 'j' is not initialized [cppcoreguidelines-init-variables]
+ 2149 |   int j;
+      |       ^
+      |         = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:2153:7: warning: variable 'zbox' is not initialized [cppcoreguidelines-init-variables]
+ 2153 |   int zbox;
+      |       ^   
+      |            = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:2167:7: warning: variable 'j' is not initialized [cppcoreguidelines-init-variables]
+ 2167 |   int j;
+      |       ^
+      |         = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:2184:7: warning: variable 'j' is not initialized [cppcoreguidelines-init-variables]
+ 2184 |   int j;
+      |       ^
+      |         = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:2201:7: warning: variable 'j' is not initialized [cppcoreguidelines-init-variables]
+ 2201 |   int j;
+      |       ^
+      |         = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:2218:7: warning: variable 'j' is not initialized [cppcoreguidelines-init-variables]
+ 2218 |   int j;
+      |       ^
+      |         = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:2236:7: warning: variable 'j' is not initialized [cppcoreguidelines-init-variables]
+ 2236 |   int j;
+      |       ^
+      |         = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.cpp:2254:7: warning: variable 'j' is not initialized [cppcoreguidelines-init-variables]
+ 2254 |   int j;
+      |       ^
+      |         = 0
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:65:7: warning: class 'DumpCustom' defines a non-default destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+   65 | class DumpCustom : public Dump {
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:68:11: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   68 |   virtual ~DumpCustom();
+      |   ~~~~~~~ ^            
+      |                         override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:71:7: warning: member variable 'nevery' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   71 |   int nevery;                // dump frequency for output
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:72:9: warning: member variable 'label' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   72 |   char *label;               // string for dump file header 
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:73:7: warning: member variable 'iregion' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   73 |   int iregion;               // -1 if no region, else which region
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:74:9: warning: member variable 'idregion' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   74 |   char *idregion;            // region ID
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:75:7: warning: member variable 'nthresh' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   75 |   int nthresh;               // # of defined threshholds
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:76:8: warning: member variable 'thresh_array' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   76 |   int *thresh_array;         // array to threshhhold on for each nthresh
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:77:8: warning: member variable 'thresh_op' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   77 |   int *thresh_op;            // threshhold operation for each nthresh
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:78:11: warning: member variable 'thresh_value' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   78 |   double *thresh_value;      // threshhold value for each nthresh
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:80:8: warning: member variable 'vtype' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   80 |   int *vtype;                // type of each vector (INT, DOUBLE)
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:81:10: warning: member variable 'vformat' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   81 |   char **vformat;            // format string for each vector element
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:83:9: warning: member variable 'columns' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   83 |   char *columns;             // column labels
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:85:7: warning: member variable 'nchoose' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   85 |   int nchoose;               // # of selected atoms
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:86:7: warning: member variable 'maxlocal' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   86 |   int maxlocal;              // size of atom selection and variable arrays
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:87:8: warning: member variable 'choose' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   87 |   int *choose;               // local indices of selected atoms
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:88:11: warning: member variable 'dchoose' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   88 |   double *dchoose;           // value for each atom to threshhold against
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:89:8: warning: member variable 'clist' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   89 |   int *clist;                // compressed list of indices of selected atoms
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:91:7: warning: member variable 'nfield' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   91 |   int nfield;                // # of keywords listed by user
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:92:7: warning: member variable 'ioptional' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   92 |   int ioptional;             // index of start of optional args
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:94:8: warning: member variable 'field2index' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   94 |   int *field2index;          // which compute,fix,variable calcs this field
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:95:8: warning: member variable 'argindex' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   95 |   int *argindex;             // index into compute,fix scalar_atom,vector_atom
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:98:7: warning: member variable 'ncompute' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   98 |   int ncompute;              // # of Compute objects used by dump
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:99:10: warning: member variable 'id_compute' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   99 |   char **id_compute;         // their IDs
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:100:19: warning: member variable 'compute' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  100 |   class Compute **compute;   // list of ptrs to the Compute objects
+      |                   ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:102:7: warning: member variable 'nfix' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  102 |   int nfix;                  // # of Fix objects used by dump
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:103:10: warning: member variable 'id_fix' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  103 |   char **id_fix;             // their IDs
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:104:15: warning: member variable 'fix' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  104 |   class Fix **fix;           // list of ptrs to the Fix objects
+      |               ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:106:7: warning: member variable 'nvariable' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  106 |   int nvariable;             // # of Variables used by dump
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:107:10: warning: member variable 'id_variable' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  107 |   char **id_variable;        // their names
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:108:8: warning: member variable 'variable' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  108 |   int *variable;             // list of indices for the Variables
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:109:12: warning: member variable 'vbuf' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  109 |   double **vbuf;             // local storage for variable evaluation
+      |            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:111:7: warning: member variable 'ntypes' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  111 |   int ntypes;                // # of atom types
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:112:10: warning: member variable 'typenames' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  112 |   char **typenames;             // array of element names for each type
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:116:16: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  116 |   virtual void init_style();
+      |   ~~~~~~~      ^           
+      |                             override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:117:16: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  117 |   virtual void write_header(bigint);
+      |   ~~~~~~~      ^                   
+      |                                     override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:118:7: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  118 |   int count();
+      |       ^      
+      |               override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:119:8: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  119 |   void pack(int *);
+      |        ^          
+      |                    override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:120:15: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  120 |   virtual int convert_string(int, double *);
+      |   ~~~~~~~     ^                            
+      |                                             override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:121:16: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  121 |   virtual void write_data(int, double *);
+      |   ~~~~~~~      ^                        
+      |                                          override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:122:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  122 |   bigint memory_usage();
+      |          ^             
+      |                         override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:128:15: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  128 |   virtual int modify_param(int, char **);
+      |   ~~~~~~~     ^                         
+      |                                          override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:130:3: warning: use 'using' instead of 'typedef' [modernize-use-using]
+  130 |   typedef void (DumpCustom::*FnPtrHeader)(bigint);
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |   using FnPtrHeader = void (DumpCustom::*)(bigint)
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:131:15: warning: member variable 'header_choice' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  131 |   FnPtrHeader header_choice;           // ptr to write header functions
+      |               ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:137:3: warning: use 'using' instead of 'typedef' [modernize-use-using]
+  137 |   typedef int (DumpCustom::*FnPtrConvert)(int, double *);
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |   using FnPtrConvert = int (DumpCustom::*)(int, double *)
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:138:16: warning: member variable 'convert_choice' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  138 |   FnPtrConvert convert_choice;          // ptr to convert data functions
+      |                ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:142:3: warning: use 'using' instead of 'typedef' [modernize-use-using]
+  142 |   typedef void (DumpCustom::*FnPtrWrite)(int, double *);
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |   using FnPtrWrite = void (DumpCustom::*)(int, double *)
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:143:14: warning: member variable 'write_choice' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  143 |   FnPtrWrite write_choice;             // ptr to write data functions
+      |              ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:150:3: warning: use 'using' instead of 'typedef' [modernize-use-using]
+  150 |   typedef void (DumpCustom::*FnPtrPack)(int);
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |   using FnPtrPack = void (DumpCustom::*)(int)
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:151:14: warning: member variable 'pack_choice' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  151 |   FnPtrPack *pack_choice;              // ptrs to pack functions
+      |              ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:153:3: warning: function 'x_component' should be marked [[nodiscard]] [modernize-use-nodiscard]
+  153 |   double x_component(int, int) const;
+      |   ^
+      |   [[nodiscard]] 
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:154:3: warning: function 'v_component' should be marked [[nodiscard]] [modernize-use-nodiscard]
+  154 |   double v_component(int, int) const;
+      |   ^
+      |   [[nodiscard]] 
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:155:3: warning: function 'f_component' should be marked [[nodiscard]] [modernize-use-nodiscard]
+  155 |   double f_component(int, int) const;
+      |   ^
+      |   [[nodiscard]] 
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:156:3: warning: function 'omega_component' should be marked [[nodiscard]] [modernize-use-nodiscard]
+  156 |   double omega_component(int, int) const;
+      |   ^
+      |   [[nodiscard]] 
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/dump_custom.h:157:3: warning: function 'torque_component' should be marked [[nodiscard]] [modernize-use-nodiscard]
+  157 |   double torque_component(int, int) const;
+      |   ^
+      |   [[nodiscard]] 
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:58:1: warning: enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:58:1)' is unscoped, use 'enum class' instead [cppcoreguidelines-use-enum-class]
+   58 | enum
+      | ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:58:1: warning: enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:58:1)' uses a larger base type ('unsigned int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size [performance-enum-size]
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:65:7: warning: class 'FixPropertyGlobal' defines a destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+   65 | class FixPropertyGlobal : public Fix {
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:74:3: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   74 |   ~FixPropertyGlobal();
+      |   ^                   
+      |                        override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:75:7: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   75 |   int setmask();
+      |       ^        
+      |                 override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:76:8: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   76 |   void init();
+      |        ^     
+      |               override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:77:8: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   77 |   void setup_pre_force(int);
+      |        ^                   
+      |                             override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:78:8: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   78 |   void pre_force(int);
+      |        ^             
+      |                       override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:79:8: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   79 |   void pre_delete(bool unfixflag);
+      |        ^                         
+      |                                   override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:83:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   83 |   double memory_usage();
+      |          ^             
+      |                         override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:84:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   84 |   double compute_scalar();
+      |          ^               
+      |                           override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:85:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   85 |   double compute_vector(int);
+      |          ^                  
+      |                              override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:87:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   87 |   double compute_array(int,int);
+      |          ^                     
+      |                                 override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:92:7: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   92 |   int modify_param(int narg, char **arg);
+      |       ^                                 
+      |                                          override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/fix_property_global.h:130:3: warning: function 'clamp_value' should be marked [[nodiscard]] [modernize-use-nodiscard]
+  130 |   double clamp_value(double) const;
+      |   ^
+      |   [[nodiscard]] 
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:60:7: warning: class 'Neighbor' defines a destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+   60 | class Neighbor : protected Pointers {
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:70:7: warning: member variable 'style' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   70 |   int style;                       // 0,1,2 = nsq, bin, multi
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:71:7: warning: member variable 'every' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   71 |   int every;                       // build every this many steps
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:72:7: warning: member variable 'delay' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   72 |   int delay;                       // delay build for this many steps
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:73:10: warning: member variable 'contactDistanceFactor' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   73 |   double contactDistanceFactor;    // contact distance factor used to compute non-touch contact (forces without radius overlap)
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:74:7: warning: member variable 'dist_check' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   74 |   int dist_check;                  // 0 = always build, 1 = only if 1/2 dist
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:75:7: warning: member variable 'ago' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   75 |   int ago;                         // how many steps ago neighboring occurred
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:76:7: warning: member variable 'pgsize' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   76 |   int pgsize;                      // size of neighbor page
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:77:7: warning: member variable 'oneatom' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   77 |   int oneatom;                     // max # of neighbors for one atom
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:78:7: warning: member variable 'includegroup' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   78 |   int includegroup;                // only build pairwise lists for this group
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:79:7: warning: member variable 'build_once' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   79 |   int build_once;                  // 1 if only build lists once per run
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:80:7: warning: member variable 'cudable' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   80 |   int cudable;                     // GPU <-> CPU communication flag for CUDA
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:82:10: warning: member variable 'skin' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   82 |   double skin;                     // skin distance
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:83:10: warning: member variable 'cutneighmin' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   83 |   double cutneighmin;              // min neighbor cutoff for all type pairs
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:84:10: warning: member variable 'cutneighmax' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   84 |   double cutneighmax;              // max neighbor cutoff for all type pairs
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:86:11: warning: member variable 'cuttype' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   86 |   double *cuttype;                 // for each type, max neigh cut w/ others
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:88:10: warning: member variable 'ncalls' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   88 |   bigint ncalls;                   // # of times build has been called
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:89:10: warning: member variable 'ndanger' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   89 |   bigint ndanger;                  // # of dangerous builds
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:90:10: warning: member variable 'lastcall' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   90 |   bigint lastcall;                 // timestep of last neighbor::build() call
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:91:7: warning: member variable 'force_rebuild' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   91 |   int force_rebuild;               // 1 if a fix has explicitly requested rebuild
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:93:10: warning: member variable 'last_setup_bins_timestep' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   93 |   bigint last_setup_bins_timestep;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:95:7: warning: member variable 'nrequest' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   95 |   int nrequest;                    // requests for pairwise neighbor lists
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:96:24: warning: member variable 'requests' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   96 |   class NeighRequest **requests;   // from Pair, Fix, Compute, Command classes
+      |                        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:97:7: warning: member variable 'maxrequest' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   97 |   int maxrequest;
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:99:7: warning: member variable 'old_style' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   99 |   int old_style;                   // previous run info to avoid
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:100:7: warning: member variable 'old_nrequest' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  100 |   int old_nrequest;                // re-creation of pairwise neighbor lists
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:101:7: warning: member variable 'old_triclinic' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  101 |   int old_triclinic;
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:102:7: warning: member variable 'old_pgsize' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  102 |   int old_pgsize;
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:103:7: warning: member variable 'old_oneatom' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  103 |   int old_oneatom;
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:104:24: warning: member variable 'old_requests' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  104 |   class NeighRequest **old_requests;
+      |                        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:106:7: warning: member variable 'nlist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  106 |   int nlist;                       // pairwise neighbor lists
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:107:21: warning: member variable 'lists' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  107 |   class NeighList **lists;
+      |                     ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:109:7: warning: member variable 'nbondlist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  109 |   int nbondlist;                   // list of bonds to compute
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:110:9: warning: member variable 'bondlist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  110 |   int **bondlist;                  
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:111:12: warning: member variable 'bondhistlist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  111 |   double **bondhistlist;
+      |            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:112:7: warning: member variable 'nanglelist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  112 |   int nanglelist;                  // list of angles to compute
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:113:9: warning: member variable 'anglelist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  113 |   int **anglelist;
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:114:7: warning: member variable 'ndihedrallist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  114 |   int ndihedrallist;               // list of dihedrals to compute
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:115:9: warning: member variable 'dihedrallist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  115 |   int **dihedrallist;
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:116:7: warning: member variable 'nimproperlist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  116 |   int nimproperlist;               // list of impropers to compute
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:117:9: warning: member variable 'improperlist' has public visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  117 |   int **improperlist;
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:120:11: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+  120 |   virtual ~Neighbor();
+      |   ~~~~~~~ ^          
+      |                       override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:147:7: warning: member variable 'me' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  147 |   int me,nprocs;
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:147:10: warning: member variable 'nprocs' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  147 |   int me,nprocs;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:149:7: warning: member variable 'maxatom' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  149 |   int maxatom;                     // size of atom-based NeighList arrays
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:150:7: warning: member variable 'maxbond' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  150 |   int maxbond,maxangle,maxdihedral,maximproper;   // size of bond lists
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:150:15: warning: member variable 'maxangle' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  150 |   int maxbond,maxangle,maxdihedral,maximproper;   // size of bond lists
+      |               ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:150:24: warning: member variable 'maxdihedral' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  150 |   int maxbond,maxangle,maxdihedral,maximproper;   // size of bond lists
+      |                        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:150:36: warning: member variable 'maximproper' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  150 |   int maxbond,maxangle,maxdihedral,maximproper;   // size of bond lists
+      |                                    ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:151:7: warning: member variable 'maxwt' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  151 |   int maxwt;                       // max weighting factor applied + 1
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:153:7: warning: member variable 'must_check' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  153 |   int must_check;                  // 1 if must check other classes to reneigh
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:154:7: warning: member variable 'restart_check' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  154 |   int restart_check;               // 1 if restart enabled, 0 if no
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:155:7: warning: member variable 'fix_check' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  155 |   int fix_check;                   // # of fixes that induce reneigh
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:156:8: warning: member variable 'fixchecklist' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  156 |   int *fixchecklist;               // which fixes to check
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:158:12: warning: member variable 'cutneighsq' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  158 |   double **cutneighsq;             // neighbor cutneigh sq for each type pair
+      |            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:159:12: warning: member variable 'cutneighghostsq' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  159 |   double **cutneighghostsq;        // neighbor cutnsq for each ghost type pair
+      |            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:160:10: warning: member variable 'cutneighmaxsq' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  160 |   double cutneighmaxsq;            // cutneighmax squared
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:161:11: warning: member variable 'cuttypesq' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  161 |   double *cuttypesq;               // cuttype squared
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:163:10: warning: member variable 'triggersq' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  163 |   double triggersq;                // trigger = build when atom moves this dist
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:164:7: warning: member variable 'cluster_check' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  164 |   int cluster_check;               // 1 if check bond/angle/etc satisfies minimg
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:166:12: warning: member variable 'xhold' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  166 |   double **xhold;                      // atom coords at last neighbor build
+      |            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:168:11: warning: member variable 'rhold' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  168 |   double *rhold;                       // atom radii at last neighbor build
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:169:7: warning: member variable 'maxhold' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  169 |   int maxhold;                         // size of xhold array
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:170:7: warning: member variable 'boxcheck' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  170 |   int boxcheck;                        // 1 if need to store box size
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:171:10: warning: member variable 'boxlo_hold' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  171 |   double boxlo_hold[3],boxhi_hold[3];  // box size at last neighbor build
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:171:24: warning: member variable 'boxhi_hold' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  171 |   double boxlo_hold[3],boxhi_hold[3];  // box size at last neighbor build
+      |                        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:172:10: warning: member variable 'corners_hold' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  172 |   double corners_hold[8][3];           // box corners at last neighbor build
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:174:7: warning: member variable 'nbinx' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  174 |   int nbinx,nbiny,nbinz;           // # of global bins
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:174:13: warning: member variable 'nbiny' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  174 |   int nbinx,nbiny,nbinz;           // # of global bins
+      |             ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:174:19: warning: member variable 'nbinz' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  174 |   int nbinx,nbiny,nbinz;           // # of global bins
+      |                   ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:175:8: warning: member variable 'bins' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  175 |   int *bins;                       // ptr to next atom in each bin
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:176:7: warning: member variable 'maxbin' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  176 |   int maxbin;                      // size of bins array
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:178:8: warning: member variable 'binhead' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  178 |   int *binhead;                    // ptr to 1st atom in each bin
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:179:7: warning: member variable 'maxhead' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  179 |   int maxhead;                     // size of binhead array
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:180:25: warning: member variable 'mlg' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  180 |   class MultiLevelGrid* mlg;       
+      |                         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:182:7: warning: member variable 'mbins' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  182 |   int mbins;                       // # of local bins and offset
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:183:7: warning: member variable 'mbinx' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  183 |   int mbinx,mbiny,mbinz;
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:183:13: warning: member variable 'mbiny' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  183 |   int mbinx,mbiny,mbinz;
+      |             ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:183:19: warning: member variable 'mbinz' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  183 |   int mbinx,mbiny,mbinz;
+      |                   ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:184:7: warning: member variable 'mbinxlo' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  184 |   int mbinxlo,mbinylo,mbinzlo;
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:184:15: warning: member variable 'mbinylo' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  184 |   int mbinxlo,mbinylo,mbinzlo;
+      |               ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:184:23: warning: member variable 'mbinzlo' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  184 |   int mbinxlo,mbinylo,mbinzlo;
+      |                       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:186:7: warning: member variable 'binsizeflag' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  186 |   int binsizeflag;                 // user-chosen bin size
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:187:10: warning: member variable 'binsize_user' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  187 |   double binsize_user;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:189:10: warning: member variable 'binsizex' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  189 |   double binsizex,binsizey,binsizez;  // actual bin sizes and inverse sizes
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:189:19: warning: member variable 'binsizey' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  189 |   double binsizex,binsizey,binsizez;  // actual bin sizes and inverse sizes
+      |                   ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:189:28: warning: member variable 'binsizez' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  189 |   double binsizex,binsizey,binsizez;  // actual bin sizes and inverse sizes
+      |                            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:190:10: warning: member variable 'bininvx' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  190 |   double bininvx,bininvy,bininvz;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:190:18: warning: member variable 'bininvy' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  190 |   double bininvx,bininvy,bininvz;
+      |                  ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:190:26: warning: member variable 'bininvz' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  190 |   double bininvx,bininvy,bininvz;
+      |                          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:192:7: warning: member variable 'sx' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  192 |   int sx,sy,sz,smax;               // bin stencil extents
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:192:10: warning: member variable 'sy' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  192 |   int sx,sy,sz,smax;               // bin stencil extents
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:192:13: warning: member variable 'sz' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  192 |   int sx,sy,sz,smax;               // bin stencil extents
+      |             ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:192:16: warning: member variable 'smax' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  192 |   int sx,sy,sz,smax;               // bin stencil extents
+      |                ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:194:7: warning: member variable 'dimension' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  194 |   int dimension;                   // 2/3 for 2d/3d
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:195:7: warning: member variable 'triclinic' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  195 |   int triclinic;                   // 0 if domain is orthog, 1 if triclinic
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:196:7: warning: member variable 'newton_pair' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  196 |   int newton_pair;                 // 0 if newton off, 1 if on for pairwise
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:198:11: warning: member variable 'bboxlo' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  198 |   double *bboxlo,*bboxhi;          // ptrs to full domain bounding box
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:198:19: warning: member variable 'bboxhi' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  198 |   double *bboxlo,*bboxhi;          // ptrs to full domain bounding box
+      |                   ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:199:12: warning: member variable 'corners' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  199 |   double (*corners)[3];            // ptr to 8 corners of triclinic box
+      |            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:201:10: warning: member variable 'inner' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  201 |   double inner[2],middle[2];       // rRESPA cutoffs for extra lists
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:201:19: warning: member variable 'middle' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  201 |   double inner[2],middle[2];       // rRESPA cutoffs for extra lists
+      |                   ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:202:10: warning: member variable 'cut_inner_sq' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  202 |   double cut_inner_sq;                   // outer cutoff for inner neighbor list
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:203:10: warning: member variable 'cut_middle_sq' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  203 |   double cut_middle_sq;            // outer cutoff for middle neighbor list
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:204:10: warning: member variable 'cut_middle_inside_sq' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  204 |   double cut_middle_inside_sq;     // inner cutoff for middle neighbor list
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:206:7: warning: member variable 'special_flag' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  206 |   int special_flag[4];             // flags for 1-2, 1-3, 1-4 neighbors
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:208:7: warning: member variable 'anyghostlist' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  208 |   int anyghostlist;                // 1 if any non-occasional list
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:211:7: warning: member variable 'exclude' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  211 |   int exclude;                     // 0 if no type/group exclusions, 1 if yes
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:213:7: warning: member variable 'nex_type' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  213 |   int nex_type;                    // # of entries in type exclusion list
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:214:7: warning: member variable 'maxex_type' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  214 |   int maxex_type;                  // max # in type list
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:215:8: warning: member variable 'ex1_type' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  215 |   int *ex1_type,*ex2_type;         // pairs of types to exclude
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:215:18: warning: member variable 'ex2_type' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  215 |   int *ex1_type,*ex2_type;         // pairs of types to exclude
+      |                  ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:216:9: warning: member variable 'ex_type' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  216 |   int **ex_type;                   // 2d array of excluded type pairs
+      |         ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:218:7: warning: member variable 'nex_group' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  218 |   int nex_group;                   // # of entries in group exclusion list
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:219:7: warning: member variable 'maxex_group' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  219 |   int maxex_group;                 // max # in group list
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:220:8: warning: member variable 'ex1_group' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  220 |   int *ex1_group,*ex2_group;       // pairs of group #'s to exclude
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:220:19: warning: member variable 'ex2_group' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  220 |   int *ex1_group,*ex2_group;       // pairs of group #'s to exclude
+      |                   ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:221:8: warning: member variable 'ex1_bit' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  221 |   int *ex1_bit,*ex2_bit;           // pairs of group bits to exclude
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:221:17: warning: member variable 'ex2_bit' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  221 |   int *ex1_bit,*ex2_bit;           // pairs of group bits to exclude
+      |                 ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:223:7: warning: member variable 'nex_mol' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  223 |   int nex_mol;                     // # of entries in molecule exclusion list
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:224:7: warning: member variable 'maxex_mol' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  224 |   int maxex_mol;                   // max # in molecule list
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:225:8: warning: member variable 'ex_mol_group' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  225 |   int *ex_mol_group;               // molecule group #'s to exclude
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:226:8: warning: member variable 'ex_mol_bit' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  226 |   int *ex_mol_bit;                 // molecule group bits to exclude
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:228:7: warning: member variable 'nblist' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  228 |   int nblist,nglist,nslist;    // # of pairwise neigh lists of various kinds
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:228:14: warning: member variable 'nglist' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  228 |   int nblist,nglist,nslist;    // # of pairwise neigh lists of various kinds
+      |              ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:228:21: warning: member variable 'nslist' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  228 |   int nblist,nglist,nslist;    // # of pairwise neigh lists of various kinds
+      |                     ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:229:8: warning: member variable 'blist' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  229 |   int *blist;                  // lists to build every reneighboring
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:230:8: warning: member variable 'glist' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  230 |   int *glist;                  // lists to grow atom arrays every reneigh
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:231:8: warning: member variable 'slist' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  231 |   int *slist;                  // lists to grow stencil arrays every reneigh
+      |        ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:253:3: warning: use 'using' instead of 'typedef' [modernize-use-using]
+  253 |   typedef void (Neighbor::*PairPtr)(class NeighList *);
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |   using PairPtr = void (Neighbor::*)(class NeighList *)
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:254:12: warning: member variable 'pair_build' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  254 |   PairPtr *pair_build;
+      |            ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:306:3: warning: use 'using' instead of 'typedef' [modernize-use-using]
+  306 |   typedef void (Neighbor::*StencilPtr)(class NeighList *, int, int, int);
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |   using StencilPtr = void (Neighbor::*)(class NeighList *, int, int, int)
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:307:15: warning: member variable 'stencil_create' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  307 |   StencilPtr *stencil_create;
+      |               ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:336:3: warning: use 'using' instead of 'typedef' [modernize-use-using]
+  336 |   typedef void (Neighbor::*BondPtr)();   // ptrs to topology build functions
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |   using BondPtr = void (Neighbor::*)()
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:338:11: warning: member variable 'bond_build' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  338 |   BondPtr bond_build;                 // ptr to bond list functions
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:343:11: warning: member variable 'angle_build' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  343 |   BondPtr angle_build;                // ptr to angle list functions
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:348:11: warning: member variable 'dihedral_build' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  348 |   BondPtr dihedral_build;             // ptr to dihedral list functions
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified/neighbor.h:353:11: warning: member variable 'improper_build' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+  353 |   BondPtr improper_build;             // ptr to improper list functions
+      |           ^

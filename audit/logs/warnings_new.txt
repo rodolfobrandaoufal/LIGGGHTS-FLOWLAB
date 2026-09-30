@@ -1,0 +1,40 @@
+# modified unique=141 baseline unique=128 new (file+flag+msg, line-insensitive)=15 removed=2
+# NOTE: a (file,flag,message) key that appears k more times in the modified tree
+#       lists ALL of its modified-tree lines below (cannot tell which k are new).
+# new by file:
+#       7 global_properties.cpp
+#       4 cohesion_model_generalized_adhesion.h
+#       4 fix_adapt_liggghts.cpp
+#       4 fix_property_global.cpp
+#       2 dump_hdf5.cpp
+#       1 dump_mesh_hdf5.cpp
+# new by flag:
+#      14 -Wunused-parameter
+#       5 -Wshadow
+#       3 -Wconversion
+cohesion_model_generalized_adhesion.h:28: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LIGGGHTS::ContactModels::CohesionModel<9>’
+cohesion_model_generalized_adhesion.h:39: [-Wunused-parameter] unused parameter ‘cmb’
+cohesion_model_generalized_adhesion.h:39: [-Wunused-parameter] unused parameter ‘hsetup’
+cohesion_model_generalized_adhesion.h:63: [-Wunused-parameter] unused parameter ‘sidata’
+dump_hdf5.cpp:22: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LAMMPS_NS::DumpHDF5’
+dump_hdf5.cpp:156: [-Wshadow] declaration of ‘group’ shadows a member of ‘LAMMPS_NS::DumpHDF5’
+dump_mesh_hdf5.cpp:25: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LAMMPS_NS::DumpMeshHDF5’
+fix_adapt_liggghts.cpp:30: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LAMMPS_NS::FixAdaptLiggghts’
+fix_adapt_liggghts.cpp:66: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+fix_adapt_liggghts.cpp:116: [-Wunused-parameter] unused parameter ‘vflag’
+fix_adapt_liggghts.cpp:123: [-Wunused-parameter] unused parameter ‘vflag’
+fix_property_global.cpp:81: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+fix_property_global.cpp:139: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+fix_property_global.cpp:408: [-Wunused-parameter] unused parameter ‘vflag’
+fix_property_global.cpp:415: [-Wunused-parameter] unused parameter ‘vflag’
+global_properties.cpp:292: [-Wunused-parameter] unused parameter ‘sanity_checks’
+global_properties.cpp:299: [-Wunused-parameter] unused parameter ‘sanity_checks’
+global_properties.cpp:1060: [-Wunused-parameter] unused parameter ‘sanity_checks’
+global_properties.cpp:1066: [-Wunused-parameter] unused parameter ‘sanity_checks’
+global_properties.cpp:1072: [-Wunused-parameter] unused parameter ‘sanity_checks’
+global_properties.cpp:1078: [-Wunused-parameter] unused parameter ‘sanity_checks’
+global_properties.cpp:1084: [-Wunused-parameter] unused parameter ‘sanity_checks’
+
+# warnings present at HEAD but gone in modified tree (file+flag+msg):
+#  1x contact_models.h [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<> >’
+#  1x fix_neighlist_mesh.cpp [-Wunused-parameter] unused parameter ‘shape’

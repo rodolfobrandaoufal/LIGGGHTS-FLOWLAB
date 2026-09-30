@@ -1,0 +1,30 @@
+# Generate a settled bidisperse bed tile (periodic x,y; bottom wall), ~12.5k spheres
+atom_style granular
+atom_modify map array
+boundary p p f
+newton off
+communicate single vel yes
+units si
+variable Lx equal 0.0416*${tx}
+variable Ly equal 0.0416*${ty}
+region dom block 0 ${Lx} 0 ${Ly} 0 0.20 units box
+create_box 2 dom
+neighbor 0.0005 bin
+neigh_modify delay 0
+timestep 1e-5
+lattice sc 0.0026
+region fill block 0 ${Lx} 0 ${Ly} 0.0013 0.1287 units box
+create_atoms 1 region fill
+set type 1 type/fraction 2 0.5 15485863
+set type 1 diameter 0.0020
+set type 2 diameter 0.0024
+set group all density 2500
+displace_atoms all random 0.0002 0.0002 0.0002 32452843
+include in.common_props
+fix integr all nve/sphere
+compute 1 all erotate/sphere
+thermo_style custom step atoms ke c_1
+thermo 1000
+thermo_modify lost ignore norm no
+run 20000
+write_restart bed_${tx}x${ty}.restart

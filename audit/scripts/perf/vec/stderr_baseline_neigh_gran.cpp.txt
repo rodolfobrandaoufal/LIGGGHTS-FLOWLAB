@@ -1,0 +1,23 @@
+cc1plus: warning: ignoring possibly conflicting option ‘-fopt-info-vec-optimized=/media/storage/LIGGGHTS-PUBLIC-v6/audit/scripts/perf/vec/vecok_baseline_neigh_gran.txt’
+In file included from /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/ompi/mpi/cxx/mpicxx.h:277,
+                 from /usr/lib/x86_64-linux-gnu/openmpi/include/mpi.h:2887,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pointers.h:63,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:55,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neigh_gran.cpp:52:
+/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/ompi/mpi/cxx/op_inln.h: In member function ‘virtual void MPI::Op::Init(void (*)(const void*, void*, int, const MPI::Datatype&), bool)’:
+/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/ompi/mpi/cxx/op_inln.h:121:25: warning: cast between incompatible function types from ‘void (*)(void*, void*, int*, ompi_datatype_t**, void (*)(void*, void*, int*, ompi_datatype_t**))’ to ‘void (*)(void*, void*, int*, ompi_datatype_t**)’ [-Wcast-function-type]
+  121 |     (void)MPI_Op_create((MPI_User_function*) ompi_mpi_cxx_op_intercept,
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/ompi/mpi/cxx/op_inln.h:123:38: warning: cast between incompatible function types from ‘void (*)(const void*, void*, int, const MPI::Datatype&)’ to ‘void (*)(void*, void*, int*, ompi_datatype_t**)’ [-Wcast-function-type]
+  123 |     ompi_op_set_cxx_callback(mpi_op, (MPI_User_function*) func);
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_contact_history.h:61,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neigh_gran.cpp:57:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix.h: In member function ‘virtual void LAMMPS_NS::Fix::reset_timestep(LAMMPS_NS::bigint, LAMMPS_NS::bigint)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix.h:224:53: warning: unused parameter ‘oldstep’ [-Wunused-parameter]
+  224 |   virtual void reset_timestep(bigint newstep,bigint oldstep)
+      |                                              ~~~~~~~^~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix.h: In member function ‘virtual double* LAMMPS_NS::Fix::getCreateMeshTriNode(int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix.h:261:51: warning: unused parameter ‘i’ [-Wunused-parameter]
+  261 |   virtual double * getCreateMeshTriNode(const int i)
+      |                                         ~~~~~~~~~~^

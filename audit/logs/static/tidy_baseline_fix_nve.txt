@@ -1,0 +1,119 @@
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.cpp:46:10: warning: inclusion of deprecated C++ header 'stdio.h'; consider using 'cstdio' instead [modernize-deprecated-headers]
+   46 | #include <stdio.h>
+      |          ^~~~~~~~~
+      |          <cstdio>
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.cpp:47:10: warning: inclusion of deprecated C++ header 'string.h'; consider using 'cstring' instead [modernize-deprecated-headers]
+   47 | #include <string.h>
+      |          ^~~~~~~~~~
+      |          <cstring>
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.cpp:60:1: warning: constructor does not initialize these fields: dtv, dtf, step_respa, mass_require [cppcoreguidelines-pro-type-member-init]
+   60 | FixNVE::FixNVE(LAMMPS *lmp, int narg, char **arg) :
+      | ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.cpp:89:19: warning: C-style casts are discouraged; use static_cast [modernize-avoid-c-style-cast]
+   89 |     step_respa = ((Respa *) update->integrate)->step;
+      |                   ^~~~~~~~~                  
+      |                   static_cast<Respa *>(      )
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.cpp:89:19: warning: do not use C-style cast to downcast from a base to a derived class; use dynamic_cast instead [cppcoreguidelines-pro-type-cstyle-cast]
+note: this fix will not be applied because it overlaps with another fix
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.cpp:98:10: warning: variable 'dtfm' is not initialized [cppcoreguidelines-init-variables]
+   46 |   double dtfm;
+      |          ^   
+      |               = NAN
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.cpp:142:10: warning: variable 'dtfm' is not initialized [cppcoreguidelines-init-variables]
+  142 |   double dtfm;
+      |          ^   
+      |               = NAN
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.h:59:7: warning: class 'FixNVE' defines a non-default destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+   59 | class FixNVE : public Fix {
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.h:62:11: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   62 |   virtual ~FixNVE() {}
+      |   ~~~~~~~ ^
+      |                     override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.h:62:11: warning: use '= default' to define a trivial destructor [modernize-use-equals-default]
+   62 |   virtual ~FixNVE() {}
+      |           ^         ~~
+      |                     = default;
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.h:63:7: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   63 |   int setmask();
+      |       ^        
+      |                 override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.h:64:16: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   64 |   virtual void init();
+      |   ~~~~~~~      ^     
+      |                       override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.h:65:16: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   65 |   virtual void initial_integrate(int);
+      |   ~~~~~~~      ^                     
+      |                                       override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.h:66:16: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   66 |   virtual void final_integrate();
+      |   ~~~~~~~      ^                
+      |                                  override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.h:67:16: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   67 |   virtual void initial_integrate_respa(int, int, int);
+      |   ~~~~~~~      ^                                     
+      |                                                       override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.h:68:16: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   68 |   virtual void final_integrate_respa(int, int);
+      |   ~~~~~~~      ^                              
+      |                                                override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.h:69:16: warning: prefer using 'override' or (rarely) 'final' instead of 'virtual' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   69 |   virtual void reset_dt();
+      |   ~~~~~~~      ^         
+      |                           override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.h:72:10: warning: member variable 'dtv' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   72 |   double dtv,dtf;
+      |          ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.h:72:14: warning: member variable 'dtf' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   72 |   double dtv,dtf;
+      |              ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.h:73:11: warning: member variable 'step_respa' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   73 |   double *step_respa;
+      |           ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.h:74:7: warning: member variable 'mass_require' has protected visibility [cppcoreguidelines-non-private-member-variables-in-classes]
+   74 |   int mass_require;
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:58:1: warning: enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:58:1)' is unscoped, use 'enum class' instead [cppcoreguidelines-use-enum-class]
+   58 | enum
+      | ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:58:1: warning: enum '(unnamed enum at /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:58:1)' uses a larger base type ('unsigned int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size [performance-enum-size]
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:65:7: warning: class 'FixPropertyGlobal' defines a destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+   65 | class FixPropertyGlobal : public Fix {
+      |       ^
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:74:3: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   74 |   ~FixPropertyGlobal();
+      |   ^                   
+      |                        override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:75:7: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   75 |   int setmask();
+      |       ^        
+      |                 override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:76:8: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   76 |   void init();
+      |        ^     
+      |               override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:77:8: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   77 |   void pre_delete(bool unfixflag);
+      |        ^                         
+      |                                   override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:81:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   81 |   double memory_usage();
+      |          ^             
+      |                         override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:82:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   82 |   double compute_scalar();
+      |          ^               
+      |                           override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:83:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   83 |   double compute_vector(int);
+      |          ^                  
+      |                              override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:85:10: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   85 |   double compute_array(int,int);
+      |          ^                     
+      |                                 override
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:90:7: warning: annotate this function with 'override' or (rarely) 'final' [cppcoreguidelines-explicit-virtual-functions,modernize-use-override]
+   90 |   int modify_param(int narg, char **arg);
+      |       ^                                 
+      |                                          override

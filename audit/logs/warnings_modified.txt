@@ -1,0 +1,142 @@
+# modified: 141 unique warnings (file:line [flag] message) in scope files
+cohesion_model_easo_capillary_viscous.h:59: [-Wunused-parameter] unused parameter ‘sanity_checks’
+cohesion_model_easo_capillary_viscous.h:65: [-Wunused-parameter] unused parameter ‘sanity_checks’
+cohesion_model_easo_capillary_viscous.h:71: [-Wunused-parameter] unused parameter ‘sanity_checks’
+cohesion_model_easo_capillary_viscous.h:77: [-Wunused-parameter] unused parameter ‘sanity_checks’
+cohesion_model_easo_capillary_viscous.h:92: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LIGGGHTS::ContactModels::CohesionModel<8>’
+cohesion_model_easo_capillary_viscous.h:116: [-Wunused-parameter] unused parameter ‘cmb’
+cohesion_model_easo_capillary_viscous.h:116: [-Wunused-parameter] unused parameter ‘hsetup’
+cohesion_model_easo_capillary_viscous.h:185: [-Wunused-parameter] unused parameter ‘sidata’
+cohesion_model_easo_capillary_viscous.h:336: [-Wunused-variable] unused variable ‘v’
+cohesion_model_generalized_adhesion.h:28: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LIGGGHTS::ContactModels::CohesionModel<9>’
+cohesion_model_generalized_adhesion.h:39: [-Wunused-parameter] unused parameter ‘cmb’
+cohesion_model_generalized_adhesion.h:39: [-Wunused-parameter] unused parameter ‘hsetup’
+cohesion_model_generalized_adhesion.h:63: [-Wunused-parameter] unused parameter ‘sidata’
+cohesion_model_sjkr.h:63: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LIGGGHTS::ContactModels::CohesionModel<1>’
+cohesion_model_sjkr.h:75: [-Wunused-parameter] unused parameter ‘cmb’
+cohesion_model_sjkr.h:75: [-Wunused-parameter] unused parameter ‘hsetup’
+cohesion_model_sjkr.h:133: [-Wunused-parameter] unused parameter ‘sidata’
+compute_property_atom.cpp:89: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LAMMPS_NS::ComputePropertyAtom’
+compute_property_atom.cpp:475: [-Wunused-variable] unused variable ‘vol’
+compute_property_atom.cpp:500: [-Wunused-variable] unused variable ‘vol’
+contact_models.h:151: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LIGGGHTS::ContactModels::ContactModel<Style>’
+dump_custom.cpp:124: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LAMMPS_NS::DumpCustom’
+dump_custom.cpp:205: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+dump_custom.cpp:268: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+dump_custom.cpp:506: [-Wshadow] declaration of ‘nlocal’ shadows a previous local
+dump_custom.cpp:558: [-Wshadow] declaration of ‘boxxlo’ shadows a member of ‘LAMMPS_NS::DumpCustom’
+dump_custom.cpp:565: [-Wshadow] declaration of ‘boxylo’ shadows a member of ‘LAMMPS_NS::DumpCustom’
+dump_custom.cpp:572: [-Wshadow] declaration of ‘boxzlo’ shadows a member of ‘LAMMPS_NS::DumpCustom’
+dump_custom.cpp:662: [-Wshadow] declaration of ‘boxxlo’ shadows a member of ‘LAMMPS_NS::DumpCustom’
+dump_custom.cpp:672: [-Wshadow] declaration of ‘boxylo’ shadows a member of ‘LAMMPS_NS::DumpCustom’
+dump_custom.cpp:683: [-Wshadow] declaration of ‘boxzlo’ shadows a member of ‘LAMMPS_NS::DumpCustom’
+dump_custom.cpp:1343: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+dump_custom.cpp:1379: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+dump_custom.cpp:1412: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+dump_custom.cpp:1438: [-Wshadow] declaration of ‘id’ shadows a member of ‘LAMMPS_NS::DumpCustom’
+dump_custom.cpp:1450: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+dump_custom.cpp:1463: [-Wshadow] declaration of ‘id’ shadows a member of ‘LAMMPS_NS::DumpCustom’
+dump_custom.cpp:1475: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+dump_custom.cpp:1488: [-Wshadow] declaration of ‘id’ shadows a member of ‘LAMMPS_NS::DumpCustom’
+dump_custom.cpp:1504: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+dump_custom.cpp:1523: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+dump_custom.cpp:1533: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+dump_custom.cpp:1551: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+dump_custom.cpp:1688: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+dump_custom.cpp:1729: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+dump_custom.cpp:1766: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+dump_custom.cpp:1974: [-Wshadow] declaration of ‘boxxlo’ shadows a member of ‘LAMMPS_NS::DumpCustom’
+dump_custom.cpp:1988: [-Wshadow] declaration of ‘boxylo’ shadows a member of ‘LAMMPS_NS::DumpCustom’
+dump_custom.cpp:2002: [-Wshadow] declaration of ‘boxzlo’ shadows a member of ‘LAMMPS_NS::DumpCustom’
+dump_custom.cpp:2170: [-Wshadow] declaration of ‘boxxlo’ shadows a member of ‘LAMMPS_NS::DumpCustom’
+dump_custom.cpp:2187: [-Wshadow] declaration of ‘boxylo’ shadows a member of ‘LAMMPS_NS::DumpCustom’
+dump_custom.cpp:2204: [-Wshadow] declaration of ‘boxzlo’ shadows a member of ‘LAMMPS_NS::DumpCustom’
+dump_hdf5.cpp:22: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LAMMPS_NS::DumpHDF5’
+dump_hdf5.cpp:156: [-Wshadow] declaration of ‘group’ shadows a member of ‘LAMMPS_NS::DumpHDF5’
+dump_mesh_hdf5.cpp:25: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LAMMPS_NS::DumpMeshHDF5’
+fix_adapt_liggghts.cpp:30: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LAMMPS_NS::FixAdaptLiggghts’
+fix_adapt_liggghts.cpp:66: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+fix_adapt_liggghts.cpp:116: [-Wunused-parameter] unused parameter ‘vflag’
+fix_adapt_liggghts.cpp:123: [-Wunused-parameter] unused parameter ‘vflag’
+fix_neighlist_mesh.cpp:65: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LAMMPS_NS::FixNeighlistMesh’
+fix_neighlist_mesh.cpp:177: [-Wunused-parameter] unused parameter ‘foo’
+fix_neighlist_mesh.cpp:186: [-Wunused-parameter] unused parameter ‘foo’
+fix_neighlist_mesh.cpp:293: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+fix_neighlist_mesh.cpp:294: [-Wconversion] conversion from ‘std::vector<int>::size_type’ {aka ‘long unsigned int’} to ‘int’ may change value
+fix_neighlist_mesh.cpp:305: [-Wunused-parameter] unused parameter ‘bonus’
+fix_neighlist_mesh.cpp:305: [-Wunused-parameter] unused parameter ‘ellipsoid’
+fix_neighlist_mesh.cpp:305: [-Wunused-parameter] unused parameter ‘haveNonSpherical’
+fix_neighlist_mesh.cpp:398: [-Wconversion] conversion from ‘std::vector<int>::size_type’ {aka ‘long unsigned int’} to ‘int’ may change value
+fix_neighlist_mesh.cpp:471: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+fix_neighlist_mesh.cpp:488: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+fix_neighlist_mesh.h:72: [-Wmaybe-uninitialized] ‘<unnamed>.LAMMPS_NS::TriangleNeighlist::boundary’ may be used uninitialized
+fix_nve.cpp:60: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LAMMPS_NS::FixNVE’
+fix_nve.cpp:96: [-Wunused-parameter] unused parameter ‘vflag’
+fix_nve.cpp:208: [-Wunused-parameter] unused parameter ‘iloop’
+fix_nve.cpp:222: [-Wunused-parameter] unused parameter ‘iloop’
+fix_nve_asphere_base.cpp:57: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LAMMPS_NS::FixNVEAsphereBase’
+fix_nve_asphere_base.cpp:73: [-Wfloat-conversion] conversion from ‘double’ to ‘int’ may change value
+fix_nve_asphere_base.cpp:336: [-Wunused-parameter] unused parameter ‘vflag’
+fix_property_global.cpp:66: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LAMMPS_NS::FixPropertyGlobal’
+fix_property_global.cpp:81: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+fix_property_global.cpp:139: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+fix_property_global.cpp:236: [-Wunused-parameter] unused parameter ‘unfixflag’
+fix_property_global.cpp:408: [-Wunused-parameter] unused parameter ‘vflag’
+fix_property_global.cpp:415: [-Wunused-parameter] unused parameter ‘vflag’
+fix_wall_gran.cpp:101: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LAMMPS_NS::FixWallGran’
+fix_wall_gran.cpp:708: [-Wunused-parameter] unused parameter ‘vflag’
+fix_wall_gran.cpp:836: [-Wunused-parameter] unused parameter ‘iloop’
+fix_wall_gran.cpp:845: [-Wunused-parameter] unused parameter ‘vflag’
+fix_wall_gran.cpp:898: [-Wconversion] conversion from ‘std::vector<int>::size_type’ {aka ‘long unsigned int’} to ‘int’ may change value
+fix_wall_gran.cpp:1023: [-Wunused-parameter] unused parameter ‘vflag’
+global_properties.cpp:292: [-Wunused-parameter] unused parameter ‘sanity_checks’
+global_properties.cpp:299: [-Wunused-parameter] unused parameter ‘sanity_checks’
+global_properties.cpp:1060: [-Wunused-parameter] unused parameter ‘sanity_checks’
+global_properties.cpp:1066: [-Wunused-parameter] unused parameter ‘sanity_checks’
+global_properties.cpp:1072: [-Wunused-parameter] unused parameter ‘sanity_checks’
+global_properties.cpp:1078: [-Wunused-parameter] unused parameter ‘sanity_checks’
+global_properties.cpp:1084: [-Wunused-parameter] unused parameter ‘sanity_checks’
+neighbor.cpp:114: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LAMMPS_NS::Neighbor’
+neighbor.cpp:835: [-Wconversion] conversion from ‘LAMMPS_NS::bigint’ {aka ‘long int’} to ‘int’ may change value
+neighbor.cpp:836: [-Wconversion] conversion from ‘LAMMPS_NS::bigint’ {aka ‘long int’} to ‘double’ may change value
+neighbor.cpp:844: [-Wconversion] conversion from ‘LAMMPS_NS::bigint’ {aka ‘long int’} to ‘int’ may change value
+neighbor.cpp:845: [-Wconversion] conversion from ‘LAMMPS_NS::bigint’ {aka ‘long int’} to ‘double’ may change value
+neighbor.cpp:850: [-Wconversion] conversion from ‘LAMMPS_NS::bigint’ {aka ‘long int’} to ‘int’ may change value
+neighbor.cpp:852: [-Wconversion] conversion from ‘LAMMPS_NS::bigint’ {aka ‘long int’} to ‘double’ may change value
+neighbor.cpp:857: [-Wconversion] conversion from ‘LAMMPS_NS::bigint’ {aka ‘long int’} to ‘int’ may change value
+neighbor.cpp:859: [-Wconversion] conversion from ‘LAMMPS_NS::bigint’ {aka ‘long int’} to ‘double’ may change value
+neighbor.cpp:1792: [-Wconversion] conversion from ‘LAMMPS_NS::bigint’ {aka ‘long int’} to ‘int’ may change value
+normal_model_luding.h:59: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LIGGGHTS::ContactModels::NormalModel<12>’
+normal_model_luding.h:80: [-Wunused-parameter] unused parameter ‘cmb’
+normal_model_luding.h:80: [-Wunused-parameter] unused parameter ‘hsetup’
+pair_gran_proxy.cpp:54: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LAMMPS_NS::PairGranProxy’
+pair_gran_proxy.cpp:98: [-Wunused-result] ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’ declared with attribute ‘warn_unused_result’
+rolling_model_cdt.h:65: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LIGGGHTS::ContactModels::RollingModel<1>’
+rolling_model_cdt.h:76: [-Wunused-parameter] unused parameter ‘cmb’
+rolling_model_cdt.h:76: [-Wunused-parameter] unused parameter ‘hsetup’
+rolling_model_epsd.h:68: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LIGGGHTS::ContactModels::RollingModel<2>’
+rolling_model_epsd.h:82: [-Wunused-parameter] unused parameter ‘cmb’
+rolling_model_epsd.h:82: [-Wunused-parameter] unused parameter ‘hsetup’
+rolling_model_luding.h:62: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LIGGGHTS::ContactModels::RollingModel<6>’
+rolling_model_luding.h:78: [-Wunused-parameter] unused parameter ‘cmb’
+rolling_model_luding.h:78: [-Wunused-parameter] unused parameter ‘hsetup’
+rolling_model_luding.h:228: [-Wshadow] declaration of ‘i’ shadows a previous local
+rolling_model_luding.h:229: [-Wshadow] declaration of ‘j’ shadows a previous local
+rolling_model_luding.h:230: [-Wshadow] declaration of ‘omega’ shadows a previous local
+tangential_model_history.h:66: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LIGGGHTS::ContactModels::TangentialModel<2>’
+tangential_model_history.h:84: [-Wshadow] declaration of ‘cmb’ shadows a member of ‘LIGGGHTS::ContactModels::TangentialModel<2>’
+tangential_model_history.h:84: [-Wunused-parameter] unused parameter ‘hsetup’
+tangential_model_no_history.h:65: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LIGGGHTS::ContactModels::TangentialModel<1>’
+tangential_model_no_history.h:83: [-Wunused-parameter] unused parameter ‘hsetup’
+utils.h:128: [-Wshadow] declaration of ‘create’ shadows a member of ‘LIGGGHTS::Utils::AbstractFactory<Interface>’
+velocity.cpp:88: [-Wshadow] declaration of ‘lmp’ shadows a member of ‘LAMMPS_NS::Velocity’
+velocity.cpp:183: [-Wunused-parameter] unused parameter ‘narg’
+velocity.cpp:196: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+velocity.cpp:203: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+velocity.cpp:210: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+velocity.cpp:348: [-Wunused-parameter] unused parameter ‘narg’
+velocity.cpp:361: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+velocity.cpp:368: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+velocity.cpp:375: [-Wconversion] conversion from ‘size_t’ {aka ‘long unsigned int’} to ‘int’ may change value
+velocity.cpp:515: [-Wunused-parameter] unused parameter ‘narg’
+velocity.cpp:598: [-Wunused-parameter] unused parameter ‘narg’

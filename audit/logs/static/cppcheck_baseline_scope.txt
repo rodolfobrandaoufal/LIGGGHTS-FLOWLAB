@@ -1,0 +1,587 @@
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cohesion_model_easo_capillary_viscous.h:111: style: missingOverride: The function 'registerSettings' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cohesion_model_easo_capillary_viscous.h:116: style: missingOverride: The function 'postSettings' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cohesion_model_easo_capillary_viscous.h:118: style: missingOverride: The function 'connectToProperties' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cohesion_model_easo_capillary_viscous.h:179: style: missingOverride: The function 'endSurfacesIntersect' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cohesion_model_easo_capillary_viscous.h:180: style: missingOverride: The function 'beginPass' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cohesion_model_easo_capillary_viscous.h:181: style: missingOverride: The function 'endPass' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cohesion_model_easo_capillary_viscous.h:183: style: missingOverride: The function 'surfacesIntersect' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cohesion_model_easo_capillary_viscous.h:274: style: missingOverride: The function 'surfacesClose' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cohesion_model_easo_capillary_viscous.h:328: style: unreadVariable: Variable 'v' is assigned a value that is never used.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cohesion_model_easo_capillary_viscous.h:92: warning: uninitMemberVar: Member variable 'CohesionModel < COHESION_EASO_CAPILLARY_VISCOUS >::ln1overMinSeparationDistanceRatio' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cohesion_model_easo_capillary_viscous.h:92: warning: uninitMemberVar: Member variable 'CohesionModel < COHESION_EASO_CAPILLARY_VISCOUS >::tangentialReduce_' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cohesion_model_sjkr.h:125: style: missingOverride: The function 'endSurfacesIntersect' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cohesion_model_sjkr.h:126: style: missingOverride: The function 'beginPass' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cohesion_model_sjkr.h:127: style: missingOverride: The function 'endPass' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cohesion_model_sjkr.h:129: style: missingOverride: The function 'surfacesClose' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cohesion_model_sjkr.h:63: warning: uninitMemberVar: Member variable 'CohesionModel < COHESION_SJKR >::tangentialReduce_' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cohesion_model_sjkr.h:70: style: missingOverride: The function 'registerSettings' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cohesion_model_sjkr.h:75: style: missingOverride: The function 'postSettings' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cohesion_model_sjkr.h:77: style: missingOverride: The function 'connectToProperties' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/cohesion_model_sjkr.h:87: style: missingOverride: The function 'surfacesIntersect' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:0: information: normalCheckLevelMaxBranches: Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1007: style: constVariablePointer: Variable 'radius' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1008: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1022: style: constVariablePointer: Variable 'radius' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1023: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1038: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1053: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1068: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1083: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1098: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1113: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1128: style: constVariablePointer: Variable 'ellipsoid' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1129: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1145: style: constVariablePointer: Variable 'ellipsoid' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1146: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1162: style: constVariablePointer: Variable 'ellipsoid' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1163: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1180: style: constVariablePointer: Variable 'ellipsoid' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1181: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1200: style: constVariablePointer: Variable 'ellipsoid' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1201: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1220: style: constVariablePointer: Variable 'ellipsoid' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1221: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1240: style: constVariablePointer: Variable 'ellipsoid' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1241: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1259: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1274: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1289: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1304: style: constVariablePointer: Variable 'line' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1306: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1322: style: constVariablePointer: Variable 'line' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1324: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1340: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1355: style: constVariablePointer: Variable 'line' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1357: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1373: style: constVariablePointer: Variable 'line' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1375: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1391: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1405: style: constVariablePointer: Variable 'ivector' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1406: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1420: style: constVariablePointer: Variable 'dvector' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:1421: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:217: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:222: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:227: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:233: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:234: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:240: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:241: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:247: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:248: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:254: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:255: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:277: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:282: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:287: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:292: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:297: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:302: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:343: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:344: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:345: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:346: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:403: style: constVariablePointer: Variable 'tag' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:404: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:418: style: constVariablePointer: Variable 'molecule' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:419: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:433: style: constVariablePointer: Variable 'type' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:434: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:448: style: constVariablePointer: Variable 'vol' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:448: style: unreadVariable: Variable 'vol' is assigned a value that is never used.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:449: style: constVariablePointer: Variable 'rad' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:450: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:473: style: constVariablePointer: Variable 'vol' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:473: style: unreadVariable: Variable 'vol' is assigned a value that is never used.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:474: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:492: style: constVariablePointer: Variable 'type' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:493: style: constVariablePointer: Variable 'mass' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:494: style: constVariablePointer: Variable 'rmass' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:495: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:518: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:533: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:548: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:563: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:581: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:599: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:617: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:620: style: constVariablePointer: Variable 'boxlo' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:621: style: constVariablePointer: Variable 'h_inv' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:62: warning: uninitMemberVar: Member variable 'ComputePropertyAtom::avec_tri' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:62: warning: uninitMemberVar: Member variable 'ComputePropertyAtom::buf' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:637: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:640: style: constVariablePointer: Variable 'boxlo' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:641: style: constVariablePointer: Variable 'h_inv' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:656: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:659: style: constVariablePointer: Variable 'boxlo' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:660: style: constVariablePointer: Variable 'h_inv' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:676: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:695: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:714: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:733: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:736: style: constVariablePointer: Variable 'h' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:756: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:759: style: constVariablePointer: Variable 'h' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:76: warning: noCopyConstructor: Class 'ComputePropertyAtom' does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s).
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:76: warning: noOperatorEq: Class 'ComputePropertyAtom' does not have a operator= which is recommended since it has dynamic memory/resource allocation(s).
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:778: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:781: style: constVariablePointer: Variable 'h' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:78: style: variableScope: The scope of the variable 'i' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:798: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:813: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:828: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:843: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:858: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:873: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:888: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:903: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:918: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:932: style: constVariablePointer: Variable 'q' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:933: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:948: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:963: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:978: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.cpp:993: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.h:62: style: missingOverride: The destructor '~ComputePropertyAtom' overrides a destructor in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.h:63: style: missingOverride: The function 'init' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.h:64: style: missingOverride: The function 'compute_peratom' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.h:65: style: missingOverride: The function 'memory_usage' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.h:71: warning: duplInheritedMember: The class 'ComputePropertyAtom' defines member variable with name 'vector' also defined in its parent class 'Compute'.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/compute_property_atom.h:72: warning: duplInheritedMember: The class 'ComputePropertyAtom' defines member variable with name 'array' also defined in its parent class 'Compute'.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/contact_models.h:115: warning: missingMemberCopy: Member variable 'Factory::cohesion_models' is not assigned in the copy constructor. Should it be copied?
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/contact_models.h:115: warning: missingMemberCopy: Member variable 'Factory::normal_models' is not assigned in the copy constructor. Should it be copied?
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/contact_models.h:115: warning: missingMemberCopy: Member variable 'Factory::rolling_models' is not assigned in the copy constructor. Should it be copied?
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/contact_models.h:115: warning: missingMemberCopy: Member variable 'Factory::surface_models' is not assigned in the copy constructor. Should it be copied?
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/contact_models.h:115: warning: missingMemberCopy: Member variable 'Factory::tangential_models' is not assigned in the copy constructor. Should it be copied?
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/contact_models.h:160: performance: functionStatic: Technically the member function 'LIGGGHTS::ContactModels::ContactModel::hashcode' can be static (but you may consider moving to unnamed namespace).
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/contact_models.h:213: style: missingOverride: The function 'tally_pp' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/contact_models.h:218: style: missingOverride: The function 'tally_pw' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/contact_models.h:255: performance: functionStatic: Technically the member function 'LIGGGHTS::ContactModels::ContactModel::contact_match' can be static (but you may consider moving to unnamed namespace).
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/contact_models.h:255: performance: passedByValue: Function parameter 'model' should be passed by const reference.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/contact_models.h:255: performance: passedByValue: Function parameter 'mtype' should be passed by const reference.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/contact_models.h:369: style: functionConst: Technically the member function 'LIGGGHTS::ContactModels::ContactModel < GranStyle < NORMAL_OFF , TANGENTIAL_OFF , COHESION_OFF , ROLLING_OFF , SURFACE_DEFAULT > >::hashcode' can be const.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/contact_models.h:422: style: missingOverride: The function 'tally_pp' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/contact_models.h:427: style: missingOverride: The function 'tally_pw' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/contact_models.h:464: performance: passedByValue: Function parameter 'model' should be passed by const reference.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/contact_models.h:464: performance: passedByValue: Function parameter 'mtype' should be passed by const reference.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/contact_models.h:464: style: functionConst: Technically the member function 'LIGGGHTS::ContactModels::ContactModel < GranStyle < NORMAL_OFF , TANGENTIAL_OFF , COHESION_OFF , ROLLING_OFF , SURFACE_DEFAULT > >::contact_match' can be const.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:0: information: normalCheckLevelMaxBranches: Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:1011: style: constParameterCallback: Parameter 'mybuf' can be declared as pointer to const. However it seems that 'write_binary' is a callback function, if 'mybuf' is declared with const you might also need to cast function pointer(s).
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:1020: style: constParameterCallback: Parameter 'mybuf' can be declared as pointer to const. However it seems that 'write_string' is a callback function, if 'mybuf' is declared with const you might also need to cast function pointer(s).
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:1027: style: constParameterCallback: Parameter 'mybuf' can be declared as pointer to const. However it seems that 'write_lines' is a callback function, if 'mybuf' is declared with const you might also need to cast function pointer(s).
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:1047: information: checkLevelNormal: Limiting ValueFlow analysis in function 'parse_fields' since it is too complex. Please specify --check-level=exhaustive to perform full analysis.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:1050: style: variableScope: The scope of the variable 'i' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:110: warning: noCopyConstructor: Class 'DumpCustom' does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s).
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:110: warning: noOperatorEq: Class 'DumpCustom' does not have a operator= which is recommended since it has dynamic memory/resource allocation(s).
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:1430: style: constParameterPointer: Parameter 'id' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:1437: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:1455: style: constParameterPointer: Parameter 'id' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:1462: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:1480: style: constParameterPointer: Parameter 'id' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:1487: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:1506: information: checkLevelNormal: Limiting ValueFlow analysis in function 'modify_param' since it is too complex. Please specify --check-level=exhaustive to perform full analysis.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:1815: style: constVariablePointer: Variable 'vector' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:1837: style: constVariablePointer: Variable 'vector' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:1859: style: constVariablePointer: Variable 'vector' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:1875: style: constVariablePointer: Variable 'tag' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:1887: style: constVariablePointer: Variable 'molecule' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:1899: style: constVariablePointer: Variable 'type' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:1911: style: constVariablePointer: Variable 'type' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:1912: style: constVariablePointer: Variable 'mass' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:1913: style: constVariablePointer: Variable 'rmass' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2013: style: variableScope: The scope of the variable 'j' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2016: style: constVariablePointer: Variable 'boxlo' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2017: style: constVariablePointer: Variable 'h_inv' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2031: style: variableScope: The scope of the variable 'j' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2034: style: constVariablePointer: Variable 'boxlo' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2035: style: constVariablePointer: Variable 'h_inv' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2050: style: constVariablePointer: Variable 'boxlo' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2051: style: constVariablePointer: Variable 'h_inv' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2063: style: variableScope: The scope of the variable 'j' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2080: style: variableScope: The scope of the variable 'j' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2097: style: variableScope: The scope of the variable 'j' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2114: style: variableScope: The scope of the variable 'j' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2118: style: constVariablePointer: Variable 'h' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2119: style: variableScope: The scope of the variable 'xbox' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2119: style: variableScope: The scope of the variable 'ybox' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2119: style: variableScope: The scope of the variable 'zbox' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2135: style: variableScope: The scope of the variable 'j' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2139: style: constVariablePointer: Variable 'h' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2140: style: variableScope: The scope of the variable 'ybox' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2140: style: variableScope: The scope of the variable 'zbox' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2155: style: variableScope: The scope of the variable 'j' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2159: style: constVariablePointer: Variable 'h' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2160: style: variableScope: The scope of the variable 'zbox' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2174: style: variableScope: The scope of the variable 'j' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2192: style: variableScope: The scope of the variable 'j' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2210: style: variableScope: The scope of the variable 'j' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2228: style: variableScope: The scope of the variable 'j' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2232: style: constVariablePointer: Variable 'boxlo' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2233: style: constVariablePointer: Variable 'h_inv' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2247: style: variableScope: The scope of the variable 'j' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2251: style: constVariablePointer: Variable 'boxlo' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2252: style: constVariablePointer: Variable 'h_inv' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2266: style: variableScope: The scope of the variable 'j' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2270: style: constVariablePointer: Variable 'boxlo' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2271: style: constVariablePointer: Variable 'h_inv' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:237: style: constVariablePointer: Variable 'str' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2392: style: constVariablePointer: Variable 'q' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2404: style: constVariablePointer: Variable 'density' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2417: style: constVariablePointer: Variable 'p' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2429: style: constVariablePointer: Variable 'rho' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2489: style: constVariablePointer: Variable 'radius' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2501: style: constVariablePointer: Variable 'radius' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:257: style: constVariablePointer: Variable 'ptr' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2621: style: constVariablePointer: Variable 'spin' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2633: style: constVariablePointer: Variable 'eradius' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:263: warning: nullPointerRedundantCheck: Either the condition 'ptr==NULL' is redundant or there is possible null pointer dereference: ptr.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2645: style: constVariablePointer: Variable 'ervel' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:264: warning: nullPointerRedundantCheck: Either the condition 'ptr==NULL' is redundant or there is possible null pointer dereference: ptr.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:2657: style: constVariablePointer: Variable 'erforce' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:290: style: variableScope: The scope of the variable 'icompute' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:297: style: variableScope: The scope of the variable 'ifix' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:306: style: variableScope: The scope of the variable 'ivariable' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:413: information: checkLevelNormal: Limiting ValueFlow analysis in function 'count' since it is too complex. Please specify --check-level=exhaustive to perform full analysis.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:458: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:478: style: variableScope: The scope of the variable 'value' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:480: style: shadowVariable: Local variable 'nlocal' shadows outer variable
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:487: style: constVariablePointer: Variable 'tag' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:495: style: constVariablePointer: Variable 'molecule' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:500: style: constVariablePointer: Variable 'type' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:505: style: constVariablePointer: Variable 'type' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:514: style: constVariablePointer: Variable 'mass' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:515: style: constVariablePointer: Variable 'type' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:558: style: constVariablePointer: Variable 'boxlo' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:559: style: constVariablePointer: Variable 'h_inv' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:567: style: constVariablePointer: Variable 'boxlo' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:568: style: constVariablePointer: Variable 'h_inv' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:576: style: constVariablePointer: Variable 'boxlo' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:577: style: constVariablePointer: Variable 'h_inv' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:612: style: constVariablePointer: Variable 'h' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:613: style: variableScope: The scope of the variable 'xbox' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:613: style: variableScope: The scope of the variable 'ybox' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:613: style: variableScope: The scope of the variable 'zbox' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:625: style: constVariablePointer: Variable 'h' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:626: style: variableScope: The scope of the variable 'ybox' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:626: style: variableScope: The scope of the variable 'zbox' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:637: style: constVariablePointer: Variable 'h' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:638: style: variableScope: The scope of the variable 'zbox' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:683: style: constVariablePointer: Variable 'boxlo' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:684: style: constVariablePointer: Variable 'h_inv' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:695: style: constVariablePointer: Variable 'boxlo' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:696: style: constVariablePointer: Variable 'h_inv' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:706: style: constVariablePointer: Variable 'boxlo' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:707: style: constVariablePointer: Variable 'h_inv' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:808: style: constVariablePointer: Variable 'radius' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:871: style: constVariablePointer: Variable 'spin' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:963: style: constVariablePointer: Variable 'tag' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:97: warning: uninitMemberVar: Member variable 'DumpCustom::convert_choice' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:97: warning: uninitMemberVar: Member variable 'DumpCustom::header_choice' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:97: warning: uninitMemberVar: Member variable 'DumpCustom::nchoose' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.cpp:97: warning: uninitMemberVar: Member variable 'DumpCustom::write_choice' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.h:116: style: missingOverride: The function 'init_style' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.h:117: style: missingOverride: The function 'write_header' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.h:118: style: missingOverride: The function 'count' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.h:119: style: missingOverride: The function 'pack' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.h:120: style: missingOverride: The function 'convert_string' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.h:121: style: missingOverride: The function 'write_data' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.h:122: style: missingOverride: The function 'memory_usage' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.h:128: style: missingOverride: The function 'modify_param' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/dump_custom.h:68: style: missingOverride: The destructor '~DumpCustom' overrides a destructor in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:0: information: normalCheckLevelMaxBranches: Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:147: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:292: style: constVariableReference: Variable 'triangle' can be declared as reference to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:305: style: constParameterPointer: Parameter 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:364: style: variableScope: The scope of the variable 'ixMax' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:364: style: variableScope: The scope of the variable 'ixMin' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:364: style: variableScope: The scope of the variable 'iyMax' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:364: style: variableScope: The scope of the variable 'iyMin' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:364: style: variableScope: The scope of the variable 'izMax' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:364: style: variableScope: The scope of the variable 'izMin' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:370: style: variableScope: The scope of the variable 'shape' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.cpp:411: style: constParameterReference: Parameter 'b' can be declared as reference to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:100: style: missingOverride: The function 'post_run' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:113: style: functionConst: Technically the member function 'LAMMPS_NS::FixNeighlistMesh::getTotalNumContacts' can be const.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:78: warning: uninitMemberVar: Member variable 'TriangleNeighlist::boundary' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:87: style: missingOverride: The destructor '~FixNeighlistMesh' overrides a destructor in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:88: style: missingOverride: The function 'setmask' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:89: style: missingOverride: The function 'post_create' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:90: style: missingOverride: The function 'pre_delete' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:93: style: missingOverride: The function 'setup_pre_force' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:94: style: missingOverride: The function 'min_setup_pre_force' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:96: style: missingOverride: The function 'pre_neighbor' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:97: style: missingOverride: The function 'pre_force' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_neighlist_mesh.h:98: style: missingOverride: The function 'min_pre_force' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:0: information: normalCheckLevelMaxBranches: Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:101: style: constParameterPointer: Parameter 'inertia' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:101: style: constParameterPointer: Parameter 'tbody' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:101: style: constParameterPointer: Parameter 'wbody' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:142: style: constParameterPointer: Parameter 'wbody' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:159: style: constParameterPointer: Parameter 'omegaNew' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:159: style: constParameterPointer: Parameter 'omegaOld' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:159: style: constParameterPointer: Parameter 'rotation_matrix' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:175: style: constParameterPointer: Parameter 'inertia' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:176: style: constParameterPointer: Parameter 'KslRot' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:176: style: constParameterPointer: Parameter 'torque' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:184: style: variableScope: The scope of the variable 'dtfm' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:184: style: variableScope: The scope of the variable 'KslMDeltaT' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:185: style: variableScope: The scope of the variable 'omegaAngMomTerm' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:244: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:255: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:256: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:257: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:326: style: constVariablePointer: Variable 'rmass' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:330: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:339: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:340: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:341: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:456: style: unreadVariable: Variable 'omega_half[2]' is assigned a value that is never used.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:529: style: constVariablePointer: Variable 'rmass' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:533: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:547: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:548: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.cpp:549: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.h:56: style: missingOverride: The destructor '~FixNVEAsphereBase' overrides a destructor in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.h:57: style: missingOverride: The function 'init' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.h:57: style: uselessOverride: The function 'init' overrides a function in a base class but just delegates back to the base class.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.h:58: style: missingOverride: The function 'initial_integrate' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.h:59: style: missingOverride: The function 'final_integrate' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.h:60: performance: functionStatic: Technically the member function 'LAMMPS_NS::FixNVEAsphereBase::dynamic_euler' can be static (but you may consider moving to unnamed namespace).
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.h:62: performance: functionStatic: Technically the member function 'LAMMPS_NS::FixNVEAsphereBase::integrate_quaternion' can be static (but you may consider moving to unnamed namespace).
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve_asphere_base.h:65: performance: functionStatic: Technically the member function 'LAMMPS_NS::FixNVEAsphereBase::implicitRotationUpdate' can be static (but you may consider moving to unnamed namespace).
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.cpp:105: style: constVariablePointer: Variable 'rmass' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.cpp:106: style: constVariablePointer: Variable 'mass' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.cpp:106: style: variableScope: The scope of the variable 'mass' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.cpp:107: style: constVariablePointer: Variable 'type' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.cpp:107: style: variableScope: The scope of the variable 'type' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.cpp:108: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.cpp:148: style: constVariablePointer: Variable 'rmass' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.cpp:149: style: constVariablePointer: Variable 'mass' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.cpp:149: style: variableScope: The scope of the variable 'mass' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.cpp:150: style: constVariablePointer: Variable 'type' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.cpp:150: style: variableScope: The scope of the variable 'type' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.cpp:151: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.cpp:60: warning: uninitMemberVar: Member variable 'FixNVE::dtf' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.cpp:60: warning: uninitMemberVar: Member variable 'FixNVE::dtv' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.cpp:60: warning: uninitMemberVar: Member variable 'FixNVE::mass_require' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.cpp:60: warning: uninitMemberVar: Member variable 'FixNVE::step_respa' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.cpp:89: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.h:62: style: missingOverride: The destructor '~FixNVE' overrides a destructor in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.h:63: style: missingOverride: The function 'setmask' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.h:64: style: missingOverride: The function 'init' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.h:65: style: missingOverride: The function 'initial_integrate' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.h:66: style: missingOverride: The function 'final_integrate' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.h:67: style: missingOverride: The function 'initial_integrate_respa' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.h:68: style: missingOverride: The function 'final_integrate_respa' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_nve.h:69: style: missingOverride: The function 'reset_dt' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.cpp:0: information: normalCheckLevelMaxBranches: Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.cpp:111: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.cpp:112: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.cpp:141: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.cpp:148: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.cpp:149: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.cpp:210: style: variableScope: The scope of the variable 'errmsg' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.cpp:232: style: redundantCondition: Redundant condition: data_style==FIXPROPERTY_GLOBAL_MATRIX. 'A || (!A && B)' is equivalent to 'A || B'
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.cpp:283: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.cpp:287: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.cpp:396: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: file
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.cpp:404: warning: nullPointerOutOfResources: If resource allocation fails, then there is a possible null pointer dereference: file
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.cpp:80: warning: noCopyConstructor: Class 'FixPropertyGlobal' does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s).
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.cpp:80: warning: noOperatorEq: Class 'FixPropertyGlobal' does not have a operator= which is recommended since it has dynamic memory/resource allocation(s).
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:74: style: missingOverride: The destructor '~FixPropertyGlobal' overrides a destructor in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:75: style: missingOverride: The function 'setmask' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:76: style: missingOverride: The function 'init' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:77: style: missingOverride: The function 'pre_delete' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:81: style: missingOverride: The function 'memory_usage' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:82: style: missingOverride: The function 'compute_scalar' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:83: style: missingOverride: The function 'compute_vector' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:85: style: missingOverride: The function 'compute_array' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:90: style: missingOverride: The function 'modify_param' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:94: style: functionConst: Technically the member function 'LAMMPS_NS::FixPropertyGlobal::get_values' can be const.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:95: style: functionConst: Technically the member function 'LAMMPS_NS::FixPropertyGlobal::get_values_modified' can be const.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:96: style: functionConst: Technically the member function 'LAMMPS_NS::FixPropertyGlobal::get_array' can be const.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_property_global.h:97: style: functionConst: Technically the member function 'LAMMPS_NS::FixPropertyGlobal::get_array_modified' can be const.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:0: information: normalCheckLevelMaxBranches: Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:1026: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:1030: style: constVariablePointer: Variable 'radius' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:1241: style: constParameterPointer: Parameter 'ptr' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:1339: style: funcArgNamesDifferent: Function 'addHeatFlux' argument 2 names different: declaration 'i' definition 'ip'.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:1339: style: funcArgNamesDifferent: Function 'addHeatFlux' argument 4 names different: declaration 'rsq' definition 'delta_n'.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:1343: style: variableScope: The scope of the variable 'r' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:1356: style: constVariablePointer: Variable 'Temp_p' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:192: style: knownConditionTrueFalse: Condition 'meshwall_==1' is always false
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:295: warning: noCopyConstructor: Class 'FixWallGran' does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s).
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:295: warning: noOperatorEq: Class 'FixWallGran' does not have a operator= which is recommended since it has dynamic memory/resource allocation(s).
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:614: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:631: style: constVariablePointer: Variable 'fwg' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:691: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:693: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:852: style: constVariablePointer: Variable 'radius' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.cpp:880: style: constVariablePointer: Variable 'meshNeighlist' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:103: style: missingOverride: The function 'add_history_value' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:106: performance: passedByValue: Function parameter 'hname' should be passed by const reference.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:109: performance: passedByValue: Function parameter 'model' should be passed by const reference.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:109: performance: passedByValue: Function parameter 'mtype' should be passed by const reference.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:167: style: variableScope: The scope of the variable 'forces_torques_i' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:182: style: variableScope: The scope of the variable 'forces_delta_i' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:254: style: missingOverride: The function 'pre_neighbor' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:257: style: missingOverride: The function 'pre_force' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:71: style: missingOverride: The destructor '~FixWallGran' overrides a destructor in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:75: style: missingOverride: The function 'setmask' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:76: style: missingOverride: The function 'post_create' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:77: style: missingOverride: The function 'pre_delete' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:78: style: missingOverride: The function 'init' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:79: style: missingOverride: The function 'setup' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:80: style: missingOverride: The function 'post_force' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:82: style: missingOverride: The function 'post_force_respa' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:84: style: missingOverride: The function 'min_type' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/fix_wall_gran.h:85: style: missingOverride: The function 'max_type' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/global_properties.cpp:0: information: normalCheckLevelMaxBranches: Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/global_properties.cpp:231: style: variableScope: The scope of the variable 'charVel' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/global_properties.cpp:421: style: constVariablePointer: Variable 'Y' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/global_properties.cpp:422: style: constVariablePointer: Variable 'v' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/global_properties.cpp:451: style: constVariablePointer: Variable 'Y' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/global_properties.cpp:452: style: constVariablePointer: Variable 'v' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/global_properties.cpp:660: style: variableScope: The scope of the variable 'rollStiffness' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:0: information: normalCheckLevelMaxBranches: Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:1220: style: constParameterPointer: Parameter 'rq' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:1388: style: variableScope: The scope of the variable 'delr' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:1388: style: variableScope: The scope of the variable 'delrsq' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:1388: style: variableScope: The scope of the variable 'delta1' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:1388: style: variableScope: The scope of the variable 'delta2' can be reduced.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:1422: style: constVariablePointer: Variable 'radius' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:1481: style: constVariablePointer: Variable 'radius' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:1653: style: constVariablePointer: Variable 'cutghost' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:2037: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:2077: style: constParameterPointer: Parameter 'x' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:2112: style: constParameterPointer: Parameter 'x' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:2162: style: constParameterPointer: Parameter 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:2162: style: constParameterPointer: Parameter 'molecule' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:2242: style: constVariablePointer: Variable 'ilist' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:2243: style: constVariablePointer: Variable 'numneigh' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:257: information: checkLevelNormal: Limiting ValueFlow analysis in function 'init' since it is too complex. Please specify --check-level=exhaustive to perform full analysis.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:395: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:396: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:400: style: constVariablePointer: Variable 'cut_respa' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:400: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:559: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:562: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:565: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:770: style: constVariablePointer: Variable 'ptr' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:794: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:797: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:800: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:945: style: cstyleCast: C-style pointer casting
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.cpp:973: information: checkLevelNormal: Limiting ValueFlow analysis in function 'choose_build' since it is too complex. Please specify --check-level=exhaustive to perform full analysis.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:118: style: noExplicitConstructor: Class 'Neighbor' has a constructor with 1 argument that is not explicit.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:119: style: missingOverride: The destructor '~Neighbor' overrides a destructor in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:133: style: functionConst: Technically the member function 'LAMMPS_NS::Neighbor::exclude_setting' can be const.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:134: style: functionConst: Technically the member function 'LAMMPS_NS::Neighbor::neigh_once' can be const.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:135: style: functionConst: Technically the member function 'LAMMPS_NS::Neighbor::n_neighs' can be const.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:136: style: functionConst: Technically the member function 'LAMMPS_NS::Neighbor::n_blist' can be const.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:232: style: functionConst: Technically the member function 'LAMMPS_NS::Neighbor::bin_distance' can be const.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:233: style: functionConst: Technically the member function 'LAMMPS_NS::Neighbor::bin_largest_distance' can be const.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:234: style: functionConst: Technically the member function 'LAMMPS_NS::Neighbor::coord2bin' can be const.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:235: style: functionConst: Technically the member function 'LAMMPS_NS::Neighbor::coord2bin' can be const.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/neighbor.h:236: style: functionConst: Technically the member function 'LAMMPS_NS::Neighbor::bin_center' can be const.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/normal_model_luding.h:104: style: missingOverride: The function 'stressStrainExponent' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/normal_model_luding.h:109: style: missingOverride: The function 'surfacesIntersect' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/normal_model_luding.h:254: style: missingOverride: The function 'surfacesClose' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/normal_model_luding.h:261: style: missingOverride: The function 'beginPass' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/normal_model_luding.h:262: style: missingOverride: The function 'endPass' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/normal_model_luding.h:59: warning: uninitMemberVar: Member variable 'NormalModel < LUDING >::tangential_damping' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/normal_model_luding.h:76: style: missingOverride: The function 'registerSettings' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/normal_model_luding.h:80: style: missingOverride: The function 'postSettings' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/normal_model_luding.h:82: style: missingOverride: The function 'connectToProperties' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_gran_proxy.cpp:0: information: normalCheckLevelMaxBranches: Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_gran_proxy.cpp:116: warning: invalidPrintfArgType_sint: %zd in format string (no. 1) requires 'ssize_t' but the argument type is 'signed long'.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_gran_proxy.cpp:141: performance: passedByValue: Function parameter 'hname' should be passed by const reference.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_gran_proxy.cpp:150: performance: passedByValue: Function parameter 'model' should be passed by const reference.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_gran_proxy.cpp:150: performance: passedByValue: Function parameter 'mtype' should be passed by const reference.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_gran_proxy.h:67: style: noExplicitConstructor: Class 'PairGranProxy' has a constructor with 1 argument that is not explicit.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_gran_proxy.h:68: style: missingOverride: The destructor '~PairGranProxy' overrides a destructor in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_gran_proxy.h:70: style: missingOverride: The function 'settings' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_gran_proxy.h:71: style: missingOverride: The function 'init_granular' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_gran_proxy.h:72: style: missingOverride: The function 'write_restart_settings' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_gran_proxy.h:73: style: missingOverride: The function 'read_restart_settings' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_gran_proxy.h:74: style: missingOverride: The function 'compute_force' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_gran_proxy.h:77: style: missingOverride: The function 'stressStrainExponent' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_gran_proxy.h:78: style: missingOverride: The function 'contact_match' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/pair_gran_proxy.h:80: style: missingOverride: The function 'hashcode' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_cdt.h:169: style: missingOverride: The function 'beginPass' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_cdt.h:170: style: missingOverride: The function 'endPass' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_cdt.h:171: style: missingOverride: The function 'surfacesClose' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_cdt.h:65: warning: uninitMemberVar: Member variable 'RollingModel < ROLLING_CDT >::torsion_torque' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_cdt.h:71: style: missingOverride: The function 'registerSettings' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_cdt.h:76: style: missingOverride: The function 'postSettings' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_cdt.h:79: style: missingOverride: The function 'connectToProperties' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_cdt.h:89: style: missingOverride: The function 'surfacesIntersect' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_epsd.h:229: style: missingOverride: The function 'surfacesClose' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_epsd.h:238: style: missingOverride: The function 'beginPass' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_epsd.h:239: style: missingOverride: The function 'endPass' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_epsd.h:247: style: functionConst: Technically the member function 'LIGGGHTS::ContactModels::RollingModel < ROLLING_EPSD >::calcRollTorque' can be const.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_epsd.h:68: warning: uninitMemberVar: Member variable 'RollingModel < ROLLING_EPSD >::torsion_torque' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_epsd.h:77: style: missingOverride: The function 'registerSettings' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_epsd.h:82: style: missingOverride: The function 'postSettings' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_epsd.h:85: style: missingOverride: The function 'connectToProperties' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_epsd.h:96: style: missingOverride: The function 'surfacesIntersect' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_luding.h:227: style: shadowVariable: Local variable 'i' shadows outer variable
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_luding.h:228: style: shadowVariable: Local variable 'j' shadows outer variable
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_luding.h:229: style: shadowVariable: Local variable 'omega' shadows outer variable
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_luding.h:261: style: missingOverride: The function 'surfacesClose' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_luding.h:274: style: missingOverride: The function 'beginPass' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_luding.h:275: style: missingOverride: The function 'endPass' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_luding.h:286: style: functionConst: Technically the member function 'LIGGGHTS::ContactModels::RollingModel < ROLLING_LUDING >::calcRollTorque' can be const.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_luding.h:350: style: functionConst: Technically the member function 'LIGGGHTS::ContactModels::RollingModel < ROLLING_LUDING >::calcTorTorque' can be const.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_luding.h:74: style: missingOverride: The function 'registerSettings' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_luding.h:78: style: missingOverride: The function 'postSettings' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_luding.h:80: style: missingOverride: The function 'connectToProperties' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/rolling_model_luding.h:94: style: missingOverride: The function 'surfacesIntersect' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/tangential_model_history.h:108: style: missingOverride: The function 'registerSettings' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/tangential_model_history.h:117: style: missingOverride: The function 'connectToProperties' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/tangential_model_history.h:130: style: missingOverride: The function 'surfacesIntersect' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/tangential_model_history.h:358: style: missingOverride: The function 'surfacesClose' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/tangential_model_history.h:371: style: missingOverride: The function 'beginPass' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/tangential_model_history.h:372: style: missingOverride: The function 'endPass' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/tangential_model_history.h:84: style: missingOverride: The function 'postSettings' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/tangential_model_no_history.h:107: style: missingOverride: The function 'connectToProperties' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/tangential_model_no_history.h:112: style: missingOverride: The function 'surfacesIntersect' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/tangential_model_no_history.h:241: style: missingOverride: The function 'beginPass' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/tangential_model_no_history.h:242: style: missingOverride: The function 'endPass' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/tangential_model_no_history.h:244: style: missingOverride: The function 'surfacesClose' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/tangential_model_no_history.h:77: style: missingOverride: The function 'registerSettings' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/tangential_model_no_history.h:83: style: missingOverride: The function 'postSettings' overrides a function in a base class but is not marked with a 'override' specifier.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/utils.h:106: warning: missingMemberCopy: Member variable 'AbstractFactory < IGranularPairStyle >::styleTable' is not assigned in the copy constructor. Should it be copied?
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/utils.h:106: warning: missingMemberCopy: Member variable 'AbstractFactory < IGranularPairStyle >::variantSelectorTable' is not assigned in the copy constructor. Should it be copied?
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/utils.h:106: warning: missingMemberCopy: Member variable 'AbstractFactory < IGranularWall >::styleTable' is not assigned in the copy constructor. Should it be copied?
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/utils.h:106: warning: missingMemberCopy: Member variable 'AbstractFactory < IGranularWall >::variantSelectorTable' is not assigned in the copy constructor. Should it be copied?
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/utils.h:107: error: missingReturn: Found an exit path from function with non-void return type that has missing return statement
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/utils.h:107: error: operatorEqMissingReturnStatement: No 'return' statement in non-void function causes undefined behavior.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/utils.h:107: warning: operatorEqVarError: Member variable 'AbstractFactory < IGranularPairStyle >::styleTable' is not assigned a value in 'AbstractFactory < IGranularPairStyle >::operator='.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/utils.h:107: warning: operatorEqVarError: Member variable 'AbstractFactory < IGranularPairStyle >::variantSelectorTable' is not assigned a value in 'AbstractFactory < IGranularPairStyle >::operator='.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/utils.h:107: warning: operatorEqVarError: Member variable 'AbstractFactory < IGranularWall >::styleTable' is not assigned a value in 'AbstractFactory < IGranularWall >::operator='.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/utils.h:107: warning: operatorEqVarError: Member variable 'AbstractFactory < IGranularWall >::variantSelectorTable' is not assigned a value in 'AbstractFactory < IGranularWall >::operator='.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/velocity.cpp:0: information: normalCheckLevelMaxBranches: Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/velocity.cpp:269: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/velocity.cpp:436: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/velocity.cpp:556: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/velocity.cpp:634: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/velocity.cpp:658: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/velocity.cpp:698: style: constVariablePointer: Variable 'mask' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/velocity.cpp:699: style: constVariablePointer: Variable 'image' can be declared as pointer to const
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/velocity.cpp:88: warning: uninitMemberVar: Member variable 'Velocity::dist_flag' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/velocity.cpp:88: warning: uninitMemberVar: Member variable 'Velocity::fix_ms_' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/velocity.cpp:88: warning: uninitMemberVar: Member variable 'Velocity::groupbit' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/velocity.cpp:88: warning: uninitMemberVar: Member variable 'Velocity::igroup' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/velocity.cpp:88: warning: uninitMemberVar: Member variable 'Velocity::loop_flag' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/velocity.cpp:88: warning: uninitMemberVar: Member variable 'Velocity::momentum_flag' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/velocity.cpp:88: warning: uninitMemberVar: Member variable 'Velocity::rfix' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/velocity.cpp:88: warning: uninitMemberVar: Member variable 'Velocity::rotation_flag' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/velocity.cpp:88: warning: uninitMemberVar: Member variable 'Velocity::scale_flag' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/velocity.cpp:88: warning: uninitMemberVar: Member variable 'Velocity::style' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/velocity.cpp:88: warning: uninitMemberVar: Member variable 'Velocity::sum_flag' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/velocity.cpp:88: warning: uninitMemberVar: Member variable 'Velocity::xscale' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/velocity.cpp:88: warning: uninitMemberVar: Member variable 'Velocity::yscale' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/velocity.cpp:88: warning: uninitMemberVar: Member variable 'Velocity::zscale' is not initialized in the constructor.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/velocity.h:67: style: noExplicitConstructor: Class 'Velocity' has a constructor with 1 argument that is not explicit.
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src/src/velocity.h:86: style: functionConst: Technically the member function 'LAMMPS_NS::Velocity::zero_rotation_individual' can be const.

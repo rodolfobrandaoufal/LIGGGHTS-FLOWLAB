@@ -1,0 +1,23 @@
+chute_wear_hpc__in.chute_wear_hpc,FAILED,1,.507112048,ERROR: Expected floating point parameter in input script or data file (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src_cmdef/fix_property_global.cpp:
+chute_wear__in.chute_wear,FAILED,1,.533461683,ERROR: Invalid dump style (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src_cmdef/output.cpp:634)
+cohesion__in.cohesion,COMPLETED,0,.464067182,
+cohesion__in.noCohesion,COMPLETED,0,.460993283,
+contactModels__in.newModels,COMPLETED,0,.465869408,
+contactModels__in.oldModels,FAILED,1,.510898705,ERROR: Invalid pair style (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src_cmdef/force.cpp:247)
+conveyor__in.conveyor,COMPLETED,0,.503797708,
+heatTransfer_1__in.heatGran,COMPLETED,0,.473274808,
+heatTransfer_2__in.heatGran,COMPLETED,0,.470441373,
+hydrogel_multicontact__in.hydrogel_default,COMPLETED,0,.454527311,
+hydrogel_multicontact__in.hydrogel_multicontact,COMPLETED,0,.696101930,
+hysteresis__in.hysteresis,COMPLETED,0,.486473055,
+hysteresis__in.noHysteresis,COMPLETED,0,.479388959,
+insert_stream__in.insert_stream,COMPLETED,0,.461597159,
+insert_stream__in.insert_stream_reset_timestep,FAILED,1,.421740736,
+meshGran__in.meshGran,COMPLETED,0,.448090261,
+mesh_tet__in.mesh_tet,COMPLETED,0,.805514289,
+movingMeshGran__in.movingMeshGran,COMPLETED,0,.513473695,
+multisphere_stone_restitution__in.multisphere,COMPLETED,0,.818097951,
+packing__in.packing,COMPLETED,0,.464521255,
+sph_1__in.sph_1,COMPLETED,0,.475660602,
+sph_2__in.sph_2,COMPLETED,0,.504637566,
+superquadric__in.particle_particle,FAILED,1,.470784648,ERROR: Invalid atom style (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/baseline_src_cmdef/atom.cpp:459)

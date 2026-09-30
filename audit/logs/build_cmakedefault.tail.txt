@@ -1,0 +1,31 @@
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix_property_global.h:53,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/property_registry.h:51,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/force.h:56,
+                 from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/write_restart.cpp:61:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix.h: In member function ‘virtual void LAMMPS_NS::Fix::reset_timestep(LAMMPS_NS::bigint, LAMMPS_NS::bigint)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix.h:224:53: warning: unused parameter ‘oldstep’ [-Wunused-parameter]
+  224 |   virtual void reset_timestep(bigint newstep,bigint oldstep)
+      |                                              ~~~~~~~^~~~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix.h: In member function ‘virtual double* LAMMPS_NS::Fix::getCreateMeshTriNode(int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/fix.h:261:51: warning: unused parameter ‘i’ [-Wunused-parameter]
+  261 |   virtual double * getCreateMeshTriNode(const int i)
+      |                                         ~~~~~~~~~~^
+In file included from /media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/write_restart.cpp:62:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair.h: In member function ‘virtual void LAMMPS_NS::Pair::read_restart(FILE*, int, int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair.h:186:47: warning: unused parameter ‘major’ [-Wunused-parameter]
+  186 |   virtual void read_restart(FILE *, const int major, const int minor) {}
+      |                                     ~~~~~~~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair.h:186:64: warning: unused parameter ‘minor’ [-Wunused-parameter]
+  186 |   virtual void read_restart(FILE *, const int major, const int minor) {}
+      |                                                      ~~~~~~~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair.h: In member function ‘virtual void LAMMPS_NS::Pair::read_restart_settings(FILE*, int, int)’:
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair.h:188:56: warning: unused parameter ‘major’ [-Wunused-parameter]
+  188 |   virtual void read_restart_settings(FILE *, const int major, const int minor) {}
+      |                                              ~~~~~~~~~~^~~~~
+/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/src_modified_cmdef/pair.h:188:73: warning: unused parameter ‘minor’ [-Wunused-parameter]
+  188 |   virtual void read_restart_settings(FILE *, const int major, const int minor) {}
+      |                                                               ~~~~~~~~~~^~~~~
+[100%] Built target liggghts_obj
+[100%] Linking CXX executable liggghts
+[100%] Built target liggghts_bin
+warning_lines=3492

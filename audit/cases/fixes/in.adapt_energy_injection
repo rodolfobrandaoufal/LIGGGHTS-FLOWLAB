@@ -1,0 +1,30 @@
+# F-VV-4: energy injected by radius growth of touching particles (no gravity, no initial velocity).
+# 2 spheres touching (gap 0), radius grows 1 % over 1000 steps then stays constant.
+# Measure KE after growth; compare with elastic energy of the created overlap (8/15 E* sqrt(R*) delta^2.5).
+atom_style    granular
+atom_modify   map array
+boundary      f f f
+newton        off
+communicate   single vel yes
+units         si
+region        reg block -0.01 0.01 -0.01 0.01 -0.01 0.01 units box
+create_box    1 reg
+neighbor      0.0005 bin
+neigh_modify  delay 0
+fix  m1 all property/global youngsModulus peratomtype 1e7
+fix  m2 all property/global poissonsRatio peratomtype 0.3
+fix  m3 all property/global coefficientRestitution peratomtypepair 1 0.99
+fix  m4 all property/global coefficientFriction peratomtypepair 1 0.5
+pair_style gran model hertz tangential history
+pair_coeff * *
+timestep 1e-7
+create_atoms 1 single -0.001 0.0 0.0
+create_atoms 1 single  0.001 0.0 0.0
+set group all diameter 0.002 density 2500
+variable r equal "0.001*(1.0 + 0.01*((step<1000)*step/1000 + (step>=1000)))"
+fix integr all nve/sphere
+fix grow all adapt/liggghts 1 radius v_r
+variable m equal mass[1]
+thermo_style custom step v_r v_m ke
+thermo 500
+run 20000
