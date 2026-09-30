@@ -170,6 +170,20 @@ ELSE()
 ENDIF()
 
 #---------------------------------------------------------------------------
+# Phase B physics options (roadmap B1-B4, B6, B7). Each suite verifies its opt-in
+# model against a stated reference; with a reference binary it also checks that
+# the default input is bitwise unchanged.
+FOREACH(suite tangential adhesion easo_dt normal wear)
+  IF(EXISTS "${LIGGGHTS_TESTS_DIR}/${suite}/run_all.sh")
+    LIGGGHTS_TEST(${suite}_suite LABELS physics mpi TIMEOUT 1500 PROCESSORS 2
+      ENV "TMPDIR=${LIGGGHTS_TEST_WORK}"
+      COMMAND ${LIGGGHTS_BASH} ${LIGGGHTS_TESTS_DIR}/${suite}/run_all.sh ${BIN} ${REF_BIN})
+  ELSE()
+    LIGGGHTS_SKIPPED_TEST(${suite}_suite "tests/${suite}/run_all.sh not present" physics mpi)
+  ENDIF()
+ENDFOREACH()
+
+#---------------------------------------------------------------------------
 # whitelist entry LUDING/TANGENTIAL_HISTORY/ROLLING_LUDING runs on the static path
 LIGGGHTS_TEST(whitelist_luding_rolling_luding LABELS unit regression TIMEOUT 120
   COMMAND ${BIN} -in ${LIGGGHTS_TESTS_DIR}/build/in.luding_rolling_luding -log none)

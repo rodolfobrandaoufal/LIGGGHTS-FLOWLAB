@@ -17,7 +17,9 @@ cohesion commands :h4
 
 Click on the style itself for a full description:
 
+"dmt"_gran_cohesion_dmt.html,
 "easo/capillary/viscous"_gran_cohesion_easo_capillary_viscous.html,
+"jkr"_gran_cohesion_jkr.html,
 "sjkr"_gran_cohesion_sjkr.html,
 "sjkr2"_gran_cohesion_sjkr2.html,
 "washino/capillary/viscous"_gran_cohesion_washino_capillary_viscous.html :tb(c=4,ea=c)
@@ -29,7 +31,8 @@ Click on the style itself for a full description:
 "hertz"_gran_model_hertz.html,
 "hertz/stiffness"_gran_model_hertz_stiffness.html,
 "hooke"_gran_model_hooke.html,
-"hooke/stiffness"_gran_model_hooke_stiffness.html :tb(c=4,ea=c)
+"hooke/stiffness"_gran_model_hooke_stiffness.html,
+"luding"_gran_model_luding.html :tb(c=4,ea=c)
 
 rolling_friction commands :h4
 
