@@ -1,0 +1,32 @@
+# Absolute per-step cost of a v_ property update + registry refresh (props, A2).
+# Two overlapping spheres, hertz/history + wall; mode: lit | const | changing
+atom_style    granular
+atom_modify   map array
+boundary      f f f
+newton        off
+communicate   single vel yes
+units         si
+region        domain block -0.01 0.01 -0.01 0.01 -0.01 0.01 units box
+create_box    2 domain
+neighbor      0.0005 bin
+neigh_modify  delay 0
+timestep      1e-6
+variable      lit   equal 0.5
+variable      const equal 0.5
+variable      changing equal 0.5+1e-12*step
+fix  m1 all property/global youngsModulus peratomtype 1.e7 1.e7
+fix  m2 all property/global poissonsRatio peratomtype 0.3 0.3
+fix  m3 all property/global coefficientRestitution peratomtypepair 2 0.5 0.5 0.5 0.5
+variable mu equal v_${mode}
+# @M4@ is replaced by run_refresh_cost.sh (literal values or v_mu ... every 1)
+@M4@
+pair_style  gran model hertz tangential history
+pair_coeff  * *
+fix zw all wall/gran model hertz tangential history primitive type 1 zplane -0.005
+create_atoms  1 single -0.00099 0 0 units box
+create_atoms  1 single  0.00099 0 0 units box
+set atom * diameter 0.002 density 2500
+set atom 1 vy  0.5
+set atom 2 vy -0.5
+thermo 100000
+run ${n}

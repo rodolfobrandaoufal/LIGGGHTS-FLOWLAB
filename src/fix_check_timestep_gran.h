@@ -75,6 +75,8 @@ class FixCheckTimestepGran : public Fix {
   double r_min;
   bool warnflag,errorflag;
   double ** Yeff;
+  double * Ytype;   // registry youngsModulus, indexed by type (1..ntypes)
+  double * nutype;  // registry poissonsRatio, indexed by type (1..ntypes)
 };
 
 }

@@ -52,6 +52,7 @@
 #include <map>
 #include <set>
 #include <string>
+#include <vector>
 #include "properties.h"
 #include "error.h"
 #include "modify.h"
@@ -197,9 +198,48 @@ public:
 
   void init();
 
+  // Re-run, in place, the creators of all properties that (directly or via a
+  // derived property) depend on a fix property/global whose version() changed
+  // since the property was built. Pointers held by contact models stay valid.
+  // Called by FixPropertyGlobal when a v_-driven value changed (C-01/F-01).
+  void refresh();
+
+  // number of in-place refreshes of individual properties (diagnostics)
+  unsigned long n_refreshed() const { return n_refreshed_; }
+
   void print_all(FILE* out);
 
 private:
+  enum { KIND_SCALAR = 0, KIND_VECTOR = 1, KIND_MATRIX = 2 };
+
+  struct Dependency {
+    FixPropertyGlobal *fix;
+    unsigned long version;
+  };
+
+  struct Entry {
+    int kind;
+    std::string name;
+    std::string caller;
+    std::vector<Dependency> deps;
+  };
+
+  ScalarProperty * create_scalar(const std::string &varname, const char *caller);
+  VectorProperty * create_vector(const std::string &varname, const char *caller);
+  MatrixProperty * create_matrix(const std::string &varname, const char *caller);
+  void begin_build(int kind, const std::string &varname, const char *caller);
+  void end_build();
+  void add_dependency(Entry &e, FixPropertyGlobal *fix);
+  void inherit_dependencies(int kind, const std::string &varname);
+  void rebuild(size_t k);
+
+  std::vector<Entry> entries_;      // in order of completed construction
+  std::vector<Entry> build_stack_;  // properties currently being constructed
+  std::map<std::string, size_t> entry_index_[3];
+  bool refreshing_;
+  unsigned long n_refreshed_;
+  int cached_max_type_;
+
   std::map<std::string, ScalarPropertyCreator> scalar_creators;
   std::map<std::string, VectorPropertyCreator> vector_creators;
   std::map<std::string, MatrixPropertyCreator> matrix_creators;

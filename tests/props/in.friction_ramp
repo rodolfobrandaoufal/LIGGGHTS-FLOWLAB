@@ -1,0 +1,36 @@
+# props (A2, S-01 V&V): friction coefficient ramp mu(t) via v_ must be seen
+# by the tangential model at every step. Two fixed overlapping spheres (no
+# integrator) slide tangentially (vy = +-0.5 m/s), so the Coulomb limit is
+# active at every step and |Ft|/|Fn| = |fy|/|fx| must equal mu(step) to 1e-12.
+# Run on 1 and 2 ranks (processors 2 1 1 puts the spheres on different ranks).
+atom_style    granular
+atom_modify   map array
+boundary      f f f
+newton        off
+communicate   single vel yes
+units         si
+processors    * 1 1
+region        domain block -0.01 0.01 -0.01 0.01 -0.01 0.01 units box
+create_box    1 domain
+neighbor      0.0005 bin
+neigh_modify  delay 0
+timestep      1e-6
+variable      mu equal 0.5+0.3*sin(2*PI*step/400)
+fix  m1 all property/global youngsModulus peratomtype 1.e7
+fix  m2 all property/global poissonsRatio peratomtype 0.3
+fix  m3 all property/global coefficientRestitution peratomtypepair 1 0.5
+fix  m4 all property/global coefficientFriction peratomtypepair 1 v_mu every 1
+pair_style  gran model hertz tangential history
+pair_coeff  * *
+create_atoms  1 single -0.00099 0 0 units box
+create_atoms  1 single  0.00099 0 0 units box
+set atom 1 diameter 0.002 density 2500
+set atom 2 diameter 0.002 density 2500
+set atom 1 vy  0.5
+set atom 2 vy -0.5
+variable fx1 equal fx[1]
+variable fy1 equal fy[1]
+thermo_style  custom step v_mu v_fx1 v_fy1
+thermo_modify format float %.17g
+thermo        7
+run 1000

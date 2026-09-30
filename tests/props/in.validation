@@ -1,0 +1,33 @@
+# props (A2, F-09/F-10): input validation of fix property/global.
+# Template: check_validation.sh substitutes @M3@, @M4@, @MOD@ and @POST@.
+atom_style    granular
+atom_modify   map array
+boundary      f f f
+newton        off
+communicate   single vel yes
+units         si
+region        domain block -0.01 0.01 -0.01 0.01 -0.01 0.01 units box
+create_box    1 domain
+neighbor      0.0005 bin
+neigh_modify  delay 0
+timestep      1e-6
+variable      cor equal 0.9-0.01*step
+variable      mu  equal 0.5
+fix  m1 all property/global youngsModulus peratomtype 1.e7
+fix  m2 all property/global poissonsRatio peratomtype 0.3
+@M3@
+@M4@
+@MOD@
+pair_style  gran model hertz tangential history
+pair_coeff  * *
+create_atoms  1 single -0.00099 0 0 units box
+create_atoms  1 single  0.00099 0 0 units box
+set atom * diameter 0.002 density 2500
+set atom 1 vx 0.1
+set atom 2 vx -0.1
+variable fx1 equal fx[1]
+thermo_style  custom step v_cor v_fx1
+thermo_modify format float %.17g
+thermo        10
+run 200
+@POST@

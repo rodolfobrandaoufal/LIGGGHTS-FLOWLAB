@@ -102,6 +102,11 @@ class FixPropertyGlobal : public Fix {
 
   void write();
 
+  // monotonically increasing counter, bumped whenever a v_-driven value
+  // actually changes (used by PropertyRegistry to refresh derived copies)
+  unsigned long version() const { return version_; }
+  bool has_variables() const { return has_variable_values; }
+
  private:
 
   char *variablename;        // name of the variable (used for identification by other fixes)
@@ -125,9 +130,14 @@ class FixPropertyGlobal : public Fix {
   char *grpname;
   int me;
 
+  unsigned long version_;
+  bool clamp_warned_;
+
   void update_variable_values();
   void ensure_variable_values_initialized();
-  double clamp_value(double) const;
+  bool value_bounds(double &lo, double &hi, bool &lo_open) const;
+  double clamp_value(double);
+  void check_literal_value(double);
   void sync_recomputed_values();
 
 }; //end class

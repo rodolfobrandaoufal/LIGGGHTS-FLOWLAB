@@ -55,6 +55,7 @@
 #include "input.h"
 #include "variable.h"
 #include "fix_property_global.h"
+#include "property_registry.h"
 
 using namespace LAMMPS_NS;
 using namespace FixConst;
@@ -88,6 +89,8 @@ FixPropertyGlobal::FixPropertyGlobal(LAMMPS *lmp, int narg, char **arg) :
     nvariable_values = 0;
     update_every = 1;
     has_variable_values = false;
+    version_ = 0;
+    clamp_warned_ = false;
 
     if (strcmp(arg[4],"scalar") == 0)
         data_style = FIXPROPERTY_GLOBAL_SCALAR;
@@ -112,7 +115,9 @@ FixPropertyGlobal::FixPropertyGlobal(LAMMPS *lmp, int narg, char **arg) :
     if (data_style == FIXPROPERTY_GLOBAL_MATRIX) darg = 1;
 
     int last_value_arg = narg;
+    bool every_given = false;
     if (narg > 7 && strcmp(arg[narg-2],"every") == 0) {
+        every_given = true;
         update_every = force->inumeric(FLERR,arg[narg-1]);
         if(update_every <= 0) error->fix_error(FLERR,this,"every must be > 0");
         last_value_arg -= 2;
@@ -142,8 +147,20 @@ FixPropertyGlobal::FixPropertyGlobal(LAMMPS *lmp, int narg, char **arg) :
             has_variable_values = true;
             nvariable_values++;
             values[j] = 0.0;
-        } else values[j] = clamp_value(force->numeric(FLERR,value_arg));
+        } else {
+            // literal input is never clamped: out-of-range literals are an error (F-09)
+            values[j] = force->numeric(FLERR,value_arg);
+            check_literal_value(values[j]);
+        }
         values_recomputed[j] = values[j];
+    }
+
+    if(every_given && !has_variable_values && comm->me == 0)
+    {
+        char wstr[300];
+        snprintf(wstr,sizeof(wstr),"fix property/global %s: 'every %d' has no effect because no value "
+                 "is given as v_name (equal-style variable)",variablename,update_every);
+        error->warning(FLERR,wstr);
     }
 
     if (data_style == FIXPROPERTY_GLOBAL_SCALAR)
@@ -323,18 +340,43 @@ void FixPropertyGlobal::init()
 void FixPropertyGlobal::grow(int len1, int len2)
 {
     if(data_style == FIXPROPERTY_GLOBAL_SCALAR) error->fix_error(FLERR,this,"Can not grow global property of type scalar");
-    else if(data_style == FIXPROPERTY_GLOBAL_VECTOR && len1 > nvalues)
+
+    // F-11: the v_ bindings are indexed by value position; growing would
+    // invalidate them (and the recomputed copies), so forbid it
+    if(has_variable_values &&
+       ((data_style == FIXPROPERTY_GLOBAL_VECTOR && len1 > nvalues) ||
+        (data_style == FIXPROPERTY_GLOBAL_MATRIX && len1*len2 > nvalues)))
+        error->fix_error(FLERR,this,"Can not grow a global property that has values bound to v_ variables");
+
+    if(data_style == FIXPROPERTY_GLOBAL_VECTOR && len1 > nvalues)
     {
+        // legacy semantics: storage grows, nvalues is unchanged
         memory->grow(values,len1,"FixPropertyGlobal:values");
+        memory->grow(values_recomputed,len1,"FixPropertyGlobal:values_recomputed");
     }
     else if(data_style == FIXPROPERTY_GLOBAL_MATRIX && len1*len2 > nvalues)
     {
-        values = (double*) memory->srealloc(values,len1*len2*sizeof(double),"FixPropertyGlobal:values");
+        const int nnew = len1*len2;
+        values = (double*) memory->srealloc(values,nnew*sizeof(double),"FixPropertyGlobal:values");
+        values_recomputed = (double*) memory->srealloc(values_recomputed,nnew*sizeof(double),"FixPropertyGlobal:values_recomputed");
+        for(int i = nvalues; i < nnew; i++) values[i] = values_recomputed[i] = 0.0;
+
+        // keep the (unbound, all-NULL) per-value binding arrays sized with nvalues
+        char **new_names = new char*[nnew];
+        int *new_indices = new int[nnew];
+        for(int i = 0; i < nnew; i++) { new_names[i] = NULL; new_indices[i] = -1; }
+        delete[] value_variable_names;
+        delete[] value_variable_indices;
+        value_variable_names = new_names;
+        value_variable_indices = new_indices;
+
         size_array_rows = len1;
         size_array_cols = len2;
-        nvalues = len1*len2;
+        nvalues = nnew;
         array = (double**)memory->srealloc(array,size_array_rows*sizeof(double**),"FixPropGlob:array");
+        array_recomputed = (double**)memory->srealloc(array_recomputed,size_array_rows*sizeof(double**),"FixPropGlob:array_recomputed");
         for(int i = 0; i < size_array_rows; i++) array[i] = &values[i*size_array_cols];
+        for(int i = 0; i < size_array_rows; i++) array_recomputed[i] = &values_recomputed[i*size_array_cols];
     }
 }
 
@@ -421,28 +463,84 @@ void FixPropertyGlobal::pre_force(int vflag)
 
 /* ---------------------------------------------------------------------- */
 
-double FixPropertyGlobal::clamp_value(double value) const
+bool FixPropertyGlobal::value_bounds(double &lo, double &hi, bool &lo_open) const
 {
+    // admissible range of well-known contact properties
+    lo_open = false;
+    hi = 1.0e300;
     if(strcmp(variablename,"coefficientRestitution") == 0) {
-        if(value < 0.0) return 0.0;
-        if(value > 1.0) return 1.0;
-        return value;
+        lo = 0.0; lo_open = true; hi = 1.0;   // 0 < e <= 1 (log(e) must be finite)
+        return true;
     }
     if(strcmp(variablename,"coefficientFriction") == 0 ||
        strcmp(variablename,"coefficientRollingFriction") == 0 ||
        strcmp(variablename,"cohesionEnergyDensity") == 0 ||
        strcmp(variablename,"adhesionEnergy") == 0 ||
        strcmp(variablename,"surfaceEnergy") == 0) {
-        return value < 0.0 ? 0.0 : value;
+        lo = 0.0;
+        return true;
     }
-    return value;
+    return false;
+}
+
+/* ---------------------------------------------------------------------- */
+
+void FixPropertyGlobal::check_literal_value(double value)
+{
+    double lo, hi; bool lo_open;
+    if(!value_bounds(lo,hi,lo_open)) return;
+    if((lo_open ? value <= lo : value < lo) || value > hi)
+    {
+        char errstr[300];
+        if(lo_open)
+            snprintf(errstr,sizeof(errstr),"value %g of %s is out of range: %g < value <= %g required",value,variablename,lo,hi);
+        else
+            snprintf(errstr,sizeof(errstr),"value %g of %s is out of range: value >= %g required",value,variablename,lo);
+        error->fix_error(FLERR,this,errstr);
+    }
+}
+
+/* ---------------------------------------------------------------------- */
+
+double FixPropertyGlobal::clamp_value(double value)
+{
+    // only applied to v_-driven values (F-09); warns once per fix
+    double lo, hi; bool lo_open;
+    if(!value_bounds(lo,hi,lo_open)) return value;
+
+    // restitution: clamp into the registry sanity range 0.05 < e <= 1
+    // (global_properties.cpp createCoeffRest) so that log(e) and betaeff
+    // stay finite and a refresh does not abort the run
+    if(strcmp(variablename,"coefficientRestitution") == 0)
+        lo = nextafter(0.05,1.0);
+
+    double clamped = value;
+    if(value != value) clamped = lo;               // NaN
+    else if(value < lo) clamped = lo;
+    else if(value > hi) clamped = hi;
+
+    if(clamped != value && !clamp_warned_)
+    {
+        clamp_warned_ = true;
+        if(comm->me == 0)
+        {
+            char wstr[400];
+            snprintf(wstr,sizeof(wstr),"fix property/global %s: variable value %g is outside the admissible "
+                     "range and was clamped to %.17g (this warning is printed only once)",variablename,value,clamped);
+            error->warning(FLERR,wstr);
+        }
+    }
+    return clamped;
 }
 
 /* ---------------------------------------------------------------------- */
 
 void FixPropertyGlobal::sync_recomputed_values()
 {
-    for(int i = 0; i < nvalues; i++) values_recomputed[i] = values[i];
+    // F-12: only overwrite the variable-driven entries, so that values other
+    // fixes stored via vector_modify()/array_modify() are preserved
+    for(int i = 0; i < nvalues; i++)
+        if(value_variable_names[i]) values_recomputed[i] = values[i];
 }
 
 /* ---------------------------------------------------------------------- */
@@ -476,9 +574,12 @@ void FixPropertyGlobal::update_variable_values()
 {
     modify->clearstep_compute();
 
+    bool changed = false;
     for(int i = 0; i < nvalues; i++) {
         if(!value_variable_names[i]) continue;
-        values[i] = clamp_value(input->variable->compute_equal(value_variable_indices[i]));
+        const double newval = clamp_value(input->variable->compute_equal(value_variable_indices[i]));
+        if(newval != values[i]) changed = true;
+        values[i] = newval;
     }
     sync_recomputed_values();
 
@@ -490,6 +591,15 @@ void FixPropertyGlobal::update_variable_values()
     }
 
     modify->addstep_compute(update->ntimestep + update_every);
+
+    // C-01/F-01: publish the change and let the registry refresh, in place,
+    // the property copies (and derived quantities) the contact models read.
+    // Equal-style variables give identical values on all ranks, so 'changed'
+    // and the refresh (including its sanity checks) are collective.
+    if(changed) {
+        version_++;
+        force->registry.refresh();
+    }
 }
 
 /* ----------------------------------------------------------------------
@@ -548,9 +658,16 @@ void FixPropertyGlobal::write()
     // size_array_cols if required
     if(2 == data_style) fprintf(file,"%d ",size_array_cols);
 
-    // values
+    // values (F-10: keep the v_ binding and 'every N' so the file can be re-read)
     for(int i = 0; i < nvalues; i++)
-        fprintf(file,"%f ",values[i]);
+    {
+        if(value_variable_names && value_variable_names[i])
+            fprintf(file,"v_%s ",value_variable_names[i]);
+        else
+            fprintf(file,"%f ",values[i]);
+    }
+    if(has_variable_values)
+        fprintf(file,"every %d ",update_every);
 
     fprintf(file,"\n");
     fclose(file);

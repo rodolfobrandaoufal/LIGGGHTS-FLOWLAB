@@ -1,0 +1,44 @@
+# props (A2, C-01): do time-varying (v_) fix property/global values reach the contact model
+# inside ONE run?  Two fixed (non-integrated) overlapping spheres; adhesionEnergy
+# steps from 0 to 1e4 J/m^2 at step 50, coefficientRestitution steps 0.9 -> 0.3.
+# If the contact model sees the update, fx[1] must change at step 50 within run A.
+atom_style    granular
+atom_modify   map array
+boundary      f f f
+newton        off
+communicate   single vel yes
+units         si
+region        domain block -0.01 0.01 -0.01 0.01 -0.01 0.01 units box
+create_box    1 domain
+neighbor      0.0005 bin
+neigh_modify  delay 0
+timestep      1e-6
+
+variable      adh equal (step>=50)*1.0e4
+variable      cor equal 0.9-0.6*(step>=50)
+fix  m1 all property/global youngsModulus peratomtype 1.e7
+fix  m2 all property/global poissonsRatio peratomtype 0.3
+fix  m3 all property/global coefficientRestitution peratomtypepair 1 v_cor every 1
+fix  m4 all property/global coefficientFriction peratomtypepair 1 0.5
+fix  m6 all property/global adhesionEnergy peratomtypepair 1 v_adh every 1
+
+pair_style  gran model hertz tangential history cohesion generalized_adhesion
+pair_coeff  * *
+
+create_atoms  1 single -0.00099 0 0 units box
+create_atoms  1 single  0.00099 0 0 units box
+set atom 1 diameter 0.002 density 2500
+set atom 2 diameter 0.002 density 2500
+# approach velocity -> nonzero normal damping force (no integrator: v stays constant)
+set atom 1 vx 0.1
+set atom 2 vx -0.1
+
+variable fx1 equal fx[1]
+thermo_style  custom step v_adh v_cor v_fx1
+thermo_modify format float %.17g
+thermo        1
+
+print "=== RUN A: single run of 100 steps (variables switch at step 50)"
+run 100
+print "=== RUN B: new run command after the switch"
+run 20

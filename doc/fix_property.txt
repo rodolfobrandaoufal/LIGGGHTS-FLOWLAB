@@ -12,7 +12,7 @@ fix property/atom command :h3
 [Syntax:]
 
 fix id group property/atom variablename style restartvalue comm_ghost_value comm_reverse_ghost_value defaultvalue(s)...
-fix id group property/global variablename style stylearg defaultvalue(s)... :pre
+fix id group property/global variablename style stylearg defaultvalue(s)... keyword value :pre
 
 ID, group-ID are documented in "fix"_fix.html command :ulb,l
 property/global or property/atom = style name of this fix command   :l
@@ -27,6 +27,10 @@ fix property/global:
     style = scalar or vector or atomtype or matrix or atomtypepair :ulb,l
     stylearg for scalar/vector: none
     stylearg for matrix/atomtypepair: nCols :pre
+    each defaultvalue = a number or v_name (name of an equal-style variable) :l
+    optional keyword/value pair (must be the last two arguments): :l
+      {every} value = N
+        N = re-evaluate the v_name values every N time-steps (default 1) :pre
 :ule
 
 fix property/atom:
@@ -41,6 +45,8 @@ fix property/atom:
 
 fix m3 all property/global coefficientRestitution peratomtypepair 1 0.3
 fix m5 all property/global characteristicVelocity scalar 2.
+variable mu equal 0.5+0.3*sin(2*PI*step/400)
+fix m4 all property/global coefficientFriction peratomtypepair 1 v_mu every 10
 fix uf all property/atom uf vector yes no no  0. 0. 0. :pre
 
 [Description:]
@@ -80,14 +86,68 @@ Note that {matrix} and {atomtypepair} both refer to a matrix of global values. H
 
 Note that the group of atoms the fix is applied to is ignored (as the fix is not applied to atoms, but defines values of global scope).
 
+[Time-dependent values (v_name, every N):]
+
+Any value of fix property/global can be given as {v_name}, where {name} is an
+equal-style "variable"_variable.html. Such values are evaluated when the run is
+set up and then every {N} time-steps (keyword {every}, default 1), before the
+forces are computed. When a value changes, all material properties the
+granular contact models (pair gran and fix wall/gran) derive from it are
+recomputed in the same step, e.g. a change of {youngsModulus} updates the
+effective moduli Y* and G*, a change of {coefficientRestitution} updates
+ln(e) and the damping coefficient. The same applies to {coefficientFriction},
+{cohesionEnergyDensity}, {adhesionEnergy}, {surfaceEnergy} etc. Fix
+check/timestep/gran uses the same updated values for its Rayleigh and Hertz
+estimates. Quantities a contact model computes only once when the run starts
+from a property (e.g. neighbor cutoffs of capillary models derived from
+{maxSeparationDistanceRatio}) are not updated before the next run.
+Equal-style variables give the same value on all MPI ranks, so the update is
+consistent in parallel. When no value is given as v_name, the fix costs nothing
+during the run; 'every N' without any v_name value only prints a warning.
+
+IMPORTANT NOTE: Changing a stiffness-related property (e.g. {youngsModulus},
+{poissonsRatio}, {kn}, {kt}) while contacts are open changes the elastic
+energy stored in these contacts instantly; no rescaling of the contact state is
+done. For a Hertz contact with overlap delta, a change of Y* by dY* changes the
+normal elastic energy by dU = (8/15) dY* sqrt(R*) delta^(5/2) (this was
+verified to 1e-5 relative: doubling Y at maximum overlap of an elastic
+collision gives a rebound velocity ratio of sqrt(2)); a positive change
+injects energy. The tangential history model stores a spring displacement, so
+a change of the shear stiffness rescales the stored tangential force and
+energy (either sign). Changes of restitution or friction coefficients affect
+only dissipation and the Coulomb limit and do not inject energy. Ramp
+stiffness slowly compared with the contact time if energy matters.
+
+Literal values of {coefficientRestitution} must satisfy 0 < e <= 1, and literal
+values of {coefficientFriction}, {coefficientRollingFriction},
+{cohesionEnergyDensity}, {adhesionEnergy} and {surfaceEnergy} must be >= 0;
+otherwise the fix stops with an error. Values given as v_name are clamped to
+the admissible range instead ({coefficientRestitution} to just above 0.05 and
+at most 1, which is the range the contact models accept; the others to >= 0),
+and a warning is printed the first time a value is clamped. The material
+checks of the contact models (e.g. the youngsModulus range that the
+commands soft_particles / hard_particles relax) are applied to every updated value and stop the run with an error when
+violated.
+
 [Restart, fix_modify, output, run start/stop, minimize info:]
 
-Information about this fix is written to "binary restart files"_restart.html if you set {restartvalue} to 'yes'.
+Information about fix property/atom is written to "binary restart files"_restart.html if you set {restartvalue} to 'yes'.
+Fix property/global writes no information to restart files; in particular the
+v_name bindings and {every N} are not stored, so the fix command (and the
+variables it uses) must be repeated in the input script after
+"read_restart"_read_restart.html. Variables based on {step} or {time} then
+continue correctly.
 
-[Restrictions:] none
+"fix_modify"_fix_modify.html {file} filename writes the fix command to a file
+when the fix is deleted; v_name values and {every N} are written as given.
+
+[Restrictions:]
+
+A fix property/global that has values given as v_name cannot be grown by other
+commands (this stops with an error).
 
 [Related commands:]
 
 "set"_set.html, "pair_gran"_pair_gran.html
 
-[Default:] none
+[Default:] every = 1

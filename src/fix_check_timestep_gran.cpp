@@ -131,6 +131,8 @@ FixCheckTimestepGran::FixCheckTimestepGran(LAMMPS *lmp, int narg, char **arg) :
 
   fraction_rayleigh = fraction_hertz = fraction_skin = 0.;
   Yeff = NULL;
+  Ytype = NULL;
+  nutype = NULL;
 }
 
 /* ---------------------------------------------------------------------- */
@@ -170,8 +172,15 @@ void FixCheckTimestepGran::init()
   if(!Y || !nu)
     error->all(FLERR,"Fix check/timestep/gran only works with a pair style that defines youngsModulus and poissonsRatio");
 
+  // V-11: both the Rayleigh and the Hertz estimate read the material
+  // properties from the property registry, i.e. the same (refreshed, see
+  // PropertyRegistry::refresh) values the contact models use
   force->registry.registerProperty("Yeff", &MODEL_PARAMS::createYeff);
   force->registry.connect("Yeff", Yeff,this->style);
+  force->registry.registerProperty("youngsModulus", &MODEL_PARAMS::createYoungsModulus);
+  force->registry.connect("youngsModulus", Ytype,this->style);
+  force->registry.registerProperty("poissonsRatio", &MODEL_PARAMS::createPoissonsRatio);
+  force->registry.connect("poissonsRatio", nutype,this->style);
 }
 
 /* ---------------------------------------------------------------------- */
@@ -258,8 +267,10 @@ void FixCheckTimestepGran::calc_rayleigh_hertz_estims()
             rad=std::min(std::min(atom->shape[i][0],atom->shape[i][1]),atom->shape[i][2]);        
         #endif
 
-        double shear_mod = Y->get_values()[type[i]-1]/(2.*(nu->get_values()[type[i]-1]+1.));
-        rayleigh_time_i = M_PI*rad*sqrt(density[i]/shear_mod)/(0.1631*nu->get_values()[type[i]-1]+0.8766);
+        const double Yi = Ytype[type[i]];
+        const double nui = nutype[type[i]];
+        double shear_mod = Yi/(2.*(nui+1.));
+        rayleigh_time_i = M_PI*rad*sqrt(density[i]/shear_mod)/(0.1631*nui+0.8766);
         if(rayleigh_time_i < rayleigh_time) rayleigh_time = rayleigh_time_i;
 
         vmag_sqr = vectorMag3DSquared(v[i]);
