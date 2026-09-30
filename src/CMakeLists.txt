@@ -147,6 +147,7 @@ OPTION(LIGGGHTS_ENABLE_HDF5 "Build dump hdf5 and dump mesh/hdf5 (requires a para
 OPTION(LIGGGHTS_ENABLE_GPU_DEM "Also configure the experimental src/GPU_DEM subproject" OFF)
 OPTION(LIGGGHTS_FAST_MATH "Compile with -ffast-math (changes floating-point results; not bitwise reproducible with the Make route)" OFF)
 OPTION(LIGGGHTS_NATIVE_ARCH "Compile with -march=native (binary only runs on CPUs like the build host)" OFF)
+OPTION(LIGGGHTS_MATH_ERRNO "Keep errno semantics for libm calls. OFF adds -fno-math-errno: no measured speed-up, and NOT bitwise identical for some contact models (hooke/hysteresis); see audit/fixes/phaseC/kernel/REPORT.md" ON)
 OPTION(LIGGGHTS_NO_CONTACT_MODEL_FALLBACK "Strict mode: contact-model combinations outside the whitelist are an error instead of running through the runtime fallback" OFF)
 SET(LIGGGHTS_SANITIZE "" CACHE STRING "Comma-separated -fsanitize= list, e.g. address,undefined (empty = none)")
 OPTION(LIGGGHTS_ENABLE_TESTING "Register the tests in ../tests with CTest" ON)
@@ -227,6 +228,14 @@ IF(("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") OR ("${CMAKE_CXX_COMPILER_ID}" MA
   IF(LIGGGHTS_FAST_MATH)
     SET(OPT_CXX_FLAGS "${OPT_CXX_FLAGS} -ffast-math")
     SET(ENABLED_OPTIONS "${ENABLED_OPTIONS} FAST_MATH")
+  ENDIF()
+  IF(NOT LIGGGHTS_MATH_ERRNO)
+    # roadmap B5 / PF-05: opt-in. sqrt is correctly rounded either way, but with
+    # this flag 3 hooke/hysteresis combinations of tests/kernel/model_matrix
+    # changed in the last bits (cause not isolated; likely different FMA
+    # contraction once libm calls are treated as pure)
+    SET(OPT_CXX_FLAGS "${OPT_CXX_FLAGS} -fno-math-errno")
+    SET(ENABLED_OPTIONS "${ENABLED_OPTIONS} NO_MATH_ERRNO")
   ENDIF()
   IF(LIGGGHTS_NATIVE_ARCH)
     SET(OPT_CXX_FLAGS "${OPT_CXX_FLAGS} -march=native")

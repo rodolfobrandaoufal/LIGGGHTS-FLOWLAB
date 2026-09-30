@@ -795,6 +795,7 @@ LIGGGHTS_NO_CONTACT_MODEL_FALLBACK:BOOL=OFF: strict mode. It defines LIGGGHTS_NO
 LIGGGHTS_ENABLE_GPU_DEM:BOOL=OFF: also configures the experimental src/GPU_DEM subproject. Subdirectories are no longer added automatically.
 LIGGGHTS_FAST_MATH:BOOL=OFF: adds -ffast-math. This changes floating-point results, so they are no longer bitwise reproducible with the default build.
 LIGGGHTS_NATIVE_ARCH:BOOL=OFF: adds -march=native. The binary then runs only on CPUs like the build host.
+LIGGGHTS_MATH_ERRNO:BOOL=ON: keeps errno semantics for libm calls. OFF adds -fno-math-errno. It gave no measured speed-up, and some contact models (hooke/hysteresis) no longer match the default build bitwise.
 LIGGGHTS_SANITIZE:STRING=: a list for -fsanitize=, for example address,undefined.
 LIGGGHTS_ENABLE_TESTING:BOOL=ON: registers the tests in tests/ with CTest.
 LIGGGHTS_ALLOW_SOURCE_TREE_HEADERS:BOOL=OFF: see "Generated headers" below. :ul

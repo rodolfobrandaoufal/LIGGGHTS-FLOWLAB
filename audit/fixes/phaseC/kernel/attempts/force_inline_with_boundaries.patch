@@ -1,0 +1,403 @@
+diff --git a/src/cohesion_model_dmt.h b/src/cohesion_model_dmt.h
+index dc2aa1b6..2dd25b3d 100644
+--- a/src/cohesion_model_dmt.h
++++ b/src/cohesion_model_dmt.h
+@@ -83,7 +83,7 @@ namespace ContactModels {
+       JkrDmt::connectWorkOfAdhesion(lmp, registry, w_, caller);
+     }
+ 
+-    void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
++    LIGGGHTS_FORCE_INLINE void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+     {
+       const int itype = sidata.itype;
+       const int jtype = sidata.jtype;
+diff --git a/src/cohesion_model_easo_capillary_viscous.h b/src/cohesion_model_easo_capillary_viscous.h
+index 2e5b9721..bc893110 100644
+--- a/src/cohesion_model_easo_capillary_viscous.h
++++ b/src/cohesion_model_easo_capillary_viscous.h
+@@ -380,7 +380,7 @@ namespace ContactModels {
+     void beginPass(SurfacesIntersectData&, ForceData&, ForceData&){}
+     void endPass(SurfacesIntersectData&, ForceData&, ForceData&){}
+ 
+-    void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
++    LIGGGHTS_FORCE_INLINE void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+     {
+       const int i = sidata.i;
+       const int j = sidata.j;
+diff --git a/src/cohesion_model_generalized_adhesion.h b/src/cohesion_model_generalized_adhesion.h
+index dad34b55..3ea64bb7 100644
+--- a/src/cohesion_model_generalized_adhesion.h
++++ b/src/cohesion_model_generalized_adhesion.h
+@@ -139,7 +139,7 @@ namespace ContactModels {
+             error->cg(FLERR,"cohesion model generalized_adhesion");
+     }
+ 
+-    void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
++    LIGGGHTS_FORCE_INLINE void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+     {
+         addCohesion(sidata,i_forces,j_forces);
+     }
+diff --git a/src/cohesion_model_jkr.h b/src/cohesion_model_jkr.h
+index d7b184f0..ca4946a3 100644
+--- a/src/cohesion_model_jkr.h
++++ b/src/cohesion_model_jkr.h
+@@ -295,7 +295,7 @@ namespace JkrDmt {
+       registerContactDistance(registry.max_type());
+     }
+ 
+-    void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
++    LIGGGHTS_FORCE_INLINE void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+     {
+       const int itype = sidata.itype;
+       const int jtype = sidata.jtype;
+diff --git a/src/cohesion_model_sjkr.h b/src/cohesion_model_sjkr.h
+index 63a0bc92..50182b9e 100644
+--- a/src/cohesion_model_sjkr.h
++++ b/src/cohesion_model_sjkr.h
+@@ -89,7 +89,7 @@ namespace ContactModels {
+             error->cg(FLERR,"cohesion model sjkr");
+     }
+ 
+-    void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
++    LIGGGHTS_FORCE_INLINE void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+     {
+       //r is the distance between the sphere's centers
+       const double r = sidata.r;
+diff --git a/src/cohesion_model_sjkr2.h b/src/cohesion_model_sjkr2.h
+index a498e7a6..b83407a0 100644
+--- a/src/cohesion_model_sjkr2.h
++++ b/src/cohesion_model_sjkr2.h
+@@ -84,7 +84,7 @@ namespace ContactModels {
+             error->cg(FLERR,"cohesion model sjkr2");
+     }
+ 
+-    void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces) 
++    LIGGGHTS_FORCE_INLINE void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces) 
+     {
+       //r is the distance between the sphere's centers
+       const double r = sidata.r;
+diff --git a/src/cohesion_model_washino_capillary_viscous.h b/src/cohesion_model_washino_capillary_viscous.h
+index cd945ea3..47f55586 100644
+--- a/src/cohesion_model_washino_capillary_viscous.h
++++ b/src/cohesion_model_washino_capillary_viscous.h
+@@ -228,7 +228,7 @@ namespace ContactModels {
+     void beginPass(SurfacesIntersectData&, ForceData&, ForceData&){}
+     void endPass(SurfacesIntersectData&, ForceData&, ForceData&){}
+ 
+-    void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
++    LIGGGHTS_FORCE_INLINE void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+     {
+       const int i = sidata.i;
+       const int j = sidata.j;
+diff --git a/src/contact_models.h b/src/contact_models.h
+index a9e6c75f..7390fbdf 100644
+--- a/src/contact_models.h
++++ b/src/contact_models.h
+@@ -47,6 +47,44 @@
+ #ifndef CONTACT_MODELS_H_
+ #define CONTACT_MODELS_H_
+ 
++/* ----------------------------------------------------------------------
++   LIGGGHTS_FORCE_INLINE marks the per-contact entry points of the normal,
++   tangential, cohesion and rolling sub-models (surfacesIntersect,
++   surfacesClose). GCC otherwise keeps the large ones (e.g. hertz, history)
++   out of line in the huge lammps.cpp TU, which costs a call plus spills of
++   SurfacesIntersectData per contact (roadmap B5, PF-05). Forcing the inline
++   does not change the arithmetic of the models. It is defined here, before
++   any sub-model header is read (every *_model_base.h includes this file).
++   Define LIGGGHTS_NO_FORCE_INLINE to get plain 'inline' back.
++   (LIGGGHTS modernization branch)
++------------------------------------------------------------------------- */
++/* LIGGGHTS_CONTACT_BOUNDARY() is placed between the inlined sub-model calls
++   in ContactModel<Style>::surfacesIntersect. It is an empty asm statement
++   with a "memory" clobber: it emits no instruction, but the compiler must
++   write SurfacesIntersectData / ForceData to memory before it and read them
++   back after it, exactly as it did across the former out-of-line calls.
++   Without it, GCC forwards stored values into the next model and fuses
++   a*b+c into FMA instructions (-ffp-contract=fast is the GCC default)
++   where the out-of-line code rounded the product first, so results change
++   in the last bit and then grow chaotically. With the boundary the inlined
++   kernel is bitwise identical to the out-of-line one (checked for all static
++   combinations by tests/kernel/model_matrix). Define LIGGGHTS_CONTACT_FUSE to
++   drop the boundaries (slightly faster, NOT bitwise identical: FMA-level
++   differences). */
++#if defined(LIGGGHTS_CONTACT_FUSE) || !(defined(__GNUC__) || defined(__clang__))
++#define LIGGGHTS_CONTACT_BOUNDARY() do {} while (0)
++#else
++#define LIGGGHTS_CONTACT_BOUNDARY() __asm__ __volatile__("" ::: "memory")
++#endif
++
++#ifndef LIGGGHTS_FORCE_INLINE
++#if (defined(__GNUC__) || defined(__clang__)) && !defined(LIGGGHTS_NO_FORCE_INLINE)
++#define LIGGGHTS_FORCE_INLINE inline __attribute__((always_inline))
++#else
++#define LIGGGHTS_FORCE_INLINE inline
++#endif
++#endif
++
+ #define STATIC_ASSERT(X)
+ 
+ #include "pointers.h"
+@@ -225,24 +263,32 @@ public:
+         surfaceModel.tally_pw(val, i, j, index);
+     }
+ 
+-    inline bool checkSurfaceIntersect(SurfacesIntersectData & sidata)
++    LIGGGHTS_FORCE_INLINE bool checkSurfaceIntersect(SurfacesIntersectData & sidata)
+     {
+         return surfaceModel.checkSurfaceIntersect(sidata);
+     }
+ 
+-    inline void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
++    LIGGGHTS_FORCE_INLINE void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+     {
+         surfaceModel.surfacesIntersect(sidata, i_forces, j_forces);
++        LIGGGHTS_CONTACT_BOUNDARY();
+         normalModel.surfacesIntersect(sidata, i_forces, j_forces);
+-        
+-        cohesionModel.surfacesIntersect(sidata, i_forces, j_forces);
+-        
+-        tangentialModel.surfacesIntersect(sidata, i_forces, j_forces);
+-        
+-        rollingModel.surfacesIntersect(sidata, i_forces, j_forces);
++        LIGGGHTS_CONTACT_BOUNDARY();
++        if (Style::COHESION != COHESION_OFF) {
++            cohesionModel.surfacesIntersect(sidata, i_forces, j_forces);
++            LIGGGHTS_CONTACT_BOUNDARY();
++        }
++        if (Style::TANGENTIAL != TANGENTIAL_OFF) {
++            tangentialModel.surfacesIntersect(sidata, i_forces, j_forces);
++            LIGGGHTS_CONTACT_BOUNDARY();
++        }
++        if (Style::ROLLING != ROLLING_OFF) {
++            rollingModel.surfacesIntersect(sidata, i_forces, j_forces);
++            LIGGGHTS_CONTACT_BOUNDARY();
++        }
+     }
+ 
+-    inline void endSurfacesIntersect(SurfacesIntersectData & sidata, class TriMesh *mesh, ForceData &i_forces, ForceData &j_forces)
++    LIGGGHTS_FORCE_INLINE void endSurfacesIntersect(SurfacesIntersectData & sidata, class TriMesh *mesh, ForceData &i_forces, ForceData &j_forces)
+     {
+         surfaceModel.endSurfacesIntersect(sidata, mesh, i_forces.delta_F);
+         cohesionModel.endSurfacesIntersect(sidata, i_forces, j_forces);
+diff --git a/src/normal_model_edinburgh.h b/src/normal_model_edinburgh.h
+index c27ffccb..da70178a 100644
+--- a/src/normal_model_edinburgh.h
++++ b/src/normal_model_edinburgh.h
+@@ -174,7 +174,7 @@ namespace ContactModels
+       return new_k_c;
+     }
+ 
+-    inline void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
++    LIGGGHTS_FORCE_INLINE void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+     {
+       const int itype = sidata.itype;
+       const int jtype = sidata.jtype;
+diff --git a/src/normal_model_edinburgh_stiffness.h b/src/normal_model_edinburgh_stiffness.h
+index 47c46f7a..0d8c89dc 100644
+--- a/src/normal_model_edinburgh_stiffness.h
++++ b/src/normal_model_edinburgh_stiffness.h
+@@ -169,7 +169,7 @@ namespace ContactModels
+       return new_k_c;
+     }
+ 
+-    inline void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
++    LIGGGHTS_FORCE_INLINE void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+     {
+       const int itype = sidata.itype;
+       const int jtype = sidata.jtype;
+diff --git a/src/normal_model_hertz.h b/src/normal_model_hertz.h
+index 29ceed2e..47c8728e 100644
+--- a/src/normal_model_hertz.h
++++ b/src/normal_model_hertz.h
+@@ -206,7 +206,7 @@ namespace ContactModels
+         }
+     }
+ 
+-    inline void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
++    LIGGGHTS_FORCE_INLINE void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+     {
+       if (sidata.contact_flags) *sidata.contact_flags |= CONTACT_NORMAL_MODEL;
+       const bool update_history = sidata.computeflag && sidata.shearupdate;
+diff --git a/src/normal_model_hertz_stiffness.h b/src/normal_model_hertz_stiffness.h
+index 2a87e7aa..c18ac6cb 100644
+--- a/src/normal_model_hertz_stiffness.h
++++ b/src/normal_model_hertz_stiffness.h
+@@ -103,7 +103,7 @@ namespace ContactModels
+       return 1.5;
+     }
+ 
+-    inline void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
++    LIGGGHTS_FORCE_INLINE void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+     {
+       const int itype = sidata.itype;
+       const int jtype = sidata.jtype;
+diff --git a/src/normal_model_hooke.h b/src/normal_model_hooke.h
+index b7db79c6..4e43f53f 100644
+--- a/src/normal_model_hooke.h
++++ b/src/normal_model_hooke.h
+@@ -233,7 +233,7 @@ namespace ContactModels
+         }
+     }
+ 
+-    inline void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
++    LIGGGHTS_FORCE_INLINE void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+     {
+       if (sidata.contact_flags)
+         *sidata.contact_flags |= CONTACT_NORMAL_MODEL;
+diff --git a/src/normal_model_hooke_hysteresis.h b/src/normal_model_hooke_hysteresis.h
+index 3921ff5c..5ad85669 100644
+--- a/src/normal_model_hooke_hysteresis.h
++++ b/src/normal_model_hooke_hysteresis.h
+@@ -100,7 +100,7 @@ namespace ContactModels
+       return 1.;
+     }
+ 
+-    inline void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
++    LIGGGHTS_FORCE_INLINE void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+     {
+       // use these values from HOOKE implementation
+       bool & viscous = NormalModel<HOOKE>::viscous;
+diff --git a/src/normal_model_hooke_stiffness.h b/src/normal_model_hooke_stiffness.h
+index 4057f040..c482b1f1 100644
+--- a/src/normal_model_hooke_stiffness.h
++++ b/src/normal_model_hooke_stiffness.h
+@@ -191,7 +191,7 @@ namespace ContactModels
+         }
+     }
+ 
+-    inline void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
++    LIGGGHTS_FORCE_INLINE void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+     {
+       if (sidata.contact_flags)
+           *sidata.contact_flags |= CONTACT_NORMAL_MODEL;
+diff --git a/src/normal_model_luding.h b/src/normal_model_luding.h
+index ce3ab64d..8aa0de72 100644
+--- a/src/normal_model_luding.h
++++ b/src/normal_model_luding.h
+@@ -121,7 +121,7 @@ namespace ContactModels
+       return 1.;
+     }
+ 
+-    inline void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
++    LIGGGHTS_FORCE_INLINE void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+     {
+       const int itype = sidata.itype;
+       const int jtype = sidata.jtype;
+diff --git a/src/normal_model_thornton_ning.h b/src/normal_model_thornton_ning.h
+index 4ea63d07..922ce50e 100644
+--- a/src/normal_model_thornton_ning.h
++++ b/src/normal_model_thornton_ning.h
+@@ -204,7 +204,7 @@ namespace ContactModels
+ 
+     /* ------------------------- END OF CALL FUNCTIONS ------------------------*/
+ 
+-    inline void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
++    LIGGGHTS_FORCE_INLINE void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+     {
+       const int itype = sidata.itype;
+       const int jtype = sidata.jtype;
+diff --git a/src/rolling_model_cdt.h b/src/rolling_model_cdt.h
+index a8d1ebdb..d52e7b5f 100644
+--- a/src/rolling_model_cdt.h
++++ b/src/rolling_model_cdt.h
+@@ -86,7 +86,7 @@ namespace ContactModels
+         error->cg(FLERR,"rolling model cdt");
+     }
+ 
+-    void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces) 
++    LIGGGHTS_FORCE_INLINE void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces) 
+     {
+       const double rmu = coeffRollFrict[sidata.itype][sidata.jtype];
+ 
+diff --git a/src/rolling_model_epsd.h b/src/rolling_model_epsd.h
+index 2941c3ec..10d6596d 100644
+--- a/src/rolling_model_epsd.h
++++ b/src/rolling_model_epsd.h
+@@ -93,7 +93,7 @@ namespace ContactModels
+         error->cg(FLERR,"rolling model epsd");
+     }
+ 
+-    void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
++    LIGGGHTS_FORCE_INLINE void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+     {
+       double r_torque[3];
+       vectorZeroize3D(r_torque);
+diff --git a/src/rolling_model_epsd2.h b/src/rolling_model_epsd2.h
+index b36c0b91..6ff08063 100644
+--- a/src/rolling_model_epsd2.h
++++ b/src/rolling_model_epsd2.h
+@@ -95,7 +95,7 @@ namespace ContactModels
+         error->cg(FLERR,"rolling model epsd2");
+     }
+ 
+-    void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces) 
++    LIGGGHTS_FORCE_INLINE void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces) 
+     {
+       double r_torque[3];
+       vectorZeroize3D(r_torque);
+diff --git a/src/rolling_model_epsd3.h b/src/rolling_model_epsd3.h
+index 7b06727b..5175554a 100644
+--- a/src/rolling_model_epsd3.h
++++ b/src/rolling_model_epsd3.h
+@@ -95,7 +95,7 @@ namespace ContactModels
+         error->cg(FLERR,"rolling model epsd3");
+     }
+ 
+-    void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
++    LIGGGHTS_FORCE_INLINE void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+     {
+       double r_torque[3];
+       vectorZeroize3D(r_torque);
+diff --git a/src/rolling_model_luding.h b/src/rolling_model_luding.h
+index c056c6c3..7b8784cd 100644
+--- a/src/rolling_model_luding.h
++++ b/src/rolling_model_luding.h
+@@ -97,7 +97,7 @@ namespace ContactModels
+         error->cg(FLERR,"rolling model luding");
+     }
+ 
+-    void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
++    LIGGGHTS_FORCE_INLINE void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+     {
+       double r_torque[3],r_tor_torque[3];
+       vectorZeroize3D(r_torque);
+diff --git a/src/tangential_model_history.h b/src/tangential_model_history.h
+index 4a1b2631..b620d271 100644
+--- a/src/tangential_model_history.h
++++ b/src/tangential_model_history.h
+@@ -159,7 +159,7 @@ namespace ContactModels
+         }
+     }
+ 
+-    inline void surfacesIntersect(const SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
++    LIGGGHTS_FORCE_INLINE void surfacesIntersect(const SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+     {
+         // normal forces = Hookian contact + normal velocity damping
+         const double enx = sidata.en[0];
+diff --git a/src/tangential_model_luding_tn.h b/src/tangential_model_luding_tn.h
+index 1da107be..15aeb8f9 100644
+--- a/src/tangential_model_luding_tn.h
++++ b/src/tangential_model_luding_tn.h
+@@ -106,7 +106,7 @@ namespace ContactModels
+       registry.connect("kT2kcMax", kT2kcMax,"tangential_model tan_luding");
+      }
+ 
+-    inline void surfacesIntersect(const SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
++    LIGGGHTS_FORCE_INLINE void surfacesIntersect(const SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
+     {
+       const double enx = sidata.en[0];
+       const double eny = sidata.en[1];
+diff --git a/src/tangential_model_no_history.h b/src/tangential_model_no_history.h
+index e6644140..ed2353d5 100644
+--- a/src/tangential_model_no_history.h
++++ b/src/tangential_model_no_history.h
+@@ -109,7 +109,7 @@ namespace ContactModels
+       registry.connect("coeffFrict", coeffFrict,"tangential_model history");
+     }
+ 
+-    inline void surfacesIntersect(const SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces) {
++    LIGGGHTS_FORCE_INLINE void surfacesIntersect(const SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces) {
+       if(sidata.contact_flags) *sidata.contact_flags |= CONTACT_TANGENTIAL_MODEL;
+       const double xmu = coeffFrict[sidata.itype][sidata.jtype];
+       const double enx = sidata.en[0];
