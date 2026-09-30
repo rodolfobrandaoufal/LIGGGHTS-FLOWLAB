@@ -1,0 +1,9 @@
+# material block for the neigh (C4) tests; 2 atom types with identical properties
+fix m1 all property/global youngsModulus peratomtype 5.e6 5.e6
+fix m2 all property/global poissonsRatio peratomtype 0.45 0.45
+fix m3 all property/global coefficientRestitution peratomtypepair 2 0.3 0.3 0.3 0.3
+fix m4 all property/global coefficientFriction peratomtypepair 2 0.5 0.5 0.5 0.5
+pair_style gran model hertz tangential ${tang}
+pair_coeff * *
+fix zwall1 all wall/gran model hertz tangential ${tang} primitive type 1 zplane 0.0
+fix gravi all gravity 9.81 vector 0.0 0.0 -1.0

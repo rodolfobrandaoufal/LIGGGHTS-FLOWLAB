@@ -147,6 +147,14 @@ Neighbor::Neighbor(LAMMPS *lmp) : Pointers(lmp)
   maxbin = 0;
   bins = NULL;
   mlg = NULL; 
+  mg_active = mg_other_multi = 0;
+  mg_nclass_user = 0;
+  mg_print = 0;
+  mg_rmin = mg_rmax = 0.0;
+
+  skinstats_flag = 0;
+  ss_nbuild = ss_nsteps = 0;
+  ss_dispmax = ss_dispsum = 0.0;
 
   ago = -1;
 
@@ -258,6 +266,8 @@ void Neighbor::init()
   int i,j,m,n;
 
   ncalls = ndanger = 0;
+  ss_nbuild = ss_nsteps = 0;
+  ss_dispmax = ss_dispsum = 0.0;
   dimension = domain->dimension;
   triclinic = domain->triclinic;
   newton_pair = force->newton_pair;
@@ -335,6 +345,8 @@ void Neighbor::init()
     double maxrd,minrd;
     modify->max_min_rad(maxrd,minrd);
     cutneighmin = MIN(cutneighmin,2*minrd+skin);
+    mg_rmin = minrd;
+    mg_rmax = maxrd;
   }
 
   // check other classes that can induce reneighboring in decide()
@@ -825,6 +837,28 @@ void Neighbor::init()
   old_style = style;
   old_triclinic = triclinic;
 
+  // granular "neighbor multi": size-class grids (S-09)
+  // mg_other_multi: a non-granular list needs the fine type-based multi bins
+
+  mg_active = mg_other_multi = 0;
+  if (style == MULTI) {
+    for (i = 0; i < nlist; i++) {
+      if (pair_build[i] == &Neighbor::granular_multiclass_no_newton ||
+          pair_build[i] == &Neighbor::granular_multiclass_newton)
+        mg_active = 1;
+      if (stencil_create[i] != NULL) mg_other_multi = 1;
+    }
+  }
+  if (mg_active) {
+    if (!atom->radius_flag)
+      error->all(FLERR,"Neighbor multi with granular lists requires "
+                 "per-atom radius");
+    if (!mlg) mlg = new MultiLevelGrid(lmp);
+    mlg->init(mg_nclass_user,mg_rmin,mg_rmax,contactDistanceFactor,skin,
+              cutneighmax,dimension);
+    mg_print = 1;
+  }
+
   // ------------------------------------------------------------------
   // topology lists
 
@@ -1070,12 +1104,11 @@ void Neighbor::choose_build(int index, NeighRequest *rq)
         if (newton_pair == 0) pb = &Neighbor::granular_bin_no_newton;
         else if (triclinic == 0) pb = &Neighbor::granular_bin_newton;
         else if (triclinic == 1) pb = &Neighbor::granular_bin_newton_tri;
-      } else if (style == MULTI) { 
-        if (0) {}
-        else if (1 == triclinic) error->all(FLERR,"Neighbor multi not yet enabled for granular with triclinic");
-        else if (1 == newton_pair) error->all(FLERR,"Neighbor multi not yet enabled for granular with newton on");
-        else if (0 == newton_pair) pb = &Neighbor::granular_multi_no_newton;
-        else error->all(FLERR,"Neighbor multi not yet enabled for granular");
+      } else if (style == MULTI) {
+        // size-class grids (MultiLevelGrid), see neigh_multi_level_grid.h
+        if (1 == triclinic) error->all(FLERR,"Neighbor multi not yet enabled for granular with triclinic");
+        else if (0 == newton_pair) pb = &Neighbor::granular_multiclass_no_newton;
+        else pb = &Neighbor::granular_multiclass_newton;
       }
 
     } else if (rq->respaouter) {
@@ -1270,13 +1303,10 @@ void Neighbor::choose_stencil(int index, NeighRequest *rq)
     } else if (style == MULTI) {
       
       if(rq->gran) {
-          if(rq->newton == 1 || (rq->newton == 0 && newton_pair == 1))
-            error->all(FLERR,"Neigh multi with gran requires newton off");
+          // class-pair stencils live in the MultiLevelGrid, no list stencil
           if(triclinic == 1)
             error->all(FLERR,"Neigh multi with gran requires triclinic off");
-          if(dimension == 2)
-            error->all(FLERR,"Neigh multi with gran requires dimension 3");
-          sc = &Neighbor::stencil_gran_multi_3d_no_newton;
+          sc = NULL;
       }
 
       else if (rq->newton == 0) {  
@@ -1389,6 +1419,7 @@ int Neighbor::check_distance()
   int flagall;
   MPI_Allreduce(&flag,&flagall,1,MPI_INT,MPI_MAX,world);
   if (flagall && ago == MAX(every,delay)) ndanger++;
+  if (flagall && skinstats_flag) skin_stats_record();
   return flagall;
 }
 
@@ -1698,6 +1729,7 @@ void Neighbor::setup_bins()
   double binsize_optimal;
   if (binsizeflag) binsize_optimal = binsize_user;
   else if (style == BIN) binsize_optimal = 0.5*cutneighmax;
+  else if (mg_active && !mg_other_multi) binsize_optimal = 0.5*cutneighmax;
   else binsize_optimal = 0.5*cutneighmin;
   if (binsize_optimal == 0.0) binsize_optimal = bbox[0];
   double binsizeinv = 1.0/binsize_optimal;
@@ -1817,6 +1849,18 @@ void Neighbor::setup_bins()
   for (int i = 0; i < nslist; i++) {
     lists[slist[i]]->stencil_allocate(smax,style);
     (this->*stencil_create[slist[i]])(lists[slist[i]],sx,sy,sz);
+  }
+
+  // size-class grids for granular lists with style multi
+  // the grid above (same as style bin) stays in use for other clients
+  // of the global bins, e.g. fix neighlist/mesh
+
+  if (mg_active) {
+    mlg->setup(bboxlo,bboxhi,bsubboxlo,bsubboxhi);
+    if (mg_print) {
+      mlg->print_summary();
+      mg_print = 0;
+    }
   }
 
   last_setup_bins_timestep = update->ntimestep;
@@ -1962,6 +2006,22 @@ void Neighbor::modify_params(int narg, char **arg)
       binsize_user = force->cg_max()*force->numeric(FLERR,arg[iarg+1]); 
       if (binsize_user <= 0.0) binsizeflag = 0;
       else binsizeflag = 1;
+      iarg += 2;
+    } else if (strcmp(arg[iarg],"multi/classes") == 0) {
+      if (iarg+2 > narg) error->all(FLERR,"Illegal neigh_modify command");
+      if (strcmp(arg[iarg+1],"auto") == 0) mg_nclass_user = 0;
+      else {
+        mg_nclass_user = force->inumeric(FLERR,arg[iarg+1]);
+        if (mg_nclass_user < 1 || mg_nclass_user > 8)
+          error->all(FLERR,"Illegal neigh_modify command: "
+                     "multi/classes must be auto or 1..8");
+      }
+      iarg += 2;
+    } else if (strcmp(arg[iarg],"stats") == 0) {
+      if (iarg+2 > narg) error->all(FLERR,"Illegal neigh_modify command");
+      if (strcmp(arg[iarg+1],"yes") == 0) skinstats_flag = 1;
+      else if (strcmp(arg[iarg+1],"no") == 0) skinstats_flag = 0;
+      else error->all(FLERR,"Illegal neigh_modify command");
       iarg += 2;
     } else if (strcmp(arg[iarg],"cluster") == 0) {
       error->all(FLERR,"neigh_modify cluster is deprecated");
@@ -2211,6 +2271,7 @@ bigint Neighbor::memory_usage()
     bytes += memory->usage(bins,maxbin);
     bytes += memory->usage(binhead,maxhead);
   }
+  if (mlg) bytes += mlg->memory_usage();
 
   for (int i = 0; i < nlist; i++) bytes += lists[i]->memory_usage();
 
@@ -2265,4 +2326,88 @@ int Neighbor::n_neighs()
     }
 
     return nneigh;
+}
+
+/* ----------------------------------------------------------------------
+   skin-tuning aid (neigh_modify stats yes), finding S-21
+   called from check_distance() when a displacement-triggered build is due,
+   i.e. before atoms are exchanged, so xhold still matches x
+   records the largest displacement per step since the last build
+------------------------------------------------------------------------- */
+
+void Neighbor::skin_stats_record()
+{
+  double **x = atom->x;
+  int nlocal = atom->nlocal;
+  if (includegroup) nlocal = atom->nfirst;
+
+  double dmaxsq = 0.0;
+  for (int i = 0; i < nlocal; i++) {
+    const double dx = x[i][0] - xhold[i][0];
+    const double dy = x[i][1] - xhold[i][1];
+    const double dz = x[i][2] - xhold[i][2];
+    const double rsq = dx*dx + dy*dy + dz*dz;
+    if (rsq > dmaxsq) dmaxsq = rsq;
+  }
+  const int nsteps = MAX(ago,1);
+  const double dstep = sqrt(dmaxsq)/nsteps;
+
+  ss_nbuild++;
+  ss_nsteps += nsteps;
+  ss_dispsum += dstep;
+  if (dstep > ss_dispmax) ss_dispmax = dstep;
+}
+
+/* ----------------------------------------------------------------------
+   print skin statistics of the last run (info only, collective)
+   rebuilds happen every ~ skin/(2 v_max dt) steps (Chialvo & Debenedetti,
+   CPC 60 (1990) 215); the suggestion inverts that relation
+------------------------------------------------------------------------- */
+
+void Neighbor::print_skin_stats()
+{
+  if (!skinstats_flag) return;
+
+  double loc[2],glob[2];
+  loc[0] = ss_dispmax;
+  loc[1] = ss_nbuild > 0 ? ss_dispsum/ss_nbuild : 0.0;
+  MPI_Allreduce(loc,glob,2,MPI_DOUBLE,MPI_MAX,world);
+  if (me != 0) return;
+
+  const double dmax = glob[0];
+  const double dmean = glob[1];
+  const double interval = ss_nbuild > 0 ?
+    static_cast<double>(ss_nsteps)/ss_nbuild : 0.0;
+  const double pdanger = ncalls > 0 ? 100.0*ndanger/ncalls : 0.0;
+  const int target = 20;
+
+  char line[1024];
+  int n = 0;
+  n += sprintf(line+n,"Neighbor skin statistics (neigh_modify stats yes, "
+               "info only):\n");
+  n += sprintf(line+n,"  skin = %g, builds = " BIGINT_FORMAT
+               " (" BIGINT_FORMAT " triggered by the displacement check), "
+               "dangerous = " BIGINT_FORMAT " (%.1f%%)\n",
+               skin,ncalls,ss_nbuild,ndanger,pdanger);
+  if (ss_nbuild > 0 && dmax > 0.0) {
+    n += sprintf(line+n,"  mean steps between displacement-triggered builds "
+                 "= %.1f; max displacement per step = %g "
+                 "(worst-rank mean %g)\n",interval,dmax,dmean);
+    n += sprintf(line+n,"  fastest atom covers skin/2 in %.1f steps: "
+                 "every/delay above that risks dangerous builds\n",
+                 0.5*skin/dmax);
+    const double sk = 2.0*target*dmean;
+    if (mg_rmin > 0.0 && mg_rmin <= mg_rmax)
+      n += sprintf(line+n,"  suggested skin for a ~%d-step rebuild interval: "
+                   "%g (= %.3g d_min; DEM practice 0.1-0.3 d_min)\n",
+                   target,sk,sk/(2.0*mg_rmin));
+    else
+      n += sprintf(line+n,"  suggested skin for a ~%d-step rebuild interval: "
+                   "%g\n",target,sk);
+  } else
+    n += sprintf(line+n,"  no displacement-triggered builds recorded "
+                 "(check no, once yes, or run too short)\n");
+
+  if (screen) fputs(line,screen);
+  if (logfile) fputs(line,logfile);
 }

@@ -798,6 +798,7 @@ void Finish::end(int flag)
                 neighbor->ndanger);
       }
     }
+    neighbor->print_skin_stats();   // no-op unless neigh_modify stats yes
   }
 
   if (logfile) fflush(logfile);

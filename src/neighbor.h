@@ -139,6 +139,9 @@ class Neighbor : protected Pointers {
   void multi_levels(double &, double &, int &);
   int multi_levels();
 
+  // skin-tuning aid (neigh_modify stats yes, finding S-21): info only
+  void print_skin_stats();
+
   void register_contact_dist_factor(double cdf)
   { contactDistanceFactor = std::max(contactDistanceFactor,cdf); }
 
@@ -176,7 +179,22 @@ class Neighbor : protected Pointers {
 
   int *binhead;                    // ptr to 1st atom in each bin
   int maxhead;                     // size of binhead array
-  class MultiLevelGrid* mlg;       
+  class MultiLevelGrid* mlg;       // size-class grids for granular multi
+
+  // granular "neighbor multi" (size classes, finding S-09)
+  int mg_active;                   // 1 if a granular list uses the class grids
+  int mg_other_multi;              // 1 if a non-granular list uses multi stencils
+  int mg_nclass_user;              // neigh_modify multi/classes (0 = auto)
+  int mg_print;                    // print class summary at next setup_bins
+  double mg_rmin,mg_rmax;          // radius range known at init
+
+  // skin statistics (neigh_modify stats yes, finding S-21)
+  int skinstats_flag;
+  bigint ss_nbuild;                // # of builds triggered by the distance check
+  bigint ss_nsteps;                // sum of steps between these builds
+  double ss_dispmax;               // max displacement/step over run (local)
+  double ss_dispsum;               // sum of max displacement/step (local)
+  void skin_stats_record();
 
   int mbins;                       // # of local bins and offset
   int mbinx,mbiny,mbinz;
@@ -286,6 +304,9 @@ class Neighbor : protected Pointers {
   void granular_bin_newton_tri(class NeighList *);
 
   void granular_multi_no_newton(class NeighList *); 
+  void granular_multiclass_no_newton(class NeighList *);
+  void granular_multiclass_newton(class NeighList *);
+  template<int NEWTON> void granular_multiclass(class NeighList *);
 
   void respa_nsq_no_newton(class NeighList *);
   void respa_nsq_newton(class NeighList *);

@@ -243,8 +243,9 @@ void FixNeighlistMesh::pre_force(int)
     x = atom->x;
     r = atom->radius;
 
-    if(neighbor->style != 1)
-        error->all(FLERR,"Please use style 'bin' in the 'neighbor' command together with triangular walls");
+    // style multi keeps the global bins filled as well (see Neighbor::granular_multiclass)
+    if(neighbor->style == 0)
+        error->all(FLERR,"Please use style 'bin' or 'multi' in the 'neighbor' command together with triangular walls");
 
     double rmax = 0.5*(neighbor->cutneighmax - neighbor->skin);
     double prev_skin = skin;

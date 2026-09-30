@@ -1,0 +1,30 @@
+# neigh (C4) test: continue from a restart with a given neighbor style and
+# dump every contact pair (ids, force, history) at the last step
+# vars: restart, nstyle (bin|multi|nsq), nsteps, newton (off|on),
+#       tang (history|no_history), nmod (extra neigh_modify args), tag (output tag)
+#       extra (none|grow|mesh): large spheres grow 3% during the run /
+#       add a triangle-mesh bottom wall
+variable nstyle index bin
+variable nsteps index 0
+variable newton index off
+variable tang index history
+variable nmod index "every 1"
+variable extra index none
+atom_style granular
+atom_modify map array
+boundary p p f
+newton ${newton}
+communicate single vel yes
+units si
+read_restart ${restart}
+neighbor 0.0002 ${nstyle}
+neigh_modify delay 0 ${nmod}
+timestep 1e-5
+include in.props
+fix integr all nve/sphere
+thermo_style custom step atoms ke
+thermo_modify format float %20.15g
+thermo 100
+include in.check_${tang}
+include in.extra_${extra}
+run ${nsteps}

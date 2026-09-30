@@ -14,7 +14,7 @@ neigh_settings command :h3
 neigh_modify keyword values ... :pre
 
 one or more keyword/value pairs may be listed :ulb,l
-keyword = {delay} or {every} or {check} or {once} or {include} or {exclude} or {page} or {one} or {binsize}
+keyword = {delay} or {every} or {check} or {once} or {include} or {exclude} or {page} or {one} or {binsize} or {multi/classes} or {stats}
   {delay} value = N
     N = delay building until this many steps since last build
   {every} value = M
@@ -43,7 +43,13 @@ keyword = {delay} or {every} or {check} or {once} or {include} or {exclude} or {
   {contact_distance_factor} value = N
     N = contact distance factor used to extend the range of granular neighbor lists (must be > 1).
   {binsize} value = size
-    size = bin size for neighbor list construction (distance units) :pre
+    size = bin size for neighbor list construction (distance units)
+  {multi/classes} value = {auto} or N
+    {auto} = one size class per factor of ~2 in radius (at most 8)
+    N = number of size classes (1 to 8) for "neighbor style multi"_neighbor.html with granular pair styles
+  {stats} value = {yes} or {no}
+    {yes} = print neighbor skin statistics and a skin suggestion at the end of each run
+    {no} = do not print them :pre
 :ule
 
 neigh_settings binsize_value :pre
@@ -59,6 +65,8 @@ neigh_modify exclude group frozen frozen check no
 neigh_modify exclude group residue1 chain3
 neigh_modify exclude molecule rigid
 neigh_modify delay 0 contact_distance_factor 1.5
+neigh_modify delay 0 multi/classes 3
+neigh_modify delay 0 stats yes
 neigh_settings
 neigh_settings 0.1 :pre
 
@@ -169,7 +177,30 @@ default.  If you make it too big, there is little overhead due to
 looping over bins, but more atoms are checked.  If you make it too
 small, the optimal number of atoms is checked, but bin overhead goes
 up.  If you set the binsize to 0.0, LIGGGHTS(R)-PUBLIC will use the default
-binsize of 1/2 the cutoff.
+binsize of 1/2 the cutoff.  For "neighbor style multi"_neighbor.html
+with a granular pair style, {binsize} only affects the global bins
+(used e.g. by triangle-mesh walls); the size-class bins always use the
+class cutoff.
+
+The {multi/classes} option sets the number of particle size classes
+used by "neighbor style multi"_neighbor.html for granular pair styles.
+The classes are spaced geometrically between the smallest and the
+largest particle radius known at the start of a run.  The choice only
+affects speed, never which pairs are found.  For a bimodal system two
+classes are sufficient; {auto} (the default) is a good choice for
+continuous size distributions.  The option has no effect for styles
+{bin} and {nsq}.
+
+The {stats} option is a skin-tuning aid.  With {stats yes}, the end of
+each run prints: the number of builds and dangerous builds, the mean
+number of steps between builds triggered by the displacement check,
+the largest particle displacement per step (v_max*dt), the number of
+steps the fastest particle needs to move half the skin (an {every} or
+{delay} larger than this risks dangerous builds), and the skin for a
+rebuild interval of about 20 steps, 2*20*v_max*dt (Chialvo and
+Debenedetti, Comput. Phys. Commun. 60 (1990) 215), also as a fraction
+of the smallest particle diameter.  The output is information only;
+the skin is not changed.  It needs {check yes}.
 
 [Restrictions:]
 
@@ -191,4 +222,4 @@ space.
 
 The option defaults are delay = 10, every = 1, check = yes, once = no,
 include = all, exclude = none, page = 100000, one =
-2000, and binsize = 0.0.
+2000, binsize = 0.0, multi/classes = auto, and stats = no.

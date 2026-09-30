@@ -1,0 +1,4 @@
+compute pgl all pair/gran/local id force
+dump dl all local 100000000 pairs_${tag}.txt c_pgl[1] c_pgl[2] c_pgl[4] c_pgl[5] c_pgl[6]
+dump_modify dl format "%.0f %.0f %.17g %.17g %.17g"
+dump_modify dl first yes

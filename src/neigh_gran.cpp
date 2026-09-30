@@ -56,6 +56,7 @@
 #include "update.h"
 #include "fix_contact_history.h" 
 #include "error.h"
+#include "neigh_multi_level_grid.h"
 
 using namespace LAMMPS_NS;
 
@@ -827,6 +828,195 @@ void Neighbor::granular_bin_newton_tri(NeighList *list)
     ipage->vgot(n);
     if (ipage->status())
       error->one(FLERR,"Neighbor list overflow, boost neigh_modify one");
+  }
+
+  list->inum = inum;
+}
+
+/* ----------------------------------------------------------------------
+   granular particles, style multi: size-class grids (MultiLevelGrid)
+   LIGGGHTS modernization branch, roadmap C4 / finding S-09
+   each owned atom i of class ci visits, for every non-empty class cj,
+   the stencil (ci,cj) on the grid of cj; the pair test and the contact
+   history transfer are the same as in granular_bin_no_newton(), so the
+   same pairs are found (only their order in the list differs)
+   NEWTON = 0: partial Newton's 3rd law, contact history allowed
+     pair stored once if i,j are both owned and i < j
+     pair stored by me if j is ghost (also stored by proc owning j)
+   NEWTON = 1: full Newton's 3rd law, no contact history
+     pair stored once if i,j are both owned and i < j
+     if j is ghost, stored only if j is "above" i
+     (higher z, or equal z and higher y, or equal zy and higher/equal x)
+     i.e. every pair is stored exactly once by some processor
+------------------------------------------------------------------------- */
+
+void Neighbor::granular_multiclass_no_newton(NeighList *list)
+{
+  granular_multiclass<0>(list);
+}
+
+void Neighbor::granular_multiclass_newton(NeighList *list)
+{
+  granular_multiclass<1>(list);
+}
+
+template<int NEWTON>
+void Neighbor::granular_multiclass(NeighList *list)
+{
+  int i,j,k,m,n,nn=0,d;
+  double xtmp,ytmp,ztmp,delx,dely,delz,rsq;
+  double radi,radsum,cutsq;
+  int *neighptr,*contact_flag_ptr = NULL;
+  double *contact_hist_ptr = NULL;
+
+  NeighList *listgranhistory;
+  int *npartner = NULL,**partner = NULL;
+  double **contacthistory = NULL;
+  int **first_contact_flag = NULL;
+  double **first_contact_hist = NULL;
+  MyPage<int> *ipage_contact_flag = NULL;
+  MyPage<double> *dpage_contact_hist = NULL;
+  int dnum = 0;
+
+  // bin local & ghost atoms: global grid (kept for other users of the
+  // neighbor bins such as fix neighlist/mesh) and the class grids
+
+  bin_atoms();
+  mlg->bin_atoms(includegroup ? group->bitmask[includegroup] : 0);
+
+  const int nclass = mlg->nclass;
+  const int *mcount = mlg->count;
+  const int *aclass = mlg->aclass;
+  const int *mbins = mlg->bins;
+  int **mbinhead = mlg->binhead;
+  int **mstencil = mlg->stencil;
+  const int *mnstencil = mlg->nstencil;
+
+  // loop over each atom, storing neighbors
+
+  double **x = atom->x;
+  double *radius = atom->radius;
+  int *tag = atom->tag;
+  int *type = atom->type;
+  int *mask = atom->mask;
+  int *molecule = atom->molecule;
+  int nlocal = atom->nlocal;
+  const int nlocal_all = nlocal;
+  if (includegroup) nlocal = atom->nfirst;
+
+  int *ilist = list->ilist;
+  int *numneigh = list->numneigh;
+  int **firstneigh = list->firstneigh;
+  MyPage<int> *ipage = list->ipage;
+
+  FixContactHistory *fix_history = NEWTON ? NULL : list->fix_history;
+  if (fix_history) {
+    npartner = fix_history->npartner_;
+    partner = fix_history->partner_;
+    contacthistory = fix_history->contacthistory_;
+    listgranhistory = list->listgranhistory;
+    first_contact_flag = listgranhistory->firstneigh;
+    first_contact_hist = listgranhistory->firstdouble;
+    ipage_contact_flag = listgranhistory->ipage;
+    dpage_contact_hist = listgranhistory->dpage;
+    dnum = listgranhistory->dnum;
+  }
+
+  int inum = 0;
+  ipage->reset();
+  if (fix_history) {
+    ipage_contact_flag->reset();
+    dpage_contact_hist->reset();
+  }
+
+  for (i = 0; i < nlocal; i++) {
+    n = 0;
+    neighptr = ipage->vget();
+    if (fix_history) {
+      nn = 0;
+      contact_flag_ptr = ipage_contact_flag->vget();
+      contact_hist_ptr = dpage_contact_hist->vget();
+
+      if(!contact_flag_ptr || !contact_hist_ptr)
+        error->one(FLERR,"Neighbor list overflow, boost neigh_modify one");
+    }
+
+    xtmp = x[i][0];
+    ytmp = x[i][1];
+    ztmp = x[i][2];
+    radi = radius[i];
+    const int ci = aclass[i];
+
+    for (int cj = 0; cj < nclass; cj++) {
+      if (!mcount[cj]) continue;
+
+      const int ibin = mlg->coord2bin(cj,x[i]);
+      const int *bh = mbinhead[cj];
+      const int *s = mstencil[ci*nclass+cj];
+      const int ns = mnstencil[ci*nclass+cj];
+
+      for (k = 0; k < ns; k++) {
+        for (j = bh[ibin+s[k]]; j >= 0; j = mbins[j]) {
+
+          if (NEWTON && j >= nlocal_all) {
+            if (x[j][2] < ztmp) continue;
+            if (x[j][2] == ztmp) {
+              if (x[j][1] < ytmp) continue;
+              if (x[j][1] == ytmp && x[j][0] < xtmp) continue;
+            }
+          } else if (j <= i) continue;
+
+          if (exclude && exclusion(i,j,type[i],type[j],mask,molecule)) continue;
+
+          delx = xtmp - x[j][0];
+          dely = ytmp - x[j][1];
+          delz = ztmp - x[j][2];
+          rsq = delx*delx + dely*dely + delz*delz;
+          radsum = (radi + radius[j]) * contactDistanceFactor;
+          cutsq = (radsum+skin) * (radsum+skin);
+
+          if (rsq <= cutsq) {
+            neighptr[n] = j;
+
+            if (fix_history) {
+              if (rsq < radsum*radsum) {
+                for (m = 0; m < npartner[i]; m++)
+                  if (partner[i][m] == tag[j]) break;
+
+                if (m < npartner[i]) {
+                  contact_flag_ptr[n] = 1;
+                  for (d = 0; d < dnum; d++)
+                    contact_hist_ptr[nn++] = contacthistory[i][m*dnum+d];
+                } else {
+                  contact_flag_ptr[n] = 0;
+                  for (d = 0; d < dnum; d++)
+                    contact_hist_ptr[nn++] = 0.0;
+                }
+              } else {
+                contact_flag_ptr[n] = 0;
+                for (d = 0; d < dnum; d++)
+                  contact_hist_ptr[nn++] = 0.0;
+              }
+            }
+
+            n++;
+          }
+        }
+      }
+    }
+
+    ilist[inum++] = i;
+    firstneigh[i] = neighptr;
+    numneigh[i] = n;
+    ipage->vgot(n);
+    if (ipage->status())
+      error->one(FLERR,"Neighbor list overflow, boost neigh_modify one");
+    if (fix_history) {
+      first_contact_flag[i] = contact_flag_ptr;
+      first_contact_hist[i] = contact_hist_ptr;
+      ipage_contact_flag->vgot(n);
+      dpage_contact_hist->vgot(nn);
+    }
   }
 
   list->inum = inum;

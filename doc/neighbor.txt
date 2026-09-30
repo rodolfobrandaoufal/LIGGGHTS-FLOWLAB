@@ -56,13 +56,47 @@ size particles.  For the {bin} style, the bin size is set to 1/2 of
 the largest cutoff distance between any pair of atom types and a
 single set of bins is defined to search over for all atom types.  This
 can be inefficient if one pair of types has a very long cutoff, but
-other type pairs have a much shorter cutoff.  For style {multi} the
-bin size is set to 1/2 of the shortest cutoff distance and multiple
-sets of bins are defined to search over for different atom types.
-This imposes some extra setup overhead, but the searches themselves
-may be much faster for the short-cutoff cases.  See the "communicate
-multi"_communicate.html command for a communication option option that
-may also be beneficial for simulations of this kind.
+other type pairs have a much shorter cutoff.
+
+For granular pair styles ("pair_style gran"_pair_gran.html), style
+{multi} sorts the particles into {size classes} by their current
+radius, independent of their atom type (in LIGGGHTS(R)-PUBLIC particles
+of very different size often share one atom type, e.g. when inserted
+from a "particle distribution"_fix_particledistribution_discrete.html).
+By default one class is used per factor of about 2 in radius between
+the smallest and the largest radius known at the start of the run
+(including the templates of insertion fixes), at most 8 classes; a
+monodisperse system gets a single class.  The number of classes can be
+set with the {multi/classes} keyword of "neigh_modify"_neigh_modify.html.
+Each class has its own set of bins, with a bin size equal to the
+cutoff between two particles of that class (2 r_max*cdf + skin, where
+cdf is the {contact_distance_factor}).  A particle of class I searches
+the bins of class J with a stencil sized for the I-J cutoff, so a small
+particle does not scan a neighbourhood sized for the largest particles
+and a large particle scans the fine bins of small particles only as
+far as the small-large cutoff.  Each class stencil grows automatically
+if a class contains a particle larger than assumed (e.g. inserted or
+growing particles).  The pair test is the same as for style {bin}, so
+the same pairs are stored (with the same contact history); only their
+order in the list differs, which changes results at round-off level.
+At the start of a run the class layout is printed to the screen and
+log file.
+
+For a bidisperse bed with a 10:1 size ratio (20000 + 200 spheres) the
+neighbor list build was about 10x faster than with style {bin} and the
+whole run 3.3-3.5x faster (1 and 4 MPI ranks); for monodisperse systems both styles cost about
+the same (see audit/fixes/phaseC/neigh/REPORT.md).  Style {multi} uses
+more memory for the bins of the smallest class.  It works with newton
+off (required with contact history) and newton on, 2d and 3d, and
+triangle-mesh walls, but not with triclinic boxes.
+
+For non-granular pair styles, style {multi} keeps the original
+type-based algorithm: the bin size is set to 1/2 of the shortest cutoff
+distance and multiple sets of bins are defined to search over for
+different atom types.  This imposes some extra setup overhead, but the
+searches themselves may be much faster for the short-cutoff cases.  See
+the "communicate multi"_communicate.html command for a communication
+option option that may also be beneficial for simulations of this kind.
 
 The "neigh_modify"_neigh_modify.html command has additional options
 that control how often neighbor lists are built and which pairs are
@@ -73,7 +107,20 @@ the pairwise list and the number of times neighbor lists were built
 are printed to the screen and log file.  See "this
 section"_Section_start.html#start_8 for details.
 
-[Restrictions:] none
+Choosing the skin: the list is rebuilt when some particle has moved
+half the skin distance, i.e. about every skin/(2 v_max dt) steps.  A
+larger skin means fewer builds but more pairs in the list.  For DEM a
+skin of 0.1 to 0.3 times the smallest particle diameter is common.
+"neigh_modify stats yes"_neigh_modify.html prints, at the end of each
+run, the fraction of dangerous builds, the mean interval between
+builds, the largest displacement per step and a suggested skin for a
+rebuild interval of about 20 steps (information only, nothing is
+changed automatically).
+
+[Restrictions:]
+
+Style {multi} with a granular pair style cannot be used with triclinic
+boxes.
 
 [Related commands:]
 

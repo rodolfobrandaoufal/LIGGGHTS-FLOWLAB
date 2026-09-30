@@ -1,0 +1,16 @@
+# insert 8 spheres of r = 7.5 mm (larger than any sphere present, same size
+# class as the 5 mm ones) above the bed during the run, shot down at 3 m/s:
+# at step 12050 (after setup): the class stencils of neighbor multi were built
+# for r <= 5 mm and must grow when the new spheres are binned
+# spatial sort interleaves the new big spheres with the bed in index order, so
+# big-small pairs are also found from the big sphere (stencil big -> small)
+atom_modify sort 50 0.0
+fix pts3 all particletemplate/sphere 86028121 atom_type 1 density constant 2500 radius constant 0.0075
+fix pdd3 all particledistribution/discrete 67867979 1 pts3 1.0
+region ins3 block 0.0 0.05 0.0 0.05 0.028 0.065 units box
+fix ins3 all insert/pack seed 49979693 distributiontemplate pdd3 vel constant 0. 0. -3. start 12050 insert_every once overlapcheck yes all_in yes particles_in_region 8 region ins3
+compute nc all contact/atom
+compute ncs all reduce sum c_nc
+thermo_style custom step atoms ke c_ncs
+thermo_modify format float %20.15g
+thermo 50

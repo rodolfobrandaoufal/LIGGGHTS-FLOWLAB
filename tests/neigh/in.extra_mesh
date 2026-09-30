@@ -1,0 +1,8 @@
+# bottom wall as a triangle mesh in addition to the primitive plane
+# (fix neighlist/mesh uses the global neighbor bins, also with style multi)
+fix cad all mesh/surface file floor.stl type 1
+fix meshwall all wall/gran model hertz tangential ${tang} mesh n_meshes 1 meshes cad
+compute wgl all wall/gran/local id force
+dump dw all local 100000000 wall_${tag}.txt c_wgl[1] c_wgl[2] c_wgl[3] c_wgl[4] c_wgl[5] c_wgl[6]
+dump_modify dw format "%.0f %.0f %.0f %.17g %.17g %.17g"
+dump_modify dw first yes

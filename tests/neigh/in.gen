@@ -1,0 +1,29 @@
+# neigh (C4) test: settle a small 10:1 bimodal pack, all spheres in atom type 1
+# (so the per-type cutoff is the large-large one for every pair and only the
+# size classes of "neighbor multi" can reduce the search); written with style bin
+# vars: out (restart file), ratio (default 10)
+variable tang index history
+variable ratio index 10
+variable rs equal 0.0005
+variable rl equal ${rs}*${ratio}
+atom_style granular
+atom_modify map array
+boundary p p f
+newton off
+communicate single vel yes
+units si
+region dom block 0 0.05 0 0.05 0 0.08 units box
+create_box 2 dom
+neighbor 0.0002 bin
+neigh_modify delay 0
+timestep 1e-5
+include in.props
+fix pts1 all particletemplate/sphere 15485863 atom_type 1 density constant 2500 radius constant ${rs}
+fix pts2 all particletemplate/sphere 32452843 atom_type 1 density constant 2500 radius constant ${rl}
+fix pdd all particledistribution/discrete 49979687 2 pts1 0.0909 pts2 0.9091
+region ins block 0 0.05 0 0.05 0 0.035 units box
+fix ins all insert/pack seed 67867967 distributiontemplate pdd insert_every once overlapcheck yes all_in yes particles_in_region 3030 region ins
+fix integr all nve/sphere
+thermo 1000
+run 12000
+write_restart ${out}

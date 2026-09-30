@@ -1,0 +1,5 @@
+# grow the large spheres (identified by mass; small spheres keep r = 0.5 mm) by 3% over 300 steps: the class stencils
+# of neighbor multi were sized for the radii at setup and must grow
+variable t0 equal 12000
+variable rg atom (mass>1.0e-4)*0.005*(1+0.03*(step-v_t0)/300)+(mass<=1.0e-4)*0.0005
+fix grow all adapt/liggghts 1 radius v_rg max_radius 0.0052
