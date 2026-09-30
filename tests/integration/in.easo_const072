@@ -1,0 +1,46 @@
+# Regression deck (dispatch fix A5, C-08/C-09): cohesion easo/capillary/viscous with 2 atom types,
+# three isolated overlapping pairs (1,1) (1,2) (2,2); forces after 'run 0' and after 20 steps.
+# fix  l2 all property/global liquidSurfaceTension scalar 0.072 is replaced by check_cohesion_compat.sh with the surface-tension property line.
+atom_style    granular
+atom_modify   map array
+boundary      f f f
+newton        off
+communicate   single vel yes
+units         si
+region        domain block -0.02 0.02 -0.01 0.01 -0.01 0.01 units box
+create_box    2 domain
+neighbor      0.0005 bin
+neigh_modify  delay 0
+timestep      1e-6
+fix  m1 all property/global youngsModulus peratomtype 1.e7 1.e7
+fix  m2 all property/global poissonsRatio peratomtype 0.3 0.3
+fix  m3 all property/global coefficientRestitution peratomtypepair 2 0.5 0.5 0.5 0.5
+fix  m4 all property/global coefficientFriction peratomtypepair 2 0.5 0.5 0.5 0.5
+fix  m5 all property/global characteristicVelocity scalar 1.0
+fix  l1 all property/global surfaceLiquidContentInitial scalar 0.01
+fix  l2 all property/global liquidSurfaceTension scalar 0.072
+fix  l3 all property/global fluidViscosity scalar 0.001
+fix  l4 all property/global contactAngle peratomtype 0.5 0.3
+fix  l5 all property/global minSeparationDistanceRatio scalar 0.01
+fix  l6 all property/global maxSeparationDistanceRatio scalar 1.1
+pair_style  gran model hooke tangential history cohesion easo/capillary/viscous
+pair_coeff  * *
+create_atoms  1 single -0.01099 0 0 units box
+create_atoms  1 single -0.00901 0 0 units box
+create_atoms  1 single -0.00099 0 0 units box
+create_atoms  2 single  0.00099 0 0 units box
+create_atoms  2 single  0.00901 0 0 units box
+create_atoms  2 single  0.01099 0 0 units box
+set atom * diameter 0.002 density 2500
+velocity all set 0.0 0.0 0.0
+set atom 1 vx 0.01
+set atom 3 vx 0.01
+set atom 5 vx 0.01
+#fix integr all nve/sphere
+variable f1 equal fx[1]
+variable f3 equal fx[3]
+variable f5 equal fx[5]
+thermo_style custom step ke v_f1 v_f3 v_f5
+thermo_modify format float %.17g
+thermo 1
+run 20
