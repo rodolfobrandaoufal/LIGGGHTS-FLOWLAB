@@ -1,0 +1,87 @@
+"LIGGGHTS(R)-PUBLIC WWW Site"_liws - "LIGGGHTS(R)-PUBLIC Documentation"_ld - "LIGGGHTS(R)-PUBLIC Commands"_lc :c
+
+:link(liws,http://www.cfdem.com)
+:link(ld,Manual.html)
+:link(lc,Section_commands.html#comm)
+
+:line
+
+gran cohesion generalized_adhesion model (experimental) :h3
+
+[Syntax:]
+
+cohesion generalized_adhesion :pre
+
+zero or more keyword/value pairs may be appended to the end (after all models are specified) :l
+  {tangential_reduce} values = 'on' or 'off'
+    on = the adhesive force is added to the normal force seen by the Coulomb limit of the tangential model
+    off = the tangential model does not see the adhesive force :pre
+
+[Examples:]
+
+fix m6 all property/global adhesionStress peratomtypepair 2 1.0e5 5.0e5 5.0e5 2.0e6
+pair_style gran model hertz tangential history cohesion generalized_adhesion
+fix wall all wall/gran model hertz tangential history cohesion generalized_adhesion primitive type 1 zplane 0.0 :pre
+
+[Description:]
+
+This model can be used as part of "pair gran"_pair_gran.html and
+"fix wall/gran"_fix_wall_gran.html. It is EXPERIMENTAL: it was added on the
+LIGGGHTS modernization branch and has not been validated against
+experiments or against the JKR/DMT theories.
+
+While two surfaces overlap (delta_n > 0) it adds an attractive normal force
+
+F_n,coh = - w_ij * pi * R* * delta_n :pre
+
+where delta_n is the normal overlap supplied by the active surface model,
+R* = Ri*Rj/(Ri+Rj) for particle-particle contacts and R* = Ri for particle-wall
+contacts, and w_ij is the value of {adhesionStress} for the atom types i and j.
+The factor pi*R**delta_n is the Hertzian contact area (a^2 = R**delta_n),
+whatever normal model is active. The force is applied along the contact normal
+(equal and opposite for the two particles; scaled by the area ratio for walls).
+
+[Units:]
+
+w_ij has units of stress, Pa = J/m^3 (force per area, like the cohesion energy
+density of "sjkr"_gran_cohesion_sjkr.html), so that F is in N. It is NOT a work
+of adhesion or surface energy in J/m^2. Entering a JKR work of adhesion
+(typically 0.01-0.1 J/m^2) gives forces of order 1e-9 N for mm-sized
+particles, i.e. no noticeable cohesion.
+
+[Limitations:]
+
+The force is zero at delta_n = 0 and there is no force after separation: there is no pull-off force, no tensile contact regime and no loading/unloading hysteresis. This is NOT the JKR or DMT model. :ulb,l
+With a linear (hooke) normal model the net normal force is (kn - w*pi*R*)*delta_n: a pure stiffness reduction, which is never attractive unless w*pi*R* > kn, in which case the overlap grows without bound. :l
+With the hertz normal model the net force is attractive only for delta_n < (w*pi*R*/K)^2, where K is the Hertz prefactor. :l
+The normal damping is computed from the unreduced stiffness, so the realised coefficient of restitution differs from the input value. :l
+The model is conservative (potential U = w*pi*R**delta_n^2/2). :l
+For superquadric particles the volume-equivalent radius is used instead of the local curvature radius, and no torque about the contact point is added. :l
+Coarse-graining is not supported (the model stops with an error). :l,ule
+
+At the first initialisation a one-time warning summarising these limitations
+is printed.
+
+[Initialization:]
+
+fix id all property/global adhesionStress peratomtypepair n_atomtypes value_11 value_12 .. value_21 value_22 .. :pre
+
+(value_ij = w_ij in Pa for atom types i and j). The earlier name
+{adhesionEnergy} is still accepted with the same meaning and units, for
+existing input decks; {adhesionStress} takes precedence when both are defined.
+If neither is defined, the model stops with an error naming {adhesionStress}.
+
+[Restrictions:]
+
+The combination must be in the static contact-model whitelist
+(src/contact_model_whitelist.txt) to use the fast path; other combinations run
+through the slower runtime-composed fallback with a warning.
+
+[Related commands:]
+
+"pair gran"_pair_gran.html, "fix wall/gran"_fix_wall_gran.html,
+"gran cohesion sjkr"_gran_cohesion_sjkr.html
+
+[Default:]
+
+{tangential_reduce} = 'off'

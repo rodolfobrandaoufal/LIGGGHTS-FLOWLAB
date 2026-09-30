@@ -48,6 +48,8 @@
 #include "pair_gran_proxy.h"
 #include "granular_pair_style.h"
 #include "contact_models.h"
+#include "utils.h"
+#include <string>
 
 using namespace LAMMPS_NS;
 
@@ -73,7 +75,12 @@ void PairGranProxy::settings(int nargs, char ** args)
   if(impl) {
     impl->settings(nargs, args, this);
   } else {
-    error->all(FLERR, "Granular contact model combination is not compiled into the static contact-model whitelist");
+    // only reachable when built with LIGGGHTS_NO_CONTACT_MODEL_FALLBACK
+    std::string msg = std::string("Granular contact model combination is not compiled into the static contact-model whitelist"
+                                  " (and the runtime fallback is disabled by LIGGGHTS_NO_CONTACT_MODEL_FALLBACK):\n    pair_style gran ")
+                      + LIGGGHTS::Utils::gran_hashcode_to_keywords(variant) + "\n  "
+                      + LIGGGHTS::Utils::gran_whitelist_remedy(variant);
+    error->all(FLERR, msg.c_str());
   }
 }
 
@@ -123,7 +130,11 @@ void PairGranProxy::read_restart_settings(FILE * fp, const int major, const int 
   if(impl) {
     impl->read_restart_settings(fp, selected);
   } else {
-    error->one(FLERR, "unknown contact model");
+    // 'selected' was broadcast above, so this branch is taken collectively
+    std::string msg = std::string("Contact model stored in the restart file is not available in this binary:\n    pair_style gran ")
+                      + LIGGGHTS::Utils::gran_hashcode_to_keywords(selected) + "\n  "
+                      + LIGGGHTS::Utils::gran_whitelist_remedy(selected);
+    error->all(FLERR, msg.c_str());
   }
 }
 

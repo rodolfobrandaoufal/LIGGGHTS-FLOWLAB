@@ -76,6 +76,8 @@
 #include "fix_property_global.h"
 #include "domain_wedge.h"
 #include <vector>
+#include <string>
+#include "utils.h"
 
 #ifdef SUPERQUADRIC_ACTIVE_FLAG
   #include "math_extra_liggghts_nonspherical.h"
@@ -173,7 +175,14 @@ FixWallGran::FixWallGran(LAMMPS *lmp, int narg, char **arg) :
         impl = Factory::instance().create("gran", variant, lmp, this);
 
         if(!impl)
-            error->all(FLERR, "Granular wall contact model combination is not compiled into the static contact-model whitelist");
+        {
+            // only reachable when built with LIGGGHTS_NO_CONTACT_MODEL_FALLBACK
+            std::string msg = std::string("Granular wall contact model combination is not compiled into the static contact-model whitelist"
+                                          " (and the runtime fallback is disabled by LIGGGHTS_NO_CONTACT_MODEL_FALLBACK):\n    ")
+                              + std::string(style) + " " + LIGGGHTS::Utils::gran_hashcode_to_keywords(variant) + "\n  "
+                              + LIGGGHTS::Utils::gran_whitelist_remedy(variant);
+            error->fix_error(FLERR, this, msg.c_str());
+        }
     }
 
     iarg_ = narg - nremaining;

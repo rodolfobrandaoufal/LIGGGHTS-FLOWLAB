@@ -52,7 +52,7 @@ Capilary force:
 
 The capilary force is given by "(Soulie)"_#Soulie as:
 
-Fcapilary = - pi*surfaceTension*sqrt(radi*radj)*(exp(A*dist/R2+B)+C) :pre
+Fcapilary = - pi*liquidSurfaceTension(typeI,typeJ)*sqrt(radi*radj)*(exp(A*dist/R2+B)+C) :pre
 
 where
 
@@ -62,8 +62,8 @@ B = (-0.148*log(volBondScaled)-0.96)*contactAngleEff*contactAngleEff - 0.0082*lo
 C = 0.0018*log(volBondScaled)+0.078;
 contactAngleEff = 0.5*(contactAngleI+contactAngleJ) :pre
 
-{dist} is the distance between the particles' surfaces, {surfaceTension} is the surface tension
-of the fluid, {contactAngleI/J} are the contact angles for particle i/j and the fluid. {R2} is the
+{dist} is the distance between the particles' surfaces, {liquidSurfaceTension} is the
+liquid-vapour surface tension of the fluid (N/m), optionally per atom-type pair, {contactAngleI/J} are the contact angles for particle i/j and the fluid. {R2} is the
 radius of the larger of the two particles in contact.
 
 :line
@@ -109,12 +109,23 @@ fix id all property/global maxSeparationDistanceRatio scalar value
     (value=value for the maximum separation distance, recommended as 1.1)
 fix id all property/global surfaceLiquidContentInitial scalar value
     (value=value for the initial surface liquid volume in % of the solid volume)
-fix id all property/global surfaceTension scalar value
-    (value=value for the surface tension of liquid (SI units N/m))
+fix id all property/global liquidSurfaceTension scalar value
+    (value=value for the liquid-vapour surface tension of the liquid (SI units N/m))
+  or
+fix id all property/global liquidSurfaceTension peratomtypepair n_atomtypes value_11 value_12 .. value_21 value_22 ..
+    (value_ij=liquid surface tension used for a bridge between atom types i and j (SI units N/m))
 fix id all property/global fluidViscosity scalar value
     (value=value for the fluidViscosity (SI units Pas))
 fix id all property/global contactAngle peratomtype value_1 value_2 ...
     (value_i=value for contact angle of atom type i and fluid) :pre
+
+Property names for the liquid surface tension (read in this order of precedence):
+
+{liquidSurfaceTension} (scalar or peratomtypepair): preferred name. A scalar applies to all type pairs. :ulb,l
+{surfaceTension} (scalar or peratomtypepair): legacy name of LIGGGHTS 3.x input decks. It is still accepted and gives identical results, with a one-time deprecation warning. :l
+{surfaceEnergy} (peratomtypepair): name used by an intermediate version of this model. It is still accepted with a one-time deprecation warning, but should not be used: {surfaceEnergy} is also the SOLID surface energy read by the thornton_ning and edinburgh normal models, a different physical quantity. :l,ule
+
+If none of them is defined, the model stops with an error that names {liquidSurfaceTension}.
 
 The optional keyword {tangential_reduce} defines if the tangential force model should
 "see" the additional normal force excerted by this model. If it is 'off' (which is default)

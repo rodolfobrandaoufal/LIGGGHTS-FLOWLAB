@@ -104,6 +104,12 @@ namespace LAMMPS_NS {
             registerWall<MODEL, TANGENTIAL, COHESION, ROLLING, SURFACE>("gran", wall_factory);
             #include "style_contact_model.h"
         #undef GRAN_MODEL
+        #ifndef LIGGGHTS_NO_CONTACT_MODEL_FALLBACK
+            // runtime-composed fallback ContactModel<GranStyle<> > for every
+            // combination not listed above (slower, warns once per combination)
+            registerPair<NORMAL_OFF, TANGENTIAL_OFF, COHESION_OFF, ROLLING_OFF, SURFACE_DEFAULT>("gran", pair_factory);
+            registerWall<NORMAL_OFF, TANGENTIAL_OFF, COHESION_OFF, ROLLING_OFF, SURFACE_DEFAULT>("gran", wall_factory);
+        #endif
         }
 
         ~RegisterGranularStyles() {}

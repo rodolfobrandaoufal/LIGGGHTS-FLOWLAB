@@ -74,6 +74,42 @@ namespace MODEL_PARAMS
       return maxSeparationDistanceRatioScalar;
     }
 
+    /* Liquid-vapour surface tension gamma_lv [N/m] of the EASO model, stored
+       as a per-type-pair matrix. NAME_ID selects the fix property/global name
+       (0 liquidSurfaceTension, 1 surfaceTension (legacy), 2 surfaceEnergy
+       (deprecated branch name, clashes with the solid surface energy of
+       thornton_ning/edinburgh)); SCALAR broadcasts one value to all type pairs.
+       (LIGGGHTS modernization branch) */
+    inline const char * easoLiquidSurfaceTensionName(const int name_id)
+    {
+      static const char * names[] = {"liquidSurfaceTension", "surfaceTension", "surfaceEnergy"};
+      return names[name_id];
+    }
+
+    template<int NAME_ID, bool SCALAR>
+    inline MatrixProperty* createLiquidSurfaceTensionEaso(PropertyRegistry & registry, const char * caller, bool sanity_checks)
+    {
+      const char * name = easoLiquidSurfaceTensionName(NAME_ID);
+      if(!SCALAR)
+        return createPerTypePairProperty(registry, name, caller, sanity_checks, 0.0, 1e20);
+
+      LAMMPS * lmp = registry.getLAMMPS();
+      const int max_type = registry.max_type();
+      MatrixProperty * matrix = new MatrixProperty(max_type+1, max_type+1);
+      FixPropertyGlobal * property = registry.getGlobalProperty(name,"property/global","scalar",0,0,caller);
+      const double value = property->compute_scalar();
+      if(sanity_checks && value < 0.0)
+      {
+        char buf[200];
+        sprintf(buf,"%s (liquid surface tension) must be >= 0 for %s",name,caller);
+        lmp->error->all(FLERR,buf);
+      }
+      for(int i = 1; i < max_type+1; i++)
+        for(int j = 1; j < max_type+1; j++)
+          matrix->data[i][j] = value;
+      return matrix;
+    }
+
     inline static ScalarProperty* createFluidViscosityEaso(PropertyRegistry & registry, const char * caller, bool sanity_checks)
     {
       ScalarProperty* fluidViscosityScalar = MODEL_PARAMS::createScalarProperty(registry, "fluidViscosity", caller);
@@ -93,7 +129,7 @@ namespace ContactModels {
       CohesionModelBase(lmp, hsetup, cmb),
       surfaceLiquidContentInitial(0.0),
       contactAngle(0),
-      surface_energy_matrix(NULL),
+      liquid_surface_tension_matrix(NULL),
       minSeparationDistanceRatio(0.0),
       maxSeparationDistanceRatio(0.0),
       fluidViscosity(0.),
@@ -118,25 +154,19 @@ namespace ContactModels {
     void connectToProperties(PropertyRegistry & registry)
     {
       registry.registerProperty("surfaceLiquidContentInitial", &MODEL_PARAMS::createliquidContentInitialEaso);
-      registry.registerProperty("surfaceEnergy", &MODEL_PARAMS::createSurfaceEnergy);
       registry.registerProperty("fluidViscosity", &MODEL_PARAMS::createFluidViscosityEaso);
       registry.registerProperty("contactAngle", &MODEL_PARAMS::createContactAngle);
       registry.registerProperty("minSeparationDistanceRatio", &MODEL_PARAMS::createMinSeparationDistanceRatioEaso);
       registry.registerProperty("maxSeparationDistanceRatio", &MODEL_PARAMS::createMaxSeparationDistanceRatioEaso);
 
-      modify->find_fix_property("surfaceEnergy","property/global","peratomtypepair",
-                                registry.max_type(),registry.max_type(),"cohesion_model easo/capillary/viscous");
+      connectLiquidSurfaceTension(registry);
 
       registry.connect("surfaceLiquidContentInitial", surfaceLiquidContentInitial,"cohesion_model easo/capillary/viscous");
-      registry.connect("surfaceEnergy", surface_energy_matrix,"cohesion_model easo/capillary/viscous");
       registry.connect("fluidViscosity", fluidViscosity,"cohesion_model easo/capillary/viscous");
       registry.connect("contactAngle", contactAngle,"cohesion_model easo/capillary/viscous");
       registry.connect("minSeparationDistanceRatio", minSeparationDistanceRatio,"cohesion_model easo/capillary/viscous");
       
       registry.connect("maxSeparationDistanceRatio", maxSeparationDistanceRatio,"cohesion_model easo/capillary/viscous");
-
-      if(!surface_energy_matrix)
-        error->all(FLERR,"cohesion model easo/capillary/viscous requires fix property/global surfaceEnergy peratomtypepair");
 
       ln1overMinSeparationDistanceRatio = log(1./minSeparationDistanceRatio);
 
@@ -182,6 +212,68 @@ namespace ContactModels {
             error->one(FLERR,"\n\ncohesion model easo/capillary/viscous requires maxSeparationDistanceRatio >= 1.0. Please increase this value.\n");
     }
 
+    /* Find the liquid surface tension gamma_lv [N/m]. Accepted, in order:
+         liquidSurfaceTension  scalar | peratomtypepair   (preferred)
+         surfaceTension        scalar | peratomtypepair   (legacy name, deprecated)
+         surfaceEnergy         peratomtypepair            (earlier name on this branch,
+                                deprecated: it is also the SOLID surface energy of
+                                the thornton_ning / edinburgh normal models)
+       A scalar is broadcast to all type pairs. All ranks hold the same fix
+       list, so the selection (and any error) is collective. */
+    void connectLiquidSurfaceTension(PropertyRegistry & registry)
+    {
+      const char * caller = "cohesion_model easo/capillary/viscous";
+      const int mt = registry.max_type();
+
+      struct Candidate { int name_id; bool scalar; MatrixPropertyCreator creator; const char * key; };
+      const Candidate candidates[] = {
+        {0, false, &MODEL_PARAMS::createLiquidSurfaceTensionEaso<0,false>, "easo:liquidSurfaceTension:peratomtypepair"},
+        {0, true,  &MODEL_PARAMS::createLiquidSurfaceTensionEaso<0,true>,  "easo:liquidSurfaceTension:scalar"},
+        {1, false, &MODEL_PARAMS::createLiquidSurfaceTensionEaso<1,false>, "easo:surfaceTension:peratomtypepair"},
+        {1, true,  &MODEL_PARAMS::createLiquidSurfaceTensionEaso<1,true>,  "easo:surfaceTension:scalar"},
+        {2, false, &MODEL_PARAMS::createLiquidSurfaceTensionEaso<2,false>, "easo:surfaceEnergy:peratomtypepair"}
+      };
+      const int ncandidates = sizeof(candidates)/sizeof(candidates[0]);
+
+      int found = -1;
+      for(int k = 0; k < ncandidates && found < 0; k++)
+      {
+        const Candidate & c = candidates[k];
+        const char * name = MODEL_PARAMS::easoLiquidSurfaceTensionName(c.name_id);
+        if(modify->find_fix_property(name, "property/global", c.scalar ? "scalar" : "peratomtypepair",
+                                     c.scalar ? 0 : mt, c.scalar ? 0 : mt, caller, false))
+          found = k;
+      }
+
+      if(found < 0)
+        error->all(FLERR,"cohesion model easo/capillary/viscous requires the liquid surface tension [N/m]: "
+                         "'fix <id> all property/global liquidSurfaceTension scalar <value>' "
+                         "(or 'liquidSurfaceTension peratomtypepair <ntypes> <values>'). "
+                         "The legacy name 'surfaceTension' (scalar) is still accepted.");
+
+      const Candidate & c = candidates[found];
+      static bool warned[3] = {false, false, false};
+      if(c.name_id > 0 && !warned[c.name_id])
+      {
+        warned[c.name_id] = true;
+        if(comm->me == 0)
+        {
+          if(c.name_id == 1)
+            error->warning(FLERR,"cohesion model easo/capillary/viscous: property 'surfaceTension' is deprecated, "
+                                 "use 'liquidSurfaceTension' (same meaning and units, N/m; scalar or peratomtypepair)");
+          else
+            error->warning(FLERR,"cohesion model easo/capillary/viscous: reading the liquid surface tension from 'surfaceEnergy' is deprecated. "
+                                 "'surfaceEnergy' is the SOLID surface energy of the thornton_ning/edinburgh normal models; "
+                                 "define 'liquidSurfaceTension' (N/m) instead");
+        }
+      }
+
+      registry.registerProperty(c.key, c.creator);
+      registry.connect(c.key, liquid_surface_tension_matrix, caller);
+      if(!liquid_surface_tension_matrix)
+        error->all(FLERR,"cohesion model easo/capillary/viscous: could not set up liquidSurfaceTension");
+    }
+
     inline void endSurfacesIntersect(SurfacesIntersectData &sidata, ForceData&, ForceData&) {}
     void beginPass(SurfacesIntersectData&, ForceData&, ForceData&){}
     void endPass(SurfacesIntersectData&, ForceData&, ForceData&){}
@@ -214,7 +306,7 @@ namespace ContactModels {
 
       const double rEff = radi*radj / (radi+radj);
       const double contactAngleEff = 0.5 * (contactAngle[itype] + contactAngle[jtype]);
-      const double current_surface_energy = surface_energy_matrix[itype][jtype];
+      const double current_surface_tension = liquid_surface_tension_matrix[itype][jtype];
 
       // capilar force
       // this is from Soulie et al, Intl. J Numerical and Analytical Methods in Geomechanics
@@ -225,7 +317,7 @@ namespace ContactModels {
       const double volBondScaled = volBond1000*R2inv*0.001*R2inv*R2inv;
       const double Bparam = (-0.148*log(volBondScaled)-0.96)*contactAngleEff*contactAngleEff - 0.0082*log(volBondScaled) + 0.48;
       const double Cparam = 0.0018*log(volBondScaled)+0.078;
-      const double Fcapilary = - M_PI*current_surface_energy*sqrt(radi*radj)*(exp(Bparam)+Cparam);
+      const double Fcapilary = - M_PI*current_surface_tension*sqrt(radi*radj)*(exp(Bparam)+Cparam);
 
       // viscous force
       // this is from Nase et al as cited in Shi and McCarthy, Powder Technology, 184 (2008), 65-75, Eqns 40,41
@@ -314,7 +406,7 @@ namespace ContactModels {
 
       const double rEff = radi*radj / (radi+radj);
       const double contactAngleEff = 0.5 * (contactAngle[itype] + contactAngle[jtype]);
-      const double current_surface_energy = surface_energy_matrix[itype][jtype];
+      const double current_surface_tension = liquid_surface_tension_matrix[itype][jtype];
       const double distMax = (1. + 0.5*contactAngleEff) * cbrt(volBond1000) *0.1;
 
       // check if liquid bridge exists
@@ -353,7 +445,7 @@ namespace ContactModels {
           const double Aparam = -1.1*pow((volBondScaled),-0.53);
           const double Bparam = (-0.148*log(volBondScaled)-0.96)*contactAngleEff*contactAngleEff - 0.0082*log(volBondScaled) + 0.48;
           const double Cparam = 0.0018*log(volBondScaled)+0.078;
-          const double Fcapilary = - M_PI*current_surface_energy*sqrt(radi*radj)*(exp(Aparam*dist/R2+Bparam)+Cparam);
+          const double Fcapilary = - M_PI*current_surface_tension*sqrt(radi*radj)*(exp(Aparam*dist/R2+Bparam)+Cparam);
 
           // calculate vn and vt since not in struct
           const double rinv = 1.0 / r;
@@ -481,7 +573,7 @@ namespace ContactModels {
 
   private:
     double surfaceLiquidContentInitial, *contactAngle;
-    double **surface_energy_matrix;
+    double **liquid_surface_tension_matrix; // gamma_lv [N/m] per type pair
     double minSeparationDistanceRatio, maxSeparationDistanceRatio, fluidViscosity;
     double ln1overMinSeparationDistanceRatio;
     int history_offset;

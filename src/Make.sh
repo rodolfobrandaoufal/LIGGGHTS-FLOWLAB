@@ -143,6 +143,10 @@ elif (test "$1" = "models" -o "$1" = "models_full") then
   whiteLfile=style_contact_model.whitelist
   whiteLuserfile=style_contact_model_user.whitelist
   whiteLautofile=style_contact_model_autoExamples.whitelist
+  # tracked, curated whitelist (see header of the file); a local
+  # style_contact_model.whitelist, if present, still takes precedence
+  whiteLtrackedfile=contact_model_whitelist.txt
+  whiteLsource=""
 
   if (test -e $filteredfile) then
     rm -f $filteredfile
@@ -204,6 +208,17 @@ elif (test "$1" = "models" -o "$1" = "models_full") then
   #whitelist exists, take this one
   if (test -e $whiteLfile) then
     cat $whiteLfile > $filteredfile
+    whiteLsource=$whiteLfile
+    if (test -e $whiteLtrackedfile) then
+      if (test "`grep '^GRAN_MODEL(' $whiteLfile | sort`" != "`grep '^GRAN_MODEL(' $whiteLtrackedfile | sort`") then
+        echo "NOTE: local $whiteLfile differs from the tracked $whiteLtrackedfile and takes precedence; remove it to use the tracked list."
+      fi
+    fi
+
+  #tracked whitelist exists, take this one (without its comment lines)
+  elif (test -e $whiteLtrackedfile) then
+    grep '^GRAN_MODEL(' $whiteLtrackedfile > $filteredfile
+    whiteLsource=$whiteLtrackedfile
 
   #whitelist does not exist, build it
   else
@@ -263,7 +278,10 @@ elif (test "$1" = "models" -o "$1" = "models_full") then
   fi
 
 ## add merging of user, autoExamples and filteredFile
-  cp $filteredfile $whiteLfile
+  # do not shadow the tracked list with a local copy of it
+  if (test "$whiteLsource" != "$whiteLtrackedfile") then
+    cp $filteredfile $whiteLfile
+  fi
 
   if (test -e $whiteLuserfile) then
     while read -r line; do
