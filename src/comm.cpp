@@ -81,6 +81,7 @@
 #include "error.h"
 #include "memory.h"
 #include "fix_insert.h"
+#include "irregular.h"
 
 #ifdef _OPENMP
 #include "omp.h"
@@ -125,6 +126,7 @@ Comm::Comm(LAMMPS *lmp) : Pointers(lmp)
   bordergroup = 0;
   style = SINGLE;
   uniform = 1;
+  migrate_pending = 0;
   xsplit = ysplit = zsplit = NULL;
   multilo = multihi = NULL;
   cutghostmulti = NULL;
@@ -342,6 +344,8 @@ void Comm::set_proc_grid(int outflag)
   for (int i = 0; i < procgrid[2]; i++) zsplit[i] = i * 1.0/procgrid[2];
 
   xsplit[procgrid[0]] = ysplit[procgrid[1]] = zsplit[procgrid[2]] = 1.0;
+  uniform = 1;         // splits are uniform again (e.g. read_restart after balance)
+  migrate_pending = 0;
 
   // set lamda box params after procs are assigned
   // only set once unless load-balancing occurs
@@ -913,6 +917,18 @@ void Comm::exchange()
   // new ghosts are created in borders()
   // map_set() is done at end of borders()
   // clear ghost count and any ghost bonus data internal to AtomVec
+
+  // sub-domain boundaries were moved by balance/fix balance since the
+  // last exchange: atoms may now belong to procs more than one away,
+  // move them irregularly first (after all pre_exchange fixes, so the
+  // contact history is already stored in the per-atom arrays)
+
+  if (migrate_pending) {
+    migrate_pending = 0;
+    Irregular *irregular = new Irregular(lmp);
+    if (irregular->migrate_check()) irregular->migrate_atoms();
+    delete irregular;
+  }
 
   if (map_style) atom->map_clear();
   atom->nghost = 0;

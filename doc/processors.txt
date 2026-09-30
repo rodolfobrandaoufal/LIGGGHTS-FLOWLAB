@@ -65,8 +65,10 @@ It will do this based on the size and shape of the global simulation
 box so as to minimize the surface-to-volume ratio of each processor's
 sub-domain.
 
-Since LIGGGHTS(R)-PUBLIC does not load-balance by changing the grid of 3d
-processors on-the-fly, choosing explicit values for Px or Py or Pz can
+LIGGGHTS(R)-PUBLIC does not change the grid of 3d processors on-the-fly;
+the "balance"_balance.html command and "fix balance"_fix_balance.html
+only move the sub-domain boundaries within this grid.  Choosing explicit
+values for Px or Py or Pz can
 be used to override the LIGGGHTS(R)-PUBLIC default if it is known to be
 sub-optimal for a particular problem.  E.g. a problem where the extent
 of atoms will change dramatically in a particular dimension over the

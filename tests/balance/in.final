@@ -1,0 +1,13 @@
+# state right after the (optional) balance: forces and contact history
+dump    dl all local 1 ${out}/hist.txt c_pgl[1] c_pgl[2] c_pgl[3] c_pgl[4] c_pgl[5] c_pgl[6]
+dump_modify dl format "%.17g %.17g %.17g %.17g %.17g %.17g"
+dump    da all custom 1 ${out}/atoms0.txt id x y z vx vy vz fx fy fz tqx tqy tqz
+dump_modify da sort id format "%d %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g"
+include in.final_${wall}
+run 0
+undump dl
+undump da
+include in.unfinal_${wall}
+dump    db all custom 1 ${out}/atoms1.txt id x y z vx vy vz
+dump_modify db sort id format "%d %.17g %.17g %.17g %.17g %.17g %.17g"
+run ${nrun}

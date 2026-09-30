@@ -1,0 +1,4 @@
+# dynamic balancing during the whole settling (statistics only: chaotic)
+fix bal all balance 200 1.05 shift xyz 20 1.02 weight contacts 0.5
+run ${nsettle}
+include in.final

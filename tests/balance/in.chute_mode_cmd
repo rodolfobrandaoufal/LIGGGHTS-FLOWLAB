@@ -1,0 +1,2 @@
+# mesh is parallel after "run 1": the command stages the moves
+balance 1.0 shift xyz 20 1.02

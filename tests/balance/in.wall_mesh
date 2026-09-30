@@ -1,0 +1,4 @@
+# bottom wall as a triangulated mesh (plane.stl from gen_plane.py), with stress/wear module
+fix cad all mesh/surface/stress file plane.stl type 1 wear finnie
+fix zwall all wall/gran model hertz tangential history mesh n_meshes 1 meshes cad
+compute wgl all wall/gran/local id history

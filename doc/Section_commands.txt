@@ -37,6 +37,7 @@ in the command's documentation.
 
 "atom_modify"_atom_modify.html,
 "atom_style"_atom_style.html,
+"balance"_balance.html,
 "bond_coeff"_bond_coeff.html,
 "bond_style"_bond_style.html,
 "boundary"_boundary.html,
@@ -197,6 +198,7 @@ of each style or click on the style itself for a full description:
 "ave/spatial"_fix_ave_spatial.html,
 "ave/time"_fix_ave_time.html,
 "aveforce"_fix_aveforce.html,
+"balance"_fix_balance.html,
 "bond/break"_fix_bond_break.html,
 "bond/create"_fix_bond_create.html,
 "box/relax"_fix_box_relax.html,

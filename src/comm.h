@@ -80,6 +80,9 @@ class Comm : protected Pointers {
   int maxexchange_atom;             // max contribution to exchange from AtomVec
   int maxexchange_fix;              // max contribution to exchange from Fixes
   int nthreads;                     // OpenMP threads per MPI process
+  int migrate_pending;              // 1 = sub-domains were moved (balance):
+                                    //     next exchange() first migrates atoms
+                                    //     irregularly (any distance)
 
   //exchange events recorder
   

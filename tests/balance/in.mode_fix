@@ -1,0 +1,4 @@
+# settle unbalanced, then dynamic balancing (setup + every re-neighbor >= 100 steps)
+run ${nsettle}
+fix bal all balance 100 1.001 shift xyz 20 1.01 weight neigh 0.2 out ${out}/splits.txt
+include in.final

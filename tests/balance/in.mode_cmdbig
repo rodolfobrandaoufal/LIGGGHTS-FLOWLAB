@@ -1,0 +1,7 @@
+# large explicit moves (multi-hop migration; staged if a mesh is distributed),
+# then shift back with contact weights; needs processors ${px} ${py} 4
+run ${nsettle}
+balance 1.0 z 0.05 0.1 0.2
+if "${px} > 1" then "balance 1.0 x 0.8"
+balance 1.0 shift xyz 20 1.01 weight contacts 0.5
+include in.final

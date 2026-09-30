@@ -1,0 +1,3 @@
+run ${nsettle}
+balance 1.0 shift xyz 20 1.01 out ${out}/splits.txt
+include in.final

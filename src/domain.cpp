@@ -203,6 +203,11 @@ void Domain::init()
     if (modify->fix[i]->box_change_domain) box_change_domain = 1;
   }
 
+  // sub-domains made non-uniform by the balance command: fixes that cache
+  // per-sub-domain data (mesh ownership/bins, insertion fractions, sort
+  // bins) must treat the sub-domains as changing
+  if (!comm->uniform) box_change_domain = 1;
+
   box_change = 0;
   if (box_change_size || box_change_shape || box_change_domain) box_change = 1;
 

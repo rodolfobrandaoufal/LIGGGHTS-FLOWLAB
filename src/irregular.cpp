@@ -159,6 +159,10 @@ void Irregular::migrate_atoms()
       proclist[nsendatom] = coord2proc(x[i],igx,igy,igz);
       if (proclist[nsendatom] != me) {
         if (nsend > maxsend) grow_send(nsend,1);
+        // one atom may carry more than BUFEXTRA datums (many contact
+        // history partners): make room for the largest possible atom
+        if (nsend + comm->maxexchange_atom + comm->maxexchange_fix > maxsend + BUFEXTRA)
+          grow_send(nsend + comm->maxexchange_atom + comm->maxexchange_fix,1);
         sizes[nsendatom] = avec->pack_exchange(i,&buf_send[nsend]);
         nsend += sizes[nsendatom];
         nsendatom++;

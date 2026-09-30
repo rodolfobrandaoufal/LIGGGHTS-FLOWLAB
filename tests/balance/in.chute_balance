@@ -1,0 +1,45 @@
+# chute_wear with mesh walls (fix mesh/surface/stress wear finnie) and
+# balancing (LIGGGHTS modernization branch, C1). vars: mode (ref|fix|cmd)
+atom_style    granular
+atom_modify   map array
+boundary      f f f
+newton        off
+communicate   single vel yes
+units         si
+variable      mode index ref
+variable      nrun index 6000
+variable      out index out
+region        domain block -0.5 0.1 -0.2 0.2 -0.4 0.15 units box
+create_box    1 domain
+neighbor      0.002 bin
+neigh_modify  delay 0
+fix  m1 all property/global youngsModulus peratomtype 5.e6
+fix  m2 all property/global poissonsRatio peratomtype 0.45
+fix  m3 all property/global coefficientRestitution peratomtypepair 1 0.3
+fix  m4 all property/global coefficientFriction peratomtypepair 1 0.5
+fix  m5 all property/global k_finnie peratomtypepair 1 1.0
+pair_style  gran model hertz tangential history
+pair_coeff  * *
+timestep    0.00001
+fix  gravi all gravity 9.81 vector 0.0 0.0 -1.0
+fix  cad all mesh/surface/stress file meshes/simple_chute.stl type 1 wear finnie
+fix  inface all mesh/surface file meshes/insertion_face.stl type 1
+fix  granwalls all wall/gran model hertz tangential history mesh n_meshes 1 meshes cad
+fix  pts1 all particletemplate/sphere 15485863 atom_type 1 density constant 2500 radius constant 0.0015
+fix  pts2 all particletemplate/sphere 15485867 atom_type 1 density constant 2500 radius constant 0.0025
+fix  pdd1 all particledistribution/discrete 32452843  2 pts1 0.3 pts2 0.7
+group  nve_group region domain
+fix    ins nve_group insert/stream seed 32452867 distributiontemplate pdd1 &
+       nparticles 6000 massrate 0.1 insert_every 1000 overlapcheck yes all_in no vel constant 0.0 0.0 -1.0 &
+       insertion_face inface
+fix    integr nve_group nve/sphere
+compute       1 all erotate/sphere
+compute       zm all reduce ave z
+thermo_style  custom step atoms ke c_1 c_zm f_cad[1] f_cad[2] f_cad[3]
+modify_timing on
+thermo        1000
+thermo_modify lost ignore norm no format float %20.15g
+run 1
+include in.chute_mode_${mode}
+dump particles all custom 500 ${out}/dump*.txt id x y z vx vy vz
+run ${nrun}

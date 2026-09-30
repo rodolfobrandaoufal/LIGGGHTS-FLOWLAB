@@ -1,0 +1,5 @@
+# balance must refuse triclinic boxes
+atom_style     granular
+region         dom prism 0 1 0 1 0 1 0.1 0 0 units box
+create_box     1 dom
+balance        1.0 shift x 5 1.1

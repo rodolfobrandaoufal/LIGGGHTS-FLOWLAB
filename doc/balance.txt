@@ -1,0 +1,147 @@
+"LIGGGHTS(R)-PUBLIC WWW Site"_liws - "LIGGGHTS(R)-PUBLIC Documentation"_ld - "LIGGGHTS(R)-PUBLIC Commands"_lc :c
+
+:link(liws,http://www.cfdem.com)
+:link(ld,Manual.html)
+:link(lc,Section_commands.html#comm)
+
+:line
+
+balance command :h3
+
+[Syntax:]
+
+balance thresh style args ... keyword value ... :pre
+
+thresh = imbalance threshold that must be exceeded to perform a re-balance (>= 1.0) :ulb,l
+one or more style/arg pairs may be used; {shift} cannot be combined with {x}/{y}/{z} :l
+style = {x} or {y} or {z} or {shift} :l
+  {x} args = {uniform} or Px-1 numbers between 0 and 1
+    {uniform} = evenly spaced cuts between processors in x dimension
+    numbers = Px-1 ascending values that specify the fractional cut positions
+  {y} and {z} = same as {x}, for the y and z dimensions
+  {shift} args = dimstr Niter stopthresh
+    dimstr = sequence of letters containing "x" or "y" or "z", each used at most once
+    Niter = maximum # of bisection iterations per dimension
+    stopthresh = stop the iterations of a dimension once its imbalance factor is <= stopthresh (>= 1.0) :pre
+
+zero or more keyword/value pairs may be appended :l
+keyword = {weight} or {out} or {minwidth} :l
+  {weight} values = {none} or {neigh} factor or {contacts} factor
+    {none} = every particle has the cost 1 (default)
+    {neigh} factor = cost of particle i is 1 + factor * (# of neighbor-list partners of i)
+    {contacts} factor = cost of particle i is 1 + factor * (# of stored contact-history partners of i, pair and mesh)
+  {out} value = filename
+    filename = append the new sub-domain splits to this file
+  {minwidth} value = w
+    w = minimum sub-domain width in each balanced dimension (distance units), default = neighbor cutoff :pre
+:ule
+
+[Examples:]
+
+balance 1.1 shift z 20 1.02
+balance 1.0 shift xyz 30 1.01 weight contacts 0.5
+balance 1.0 x uniform z 0.05 0.1 0.2 :pre
+
+[Description:]
+
+This command adjusts the sizes of the processor sub-domains once, so
+that the computational cost is more evenly distributed over the
+processors.  It is meant to be issued between runs, e.g. after a
+settling or filling stage in which the particles have concentrated in
+a part of the simulation box (a bed, a hopper, a heap on a chute).
+See "fix balance"_fix_balance.html for re-balancing during a run.
+
+The 3d grid of processors set by the "processors"_processors.html
+command is kept: only the positions of the Px-1, Py-1 and Pz-1 cutting
+planes move.  Each processor keeps its neighbors, so all per-processor
+communication patterns remain those of the brick decomposition.
+
+The imbalance factor is the maximum cost owned by one processor divided
+by the average cost per processor.  If it is not larger than {thresh},
+nothing is changed.  Otherwise the new cuts are computed and the
+particles are migrated to their new owners.
+
+The {x}, {y}, {z} styles set the cuts explicitly, either evenly spaced
+({uniform}) or at the given fractions of the box length.
+
+The {shift} style moves the cuts along each dimension listed in
+{dimstr}.  For one dimension the cost of all particles is projected on
+that dimension; every interior cut is then moved by bisection towards
+the position where the cumulative cost below it equals i/P of the
+total (P = # of processors in that dimension), starting from brackets
+given by the current cuts.  All cuts of a dimension are bisected
+together, one global reduction per iteration.  A dimension is skipped
+if its slab imbalance is already below {stopthresh}; its iterations
+stop at {Niter} or when the slab imbalance falls below {stopthresh}.
+The dimensions are independent of each other, so the order in
+{dimstr} does not matter.  Because the cuts of one dimension are
+common to all processors, the result is optimal for costs that vary
+along the balanced dimensions separately (e.g. a bed filling the lower
+part of the box: balance {z}); a strongly correlated 2d or 3d
+distribution (a narrow inclined particle stream) cannot be balanced
+perfectly with a brick grid.
+
+Every sub-domain keeps a width of at least {minwidth} (default: the
+neighbor cutoff, i.e. the largest particle diameter plus the skin), so
+ghost particles are still obtained from the direct neighbors.
+
+The {weight} keyword selects the cost of a particle.  By default every
+particle counts 1.  {neigh} adds {factor} times the number of neighbor
+list partners of the particle (the pair work of that particle),
+{contacts} adds {factor} times the number of its stored contact-history
+partners (pair and mesh contacts).  Both need data from a preceding
+run; before the first run a warning is printed and the particle count
+is used.  Typical factors are 0.1 - 0.5.
+
+The {out} keyword writes one line "step x cuts y cuts z cuts" to a
+file.
+
+The command prints the number of bisection iterations, the number of
+stages (see below), the initial and final imbalance factor and the new
+cuts.
+
+[Data consistency:]
+
+All per-particle data travels with the particles (contact history of
+pair and wall interactions, "fix property/atom"_fix_property.html
+values, etc.): before the particles move, the contact history held in
+the neighbor lists is stored in the per-particle arrays, as done by
+"write_restart"_write_restart.html.  Particles are migrated to their
+new owners irregularly, i.e. over any distance.  Elements of a mesh
+("fix mesh/surface"_fix_mesh_surface.html) are owned by the processor
+containing their center and can only be handed to a neighboring
+processor.  If a mesh is already distributed (after the first run),
+the cuts are therefore moved in stages, none of which moves a cut past
+a neighboring old cut, and the mesh elements are re-distributed after
+each stage.
+
+After a balance command the sub-domains count as changing for all
+following runs (as with "fix balance"_fix_balance.html): meshes
+re-exchange their elements at every re-neighboring and
+"fix insert/stream"_fix_insert_stream.html and
+"fix insert/pack"_fix_insert_pack.html re-compute their per-processor
+insertion fractions, and thermo styles other than {custom} print the
+"Volume" column.  The sub-domains remain in effect until the next
+balance command, "read_restart"_read_restart.html, "read_data"_read_data.html
+or "create_box"_create_box.html.
+
+[Restrictions:]
+
+The cuts are not stored in restart files; after
+"read_restart"_read_restart.html the sub-domains are uniform again.
+Issue the balance command again or use "fix balance"_fix_balance.html.
+
+Not supported (error): triclinic boxes, wedge domains, "fix
+multisphere"_fix_multisphere.html and exchange event recording (CFD
+coupling).
+
+On one processor, or for a dimension with one processor, the command
+has no effect.
+
+[Related commands:]
+
+"fix balance"_fix_balance.html, "processors"_processors.html
+
+[Default:]
+
+weight none, no out file, minwidth = neighbor cutoff

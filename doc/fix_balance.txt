@@ -1,0 +1,109 @@
+"LIGGGHTS(R)-PUBLIC WWW Site"_liws - "LIGGGHTS(R)-PUBLIC Documentation"_ld - "LIGGGHTS(R)-PUBLIC Commands"_lc :c
+
+:link(liws,http://www.cfdem.com)
+:link(ld,Manual.html)
+:link(lc,Section_commands.html#comm)
+
+:line
+
+fix balance command :h3
+
+[Syntax:]
+
+fix ID group-ID balance Nevery thresh shift dimstr Niter stopthresh keyword value ... :pre
+
+ID, group-ID are documented in "fix"_fix.html command; the group is ignored :ulb,l
+balance = style name of this fix command :l
+Nevery = check the imbalance at re-neighboring steps at least this many steps apart (0 = only in the setup of each run) :l
+thresh = imbalance threshold that must be exceeded to perform a re-balance (>= 1.0) :l
+shift args = dimstr Niter stopthresh, as for the "balance"_balance.html command :l
+zero or more keyword/value pairs may be appended :l
+keyword = {weight} or {out} or {minwidth}, as for the "balance"_balance.html command :l
+:ule
+
+[Examples:]
+
+fix bal all balance 1000 1.1 shift z 20 1.02
+fix bal all balance 500 1.05 shift xyz 20 1.02 weight neigh 0.2 out splits.txt
+fix bal all balance 0 1.05 shift xyz 30 1.01 :pre
+
+[Description:]
+
+This fix moves the sub-domain boundaries during a run with the
+{shift} algorithm of the "balance"_balance.html command, whenever the
+imbalance factor (maximum cost per processor / average cost per
+processor) exceeds {thresh}.  Use it for simulations in which the
+particle distribution changes: filling, hopper discharge, heaps, chute
+flows, settling.
+
+The check is done in the setup of every run and, if {Nevery} > 0, at
+the first re-neighboring step at least {Nevery} steps after the
+previous check.  No extra re-neighboring is forced; a check costs a
+few global reductions.  The cuts are moved in the pre-exchange stage
+of a re-neighboring step; the particles are then migrated to their new
+owners (over any distance) at the start of the particle exchange of
+the same step, after all other pre-exchange operations, so the contact
+history of pair and wall interactions is stored with the particles
+before they move.
+
+If a mesh ("fix mesh/surface"_fix_mesh_surface.html) is distributed
+over the processors, a cut is moved at most up to its neighboring old
+cut minus half the neighbor skin in one re-balance, because mesh
+elements are handed only to neighboring processors.  Larger moves are
+completed at the following checks.  The fix reports these limited
+re-balances as "mesh-staged".
+
+The fix sets the "sub-domains change" flag of the domain (as LAMMPS fix
+balance does).  With it, the simulation box and communication pattern
+are re-computed and meshes re-exchange their elements at every
+re-neighboring step, "fix insert/stream"_fix_insert_stream.html and
+"fix insert/pack"_fix_insert_pack.html re-compute their per-processor
+insertion fractions at every insertion (this consumes random numbers,
+so insertion positions differ from a run without the fix), mesh
+neighbor lists do not use the cached bin lists of static meshes, and
+thermo styles other than {custom} print a "Volume" column.  With a
+very large {thresh} the fix never re-balances; results are then
+bitwise identical to a run without the fix for decks without
+insertion.
+
+At the end of each run the fix prints the number of re-balances, the
+imbalance factor before and (predicted) after the last one, the current
+imbalance factor and the minimum/average/maximum Pair time per
+processor, followed by the current cuts.
+
+[Restart, fix_modify, output, run start/stop, minimize info:]
+
+No information about this fix is written to "binary restart
+files"_restart.html; the cuts are not restored by
+"read_restart"_read_restart.html (they are uniform again, and the fix
+re-balances in the setup of the next run).  None of the
+"fix_modify"_fix_modify.html options are relevant to this fix.
+
+This fix computes a global scalar, the predicted imbalance factor after
+the last re-balance, and a global vector of length 3: (1) the maximum
+cost per processor at the last check, (2) the number of bisection
+iterations of the last re-balance, (3) the imbalance factor before the
+last re-balance.  They are intensive and can be used by
+"thermo_style custom"_thermo_style.html as f_ID and f_ID\[i\].
+
+No parameter of this fix can be used with the {start/stop} keywords of
+the "run"_run.html command.  This fix is not invoked during "energy
+minimization"_minimize.html.
+
+[Restrictions:]
+
+Only the {shift} style is available.  Not supported (error): triclinic
+boxes, wedge domains, "fix multisphere"_fix_multisphere.html and
+exchange event recording (CFD coupling).  The cuts form a tensor grid,
+so a distribution that is correlated in 2d or 3d is balanced only
+partially.  For small systems (a few thousand particles per processor
+or less) the additional communication across the moved boundaries can
+cost more than the balancing gains.
+
+[Related commands:]
+
+"balance"_balance.html, "processors"_processors.html
+
+[Default:]
+
+weight none, no out file, minwidth = neighbor cutoff
