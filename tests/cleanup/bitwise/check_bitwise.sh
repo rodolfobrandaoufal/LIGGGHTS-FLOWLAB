@@ -22,7 +22,7 @@ for np in 1 2; do
   else echo "FAIL chute_wear np$np: dumps differ (n=$n)"; rc=1; fi
 done
 run_case packing 1 "$ref" ref; run_case packing 1 "$new" new
-filt() { grep -v -E "^LIGGGHTS \(Version|Loop time|^(Pair|Neigh|Comm|Output|Modify|Other|Nlocal|Histogram|Nghost|Neighs|Total #|Ave neighs|Neighbor list|Dangerous|Memory usage)|%|CPU|wall|^Setting up run at" "$1"; }
+filt() { grep -v -E "^LIGGGHTS \(Version|Loop time|^(Pair|Neigh|Comm|Output|Modify|Other|Nlocal|Histogram|Nghost|Neighs|Total #|Ave neighs|Neighbor list|Dangerous|Memory usage)|%|CPU|wall|^Setting up run at|^  using [0-9]+ OpenMP thread|^$" "$1"; }
 if cmp -s <(filt $work/packing_np1_ref/log.liggghts) <(filt $work/packing_np1_new/log.liggghts); then echo "PASS packing thermo identical"
 else echo "FAIL packing thermo differs"; diff <(filt $work/packing_np1_ref/log.liggghts) <(filt $work/packing_np1_new/log.liggghts) | head; rc=1; fi
 [ $rc = 0 ] && echo "RESULT: PASS" || echo "RESULT: FAIL"

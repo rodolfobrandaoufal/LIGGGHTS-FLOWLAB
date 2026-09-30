@@ -195,6 +195,28 @@ ELSE()
 ENDIF()
 
 #---------------------------------------------------------------------------
+# C4 size-class neighbor multi for granular lists: nsq/bin/multi give identical
+# contacts and history on 1-4 ranks, incl. mesh walls, growth and insertion
+IF(EXISTS "${LIGGGHTS_TESTS_DIR}/neigh/run_all.sh")
+  LIGGGHTS_TEST(neigh_suite LABELS regression mpi TIMEOUT 900 PROCESSORS 4
+    ENV "TMPDIR=${LIGGGHTS_TEST_WORK}"
+    COMMAND ${LIGGGHTS_BASH} ${LIGGGHTS_TESTS_DIR}/neigh/run_all.sh ${BIN} ${REF_BIN})
+ELSE()
+  LIGGGHTS_SKIPPED_TEST(neigh_suite "tests/neigh/run_all.sh not present" regression mpi)
+ENDIF()
+
+#---------------------------------------------------------------------------
+# C2/B8 OpenMP threading: deterministic mode bitwise identical across thread
+# counts and to the serial kernel; exits 77 on a build without OpenMP
+IF(EXISTS "${LIGGGHTS_TESTS_DIR}/omp/run_all.sh")
+  LIGGGHTS_TEST(omp_suite LABELS physics regression TIMEOUT 1800 PROCESSORS 8
+    ENV "TMPDIR=${LIGGGHTS_TEST_WORK}"
+    COMMAND ${LIGGGHTS_BASH} ${LIGGGHTS_TESTS_DIR}/omp/run_all.sh ${BIN} ${REF_BIN})
+ELSE()
+  LIGGGHTS_SKIPPED_TEST(omp_suite "tests/omp/run_all.sh not present" physics regression)
+ENDIF()
+
+#---------------------------------------------------------------------------
 # B5 model matrix: every static whitelist combination, byte comparison against
 # the reference binary (needs LIGGGHTS_TEST_REFERENCE_BIN)
 IF(REF_BIN AND EXISTS "${LIGGGHTS_TESTS_DIR}/kernel/run_all.sh")
