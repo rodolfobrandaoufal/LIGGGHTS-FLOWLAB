@@ -1,0 +1,31 @@
+--- HEAD
++++ normalized
+@@ -70,0 +71,27 @@
++
++/* ---------------------------------------------------------------------- */
++
++double DumpCustom::x[int i][int component] const
++{
++  return atom->x[i][component];
++}
++
++double DumpCustom::v[int i][int component] const
++{
++  return atom->v[i][component];
++}
++
++double DumpCustom::f[int i][int component] const
++{
++  return atom->f[i][component];
++}
++
++double DumpCustom::omega[int i][int component] const
++{
++  return atom->omega[i][component];
++}
++
++double DumpCustom::torque[int i][int component] const
++{
++  return atom->torque[i][component];
++}
+DIFF_LINES 27

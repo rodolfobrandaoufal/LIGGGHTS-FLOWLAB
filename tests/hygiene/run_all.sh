@@ -21,7 +21,9 @@ has_hdf5() { strings "$BIN" | grep -q H5Fcreate; }
 # ---------------------------------------------------------------- 1. .gitignore
 cd "$ROOT"
 if [ -f .gitignore ]; then
-  bad=$(git ls-files -i -c --exclude-standard)
+  # audit/ is an archive: its committed files were selected explicitly and the
+  # regenerable run outputs next to them are ignored by directory rules.
+  bad=$(git ls-files -i -c --exclude-standard -- . ':(exclude)audit/')
   [ -z "$bad" ] && pass "gitignore: no tracked file is ignored" || fail "gitignore hides tracked files: $bad"
   for f in src/fix_adapt_liggghts.cpp src/dump_hdf5.cpp src/cohesion_model_generalized_adhesion.h \
            src/contact_model_whitelist.txt src/MAKE/Makefile.hdf5mpi tests/hygiene/run_all.sh \

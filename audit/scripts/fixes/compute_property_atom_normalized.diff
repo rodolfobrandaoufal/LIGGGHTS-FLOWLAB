@@ -1,0 +1,31 @@
+--- HEAD
++++ normalized
+@@ -58,0 +59,27 @@
++
++/* ---------------------------------------------------------------------- */
++
++double ComputePropertyAtom::x[int i][int component] const
++{
++  return atom->x[i][component];
++}
++
++double ComputePropertyAtom::v[int i][int component] const
++{
++  return atom->v[i][component];
++}
++
++double ComputePropertyAtom::f[int i][int component] const
++{
++  return atom->f[i][component];
++}
++
++double ComputePropertyAtom::omega[int i][int component] const
++{
++  return atom->omega[i][component];
++}
++
++double ComputePropertyAtom::torque[int i][int component] const
++{
++  return atom->torque[i][component];
++}
+DIFF_LINES 27
