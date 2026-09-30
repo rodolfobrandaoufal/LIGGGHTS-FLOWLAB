@@ -72,6 +72,7 @@ MeshModuleStress::MeshModuleStress(LAMMPS *lmp, int &iarg_, int narg, char **arg
     sigma_t_(0),
     wear_flag_(0),
     k_finnie_(0),
+    k_archard_(0),
     wear_(0),
     wear_step_(0),
     wear_increment_(NULL),
@@ -127,11 +128,15 @@ MeshModuleStress::MeshModuleStress(LAMMPS *lmp, int &iarg_, int narg, char **arg
                 error->one(FLERR,"not enough arguments");
             iarg_++;
             if(strcmp(arg[iarg_],"finnie") == 0)
-                wear_flag_ = 1;
+                wear_flag_ = WEAR_FINNIE;
+            else if(strcmp(arg[iarg_],"archard") == 0)
+                wear_flag_ = WEAR_ARCHARD;
+            else if(strcmp(arg[iarg_],"finnie/archard") == 0)
+                wear_flag_ = WEAR_FINNIE | WEAR_ARCHARD;
             else if(strcmp(arg[iarg_],"off") == 0)
                 wear_flag_ = 0;
             else
-                error->one(FLERR,"expecting 'finnie' or 'off' as wear argument");
+                error->one(FLERR,"expecting 'finnie', 'archard', 'finnie/archard' or 'off' as wear argument");
             iarg_++;
             hasargs = true;
         }
@@ -224,7 +229,10 @@ void MeshModuleStress::init()
 
     if(wear_flag_)
     {
-        k_finnie_ = static_cast<FixPropertyGlobal*>(modify->find_fix_property("k_finnie","property/global","peratomtypepair",atom->ntypes,atom->ntypes,"meshmodule/stress"))->get_array();
+        if(wear_flag_ & WEAR_FINNIE)
+            k_finnie_ = static_cast<FixPropertyGlobal*>(modify->find_fix_property("k_finnie","property/global","peratomtypepair",atom->ntypes,atom->ntypes,"meshmodule/stress"))->get_array();
+        if(wear_flag_ & WEAR_ARCHARD)
+            k_archard_ = static_cast<FixPropertyGlobal*>(modify->find_fix_property("k_archard","property/global","peratomtypepair",atom->ntypes,atom->ntypes,"meshmodule/stress"))->get_array();
         wear_ = mesh->prop().getElementProperty<ScalarContainer<double> >("wear");
         wear_step_ = mesh->prop().getElementProperty<ScalarContainer<double> >("wear_step");
         if (store_wear_increment_)
@@ -311,6 +319,21 @@ void MeshModuleStress::add_particle_contribution(int ip,double *frc,
 
         vectorSubtract3D(contactPoint,x,c);
 
+        // Archard (sliding/abrasive) wear, opt-in via 'wear archard' or
+        // 'wear finnie/archard'. Evaluated before the Finnie branch because
+        // that branch returns early for receding contacts, while sliding
+        // abrasion does not depend on the sign of the normal velocity.
+        if(wear_flag_ & WEAR_ARCHARD)
+        {
+            const double archard_increment = archard_wear_increment(ip,frc,c,iTri,v_wall);
+            if (store_wear_increment_)
+                wear_increment(iTri) = archard_increment;
+            wear_step(iTri) += archard_increment;
+        }
+
+        if(!(wear_flag_ & WEAR_FINNIE))
+            return;
+
         // calculate relative velocity
         vectorSubtract3D(v,v_wall,v_rel);
 
@@ -347,9 +370,63 @@ void MeshModuleStress::add_particle_contribution(int ip,double *frc,
         
         const double part_wear_increment = E*update->dt / mesh->areaElem(iTri);
         if (store_wear_increment_)
-            wear_increment(iTri) = part_wear_increment;
+            wear_increment(iTri) += part_wear_increment; // was zeroed above; bitwise equal to '=' for Finnie alone
         wear_step(iTri) += part_wear_increment;
     }
+}
+
+/* ----------------------------------------------------------------------
+   Archard wear (LIGGGHTS modernization branch, roadmap B7, finding S-11)
+   Archard, J. Appl. Phys. 24 (1953) 981: V = K * F_n * s / H.
+   Per contact and time step, as wear depth on triangle iTri:
+
+     dh = k_archard * F_n * |v_t| * dt / A_tri
+
+   k_archard = K/H [1/Pa], F_n [N] = compressive normal component of the
+   contact force (clamped at 0 for tensile/cohesive net force),
+   v_t [m/s] = tangential slip velocity at the contact point
+             = (v + omega x c - v_wall) minus its normal component,
+   A_tri [m^2] = triangle area, so dh is a depth [m].
+   c = contact point - particle centre; n = c/|c| is the contact normal.
+------------------------------------------------------------------------- */
+
+double MeshModuleStress::archard_wear_increment(int ip, const double *frc,
+                            const double *c, int iTri, const double *v_wall)
+{
+    const double cmag = vectorMag3D(c);
+    if(cmag <= 0.)
+        return 0.;
+
+    double n[3];
+    vectorScalarMult3D(c,1./cmag,n);
+
+    // frc is the force exerted on the wall (already negated by the caller);
+    // it points from the particle into the wall, i.e. along n, when compressive
+    const double Fn = vectorDot3D(frc,n);
+    if(Fn <= 0.)
+        return 0.;
+
+    // velocity of the particle material point at the contact
+    double v_rel[3];
+    vectorCopy3D(atom->v[ip],v_rel);
+    if(atom->omega)
+    {
+        double wxc[3];
+        vectorCross3D(atom->omega[ip],c,wxc);
+        vectorAdd3D(v_rel,wxc,v_rel);
+    }
+    vectorSubtract3D(v_rel,v_wall,v_rel);
+
+    // tangential (slip) part
+    const double vn = vectorDot3D(v_rel,n);
+    double v_t[3];
+    v_t[0] = v_rel[0] - vn*n[0];
+    v_t[1] = v_rel[1] - vn*n[1];
+    v_t[2] = v_rel[2] - vn*n[2];
+    const double vt_mag = vectorMag3D(v_t);
+
+    const int atom_type_mesh = fix_mesh->atomTypeWall();
+    return k_archard_[atom_type_mesh-1][atom->type[ip]-1] * Fn * vt_mag * update->dt / mesh->areaElem(iTri);
 }
 
 /* ----------------------------------------------------------------------

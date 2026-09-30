@@ -181,8 +181,16 @@ namespace LAMMPS_NS
         // WEAR
 
         // flag for wear model and Finnie constant
+        // wear_flag_ is a bit mask: WEAR_FINNIE (1, legacy value) and/or
+        // WEAR_ARCHARD (2, LIGGGHTS modernization branch, roadmap B7)
+        enum { WEAR_FINNIE = 1, WEAR_ARCHARD = 2 };
         int wear_flag_;
         double const* const* k_finnie_;
+        // Archard wear coefficient k_archard = K/H [1/Pa] (per type pair)
+        double const* const* k_archard_;
+
+        double archard_wear_increment(int ip, const double *frc,
+                            const double *c, int iTri, const double *v_wall);
         ScalarContainer<double> *wear_;
         ScalarContainer<double> *wear_step_;
         ScalarContainer<double> *wear_increment_;

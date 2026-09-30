@@ -17,12 +17,13 @@ stress_keyword = {reference_point}, {stress} or {wear} :l
   {reference_point} values = rx ry rz
     rx, ry, rz = coordinates of reference point
   {stress} value = on or off
-  {wear} value = finnie or off :pre
+  {wear} value = finnie or archard or finnie/archard or off :pre
 :ule
 
 [Examples:]
 
-fix cad all mesh/surface/stress file mesh.stl type 1 wear finnie :pre
+fix cad all mesh/surface/stress file mesh.stl type 1 wear finnie
+fix cad all mesh/surface/stress file mesh.stl type 1 wear archard :pre
 
 [Description:]
 
@@ -41,6 +42,43 @@ The finnie constant k in Eqn. (4.23) has to be specified as follows:
 fix id all property/global k_finnie peratomtypepair n_atomtypes value_11 value_12 .. value_21 value_22 .. . :pre
 
     (value_ij=value for the finnie constant between atom type i and j; n_atomtypes is the number of atom types you want to use in your simulation) :pre
+
+Note that the Finnie model is an erosion (impact) model: its angular function
+vanishes at grazing incidence, so a particle that slides or rolls along a
+triangle (relative velocity tangential to the surface) produces no Finnie wear.
+For abrasion by sliding contacts use the {archard} model.
+
+{wear} = {archard} (opt-in, LIGGGHTS modernization branch) activates the
+Archard abrasive wear law (J.F. Archard, J. Appl. Phys. 24 (1953) 981,
+V = K F_n s / H) in the per-triangle depth form used by DEM codes. For every
+particle-triangle contact and time step the wear depth of triangle i grows by
+
+dh_i = k_archard * F_n * |v_t| * dt / A_i :pre
+
+where
+
+k_archard = K/H is the dimensional Archard coefficient in 1/Pa (dimensionless wear coefficient K divided by the hardness H of the wall material), :ulb,l
+F_n (N) is the compressive normal component of the particle-wall contact force, taken along the contact normal (particle centre to contact point); tensile (for example cohesive) net forces give no wear, :l
+v_t (m/s) is the tangential slip velocity at the contact point, v_t = (v + omega x c - v_wall) minus its normal component, with c the vector from the particle centre to the contact point and v_wall the mesh velocity at the contact point. Pure rolling therefore produces no Archard wear, :l
+A_i (m^2) is the area of triangle i, so that h is a wear depth in m (dh/dt = k_archard * p * |v_t| with the nominal pressure p = F_n/A_i). :ule,l
+
+The Archard coefficient is given per atom type pair, like k_finnie; the wall
+type is the {type} of the mesh:
+
+fix id all property/global k_archard peratomtypepair n_atomtypes value_11 value_12 .. value_21 value_22 .. :pre
+
+{wear} = {finnie/archard} evaluates both models and stores their sum
+(k_finnie and k_archard are both required). The Archard term is evaluated for
+approaching and receding contacts alike, whereas the Finnie term keeps its
+original behaviour (receding contacts are skipped).
+
+Both models write to the same per-element fields: {wear} (accumulated wear,
+restarted with the mesh) and, internally, {wear_step}. Wear is a diagnostic
+only: the mesh geometry is not updated (no vertex displacement), and the wear
+does not feed back on the particle dynamics. Adding or changing the wear model
+therefore never changes particle trajectories. With {wear} = {finnie} (and with
+{wear} = {off}) results are bitwise identical to the versions before the Archard
+model was added.
 
 This mesh module is a prerequisite for the following mesh modules
 
