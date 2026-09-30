@@ -1,0 +1,45 @@
+# V-02 spinning-pair / tumbling-pair test (tests/tangential, LIGGGHTS modernization branch, audit B1)
+# Two touching spheres; phase 1 builds a tangential spring (no integrator, fixed positions),
+# phase 2 moves the pair as one rigid body with fix move rotate about axis ${ax} ${ay} ${az}.
+# Frame indifference: the contact force must be constant in the co-rotating (body) frame.
+# Variables: opts (extra pair_style keywords), ax ay az (rotation axis), nrot (steps of phase 2)
+hard_particles yes
+atom_style granular
+atom_modify map array
+boundary f f f
+newton off
+communicate single vel yes
+units si
+processors * 1 1
+region domain block -0.004 0.004 -0.004 0.004 -0.004 0.004 units box
+create_box 1 domain
+neighbor 0.0002 bin
+neigh_modify delay 0
+fix m1 all property/global youngsModulus peratomtype 1e7
+fix m2 all property/global poissonsRatio peratomtype 0.3
+fix m3 all property/global coefficientRestitution peratomtypepair 1 0.9
+fix m4 all property/global coefficientFriction peratomtypepair 1 10.0
+pair_style gran model hertz tangential history ${opts}
+pair_coeff * *
+timestep 1e-6
+# R = 1 mm, overlap 2e-5 m
+create_atoms 1 single -0.00099 0 0 units box
+create_atoms 1 single  0.00099 0 0 units box
+set atom * diameter 0.002 density 2500
+# phase 1: tangential slip along y and z (spring in the tangent plane)
+set atom 1 vy  0.02 vz  0.01
+set atom 2 vy -0.02 vz -0.01
+thermo 1000000
+run 100
+set atom * vx 0 vy 0 vz 0
+# phase 2: rigid rotation of the pair, period 2000 steps (W dt = pi/1000)
+fix mv all move rotate 0 0 0 ${ax} ${ay} ${az} 0.002
+variable st equal step
+variable fx equal fx[1]
+variable fy equal fy[1]
+variable fz equal fz[1]
+variable x1 equal x[1]
+variable y1 equal y[1]
+variable z1 equal z[1]
+fix pr all print 1 "${st} ${fx} ${fy} ${fz} ${x1} ${y1} ${z1}" file traj.txt screen no title "# step fx fy fz x y z"
+run ${nrot}

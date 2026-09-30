@@ -36,6 +36,8 @@
     Christoph Kloss (DCS Computing GmbH, Linz)
     Christoph Kloss (JKU Linz)
     Richard Berger (JKU Linz)
+    LIGGGHTS modernization branch (opt-in frame-indifferent history,
+    incremental Mindlin and total-force Coulomb options, audit B1)
 
     Copyright 2012-     DCS Computing GmbH, Linz
     Copyright 2009-2012 JKU Linz
@@ -52,6 +54,7 @@ TANGENTIAL_MODEL(TANGENTIAL_HISTORY,history,2)
 #include "update.h"
 #include "global_properties.h"
 #include "atom.h"
+#include "comm.h"
 
 namespace LIGGGHTS {
 namespace ContactModels
@@ -73,7 +76,13 @@ namespace ContactModels
         elasticpotflag_(false),
         dissipation_history_offset_(-1),
         dissipatedflag_(false),
-        fix_dissipated_(NULL)
+        fix_dissipated_(NULL),
+        rescale_(false),
+        rotate_(false),
+        incremental_(false),
+        coulomb_total_(false),
+        frame_update_(false),
+        kt_old_offset_(-1)
     {
         history_offset = hsetup->add_history_value("shearx", "1");
         hsetup->add_history_value("sheary", "1");
@@ -83,6 +92,24 @@ namespace ContactModels
 
     inline void postSettings(IContactHistorySetup * hsetup, ContactModelBase *cmb)
     {
+        // opt-in options (audit B1); all default to off = legacy behaviour
+        frame_update_ = rescale_ || rotate_ || incremental_;
+        if ((frame_update_ || coulomb_total_) && (elasticpotflag_ || dissipatedflag_))
+            error->all(FLERR, "tangential_model history: the options tangential_rescale, tangential_rotate, "
+                              "tangential_incremental and coulomb_total cannot be combined with "
+                              "computeElasticPotential or computeDissipatedEnergy");
+        if (incremental_)
+            kt_old_offset_ = hsetup->add_history_value("kt_old", "0");
+        if ((frame_update_ || coulomb_total_) && comm->me == 0)
+        {
+            const char *fmt = "tangential_model history (%s): tangential_rescale %s, tangential_rotate %s, "
+                              "tangential_incremental %s, coulomb_total %s\n";
+            const char *where = cmb->is_wall() ? "wall" : "pair";
+            if (screen)  fprintf(screen, fmt, where, rescale_ ? "on" : "off", rotate_ ? "on" : "off",
+                                 incremental_ ? "on" : "off", coulomb_total_ ? "on" : "off");
+            if (logfile) fprintf(logfile, fmt, where, rescale_ ? "on" : "off", rotate_ ? "on" : "off",
+                                 incremental_ ? "on" : "off", coulomb_total_ ? "on" : "off");
+        }
         if (elasticpotflag_)
         {
             elastic_potential_offset_ = cmb->get_history_offset("elastic_potential_normal");
@@ -111,6 +138,11 @@ namespace ContactModels
         settings.registerOnOff("heating_tracking",heating_track,false);
         settings.registerOnOff("computeElasticPotential", elasticpotflag_, false);
         settings.registerOnOff("computeDissipatedEnergy", dissipatedflag_, false);
+        // audit B1 (C-16, S-04, V-03, C-17): opt-in, default off
+        settings.registerOnOff("tangential_rescale", rescale_, false);
+        settings.registerOnOff("tangential_rotate", rotate_, false);
+        settings.registerOnOff("tangential_incremental", incremental_, false);
+        settings.registerOnOff("coulomb_total", coulomb_total_, false);
         //TODO error->one(FLERR,"TODO here also check if right surface model used");
     }
 
@@ -144,7 +176,9 @@ namespace ContactModels
         if (update_history && elasticpotflag_)
             vectorCopy3D(shear, shear_old);
 
-        if (update_history) {
+        if (update_history && frame_update_) {
+          updateHistoryFrameIndifferent(sidata, shear);
+        } else if (update_history) {
           const double dt = update->dt;
           shear[0] += sidata.vtr1 * dt;
           shear[1] += sidata.vtr2 * dt;
@@ -175,8 +209,45 @@ namespace ContactModels
         const double Ft_shear_sq = kt * kt * shrsq;
         const double Ft_friction_sq = Ft_friction * Ft_friction;
 
+        if (coulomb_total_)
+        {
+          // C-17 option: apply the Coulomb limit to the total tangential force
+          // (spring + dashpot) and back-compute the spring (as LAMMPS GRANULAR)
+          const double gammat = sidata.gammat;
+          Ft1 -= (gammat*sidata.vtr1);
+          Ft2 -= (gammat*sidata.vtr2);
+          Ft3 -= (gammat*sidata.vtr3);
+          const double Ft_tot_sq = Ft1*Ft1 + Ft2*Ft2 + Ft3*Ft3;
+          const double vtrsq = sidata.vtr1*sidata.vtr1+sidata.vtr2*sidata.vtr2+sidata.vtr3*sidata.vtr3;
+          double P_diss_local = gammat*vtrsq;
+          if (Ft_tot_sq > Ft_friction_sq)
+          {
+            const double ratio = Ft_friction / sqrt(Ft_tot_sq);
+            Ft1 *= ratio;
+            Ft2 *= ratio;
+            Ft3 *= ratio;
+            if (update_history && kt > 0.0)
+            {
+                shear[0] = -(Ft1 + gammat*sidata.vtr1)/kt;
+                shear[1] = -(Ft2 + gammat*sidata.vtr2)/kt;
+                shear[2] = -(Ft3 + gammat*sidata.vtr3)/kt;
+                const double shrsq_new = shear[0]*shear[0] + shear[1]*shear[1] + shear[2]*shear[2];
+                // elastic energy released by slip in this step, as power
+                const double dE = 0.5*kt*(shrsq - shrsq_new);
+                if (dE > 0.0) P_diss_local += dE/update->dt;
+            }
+          }
+          if(heating)
+          {
+              sidata.P_diss += P_diss_local;
+              if(heating_track && sidata.is_wall)
+                  cmb->tally_pw(P_diss_local, sidata.i, sidata.jtype, 2);
+              if(heating_track && !sidata.is_wall)
+                  cmb->tally_pp(P_diss_local, sidata.i, sidata.j, 2);
+          }
+        }
         // energy loss from sliding or damping
-        if (Ft_shear_sq > Ft_friction_sq) {
+        else if (Ft_shear_sq > Ft_friction_sq) {
           if (shrsq != 0.0) {
             const double shrmag = sqrt(shrsq);
             const double Ft_shear = kt * shrmag;
@@ -369,10 +440,102 @@ namespace ContactModels
         shear[0] = 0.0;
         shear[1] = 0.0;
         shear[2] = 0.0;
+        if (kt_old_offset_ >= 0)
+            scdata.contact_history[kt_old_offset_] = 0.0;
     }
 
     inline void beginPass(SurfacesIntersectData&, ForceData&, ForceData&){}
     inline void endPass(SurfacesIntersectData&, ForceData&, ForceData&){}
+
+   private:
+    // Opt-in history update (audit B1). Order, following LAMMPS GRANULAR
+    // rotate_rescale_vec: first map the stored spring into the current contact
+    // frame, then add the increment vtr*dt.
+    //  (a) tangential_rescale: project onto the current tangent plane and restore
+    //      the pre-projection magnitude (Luding 2008 eq. 17; Thornton et al.
+    //      2013 eq. 18; LAMMPS rotate_rescale_vec).
+    //  (b) tangential_rotate: rotate the spring rigidly with the mean spin of the
+    //      pair, w = 0.5*(omega_i+omega_j), by |w|*dt (Rodrigues). Its normal
+    //      component w.en is the twist about the normal (Luding 2008); its
+    //      tangential part carries the spring along with a turning normal, which
+    //      makes the update exact for rigid-body motion of the pair (the
+    //      projection (a) then only removes round-off). Particle-particle
+    //      contacts only; wall contacts keep the wall frame.
+    //  (c) tangential_incremental: incremental Mindlin force dFt = -kt dS with
+    //      the unloading rule Ft *= kt/kt_old (Thornton et al. 2013;
+    //      LAMMPS mindlin_rescale/force). With the spring stored as a
+    //      displacement S (Ft = -kt S) this is S *= kt_old/kt on loading only.
+    inline void updateHistoryFrameIndifferent(const SurfacesIntersectData & sidata, double * const shear)
+    {
+        const double dt = update->dt;
+        const double enx = sidata.en[0];
+        const double eny = sidata.en[1];
+        const double enz = sidata.en[2];
+
+        // (b) rigid rotation with the mean spin of the pair, w = 0.5*(omega_i+omega_j),
+        //     by the angle |w|*dt about w/|w| (Rodrigues). Done before the projection, so
+        //     that for a pair moving as a rigid body (omega_i = omega_j = Omega, normal
+        //     turning with Omega) the spring is carried exactly into the new tangent plane.
+        if (rotate_ && !sidata.is_wall && sidata.omega_i && sidata.omega_j)
+        {
+            const double * const wi = sidata.omega_i;
+            const double * const wj = sidata.omega_j;
+            const double w[3] = { 0.5*(wi[0]+wj[0]), 0.5*(wi[1]+wj[1]), 0.5*(wi[2]+wj[2]) };
+            const double wmag = sqrt(w[0]*w[0] + w[1]*w[1] + w[2]*w[2]);
+            if (wmag > 0.0)
+            {
+                const double phi = wmag*dt;
+                const double c = cos(phi);
+                const double s = sin(phi);
+                const double kx = w[0]/wmag, ky = w[1]/wmag, kz = w[2]/wmag;
+                const double kdots = kx*shear[0] + ky*shear[1] + kz*shear[2];
+                const double cx = ky*shear[2] - kz*shear[1];
+                const double cy = kz*shear[0] - kx*shear[2];
+                const double cz = kx*shear[1] - ky*shear[0];
+                shear[0] = shear[0]*c + cx*s + kx*kdots*(1.0-c);
+                shear[1] = shear[1]*c + cy*s + ky*kdots*(1.0-c);
+                shear[2] = shear[2]*c + cz*s + kz*kdots*(1.0-c);
+            }
+        }
+
+        // (a) projection onto the current tangent plane (optionally magnitude-preserving)
+        const double shrsq_old = shear[0]*shear[0] + shear[1]*shear[1] + shear[2]*shear[2];
+        const double rsht = shear[0]*enx + shear[1]*eny + shear[2]*enz;
+        shear[0] -= rsht * enx;
+        shear[1] -= rsht * eny;
+        shear[2] -= rsht * enz;
+        if (rescale_)
+        {
+            const double shrsq_proj = shear[0]*shear[0] + shear[1]*shear[1] + shear[2]*shear[2];
+            if (shrsq_proj > 0.0)
+            {
+                const double scale = sqrt(shrsq_old/shrsq_proj);
+                shear[0] *= scale;
+                shear[1] *= scale;
+                shear[2] *= scale;
+            }
+        }
+
+        // (c) incremental Mindlin: keep Ft (not S) fixed while kt grows
+        if (incremental_)
+        {
+            double & kt_old = sidata.contact_history[kt_old_offset_];
+            const double kt = sidata.kt;
+            if (kt_old > 0.0 && kt > kt_old)
+            {
+                const double f = kt_old/kt;
+                shear[0] *= f;
+                shear[1] *= f;
+                shear[2] *= f;
+            }
+            kt_old = kt;
+        }
+
+        // increment (vtr is tangential by construction)
+        shear[0] += sidata.vtr1 * dt;
+        shear[1] += sidata.vtr2 * dt;
+        shear[2] += sidata.vtr3 * dt;
+    }
 
    protected:
     bool heating;
@@ -383,6 +546,12 @@ namespace ContactModels
     int dissipation_history_offset_;
     bool dissipatedflag_;
     FixPropertyAtom *fix_dissipated_;
+    bool rescale_;
+    bool rotate_;
+    bool incremental_;
+    bool coulomb_total_;
+    bool frame_update_;
+    int kt_old_offset_;
   };
 }
 }

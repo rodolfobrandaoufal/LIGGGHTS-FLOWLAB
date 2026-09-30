@@ -14,7 +14,19 @@ tangential history \[other model_type/model_name pairs as described "here"_pair_
 zero or more keyword/value pairs may be appended to the end (after all models are specified) :l
   {heating_tangential_history} values = 'on' or 'off'
     on = model contributes to surface heating in the frame of "surface sphere/heatable"_gran_surface_sphere_heatable.html
-    off = model does not contributes to surface heating :pre
+    off = model does not contributes to surface heating
+  {tangential_rescale} values = 'on' or 'off'
+    on = project the stored spring onto the current tangent plane and restore its length
+    off = project only (legacy; the spring shrinks when the normal turns)
+  {tangential_rotate} values = 'on' or 'off'
+    on = rotate the stored spring with the mean spin of the pair (particle-particle contacts)
+    off = no rotation (legacy)
+  {tangential_incremental} values = 'on' or 'off'
+    on = incremental Mindlin force with rescaling on unloading (Thornton et al. 2013)
+    off = total-form spring F_t = -k_t(delta) * u_t (legacy)
+  {coulomb_total} values = 'on' or 'off'
+    on = Coulomb limit applied to the total tangential force (spring + damping)
+    off = Coulomb limit applied to the spring force only (legacy) :pre
 
 [Description:]
 
@@ -41,6 +53,67 @@ spring is no longer linear.
 The damping contribution is only added in time-steps where there is no slip,
 i.e. the Coulomb criterion is not met.
 
+[Frame-indifferent and incremental options (opt-in):]
+
+All four options below default to 'off'. With the defaults, results are
+bitwise identical to earlier versions. They can be given to both
+"pair gran"_pair_gran.html and "fix wall/gran"_fix_wall_gran.html. When one is
+on, a one-line summary is printed on rank 0.
+
+{tangential_rescale on}: in each step, the stored tangential displacement u_t is
+first projected onto the current tangent plane. It is then rescaled to the
+length it had before the projection, and only then is the increment
+v_t,rel*dt added. The legacy update projects without rescaling, so the spring
+loses a fraction of about (1-cos(phi)) of its length every time the contact
+normal turns by phi. This is the approach of Luding (2008, eq. 17), Thornton et
+al. (2013, eq. 18), and LAMMPS GRANULAR (rotate_rescale_vec).
+
+{tangential_rotate on}: before the projection, u_t is rotated rigidly with the
+mean spin of the pair, w = (omega_i + omega_j)/2, by the angle |w|*dt about the
+axis w/|w| (Rodrigues formula). The component of w along the normal is the
+twist of the contact about its normal. For two particles spinning together
+about the normal, the legacy spring stays fixed in the lab frame, so its
+direction in the particles' frame changes with time. The tangential part of w
+carries the spring along when the normal itself turns. With this option, the
+update is exact for a pair moving as a rigid body: the contact force stays
+constant in the body frame to round-off. The rotation applies to
+particle-particle contacts only. Wall contacts keep the wall (lab) frame. A
+rotating mesh (fix move/mesh rotate) is therefore not frame-indifferent.
+Frame indifference needs both options: {tangential_rescale on} {tangential_rotate on}.
+
+{tangential_incremental on}: the tangential force is updated incrementally,
+dF_t = -k_t(delta) du_t, instead of F_t = -k_t(delta) u_t. When k_t
+decreases (unloading), the force is scaled by k_t/k_t,old (Thornton et al.
+2013; LAMMPS mindlin_rescale/force). Internally the spring is still stored as a
+displacement; it is multiplied by k_t,old/k_t while k_t increases. The option
+adds one history value ("kt_old") per contact. It has an effect only when k_t
+depends on the overlap (hertz). With hooke, k_t is constant and the option
+changes nothing.
+
+Energy note: for any tangential law in which F_t depends on delta while F_n does
+not depend on u_t, a closed elastic contact cycle is not conservative. The
+reason is that dW = F_n d(delta) + F_t du_t is not an exact differential unless
+k_t is constant. The legacy total form can therefore *create* energy: up to
++0.75 % in an elastic (e=1), sticking, oblique sphere-plane impact. The
+incremental form with the unloading rule never creates energy. Instead it
+dissipates energy, like Mindlin-Deresiewicz micro-slip: -1.4 % at 5 degrees
+and -18 % at 80 degrees for the same impact with mu=10. Neither form conserves
+energy to 0.1 %.
+
+{coulomb_total on}: the Coulomb limit mu*|F_n| is applied to the total
+tangential force (spring + dashpot). The spring is then back-computed as
+u_t = -(F_t + gamma_t v_t,rel)/k_t, as in LAMMPS GRANULAR. In the legacy
+update, the damping is added after the spring has been capped. The total
+|F_t| can therefore exceed mu*|F_n| for strongly damped contacts with a small
+normal force. With {heating_tangential_history on}, the heat source is the
+damping power plus the elastic energy released by slip.
+
+The four options cannot be combined with {computeElasticPotential} or
+{computeDissipatedEnergy}; such an input stops with an error. Restart files
+store the contact history. A run that uses {tangential_incremental on} has one
+extra history value per contact, so a restart must keep the same setting for
+{tangential_incremental}.
+
 This model contributes to surface heating in the frame of 
 "surface sphere/heatable"_gran_surface_sphere_heatable.html if the 
 appropriate flag is activated (only available in the PREMIUM version).
@@ -61,6 +134,18 @@ may not be available in LIGGGHTS(R)-PUBLIC.
 
 [Default:]
 
-{heating_tangential_history} = 'off'
+{heating_tangential_history} = 'off', {tangential_rescale} = 'off',
+{tangential_rotate} = 'off', {tangential_incremental} = 'off', {coulomb_total} = 'off'
+
+:line
+
+:link(Luding2008)
+[(Luding 2008)] S. Luding, Cohesive, frictional powders: contact models for tension,
+Granular Matter 10 (2008) 235-246.
+
+:link(Thornton2013)
+[(Thornton 2013)] C. Thornton, S.J. Cummins, P.W. Cleary, An investigation of the
+comparative behaviour of alternative contact force models during inelastic collisions,
+Powder Technology 233 (2013) 30-46.
 
 
