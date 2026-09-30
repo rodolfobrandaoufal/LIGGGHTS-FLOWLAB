@@ -1,0 +1,37 @@
+# Adhesion agent (phase B2): quasi-static loading/unloading of a sphere
+# (R = 1 mm, R* = R for the plane) against a primitive wall at x = 0 with
+# 'model hertz ... cohesion ${coh}'. e = 1 => no damping.
+# Variables (set with -var): coh (jkr|dmt)
+# (LIGGGHTS modernization branch)
+atom_style    granular
+atom_modify   map array
+boundary      f f f
+newton        off
+communicate   single vel yes
+units         si
+region        domain block -0.001 0.004 -0.002 0.002 -0.002 0.002 units box
+create_box    1 domain
+neighbor      0.0002 bin
+neigh_modify  delay 0 every 1 check no
+timestep      1e-6
+fix  m1 all property/global youngsModulus peratomtype 1.e7
+fix  m2 all property/global poissonsRatio peratomtype 0.3
+fix  m3 all property/global coefficientRestitution peratomtypepair 1 1.0
+fix  m4 all property/global coefficientFriction peratomtypepair 1 0.5
+fix  m5 all property/global workOfAdhesion peratomtypepair 1 0.05
+pair_style  gran model hertz tangential history cohesion ${coh}
+pair_coeff  * *
+fix wall all wall/gran model hertz tangential history cohesion ${coh} primitive type 1 xplane 0.0
+create_atoms  1 single 0.0010005 0 0 units box
+set atom * diameter 0.002 density 2500
+velocity all set 0.0 0.0 0.0
+variable x1 equal x[1]
+variable f1 equal fx[1]
+thermo_style custom step v_x1 v_f1
+thermo_modify format float %.17g norm no
+thermo 1
+fix mv all move linear -1e-3 0.0 0.0
+run 6000
+unfix mv
+fix mv all move linear 1e-3 0.0 0.0
+run 7500

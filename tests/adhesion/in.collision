@@ -1,0 +1,40 @@
+# Adhesion agent (phase B2): head-on collision of two spheres (R = 1 mm) with
+# 'model hertz tangential history cohesion jkr', e = 1 (no viscous damping).
+# The only loss is the JKR hysteresis, so the rebound relative velocity is
+# v_out^2 = v_in^2 - 2*dW/m*, and the pair sticks for v_in < sqrt(2 dW/m*).
+# Variables (set with -var): vrel (relative approach speed, m/s), px (procs in x)
+# (LIGGGHTS modernization branch)
+atom_style    granular
+atom_modify   map array
+boundary      f f f
+newton        off
+communicate   single vel yes
+processors    ${px} 1 1
+units         si
+region        domain block -0.004 0.004 -0.002 0.002 -0.002 0.002 units box
+create_box    1 domain
+neighbor      0.0002 bin
+neigh_modify  delay 0 every 1 check no
+timestep      1e-7
+fix  m1 all property/global youngsModulus peratomtype 1.e7
+fix  m2 all property/global poissonsRatio peratomtype 0.3
+fix  m3 all property/global coefficientRestitution peratomtypepair 1 1.0
+fix  m4 all property/global coefficientFriction peratomtypepair 1 0.5
+fix  m5 all property/global workOfAdhesion peratomtypepair 1 0.05
+pair_style  gran model hertz tangential history cohesion jkr
+pair_coeff  * *
+create_atoms  1 single -0.001001 0 0 units box
+create_atoms  1 single  0.001001 0 0 units box
+set atom * diameter 0.002 density 2500
+variable vh equal 0.5*${vrel}
+velocity all set 0.0 0.0 0.0
+set atom 1 vx ${vh}
+variable vm equal -${vh}
+set atom 2 vx ${vm}
+fix integr all nve/sphere
+variable dx equal x[2]-x[1]
+variable vr equal vx[2]-vx[1]
+thermo_style custom step v_dx v_vr
+thermo_modify format float %.17g norm no
+thermo 100
+run 20000

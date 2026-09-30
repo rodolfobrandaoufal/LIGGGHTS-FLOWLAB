@@ -62,6 +62,11 @@ Coarse-graining is not supported (the model stops with an error). :l,ule
 At the first initialisation a one-time warning summarising these limitations
 is printed.
 
+For adhesion with a pull-off force, a tensile regime and hysteresis use
+"cohesion jkr"_gran_cohesion_jkr.html or "cohesion dmt"_gran_cohesion_dmt.html
+with the hertz normal model; they take the work of adhesion {workOfAdhesion}
+in J/m^2.
+
 [Initialization:]
 
 fix id all property/global adhesionStress peratomtypepair n_atomtypes value_11 value_12 .. value_21 value_22 .. :pre
@@ -80,7 +85,8 @@ through the slower runtime-composed fallback with a warning.
 [Related commands:]
 
 "pair gran"_pair_gran.html, "fix wall/gran"_fix_wall_gran.html,
-"gran cohesion sjkr"_gran_cohesion_sjkr.html
+"gran cohesion sjkr"_gran_cohesion_sjkr.html,
+"gran cohesion jkr"_gran_cohesion_jkr.html, "gran cohesion dmt"_gran_cohesion_dmt.html
 
 [Default:]
 

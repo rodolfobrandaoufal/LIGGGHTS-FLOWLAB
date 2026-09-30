@@ -1,0 +1,60 @@
+"LIGGGHTS(R)-PUBLIC WWW Site"_liws - "LIGGGHTS(R)-PUBLIC Documentation"_ld - "LIGGGHTS(R)-PUBLIC Commands"_lc :c
+
+:link(liws,http://www.cfdem.com)
+:link(ld,Manual.html)
+:link(lc,Section_commands.html#comm)
+
+:line
+
+gran cohesion dmt model :h3
+
+[Syntax:]
+
+cohesion dmt :pre
+
+zero or more keyword/value pairs may be appended to the end (after all models are specified) :l
+  {tangential_reduce} values = 'on' or 'off'
+    on = the Coulomb limit of the tangential (and rolling) model sees F_Hertz - F_po + 2 F_po
+    off = the tangential model sees the Hertz normal force only :pre
+
+[Examples:]
+
+fix m5 all property/global workOfAdhesion peratomtypepair 1 0.05
+pair_style gran model hertz tangential history cohesion dmt :pre
+
+[Description:]
+
+Derjaguin-Muller-Toporov (DMT, 1975) adhesion for stiff, weakly adhesive
+particles, for use with the "hertz"_gran_model_hertz.html normal model in
+"pair gran"_pair_gran.html and "fix wall/gran"_fix_wall_gran.html. While the
+surfaces overlap (delta >= 0) a constant attractive force
+
+F_adh = -2*pi*w*R* :pre
+
+is added to the Hertz force, where w is the work of adhesion and
+R* = Ri*Rj/(Ri+Rj) (R* = Ri for a wall). The pull-off force is 2*pi*w*R*.
+The force acts in contact only: there is no attraction outside contact and
+no hysteresis. w is read exactly as for "cohesion jkr"_gran_cohesion_jkr.html
+({workOfAdhesion} peratomtypepair / peratomtype with w_ij = sqrt(w_i*w_j) /
+scalar, or {surfaceEnergy} peratomtypepair).
+
+[Verification:]
+
+tests/adhesion/run_all.sh checks the force-overlap curve (relative error
+< 1e-6) and the pull-off force 2*pi*w*R* (< 2 %) for pair and wall contacts.
+
+[Restrictions:]
+
+Normal model {hertz} only; spherical particles only; no coarse-graining.
+
+[Related commands:]
+
+"gran cohesion jkr"_gran_cohesion_jkr.html, "gran model hertz"_gran_model_hertz.html
+
+[Default:]
+
+{tangential_reduce} = 'off'
+
+:line
+
+[(Derjaguin 1975)] B.V. Derjaguin, V.M. Muller, Yu.P. Toporov, J. Colloid Interface Sci. 53 (1975) 314-326.

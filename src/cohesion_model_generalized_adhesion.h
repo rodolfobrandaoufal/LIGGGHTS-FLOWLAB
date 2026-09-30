@@ -47,7 +47,9 @@
     kn -> kn - w pi R*; normal damping is still computed from the unreduced
     stiffness. For superquadrics the volume-equivalent radius is used and no
     torque about the contact point is added. See
-    doc/gran_cohesion_generalized_adhesion.txt.
+    doc/gran_cohesion_generalized_adhesion.txt. For adhesion with a pull-off
+    force and hysteresis use 'cohesion jkr' or 'cohesion dmt' with the hertz
+    normal model (cohesion_model_jkr.h, cohesion_model_dmt.h).
 ------------------------------------------------------------------------- */
 
 #ifdef COHESION_MODEL
@@ -122,7 +124,9 @@ namespace ContactModels {
                                      "(Hertz contact area pi*R*delta_n) acts only during overlap; there is no pull-off "
                                      "force and no hysteresis (not JKR/DMT). w (adhesionStress/adhesionEnergy) is a "
                                      "stress in Pa (J/m^3), not a work of adhesion in J/m^2. "
-                                     "See doc/gran_cohesion_generalized_adhesion.txt");
+                                     "See doc/gran_cohesion_generalized_adhesion.txt. For JKR/DMT adhesion with "
+                                     "pull-off and hysteresis use 'model hertz ... cohesion jkr' or 'cohesion dmt' "
+                                     "with workOfAdhesion [J/m^2] (doc/gran_cohesion_jkr.txt, doc/gran_cohesion_dmt.txt)");
         }
     }
 

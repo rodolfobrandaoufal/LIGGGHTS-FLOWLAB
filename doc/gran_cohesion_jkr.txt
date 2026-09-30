@@ -1,0 +1,120 @@
+"LIGGGHTS(R)-PUBLIC WWW Site"_liws - "LIGGGHTS(R)-PUBLIC Documentation"_ld - "LIGGGHTS(R)-PUBLIC Commands"_lc :c
+
+:link(liws,http://www.cfdem.com)
+:link(ld,Manual.html)
+:link(lc,Section_commands.html#comm)
+
+:line
+
+gran cohesion jkr model :h3
+
+[Syntax:]
+
+cohesion jkr :pre
+
+zero or more keyword/value pairs may be appended to the end (after all models are specified) :l
+  {tangential_reduce} values = 'on' or 'off'
+    on = the Coulomb limit of the tangential (and rolling) model sees F_JKR + 2 F_c
+    off = the tangential model sees the Hertz normal force only :pre
+
+[Examples:]
+
+fix m5 all property/global workOfAdhesion peratomtypepair 1 0.05
+pair_style gran model hertz tangential history cohesion jkr
+fix wall all wall/gran model hertz tangential history cohesion jkr primitive type 1 zplane 0.0 :pre
+
+fix m5 all property/global workOfAdhesion peratomtype 0.5 0.2    # w_ij = sqrt(w_i*w_j) :pre
+
+[Description:]
+
+This cohesion model turns the "hertz"_gran_model_hertz.html normal model into
+the adhesive elastic contact of Johnson, Kendall and Roberts (JKR, 1971),
+including the tensile (neck) regime after the surfaces have separated and the
+loading/unloading hysteresis. It can be used in "pair gran"_pair_gran.html
+and "fix wall/gran"_fix_wall_gran.html. It requires the normal model
+{hertz} (any other normal model stops with an error at the first contact).
+
+With the effective Young's modulus E* (as used by hertz), the effective
+radius R* = Ri*Rj/(Ri+Rj) (R* = Ri for a wall) and the work of adhesion w, the
+JKR overlap and normal force are, in terms of the contact radius a,
+
+delta(a) = a^2/R* - sqrt(2*pi*w*a/E*)
+F(a)     = 4*E**a^3/(3*R*) - sqrt(8*pi*w*E**a^3)     (F > 0 is repulsive) :pre
+
+For a given overlap the contact radius is found on the stable branch by a
+Newton iteration (to round-off). While the surfaces overlap (delta > 0) the
+model adds F - F_Hertz(delta) to the Hertz force, so the elastic normal force
+is exactly F(delta); the Hertz normal damping is kept. A per-contact history
+flag records that a JKR contact exists: it is set when the surfaces touch
+(delta = 0 on approach; the force then jumps to -8/9 F_c), and the contact
+persists in tension (delta < 0, full JKR force, no damping) until the
+separation
+
+delta_c = -(3/4) * (pi^2*w^2*R*/E*^2)^(1/3) :pre
+
+is reached, where it breaks. The maximum tensile (pull-off) force is
+
+F_c = 1.5*pi*w*R* :pre
+
+and the energy dissipated per contact/separation cycle (the area of the
+hysteresis loop) is 0.66300*pi*w*R* * (4*pi^2*w^2*R*/E*^2)^(1/3)
+= 7.09*(w^5*R*^4/E*^2)^(1/3).
+
+To keep a separating pair evaluated down to delta_c, the model raises the
+neighbor contact distance factor (see "neigh_modify"_neigh_modify.html
+{contact_distance_factor}) from the smallest particle radius known at
+initialisation (atoms and insertion templates). If a contact is later found
+for which |delta_c| lies outside the contact-distance band (for example
+smaller particles inserted without a template, or radius growth), the run
+stops with an error that gives the required {contact_distance_factor}.
+
+[Work of adhesion:]
+
+w is the work of adhesion (energy per area, J/m^2 in SI units). For two
+identical surfaces with surface energy gamma, w = 2*gamma. It is read from,
+in this order:
+
+{workOfAdhesion} peratomtypepair: w_ij for each pair of atom types (walls use the wall's atom type) :ulb,l
+{workOfAdhesion} peratomtype: one value per type; w_ij = sqrt(w_i*w_j) (Berthelot / Girifalco-Good combining rule) :l
+{workOfAdhesion} scalar: one value for all pairs :l
+{surfaceEnergy} peratomtypepair: accepted for compatibility with the "thornton_ning" normal model, with the same meaning (thornton_ning uses F_c = 1.5*pi*surfaceEnergy*R*, i.e. surfaceEnergy = w). :l,ule
+
+Pairs with w = 0 get the plain Hertz force.
+
+[Verification:]
+
+tests/adhesion/run_all.sh checks, for pair and wall contacts, the
+force-overlap curve on a quasi-static cycle against the analytic JKR law
+(relative error < 1e-6; measured 2e-12), the pull-off force 1.5*pi*w*R*
+(< 2 %; measured 4e-7), separation at delta_c, the hysteresis loop area
+(< 1 %; measured 8e-4), the energy lost in a collision (< 2 %; measured 7e-4)
+and 1/2/4-rank agreement.
+
+[Restrictions:]
+
+Normal model {hertz} only. Spherical particles only (superquadric and convex
+particles stop with an error). Coarse-graining is not supported. There is no
+normal damping and no tangential history in the tensile regime delta < 0
+(the tangential history is reset when the surfaces separate). Plastic
+deformation is not modelled (see thornton_ning for an elastic-plastic
+adhesive model). The whitelisted fast-path combinations are hertz with
+tangential history or no_history and rolling_friction off, cdt or epsd2
+(src/contact_model_whitelist.txt); others run through the slower runtime
+fallback with a warning.
+
+[Related commands:]
+
+"gran cohesion dmt"_gran_cohesion_dmt.html,
+"gran cohesion generalized_adhesion"_gran_cohesion_generalized_adhesion.html,
+"gran model hertz"_gran_model_hertz.html, "pair gran"_pair_gran.html,
+"fix wall/gran"_fix_wall_gran.html
+
+[Default:]
+
+{tangential_reduce} = 'off'
+
+:line
+
+:link(Johnson1971)
+[(Johnson 1971)] K.L. Johnson, K. Kendall, A.D. Roberts, Proc. R. Soc. Lond. A 324 (1971) 301-313.
+[(Thornton 1998)] C. Thornton, Z. Ning, Powder Technol. 99 (1998) 154-162.

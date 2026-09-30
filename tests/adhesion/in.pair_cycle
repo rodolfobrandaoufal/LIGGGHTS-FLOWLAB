@@ -1,0 +1,49 @@
+# Adhesion agent (phase B2): quasi-static loading/unloading of two spheres
+# (R = 1 mm, R* = 0.5 mm) with 'model hertz ... cohesion ${coh}'.
+# Atom 1 is held fixed, atom 2 is driven along -x (approach, loading) and
+# then along +x (unloading, separation) by fix move. e = 1 => no damping,
+# so the normal force must follow the analytic JKR / DMT law exactly.
+# Variables (set with -var): coh (jkr|dmt), px (processors in x), tan (history|no_history),
+# rol (rolling model; default off)
+# (LIGGGHTS modernization branch)
+variable      rol index off
+atom_style    granular
+atom_modify   map array
+boundary      f f f
+newton        off
+communicate   single vel yes
+processors    ${px} 1 1
+units         si
+region        domain block -0.004 0.004 -0.002 0.002 -0.002 0.002 units box
+create_box    1 domain
+neighbor      0.0002 bin
+neigh_modify  delay 0 every 1 check no
+timestep      1e-6
+fix  m1 all property/global youngsModulus peratomtype 1.e7
+fix  m2 all property/global poissonsRatio peratomtype 0.3
+fix  m3 all property/global coefficientRestitution peratomtypepair 1 1.0
+fix  m4 all property/global coefficientFriction peratomtypepair 1 0.5
+fix  m5 all property/global workOfAdhesion peratomtypepair 1 0.05
+fix  m6 all property/global coefficientRollingFriction peratomtypepair 1 0.1
+fix  m7 all property/global coefficientRollingViscousDamping peratomtypepair 1 0.1
+pair_style  gran model hertz tangential ${tan} cohesion ${coh} rolling_friction ${rol}
+pair_coeff  * *
+# gap 5e-7 m at start; move 1e-9 m per step
+create_atoms  1 single -0.001 0 0 units box
+create_atoms  1 single  0.0010005 0 0 units box
+set atom * diameter 0.002 density 2500
+group g1 id 1
+group g2 id 2
+velocity all set 0.0 0.0 0.0
+fix hold g1 move linear 0.0 0.0 0.0
+variable dx equal x[2]-x[1]
+variable f1 equal fx[1]
+variable f2 equal fx[2]
+thermo_style custom step v_dx v_f1 v_f2
+thermo_modify format float %.17g norm no
+thermo 1
+fix mv g2 move linear -1e-3 0.0 0.0
+run 4000
+unfix mv
+fix mv g2 move linear 1e-3 0.0 0.0
+run 4800
