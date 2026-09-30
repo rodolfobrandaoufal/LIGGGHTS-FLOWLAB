@@ -52,7 +52,6 @@ FixStyle(nve,FixNVE)
 #ifndef LMP_FIX_NVE_H
 #define LMP_FIX_NVE_H
 
-#include "aligned_particle_soa.h"
 #include "fix.h"
 
 namespace LAMMPS_NS {
@@ -73,7 +72,6 @@ class FixNVE : public Fix {
   double dtv,dtf;
   double *step_respa;
   int mass_require;
-  ParticleSoA soa_;
 };
 
 }

@@ -1,6 +1,9 @@
 # Negative regression for integration_scheme 4 without implicit CFD coupling.
 # Expected result: controlled error containing
 # "integration_scheme 4 requires fix couple/cfd/force/implicit".
+# Needs an ENABLE_SQ build. Uses a whitelisted contact combination
+# (hooke/history/superquadric) and keeps the atom at type 1 (P0-04);
+# checked by tests/cleanup/check_cleanup.sh.
 
 echo both
 atom_style superquadric
@@ -23,12 +26,12 @@ fix m5 all property/global coefficientRollingFriction peratomtypepair 2 0.0 0.0 
 fix m6 all property/global characteristicVelocity scalar 1.0
 fix m7 all property/global coefficientRollingViscousDamping peratomtypepair 2 0.0 0.0 0.0 0.0
 
-pair_style gran model hertz tangential history rolling_friction epsd2 surface superquadric
+pair_style gran model hooke tangential history surface superquadric
 pair_coeff * *
 timestep 1e-5
 
 create_atoms 1 single 0.0 0.0 0.01
-set atom 1 type 2 shape 0.002 0.002 0.004 blockiness 2.0 2.0 density 2500 quat 1 0 0 0
+set atom 1 type 1 shape 0.002 0.002 0.004 blockiness 2.0 2.0 density 2500 quat 1 0 0 0
 
 fix integr all nve/superquadric integration_scheme 4
 run 0

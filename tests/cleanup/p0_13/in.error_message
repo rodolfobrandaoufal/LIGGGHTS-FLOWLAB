@@ -1,0 +1,7 @@
+# P0-13 regression (LIGGGHTS modernization branch, cleanup agent).
+# Any deck that ends in error->all. Error::all may append a random
+# "Comment from the off:" / "Tip of the day:" line from
+# SpecialMessages::generate_message(); before the fix that line was printed
+# from a dangling std::string buffer (garbage, or heap-use-after-free under ASan).
+units si
+this_command_does_not_exist

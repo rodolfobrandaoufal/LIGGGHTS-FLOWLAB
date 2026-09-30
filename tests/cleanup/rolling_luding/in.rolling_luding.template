@@ -1,0 +1,42 @@
+# C-14/C-15/V-12 regression (LIGGGHTS modernization branch, cleanup agent).
+# Static overlapping sphere pair (no integrator, omega constant), hooke normal
+# model (provides no kc/fo history), rolling_friction luding. Template: the
+# check script check_rolling_luding.py fills in the TANG, TORSION, WX, WY tokens.
+# Normal is along x: omegax = twist (torsion), omegay = rolling.
+hard_particles yes
+atom_style granular
+atom_modify map array
+boundary f f f
+newton off
+communicate single vel yes
+units si
+region domain block -0.01 0.01 -0.01 0.01 -0.01 0.01 units box
+create_box 1 domain
+neighbor 0.0002 bin
+neigh_modify delay 0
+fix m1 all property/global youngsModulus peratomtype 10000000.0
+fix m2 all property/global poissonsRatio peratomtype 0.3
+fix m3 all property/global coefficientRestitution peratomtypepair 1 0.9
+fix m4 all property/global coefficientFriction peratomtypepair 1 0.0
+fix m5 all property/global characteristicVelocity scalar 1.0
+fix m6 all property/global coefficientRollingFriction peratomtypepair 1 0.1
+fix m7 all property/global coefficientRollingViscousDamping peratomtypepair 1 0.3
+fix m8 all property/global coeffRollingStiffness peratomtypepair 1 1.0
+pair_style gran model hooke tangential @TANG@ rolling_friction luding torsion @TORSION@
+pair_coeff * *
+timestep 1e-6
+create_atoms 1 single -0.000995 0 0 units box
+create_atoms 1 single 0.000995 0 0 units box
+set atom * diameter 0.002 density 2500.0
+set atom 1 omegax @WX@ omegay @WY@ omegaz 0.0
+group g1 id 1
+compute tq all property/atom tqx tqy tqz
+compute t1 g1 reduce sum c_tq[1] c_tq[2] c_tq[3]
+variable tx equal c_t1[1]
+variable ty equal c_t1[2]
+variable tz equal c_t1[3]
+variable fx equal fx[1]
+variable st equal step
+fix pr all print 1 "${st} ${tx} ${ty} ${tz} ${fx}" file tq.txt screen no
+thermo 100000
+run 600

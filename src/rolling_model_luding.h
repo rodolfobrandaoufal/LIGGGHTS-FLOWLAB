@@ -66,7 +66,13 @@ namespace ContactModels
       hsetup->add_history_value("r_torquez_old", "1");
       hsetup->add_history_value("r_tor_torquex_old", "1");
       hsetup->add_history_value("r_tor_torquey_old", "1");
-      hsetup->add_history_value("r_tor_torquey_old", "1");
+      hsetup->add_history_value("r_tor_torquez_old", "1");
+      // slots history_offset+0..2: rolling spring torque
+      // slots history_offset+3..5: torsion spring torque
+      // kc and f_adh are only provided by normal models that store them
+      // (luding, edinburgh, edinburgh/stiffness, thornton_ning); otherwise
+      // get_history_offset() returns -1 and kc = f_adh = 0 is used in the
+      // torque limit, i.e. T_max = coeffRollFrict * |Fn| * reff
       kc_offset = cmb->get_history_offset("kc_offset");
       fo_offset = cmb->get_history_offset("fo_offset");
     }
@@ -238,7 +244,7 @@ namespace ContactModels
           omega_normal[0] = normal[0] * (crossOmegaI - crossOmegaJ);
           omega_normal[1] = normal[1] * (crossOmegaI - crossOmegaJ);
           omega_normal[2] = normal[2] * (crossOmegaI - crossOmegaJ);
-          calcTorTorque(r_torque,sidata,reff,omega_normal[0],omega_normal[1],omega_normal[2],r_inertia);
+          calcTorTorque(r_tor_torque,sidata,reff,omega_normal[0],omega_normal[1],omega_normal[2],r_inertia);
         }
       }
 
@@ -266,7 +272,7 @@ namespace ContactModels
       c_history[0] = 0.0; // this is the r_torque_old
       c_history[1] = 0.0; // this is the r_torque_old
       c_history[2] = 0.0; // this is the r_torque_old
-      double * const c_tor_history = &scdata.contact_history[history_offset];
+      double * const c_tor_history = &scdata.contact_history[history_offset+3];
       c_tor_history[0] = 0.0; // this is the r_tor_torque_old
       c_tor_history[1] = 0.0; // this is the r_tor_torque_old
       c_tor_history[2] = 0.0; // this is the r_tor_torque_old
@@ -312,8 +318,8 @@ namespace ContactModels
       const double k_r = sidata.kt;
       const double kr = k_r * kR2kcMax[itype][jtype]*reff*reff;  // tangential stiffness based on the ratio input
 
-      const double kc = sidata.contact_history[kc_offset];
-      const double f_adh = sidata.contact_history[fo_offset];
+      const double kc = kc_offset >= 0 ? sidata.contact_history[kc_offset] : 0.0;
+      const double f_adh = fo_offset >= 0 ? sidata.contact_history[fo_offset] : 0.0;
 
       vectorScalarMult3D(wr_t,dt*kr,dr_torque);
 
@@ -355,11 +361,11 @@ namespace ContactModels
       const int jtype = sidata.jtype;
 
       const double dt = update->dt;
-      double * const c_tor_history = &sidata.contact_history[history_offset];
+      double * const c_tor_history = &sidata.contact_history[history_offset+3];
       const double rmu= coeffRollFrict[itype][jtype];   // rmu is used as torsion coefficient
 
-      const double kc = sidata.contact_history[kc_offset];
-      const double f_adh = sidata.contact_history[fo_offset];
+      const double kc = kc_offset >= 0 ? sidata.contact_history[kc_offset] : 0.0;
+      const double f_adh = fo_offset >= 0 ? sidata.contact_history[fo_offset] : 0.0;
       // use of normal component of omega for torque calculations
       wr_n[0] = wr1;
       wr_n[1] = wr2;

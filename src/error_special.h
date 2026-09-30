@@ -97,6 +97,8 @@ class SpecialMessages : protected Pointers {
                                 "Our amazing methods work 70% of the time, all the time!");
   }
 
+  // returns a pointer into the member message_ (or NULL); it stays valid
+  // until the next call of generate_message() or destruction of this object
   const char* generate_message()
   {
     int irand;
@@ -116,14 +118,14 @@ class SpecialMessages : protected Pointers {
     if(1 == irand)
     {
         int irand2 = rand() % (comments_from_the_off_.size());
-        std::string msg = "\nComment from the off: "+comments_from_the_off_[irand2];
-        return msg.c_str();
+        message_ = "\nComment from the off: "+comments_from_the_off_[irand2];
+        return message_.c_str();
     }
     else if(2 == irand)
     {
         int irand2 = rand() % (tips_of_the_day_.size());
-        std::string msg = "\nTip of the day: "+tips_of_the_day_[irand2];
-        return msg.c_str();
+        message_ = "\nTip of the day: "+tips_of_the_day_[irand2];
+        return message_.c_str();
     }
     else return 0;
   }
@@ -131,6 +133,7 @@ class SpecialMessages : protected Pointers {
  private:
   std::vector<std::string> comments_from_the_off_;
   std::vector<std::string> tips_of_the_day_;
+  std::string message_;
 };
 
 }

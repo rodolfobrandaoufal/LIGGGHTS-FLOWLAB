@@ -46,6 +46,7 @@
 #include <cmath>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include "lattice.h"
 #include "update.h"
 #include "domain.h"
@@ -60,6 +61,35 @@
 using namespace LAMMPS_NS;
 
 enum{NONE,SC,BCC,FCC,HCP,DIAMOND,SQ,SQ2,HEX,CUSTOM};
+
+/* ----------------------------------------------------------------------
+   same parsing and validation as Force::numeric(), but without using
+   the Force instance: the Domain constructor creates the default
+   "lattice none 1.0" before LAMMPS::force exists (see lammps.cpp)
+------------------------------------------------------------------------- */
+
+static double lattice_numeric(Error *error, const char *file, const int line,
+                              const char *const str)
+{
+  const unsigned int n = strlen(str);
+  char *dstr = new char[n+1];
+  for (unsigned int i = 0; i < n; i++) {
+    if (isdigit(str[i]) || str[i] == '-' || str[i] == '+' ||
+        str[i] == '.' || str[i] == 'e' || str[i] == 'E')
+      dstr[i] = str[i];
+    else if (str[i] == '\r' && i == n-1)
+      dstr[i] = '\0';
+    else {
+      delete [] dstr;
+      error->all(file,line,"Expected floating point parameter in input script or data file");
+    }
+  }
+  dstr[n] = '\0';
+
+  const double val = atof(dstr);
+  delete [] dstr;
+  return val;
+}
 
 /* ---------------------------------------------------------------------- */
 
@@ -86,7 +116,8 @@ Lattice::Lattice(LAMMPS *lmp, int narg, char **arg) : Pointers(lmp)
 
   if (style == NONE) {
     if (narg != 2) error->all(FLERR,"Illegal lattice command");
-    xlattice = ylattice = zlattice = force->numeric(FLERR,arg[1]);
+    // do not use force->numeric() here, force may not exist yet
+    xlattice = ylattice = zlattice = lattice_numeric(error,FLERR,arg[1]);
     if (xlattice <= 0.0) error->all(FLERR,"Illegal lattice command");
     return;
   }

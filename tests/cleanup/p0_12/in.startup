@@ -1,0 +1,11 @@
+# P0-12 regression (LIGGGHTS modernization branch, cleanup agent).
+# Minimal deck: the Domain constructor creates the default "lattice none 1.0"
+# before LAMMPS::force exists. Run with a -fsanitize=address,undefined build
+# WITH the vptr check (no -fno-sanitize=vptr). Before the fix UBSan reported a
+# member call on an invalid Force pointer at startup (SEGV with vptr on).
+# Also exercises an explicit "lattice none" to keep its input validation.
+units si
+lattice none 2.0
+region reg block 0 1 0 1 0 1 units box
+create_box 1 reg
+print "STARTUP_OK"

@@ -107,6 +107,13 @@ void FixNVEAsphereBase::init()
 
   if(integration_scheme == 4 && couple_fix_id < 0)
     error->all(FLERR,"integration_scheme 4 requires fix couple/cfd/force/implicit");
+
+  // collective check of the coupling fixes (not their per-rank arrays)
+  if(integration_scheme == 4) {
+    FixCfdCouplingForceImplicit *fix_implicit = (FixCfdCouplingForceImplicit*)modify->fix[couple_fix_id];
+    if(!fix_implicit->fix_KslRotation_ || !fix_implicit->fix_hdtorque_ || !fix_implicit->fix_ex_)
+      error->all(FLERR,"integration_scheme 4 requires fix couple/cfd/force/implicit with torque transfer (hydrodynamic torque, KslRotation and orientation properties)");
+  }
 }
 
 /* ---------------------------------------------------------------------- */
@@ -266,10 +273,12 @@ void FixNVEAsphereBase::rotationUpdate(bool updateQuaternion)
   hdtorque       = NULL;
 
   if(couple_fix_id > -1) {
-      ksl_rotation = ((FixCfdCouplingForceImplicit*)modify->fix[couple_fix_id])->fix_KslRotation_->array_atom;
-      hdtorque =     ((FixCfdCouplingForceImplicit*)modify->fix[couple_fix_id])->fix_hdtorque_->array_atom;
-      orientation =  ((FixCfdCouplingForceImplicit*)modify->fix[couple_fix_id])->fix_ex_->array_atom;
-    }
+    FixCfdCouplingForceImplicit *fix_implicit = (FixCfdCouplingForceImplicit*)modify->fix[couple_fix_id];
+    // fix_hdtorque_ only exists if the coupling transfers torque
+    if(fix_implicit->fix_KslRotation_) ksl_rotation = fix_implicit->fix_KslRotation_->array_atom;
+    if(fix_implicit->fix_hdtorque_)    hdtorque     = fix_implicit->fix_hdtorque_->array_atom;
+    if(fix_implicit->fix_ex_)          orientation  = fix_implicit->fix_ex_->array_atom;
+  }
 
   if(integration_scheme == 4 && (!ksl_rotation || !hdtorque || (updateQuaternion && !orientation)))
     error->all(FLERR,"integration_scheme 4 requires initialized implicit CFD rotation, hydrodynamic torque, and orientation arrays");
@@ -353,9 +362,11 @@ void FixNVEAsphereBase::initial_integrate(int vflag)
   hdtorque       = NULL;
 
   if(couple_fix_id > -1) {
-    ksl_rotation = ((FixCfdCouplingForceImplicit*)modify->fix[couple_fix_id])->fix_KslRotation_->array_atom;
-    hdtorque =     ((FixCfdCouplingForceImplicit*)modify->fix[couple_fix_id])->fix_hdtorque_->array_atom;
-    orientation =  ((FixCfdCouplingForceImplicit*)modify->fix[couple_fix_id])->fix_ex_->array_atom;
+    FixCfdCouplingForceImplicit *fix_implicit = (FixCfdCouplingForceImplicit*)modify->fix[couple_fix_id];
+    // fix_hdtorque_ only exists if the coupling transfers torque
+    if(fix_implicit->fix_KslRotation_) ksl_rotation = fix_implicit->fix_KslRotation_->array_atom;
+    if(fix_implicit->fix_hdtorque_)    hdtorque     = fix_implicit->fix_hdtorque_->array_atom;
+    if(fix_implicit->fix_ex_)          orientation  = fix_implicit->fix_ex_->array_atom;
   }
 
   double tbody[3], rotation_matrix[9];
@@ -561,9 +572,11 @@ void FixNVEAsphereBase::final_integrate()
   hdtorque = 0;
   orientation = 0;
   if(couple_fix_id > -1) {
-    ksl_rotation = ((FixCfdCouplingForceImplicit*)modify->fix[couple_fix_id])->fix_KslRotation_->array_atom;
-    hdtorque =     ((FixCfdCouplingForceImplicit*)modify->fix[couple_fix_id])->fix_hdtorque_->array_atom;
-    orientation =  ((FixCfdCouplingForceImplicit*)modify->fix[couple_fix_id])->fix_ex_->array_atom;
+    FixCfdCouplingForceImplicit *fix_implicit = (FixCfdCouplingForceImplicit*)modify->fix[couple_fix_id];
+    // fix_hdtorque_ only exists if the coupling transfers torque
+    if(fix_implicit->fix_KslRotation_) ksl_rotation = fix_implicit->fix_KslRotation_->array_atom;
+    if(fix_implicit->fix_hdtorque_)    hdtorque     = fix_implicit->fix_hdtorque_->array_atom;
+    if(fix_implicit->fix_ex_)          orientation  = fix_implicit->fix_ex_->array_atom;
   }
 
   for (int i = 0; i < nlocal; i++)

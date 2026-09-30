@@ -89,20 +89,6 @@ Velocity::Velocity(LAMMPS *lmp) : Pointers(lmp) {}
 
 /* ---------------------------------------------------------------------- */
 
-void Velocity::sync_linear_sphere_soa()
-{
-  return;
-}
-
-/* ---------------------------------------------------------------------- */
-
-void Velocity::sync_angular_sphere_soa()
-{
-  return;
-}
-
-/* ---------------------------------------------------------------------- */
-
 void Velocity::command(int narg, char **arg)
 {
   if (narg < 2) error->all(FLERR,"Illegal velocity command");
@@ -337,8 +323,6 @@ void Velocity::set(int narg, char **arg)
   delete [] ystr;
   delete [] zstr;
   memory->destroy(vfield);
-
-  sync_linear_sphere_soa();
 }
 
 /* ----------------------------------------------------------------------
@@ -583,8 +567,6 @@ void Velocity::ramp(int narg, char **arg)
       if (sum_flag) v[i][v_dim] += vramp;
       else v[i][v_dim] = vramp;
     }
-
-  sync_linear_sphere_soa();
 }
 
 /* ----------------------------------------------------------------------
@@ -664,8 +646,6 @@ void Velocity::zero_momentum()
         fix_ms_->set_v_body_from_atom_index(i,zerovec);
 
     }
-
-  sync_linear_sphere_soa();
 }
 
 /* ----------------------------------------------------------------------
@@ -685,8 +665,6 @@ void Velocity::zero_rotation_individual()
       omega[i][1] = 0;
       omega[i][2] = 0;
     }
-
-  sync_angular_sphere_soa();
 }
 
 /* ----------------------------------------------------------------------
@@ -740,8 +718,6 @@ void Velocity::zero_rotation()
         fix_ms_->set_omega_body_from_atom_index(i,zerovec);
 
     }
-
-  sync_linear_sphere_soa();
 }
 
 /* ----------------------------------------------------------------------

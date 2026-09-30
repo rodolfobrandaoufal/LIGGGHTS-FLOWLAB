@@ -1,0 +1,37 @@
+# F-18 regression (LIGGGHTS modernization branch, cleanup agent).
+# integration_scheme 4 with couple/cfd/force/implicit and torque transfer:
+# the validation must pass and the run must complete ("Loop time").
+# Needs an ENABLE_SQ build.
+
+echo both
+atom_style superquadric
+atom_modify map array
+boundary f f f
+newton off
+communicate single vel yes
+units si
+
+region reg block -0.01 0.01 -0.01 0.01 0.0 0.02 units box
+create_box 1 reg
+neighbor 0.002 bin
+neigh_modify delay 0
+
+fix m1 all property/global youngsModulus peratomtype 1e7
+fix m2 all property/global poissonsRatio peratomtype 0.3
+fix m3 all property/global coefficientRestitution peratomtypepair 1 0.5
+fix m4 all property/global coefficientFriction peratomtypepair 1 0.5
+fix m6 all property/global characteristicVelocity scalar 1.0
+
+pair_style gran model hooke tangential history surface superquadric
+pair_coeff * *
+timestep 1e-5
+
+create_atoms 1 single 0.0 0.0 0.01
+set atom 1 type 1 shape 0.002 0.002 0.004 blockiness 2.0 2.0 density 2500 quat 1 0 0 0
+set atom 1 omegax 1.0 omegay 2.0 omegaz 3.0
+
+fix cfd all couple/cfd couple_every 100000000 mpi
+fix cfd2 all couple/cfd/force/implicit transfer_torque yes
+
+fix integr all nve/superquadric integration_scheme 4
+run 20
