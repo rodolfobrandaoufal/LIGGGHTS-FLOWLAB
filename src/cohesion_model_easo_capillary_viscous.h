@@ -574,13 +574,14 @@ namespace ContactModels {
           // relative rotational velocity
           double wr1, wr2, wr3;
           double const *omega_i = atom->omega[i];
-          double const *omega_j = atom->omega[j];
 
           if(scdata.is_wall) {
             wr1 = radi * omega_i[0] * rinv;
             wr2 = radi * omega_i[1] * rinv;
             wr3 = radi * omega_i[2] * rinv;
           } else {
+            // j is -1 for walls: only index omega for particle-particle contacts
+            double const *omega_j = atom->omega[j];
             wr1 = (radi * omega_i[0] + radj * omega_j[0]) * rinv;
             wr2 = (radi * omega_i[1] + radj * omega_j[1]) * rinv;
             wr3 = (radi * omega_i[2] + radj * omega_j[2]) * rinv;
