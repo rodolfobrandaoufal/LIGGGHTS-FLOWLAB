@@ -1,0 +1,178 @@
+"LIGGGHTS(R)-PUBLIC WWW Site"_liws - "LIGGGHTS(R)-PUBLIC Documentation"_ld - "LIGGGHTS(R)-PUBLIC Commands"_lc :c
+
+:link(liws,http://www.cfdem.com)
+:link(ld,Manual.html)
+:link(lc,Section_commands.html#comm)
+
+:line
+
+dump hdf5 command :h3
+dump mesh/hdf5 command :h3
+
+[Syntax:]
+
+dump ID group-ID hdf5 N file.h5
+dump ID group-ID mesh/hdf5 N file.h5 mesh-selection property1 property2 ... :pre
+
+ID, group-ID are documented in "dump"_dump.html command :ulb,l
+hdf5 or mesh/hdf5 (alias mesh/gran/HDF5) = style name of this dump command :l
+N = dump every this many time-steps :l
+file.h5 = name of the HDF5 file; a '*' is replaced by the time-step (one file per dump) :l
+mesh-selection = {all} or one or more IDs of "fix mesh/surface"_fix_mesh_surface.html (default {all}) :l
+property = {id} or {owner} or {area} or {normal} or {aedges} or {acorners} or {index} or {nneighs} or the name of a per-element mesh property :l
+  {id} = triangle ID
+  {owner} = rank that owns the triangle
+  {area} = triangle area (area units)
+  {normal} = unit surface normal (vector)
+  {aedges}, {acorners} = number of active edges / corners
+  {index} = local triangle index on the owning rank
+  {nneighs} = number of neighbour triangles
+  other names = a per-triangle ScalarContainer<double> or VectorContainer<double,3> of the mesh,
+                e.g. {f}, {sigma_n}, {sigma_t}, {wear} of "fix mesh/surface/stress"_fix_mesh_surface_stress.html :pre
+:ule
+
+[Examples:]
+
+dump particles all hdf5 500 post/particles.h5
+dump series all hdf5 500 post/particles_*.h5
+dump meshout all mesh/hdf5 1000 post/mesh.h5 cad f sigma_n sigma_t wear
+dump_modify particles append yes :pre
+
+[Description:]
+
+Write particle ({hdf5}) or triangle-mesh ({mesh/hdf5}) snapshots every N
+time-steps into one HDF5 file, written collectively by all MPI ranks with
+parallel HDF5 (MPI-IO). An XDMF file is written next to the HDF5 file, so
+the data can be opened directly in ParaView or VisIt.
+
+[File layout:]
+
+Every dump is one HDF5 group /Step_<timestep> with two attributes:
+
+timestep (int64, shape (1)) = the LIGGGHTS time-step
+time (float64, shape (1)) = simulation time :ul
+
+The simulation time is the elapsed time as LIGGGHTS computes it (the
+thermo keyword {time}): accumulated sum of dt over all runs, i.e. it is
+correct when the time-step size changes between runs. Note that LIGGGHTS
+does not store the elapsed time in restart files, so after
+"read_restart"_read_restart.html it starts again at 0; with
+{dump_modify append yes} the dump continues the time axis of the steps
+already in the file (see below).
+
+Particle dump ({hdf5}), per step group, N = number of particles in the group:
+
+id: int64 (N) = atom ID
+type: int32 (N) = atom type
+position: float64 (N,3)
+velocity: float64 (N,3)
+force: float64 (N,3)
+omega: float64 (N,3) = angular velocity
+radius: float64 (N) :ul
+
+Rows are ordered by MPI rank (not by ID); use the {id} dataset to track
+particles. Mesh dump ({mesh/hdf5}), per step group, M = number of
+triangles of all selected meshes:
+
+Geometry/Vertices: float64 (3M,3) = three vertices per triangle (not shared between triangles)
+Topology/Connectivity: int32 (M,3) = vertex indices into Geometry/Vertices
+CellData/<name>: float64 or int32, (M) for scalars, (M,3) for vectors :ul
+
+The built-in properties are stored under the names id, owner, area,
+normal, active_edges, active_corners, index and nneighs.
+
+[XDMF and ParaView:]
+
+For a single file (no '*'), the file file.h5.xdmf contains a temporal
+collection with one grid per dump. Open it in ParaView with the "XDMF
+Reader" (or "Xdmf3 Reader"). Every DataItem declares its NumberType and
+Precision (Float 8 for doubles, Int 8 for particle IDs, Int 4 for types,
+connectivity and integer mesh properties), so readers load positions as
+double and IDs above 2^24 exactly. The time value of each grid is the
+simulation time (the {time} attribute). Particles are a Polyvertex grid
+(one vertex per particle), meshes a Triangle grid with cell data. The XDMF
+file is updated incrementally: each dump appends one grid, so the cost per
+dump does not grow with the number of dumps. The file is valid after every
+dump.
+
+With a '*' in the file name (one HDF5 file per dump), every file
+file_<step>.h5 gets its own file_<step>.h5.xdmf that lists only that step,
+and a series file (the file name with '*' replaced by "series", plus
+".xdmf", e.g. post/particles_series.h5.xdmf) lists all steps of the run,
+each pointing to its own file. The references are relative to the
+directory of the XDMF file, so move the HDF5 and XDMF files together. The
+option {dump_modify pad} is honoured for the time-step in the file name.
+
+[dump_modify:]
+
+The following "dump_modify"_dump_modify.html keywords are supported:
+{append}, {every}, {first}, {flush}, {pad}. All other keywords ({sort},
+{format}, {precision}, {thresh}, {region}, {element}, ...) stop with an
+error instead of being ignored. A '%' (one file per processor) and a
+".gz" suffix are not supported.
+
+{append no} (default): the file is created, or truncated if it exists (a
+warning is printed when an existing file is truncated). This is the
+behaviour of earlier versions.
+
+{append yes}: an existing file is opened and the new steps are added. The
+XDMF file is rebuilt once from the Step_ groups found in the HDF5 file. If
+a step that is written already exists in the file (typically the step at
+which a restarted run starts), the old group is replaced and a warning is
+printed. If the elapsed time of the run does not continue the time of the
+last step in the file before the current step (LIGGGHTS restarts the
+elapsed time at 0 after read_restart), the dump adds a constant offset so
+that time(step) = time(s_ref) + (step - s_ref)*dt, where s_ref is the
+last step in the file before the current step and dt the current
+time-step size, and prints a warning. For files written by earlier
+versions (no {time} attribute), the time of the old steps is taken as
+step*dt with the current time-step size dt (and the new steps continue
+from it). With a '*' in the file name, {append
+yes} makes the series XDMF list the matching files that already exist in
+the directory. Space of replaced groups is not reclaimed inside the HDF5
+file (use h5repack to compact it).
+
+{flush yes} (default): the HDF5 file is closed after each dump and
+re-opened for the next one, so the file on disk is complete and readable
+between dumps (also if the run stops). {flush no}: the file is kept open
+between dumps and closed only when the dump is destroyed (end of the
+input script, "undump"_undump.html or "clear"_clear.html); this is about
+40 % faster per dump for small systems, but the file is incomplete while
+the run is going. In multi-file mode each file is closed after its dump.
+(Keeping the file open and calling H5Fflush after each dump was measured
+to be slower than closing and re-opening it, because the MPI-IO flush
+forces an fsync.)
+
+[Error handling:]
+
+Every HDF5 call is checked. Errors stop the run on all ranks with a
+message that names the failed operation and the innermost HDF5 error
+(for example the file system error of H5Fcreate). HDF5's own error stack
+printing is switched off.
+
+[Restrictions:]
+
+These dump styles are only available when LIGGGHTS is built with parallel
+HDF5 and -DLIGGGHTS_HDF5: CMake option LIGGGHTS_ENABLE_HDF5=ON (requires
+find_package(HDF5) to find a parallel HDF5), or "make hdf5mpi" with
+src/MAKE/Makefile.hdf5mpi (uses pkg-config hdf5-mpi / hdf5-openmpi /
+hdf5-mpich / hdf5, or HDF5_DIR=<prefix>; see the header of that file).
+Compiling with -DLIGGGHTS_HDF5 against a serial HDF5 stops with a
+compile-time error. Without -DLIGGGHTS_HDF5 the styles exist but stop with
+an error when a run starts.
+
+The particle dump requires atom IDs, per-atom radius and omega (e.g.
+atom_style granular or sphere). The mesh dump requires triangular
+"fix mesh/surface"_fix_mesh_surface.html instances. The mesh connectivity
+is 32-bit (at most INT_MAX vertices).
+
+The file layout differs from H5MD; custom per-atom columns are not
+supported (use "dump custom"_dump.html for those).
+
+[Related commands:]
+
+"dump"_dump.html, "dump_modify"_dump_modify.html, "undump"_undump.html
+
+[Default:]
+
+append no, flush yes, all meshes, no mesh properties.

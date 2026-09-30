@@ -1,5 +1,42 @@
 /* ----------------------------------------------------------------------
-   Parallel HDF5 triangular mesh dump implementation.
+    This is the
+
+    ██╗     ██╗ ██████╗  ██████╗  ██████╗ ██╗  ██╗████████╗███████╗
+    ██║     ██║██╔════╝ ██╔════╝ ██╔════╝ ██║  ██║╚══██╔══╝██╔════╝
+    ██║     ██║██║  ███╗██║  ███╗██║  ███╗███████║   ██║   ███████╗
+    ██║     ██║██║   ██║██║   ██║██║   ██║██╔══██║   ██║   ╚════██║
+    ███████╗██║╚██████╔╝╚██████╔╝╚██████╔╝██║  ██║   ██║   ███████║
+    ╚══════╝╚═╝ ╚═════╝  ╚═════╝  ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝®
+
+    DEM simulation engine, released by
+    DCS Computing Gmbh, Linz, Austria
+    http://www.dcs-computing.com, office@dcs-computing.com
+
+    LIGGGHTS® is part of CFDEM®project:
+    http://www.liggghts.com | http://www.cfdem.com
+
+    Core developer and main author:
+    Christoph Kloss, christoph.kloss@dcs-computing.com
+
+    LIGGGHTS® is open-source, distributed under the terms of the GNU Public
+    License, version 2 or later. It is distributed in the hope that it will
+    be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+    of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. You should have
+    received a copy of the GNU General Public License along with LIGGGHTS®.
+    If not, see http://www.gnu.org/licenses . See also top-level README
+    and LICENSE files.
+
+    LIGGGHTS® and CFDEM® are registered trade marks of DCS Computing GmbH,
+    the producer of the LIGGGHTS® software and the CFDEM®coupling software
+    See http://www.cfdem.com/terms-trademark-policy for details.
+
+-------------------------------------------------------------------------
+    Contributing author and copyright for this file:
+    LIGGGHTS modernization branch
+
+    Parallel HDF5 triangular mesh dump (dump mesh/hdf5). Uses the HDF5 /
+    XDMF helpers of dump_hdf5.cpp; see the MPI note there and
+    doc/dump_hdf5.txt.
 ------------------------------------------------------------------------- */
 
 #include "dump_mesh_hdf5.h"
@@ -14,21 +51,32 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef LIGGGHTS_HDF5
-#include <hdf5.h>
-#endif
+#include <limits.h>
 
 using namespace LAMMPS_NS;
+using namespace DumpHDF5Util;
 
 /* ---------------------------------------------------------------------- */
 
 DumpMeshHDF5::DumpMeshHDF5(LAMMPS *lmp, int narg, char **arg) :
   Dump(lmp, narg, arg),
+  truncate_warned_(false),
+  opened_once_(false),
+  time_offset_(0.0),
+  time_offset_set_(false),
   dump_all_meshes_(0),
   builtin_mask_(0)
 {
   if (narg < 5)
     error->all(FLERR,"Illegal dump mesh/hdf5 command");
+  if (strchr(filename,'%'))
+    error->all(FLERR,"Dump mesh/hdf5 does not support '%' in the file name "
+               "(all ranks write one file collectively)");
+  if (compressed)
+    error->all(FLERR,"Dump mesh/hdf5 does not support gzip (.gz) file names");
+#ifdef LIGGGHTS_HDF5
+  H5Eset_auto2(H5E_DEFAULT,NULL,NULL);
+#endif
 
   binary = 1;
   buffer_allow = 0;
@@ -73,6 +121,23 @@ DumpMeshHDF5::DumpMeshHDF5(LAMMPS *lmp, int narg, char **arg) :
 
 DumpMeshHDF5::~DumpMeshHDF5()
 {
+#ifdef LIGGGHTS_HDF5
+  if (file_.valid() && file_.close() < 0 && me == 0)
+    error->warning(FLERR,"Dump mesh/hdf5: H5Fclose failed when closing the dump file");
+#endif
+  xdmf_.close();
+}
+
+/* ---------------------------------------------------------------------- */
+
+int DumpMeshHDF5::modify_param(int /*narg*/, char **arg)
+{
+  char msg[512];
+  snprintf(msg,sizeof(msg),
+           "dump_modify keyword '%s' is not supported by dump %s "
+           "(supported: append, every, first, flush, pad)",arg[0],style);
+  error->all(FLERR,msg);
+  return 0;
 }
 
 /* ---------------------------------------------------------------------- */
@@ -106,6 +171,8 @@ void DumpMeshHDF5::init_style()
 #ifndef LIGGGHTS_HDF5
   error->all(FLERR,"Dump mesh/hdf5 requires a parallel HDF5 build with -DLIGGGHTS_HDF5");
 #else
+  if (format_user)
+    error->all(FLERR,"dump_modify format is not supported by dump mesh/hdf5");
   if (dump_all_meshes_) {
     fixes_.clear();
     const int nmesh = modify->n_fixes_style("mesh/surface");
@@ -143,93 +210,81 @@ void DumpMeshHDF5::init_style()
 #endif
 }
 
+
 /* ---------------------------------------------------------------------- */
 
-void DumpMeshHDF5::resolve_filename(char *out, int nout) const
+std::string DumpMeshHDF5::grid_xml(const StepEntry &e) const
 {
-  const char *star = strchr(filename,'*');
-  if (!star) {
-    snprintf(out,nout,"%s",filename);
-    return;
+  const long long cells = e.count;
+  const long long vertices = 3 * cells;
+  std::string s = grid_open(e);
+  char buf[128];
+  snprintf(buf,sizeof(buf),
+           "        <Topology TopologyType=\"Triangle\" NumberOfElements=\"%lld\">\n          ",cells);
+  s += buf;
+  s += data_item("Int",4,cells,3,e.h5ref,e.step,"Topology/Connectivity");
+  s += "\n        </Topology>\n        <Geometry GeometryType=\"XYZ\">\n          ";
+  s += data_item("Float",8,vertices,3,e.h5ref,e.step,"Geometry/Vertices");
+  s += "\n        </Geometry>\n";
+
+  if (builtin_mask_ & PROP_ID)
+    s += attribute_xml("id","Scalar","Cell",data_item("Int",4,cells,1,e.h5ref,e.step,"CellData/id"));
+  if (builtin_mask_ & PROP_OWNER)
+    s += attribute_xml("owner","Scalar","Cell",data_item("Int",4,cells,1,e.h5ref,e.step,"CellData/owner"));
+  if (builtin_mask_ & PROP_AREA)
+    s += attribute_xml("area","Scalar","Cell",data_item("Float",8,cells,1,e.h5ref,e.step,"CellData/area"));
+  if (builtin_mask_ & PROP_NORMAL)
+    s += attribute_xml("normal","Vector","Cell",data_item("Float",8,cells,3,e.h5ref,e.step,"CellData/normal"));
+  if (builtin_mask_ & PROP_AEDGES)
+    s += attribute_xml("active_edges","Scalar","Cell",data_item("Int",4,cells,1,e.h5ref,e.step,"CellData/active_edges"));
+  if (builtin_mask_ & PROP_ACORNERS)
+    s += attribute_xml("active_corners","Scalar","Cell",data_item("Int",4,cells,1,e.h5ref,e.step,"CellData/active_corners"));
+  if (builtin_mask_ & PROP_INDEX)
+    s += attribute_xml("index","Scalar","Cell",data_item("Int",4,cells,1,e.h5ref,e.step,"CellData/index"));
+  if (builtin_mask_ & PROP_NNEIGHS)
+    s += attribute_xml("nneighs","Scalar","Cell",data_item("Int",4,cells,1,e.h5ref,e.step,"CellData/nneighs"));
+
+  for (size_t ip = 0; ip < scalar_properties_.size(); ++ip) {
+    const std::string path = "CellData/" + scalar_properties_[ip];
+    s += attribute_xml(scalar_properties_[ip].c_str(),"Scalar","Cell",
+                       data_item("Float",8,cells,1,e.h5ref,e.step,path.c_str()));
+  }
+  for (size_t ip = 0; ip < vector_properties_.size(); ++ip) {
+    const std::string path = "CellData/" + vector_properties_[ip];
+    s += attribute_xml(vector_properties_[ip].c_str(),"Vector","Cell",
+                       data_item("Float",8,cells,3,e.h5ref,e.step,path.c_str()));
   }
 
-  const int prefix = static_cast<int>(star - filename);
-  snprintf(out,nout,"%.*s" BIGINT_FORMAT "%s",
-           prefix,filename,update->ntimestep,star+1);
+  s += "      </Grid>\n";
+  return s;
 }
 
-/* ---------------------------------------------------------------------- */
-
-#ifdef LIGGGHTS_HDF5
-static void create_group_if_needed(hid_t parent, const char *name)
+std::string DumpMeshHDF5::all_grids_xml() const
 {
-  hid_t group = H5Gcreate(parent,name,H5P_DEFAULT,H5P_DEFAULT,H5P_DEFAULT);
-  if (group >= 0) H5Gclose(group);
+  std::string s;
+  for (size_t i = 0; i < entries_.size(); ++i) s += grid_xml(entries_[i]);
+  return s;
 }
 
-static bool empty_selection(int rank, const hsize_t *count)
+void DumpMeshHDF5::update_xdmf(const StepEntry &e, int where)
 {
-  for (int i = 0; i < rank; ++i)
-    if (count[i] == 0) return true;
-  return false;
+  bool ok;
+  if (where == 1 && xdmf_.is_open()) ok = xdmf_.append(grid_xml(e));
+  else ok = xdmf_.rewrite(xdmf_.path(),"LIGGGHTS_Mesh",all_grids_xml());
+  if (!ok) {
+    std::string msg = "Dump mesh/hdf5: cannot write XDMF file '" + xdmf_.path() + "'";
+    error->one(FLERR,msg.c_str());
+  }
+  if (multifile) {
+    XdmfSeriesWriter one;
+    const std::string path = open_name_ + ".xdmf";
+    if (!one.rewrite(path,"LIGGGHTS_Mesh",grid_xml(e))) {
+      std::string msg = "Dump mesh/hdf5: cannot write XDMF file '" + path + "'";
+      error->one(FLERR,msg.c_str());
+    }
+    one.close();
+  }
 }
-
-static hid_t create_selected_memspace(int rank, const hsize_t *count, bool empty)
-{
-  if (!empty) return H5Screate_simple(rank,count,NULL);
-
-  hsize_t one[3] = {1,1,1};
-  hid_t memspace = H5Screate_simple(rank,one,NULL);
-  H5Sselect_none(memspace);
-  return memspace;
-}
-
-static void write_double_dataset(hid_t group, const char *name, int rank,
-                                 const hsize_t *dims, const hsize_t *count,
-                                 const hsize_t *offset, const hsize_t *chunk,
-                                 hid_t dxpl, const double *data)
-{
-  const double dummy = 0.0;
-  const bool empty = empty_selection(rank,count);
-  hid_t filespace = H5Screate_simple(rank,dims,NULL);
-  hid_t memspace = create_selected_memspace(rank,count,empty);
-  if (empty)
-    H5Sselect_none(filespace);
-  else
-    H5Sselect_hyperslab(filespace,H5S_SELECT_SET,offset,NULL,count,NULL);
-  hid_t dcpl = H5Pcreate(H5P_DATASET_CREATE);
-  H5Pset_chunk(dcpl,rank,chunk);
-  hid_t dset = H5Dcreate(group,name,H5T_NATIVE_DOUBLE,filespace,H5P_DEFAULT,dcpl,H5P_DEFAULT);
-  H5Dwrite(dset,H5T_NATIVE_DOUBLE,memspace,filespace,dxpl,empty ? &dummy : data);
-  H5Dclose(dset);
-  H5Pclose(dcpl);
-  H5Sclose(memspace);
-  H5Sclose(filespace);
-}
-
-static void write_int_dataset(hid_t group, const char *name, int rank,
-                              const hsize_t *dims, const hsize_t *count,
-                              const hsize_t *offset, const hsize_t *chunk,
-                              hid_t dxpl, const int *data)
-{
-  const int dummy = 0;
-  const bool empty = empty_selection(rank,count);
-  hid_t filespace = H5Screate_simple(rank,dims,NULL);
-  hid_t memspace = create_selected_memspace(rank,count,empty);
-  if (empty)
-    H5Sselect_none(filespace);
-  else
-    H5Sselect_hyperslab(filespace,H5S_SELECT_SET,offset,NULL,count,NULL);
-  hid_t dcpl = H5Pcreate(H5P_DATASET_CREATE);
-  H5Pset_chunk(dcpl,rank,chunk);
-  hid_t dset = H5Dcreate(group,name,H5T_NATIVE_INT,filespace,H5P_DEFAULT,dcpl,H5P_DEFAULT);
-  H5Dwrite(dset,H5T_NATIVE_INT,memspace,filespace,dxpl,empty ? &dummy : data);
-  H5Dclose(dset);
-  H5Pclose(dcpl);
-  H5Sclose(memspace);
-  H5Sclose(filespace);
-}
-#endif
 
 /* ---------------------------------------------------------------------- */
 
@@ -238,6 +293,8 @@ void DumpMeshHDF5::write()
 #ifndef LIGGGHTS_HDF5
   error->all(FLERR,"Dump mesh/hdf5 requires a parallel HDF5 build with -DLIGGGHTS_HDF5");
 #else
+  Status st(error,world,"dump mesh/hdf5");
+
   long long local_cells = 0;
   for (size_t im = 0; im < fixes_.size(); ++im) {
     TriMesh *mesh = fixes_[im]->triMesh();
@@ -251,32 +308,35 @@ void DumpMeshHDF5::write()
   MPI_Exscan(&local_cells,&cell_offset,1,MPI_LONG_LONG,MPI_SUM,world);
   if (comm->me == 0) cell_offset = 0;
 
-  const long long local_vertices = 3 * local_cells;
-  const long long global_vertices = 3 * global_cells;
+  // connectivity is stored as 32-bit int (layout unchanged)
+  if (3 * global_cells > static_cast<long long>(INT_MAX))
+    error->all(FLERR,"Dump mesh/hdf5: more than INT_MAX mesh vertices");
+
+  const size_t nc = static_cast<size_t>(local_cells);
   const long long vertex_offset = 3 * cell_offset;
 
-  std::vector<double> vertices(static_cast<size_t>(3 * local_vertices));
-  std::vector<int> connectivity(static_cast<size_t>(3 * local_cells));
+  std::vector<double> vertices(9 * nc);
+  std::vector<int> connectivity(3 * nc);
 
   std::vector<int> id_data, owner_data, aedges_data, acorners_data, index_data, nneighs_data;
   std::vector<double> area_data, normal_data;
-  if (builtin_mask_ & PROP_ID) id_data.resize(static_cast<size_t>(local_cells));
-  if (builtin_mask_ & PROP_OWNER) owner_data.resize(static_cast<size_t>(local_cells));
-  if (builtin_mask_ & PROP_AREA) area_data.resize(static_cast<size_t>(local_cells));
-  if (builtin_mask_ & PROP_NORMAL) normal_data.resize(static_cast<size_t>(3 * local_cells));
-  if (builtin_mask_ & PROP_AEDGES) aedges_data.resize(static_cast<size_t>(local_cells));
-  if (builtin_mask_ & PROP_ACORNERS) acorners_data.resize(static_cast<size_t>(local_cells));
-  if (builtin_mask_ & PROP_INDEX) index_data.resize(static_cast<size_t>(local_cells));
-  if (builtin_mask_ & PROP_NNEIGHS) nneighs_data.resize(static_cast<size_t>(local_cells));
+  if (builtin_mask_ & PROP_ID) id_data.resize(nc);
+  if (builtin_mask_ & PROP_OWNER) owner_data.resize(nc);
+  if (builtin_mask_ & PROP_AREA) area_data.resize(nc);
+  if (builtin_mask_ & PROP_NORMAL) normal_data.resize(3 * nc);
+  if (builtin_mask_ & PROP_AEDGES) aedges_data.resize(nc);
+  if (builtin_mask_ & PROP_ACORNERS) acorners_data.resize(nc);
+  if (builtin_mask_ & PROP_INDEX) index_data.resize(nc);
+  if (builtin_mask_ & PROP_NNEIGHS) nneighs_data.resize(nc);
 
   std::vector<std::vector<double> > scalar_data(scalar_properties_.size());
   std::vector<std::vector<double> > vector_data(vector_properties_.size());
   for (size_t i = 0; i < scalar_data.size(); ++i)
-    scalar_data[i].resize(static_cast<size_t>(local_cells),0.0);
+    scalar_data[i].resize(nc,0.0);
   for (size_t i = 0; i < vector_data.size(); ++i)
-    vector_data[i].resize(static_cast<size_t>(3 * local_cells),0.0);
+    vector_data[i].resize(3 * nc,0.0);
 
-  long long c = 0;
+  size_t c = 0;
   for (size_t im = 0; im < fixes_.size(); ++im) {
     TriMesh *mesh = fixes_[im]->triMesh();
     if (!mesh->isParallel() && comm->me != 0) continue;
@@ -297,11 +357,11 @@ void DumpMeshHDF5::write()
       for (int j = 0; j < 3; ++j) {
         double node[3];
         mesh->node(itri,j,node);
-        const long long v = 3*c + j;
+        const size_t v = 3*c + j;
         vertices[3*v+0] = node[0];
         vertices[3*v+1] = node[1];
         vertices[3*v+2] = node[2];
-        connectivity[3*c+j] = static_cast<int>(vertex_offset + v);
+        connectivity[3*c+j] = static_cast<int>(vertex_offset + static_cast<long long>(v));
       }
 
       if (builtin_mask_ & PROP_ID) id_data[c] = mesh->id(itri);
@@ -332,149 +392,159 @@ void DumpMeshHDF5::write()
     }
   }
 
-  char h5name[1024];
-  resolve_filename(h5name,sizeof(h5name));
+  const bigint step = update->ntimestep;
+  // elapsed simulation time as LIGGGHTS computes it (thermo keyword 'time')
+  const double time_now = update->atime + (update->ntimestep - update->atimestep)*update->dt;
 
-  hid_t plist = H5Pcreate(H5P_FILE_ACCESS);
-  H5Pset_fapl_mpio(plist,world,MPI_INFO_NULL);
-  hid_t file = -1;
-  if (multifile || written_steps_.empty())
-    file = H5Fcreate(h5name,H5F_ACC_TRUNC,H5P_DEFAULT,plist);
-  else
-    file = H5Fopen(h5name,H5F_ACC_RDWR,plist);
-  H5Pclose(plist);
-  if (file < 0) error->all(FLERR,"Cannot open parallel HDF5 mesh dump file");
+  // ---- open the file (same policy as dump hdf5)
 
-  char step_group_name[128];
-  snprintf(step_group_name,sizeof(step_group_name),"/Step_" BIGINT_FORMAT,update->ntimestep);
-  hid_t step_group = H5Gcreate(file,step_group_name,H5P_DEFAULT,H5P_DEFAULT,H5P_DEFAULT);
-  if (step_group < 0) error->all(FLERR,"Cannot create HDF5 mesh timestep group");
-  create_group_if_needed(step_group,"Geometry");
-  create_group_if_needed(step_group,"Topology");
-  create_group_if_needed(step_group,"CellData");
-  hid_t geometry_group = H5Gopen(step_group,"Geometry",H5P_DEFAULT);
-  hid_t topology_group = H5Gopen(step_group,"Topology",H5P_DEFAULT);
-  hid_t celldata_group = H5Gopen(step_group,"CellData",H5P_DEFAULT);
-
-  hid_t dxpl = H5Pcreate(H5P_DATASET_XFER);
-  H5Pset_dxpl_mpio(dxpl,H5FD_MPIO_COLLECTIVE);
-
-  hsize_t vertex_dims[2] = {static_cast<hsize_t>(global_vertices),3};
-  hsize_t vertex_count[2] = {static_cast<hsize_t>(local_vertices),3};
-  hsize_t vertex_off[2] = {static_cast<hsize_t>(vertex_offset),0};
-  hsize_t vertex_chunk[2] = {global_vertices > 1048576 ? 1048576 : (global_vertices > 0 ? static_cast<hsize_t>(global_vertices) : 1),3};
-  write_double_dataset(geometry_group,"Vertices",2,vertex_dims,vertex_count,vertex_off,vertex_chunk,dxpl,
-                       vertices.empty() ? 0 : &vertices[0]);
-
-  hsize_t cell_dims[2] = {static_cast<hsize_t>(global_cells),3};
-  hsize_t cell_count[2] = {static_cast<hsize_t>(local_cells),3};
-  hsize_t cell_off[2] = {static_cast<hsize_t>(cell_offset),0};
-  hsize_t cell_chunk[2] = {global_cells > 1048576 ? 1048576 : (global_cells > 0 ? static_cast<hsize_t>(global_cells) : 1),3};
-  write_int_dataset(topology_group,"Connectivity",2,cell_dims,cell_count,cell_off,cell_chunk,dxpl,
-                    connectivity.empty() ? 0 : &connectivity[0]);
-
-  hsize_t scalar_dims[1] = {static_cast<hsize_t>(global_cells)};
-  hsize_t scalar_count[1] = {static_cast<hsize_t>(local_cells)};
-  hsize_t scalar_off[1] = {static_cast<hsize_t>(cell_offset)};
-  hsize_t scalar_chunk[1] = {global_cells > 1048576 ? 1048576 : (global_cells > 0 ? static_cast<hsize_t>(global_cells) : 1)};
-
-  if (builtin_mask_ & PROP_ID)
-    write_int_dataset(celldata_group,"id",1,scalar_dims,scalar_count,scalar_off,scalar_chunk,dxpl,id_data.empty() ? 0 : &id_data[0]);
-  if (builtin_mask_ & PROP_OWNER)
-    write_int_dataset(celldata_group,"owner",1,scalar_dims,scalar_count,scalar_off,scalar_chunk,dxpl,owner_data.empty() ? 0 : &owner_data[0]);
-  if (builtin_mask_ & PROP_AREA)
-    write_double_dataset(celldata_group,"area",1,scalar_dims,scalar_count,scalar_off,scalar_chunk,dxpl,area_data.empty() ? 0 : &area_data[0]);
-  if (builtin_mask_ & PROP_NORMAL)
-    write_double_dataset(celldata_group,"normal",2,cell_dims,cell_count,cell_off,cell_chunk,dxpl,normal_data.empty() ? 0 : &normal_data[0]);
-  if (builtin_mask_ & PROP_AEDGES)
-    write_int_dataset(celldata_group,"active_edges",1,scalar_dims,scalar_count,scalar_off,scalar_chunk,dxpl,aedges_data.empty() ? 0 : &aedges_data[0]);
-  if (builtin_mask_ & PROP_ACORNERS)
-    write_int_dataset(celldata_group,"active_corners",1,scalar_dims,scalar_count,scalar_off,scalar_chunk,dxpl,acorners_data.empty() ? 0 : &acorners_data[0]);
-  if (builtin_mask_ & PROP_INDEX)
-    write_int_dataset(celldata_group,"index",1,scalar_dims,scalar_count,scalar_off,scalar_chunk,dxpl,index_data.empty() ? 0 : &index_data[0]);
-  if (builtin_mask_ & PROP_NNEIGHS)
-    write_int_dataset(celldata_group,"nneighs",1,scalar_dims,scalar_count,scalar_off,scalar_chunk,dxpl,nneighs_data.empty() ? 0 : &nneighs_data[0]);
-
-  for (size_t ip = 0; ip < scalar_properties_.size(); ++ip)
-    write_double_dataset(celldata_group,scalar_properties_[ip].c_str(),1,scalar_dims,scalar_count,scalar_off,scalar_chunk,dxpl,
-                         scalar_data[ip].empty() ? 0 : &scalar_data[ip][0]);
-  for (size_t ip = 0; ip < vector_properties_.size(); ++ip)
-    write_double_dataset(celldata_group,vector_properties_[ip].c_str(),2,cell_dims,cell_count,cell_off,cell_chunk,dxpl,
-                         vector_data[ip].empty() ? 0 : &vector_data[ip][0]);
-
-  H5Pclose(dxpl);
-  H5Gclose(celldata_group);
-  H5Gclose(topology_group);
-  H5Gclose(geometry_group);
-  H5Gclose(step_group);
-  H5Fclose(file);
-
-  written_steps_.push_back(update->ntimestep);
-  written_cells_.push_back(global_cells);
-  if (comm->me == 0) write_xdmf(h5name);
-#endif
-}
-
-/* ---------------------------------------------------------------------- */
-
-void DumpMeshHDF5::write_xdmf(const char *h5name) const
-{
-  char xdmfname[1200];
-  snprintf(xdmfname,sizeof(xdmfname),"%s.xdmf",h5name);
-
-  const char *h5ref = strrchr(h5name,'/');
-  h5ref = h5ref ? h5ref + 1 : h5name;
-
-  FILE *xmf = fopen(xdmfname,"w");
-  if (!xmf) error->one(FLERR,"Cannot open XDMF sidecar file for dump mesh/hdf5");
-
-  fprintf(xmf,"<?xml version=\"1.0\" ?>\n");
-  fprintf(xmf,"<Xdmf Version=\"3.0\">\n");
-  fprintf(xmf,"  <Domain>\n");
-  fprintf(xmf,"    <Grid Name=\"LIGGGHTS_Mesh\" GridType=\"Collection\" CollectionType=\"Temporal\">\n");
-
-  for (size_t i = 0; i < written_steps_.size(); ++i) {
-    const long long step = static_cast<long long>(written_steps_[i]);
-    const long long cells = written_cells_[i];
-    const long long vertices = 3 * cells;
-    fprintf(xmf,"      <Grid Name=\"Step_%lld\" GridType=\"Uniform\">\n",step);
-    fprintf(xmf,"        <Time Value=\"%lld\" />\n",step);
-    fprintf(xmf,"        <Topology TopologyType=\"Triangle\" NumberOfElements=\"%lld\">\n",cells);
-    fprintf(xmf,"          <DataItem Format=\"HDF\" Dimensions=\"%lld 3\">%s:/Step_%lld/Topology/Connectivity</DataItem>\n",cells,h5ref,step);
-    fprintf(xmf,"        </Topology>\n");
-    fprintf(xmf,"        <Geometry GeometryType=\"XYZ\">\n");
-    fprintf(xmf,"          <DataItem Format=\"HDF\" Dimensions=\"%lld 3\">%s:/Step_%lld/Geometry/Vertices</DataItem>\n",vertices,h5ref,step);
-    fprintf(xmf,"        </Geometry>\n");
-
-    if (builtin_mask_ & PROP_ID)
-      fprintf(xmf,"        <Attribute Name=\"id\" AttributeType=\"Scalar\" Center=\"Cell\"><DataItem Format=\"HDF\" Dimensions=\"%lld\">%s:/Step_%lld/CellData/id</DataItem></Attribute>\n",cells,h5ref,step);
-    if (builtin_mask_ & PROP_OWNER)
-      fprintf(xmf,"        <Attribute Name=\"owner\" AttributeType=\"Scalar\" Center=\"Cell\"><DataItem Format=\"HDF\" Dimensions=\"%lld\">%s:/Step_%lld/CellData/owner</DataItem></Attribute>\n",cells,h5ref,step);
-    if (builtin_mask_ & PROP_AREA)
-      fprintf(xmf,"        <Attribute Name=\"area\" AttributeType=\"Scalar\" Center=\"Cell\"><DataItem Format=\"HDF\" Dimensions=\"%lld\">%s:/Step_%lld/CellData/area</DataItem></Attribute>\n",cells,h5ref,step);
-    if (builtin_mask_ & PROP_NORMAL)
-      fprintf(xmf,"        <Attribute Name=\"normal\" AttributeType=\"Vector\" Center=\"Cell\"><DataItem Format=\"HDF\" Dimensions=\"%lld 3\">%s:/Step_%lld/CellData/normal</DataItem></Attribute>\n",cells,h5ref,step);
-    if (builtin_mask_ & PROP_AEDGES)
-      fprintf(xmf,"        <Attribute Name=\"active_edges\" AttributeType=\"Scalar\" Center=\"Cell\"><DataItem Format=\"HDF\" Dimensions=\"%lld\">%s:/Step_%lld/CellData/active_edges</DataItem></Attribute>\n",cells,h5ref,step);
-    if (builtin_mask_ & PROP_ACORNERS)
-      fprintf(xmf,"        <Attribute Name=\"active_corners\" AttributeType=\"Scalar\" Center=\"Cell\"><DataItem Format=\"HDF\" Dimensions=\"%lld\">%s:/Step_%lld/CellData/active_corners</DataItem></Attribute>\n",cells,h5ref,step);
-    if (builtin_mask_ & PROP_INDEX)
-      fprintf(xmf,"        <Attribute Name=\"index\" AttributeType=\"Scalar\" Center=\"Cell\"><DataItem Format=\"HDF\" Dimensions=\"%lld\">%s:/Step_%lld/CellData/index</DataItem></Attribute>\n",cells,h5ref,step);
-    if (builtin_mask_ & PROP_NNEIGHS)
-      fprintf(xmf,"        <Attribute Name=\"nneighs\" AttributeType=\"Scalar\" Center=\"Cell\"><DataItem Format=\"HDF\" Dimensions=\"%lld\">%s:/Step_%lld/CellData/nneighs</DataItem></Attribute>\n",cells,h5ref,step);
-
-    for (size_t ip = 0; ip < scalar_properties_.size(); ++ip)
-      fprintf(xmf,"        <Attribute Name=\"%s\" AttributeType=\"Scalar\" Center=\"Cell\"><DataItem Format=\"HDF\" Dimensions=\"%lld\">%s:/Step_%lld/CellData/%s</DataItem></Attribute>\n",
-              scalar_properties_[ip].c_str(),cells,h5ref,step,scalar_properties_[ip].c_str());
-    for (size_t ip = 0; ip < vector_properties_.size(); ++ip)
-      fprintf(xmf,"        <Attribute Name=\"%s\" AttributeType=\"Vector\" Center=\"Cell\"><DataItem Format=\"HDF\" Dimensions=\"%lld 3\">%s:/Step_%lld/CellData/%s</DataItem></Attribute>\n",
-              vector_properties_[ip].c_str(),cells,h5ref,step,vector_properties_[ip].c_str());
-
-    fprintf(xmf,"      </Grid>\n");
+  H5Id local_file;
+  H5Id *file = &file_;
+  if (multifile) {
+    open_name_ = expand_star(filename,step,padflag);
+    bool existed;
+    local_file.reset(open_parallel_file(st,open_name_,false,world,existed),H5Fclose);
+    st.sync(FLERR);
+    file = &local_file;
+    if (comm->me == 0 && !xdmf_.is_open()) {
+      const std::string master = expand_star_text(filename,"series") + ".xdmf";
+      int nlegacy = 0, nbad = 0;
+      if (append_flag)
+        scan_multifile_steps(filename,"Topology/Connectivity",0.0,
+                             0,update->dt,entries_,nlegacy,nbad);
+      if (nbad) error->warning(FLERR,"Dump mesh/hdf5 append: some existing files matching "
+                               "the '*' pattern could not be read and are not listed in the XDMF");
+      if (nlegacy) error->warning(FLERR,"Dump mesh/hdf5 append: existing steps without a 'time' "
+                                  "attribute get time = step*dt (current dt)");
+      if (!xdmf_.rewrite(master,"LIGGGHTS_Mesh",all_grids_xml()))
+        error->one(FLERR,"Dump mesh/hdf5: cannot write the XDMF series file");
+    }
+  } else if (!file_.valid() && opened_once_) {
+    // 'dump_modify flush yes' (default): the file was closed after the
+    // previous dump so that it is complete on disk between dumps
+    file_.reset(reopen_parallel_file(st,open_name_,world),H5Fclose);
+    st.sync(FLERR);
+  } else if (!file_.valid()) {
+    opened_once_ = true;
+    open_name_ = filename;
+    bool existed;
+    file_.reset(open_parallel_file(st,open_name_,append_flag != 0,world,existed),H5Fclose);
+    st.sync(FLERR);
+    if (existed && !append_flag && comm->me == 0 && !truncate_warned_) {
+      std::string msg = "Dump mesh/hdf5: existing file '" + open_name_ +
+        "' is truncated (use 'dump_modify <ID> append yes' to keep its steps)";
+      error->warning(FLERR,msg.c_str());
+      truncate_warned_ = true;
+    }
+    entries_.clear();
+    if (existed && append_flag) {
+      int nlegacy = 0;
+      st.check(read_existing_steps(file_.get(),basename_of(open_name_),"Topology/Connectivity",
+                                   0.0,0,update->dt,
+                                   entries_,nlegacy) ? 0 : -1,
+               "reading the existing Step_ groups for append");
+      st.sync(FLERR);
+      if (nlegacy && comm->me == 0)
+        error->warning(FLERR,"Dump mesh/hdf5 append: existing steps without a 'time' "
+                       "attribute get time = step*dt (current dt)");
+    }
+    if (comm->me == 0 && !xdmf_.rewrite(open_name_ + ".xdmf","LIGGGHTS_Mesh",all_grids_xml())) {
+      std::string msg = "Dump mesh/hdf5: cannot write XDMF file '" + open_name_ + ".xdmf'";
+      error->one(FLERR,msg.c_str());
+    }
   }
 
-  fprintf(xmf,"    </Grid>\n");
-  fprintf(xmf,"  </Domain>\n");
-  fprintf(xmf,"</Xdmf>\n");
-  fclose(xmf);
+  // ---- append: keep the time axis continuous across a restart
+  //      (computed once, when the file is first opened)
+  if (append_flag && !time_offset_set_) {
+    double off = 0.0;
+    if (comm->me == 0) off = continuity_offset(entries_,step,time_now,update->dt);
+    MPI_Bcast(&off,1,MPI_DOUBLE,0,world);
+    time_offset_ = off;
+    time_offset_set_ = true;
+    if (off != 0.0 && comm->me == 0) {
+      char msg[512];
+      snprintf(msg,sizeof(msg),"Dump mesh/hdf5 append: elapsed time restarted after "
+               "read_restart; the stored time is continued from the steps already in the "
+               "file (offset %.17g)",off);
+      error->warning(FLERR,msg);
+    }
+  }
+  const double time = time_now + time_offset_;
+
+  // ---- step group and sub-groups
+
+  H5Id step_group;
+  bool replaced = false;
+  create_step_group(st,file->get(),step,step_group,replaced);
+  if (replaced && comm->me == 0) {
+    char msg[256];
+    snprintf(msg,sizeof(msg),"Dump mesh/hdf5: step group Step_" BIGINT_FORMAT
+             " already exists in the file and is replaced",step);
+    error->warning(FLERR,msg);
+  }
+
+  H5Id geometry_group(H5Gcreate2(step_group.get(),"Geometry",H5P_DEFAULT,H5P_DEFAULT,H5P_DEFAULT),H5Gclose);
+  st.check(geometry_group.get(),"H5Gcreate(Geometry)");
+  H5Id topology_group(H5Gcreate2(step_group.get(),"Topology",H5P_DEFAULT,H5P_DEFAULT,H5P_DEFAULT),H5Gclose);
+  st.check(topology_group.get(),"H5Gcreate(Topology)");
+  H5Id celldata_group(H5Gcreate2(step_group.get(),"CellData",H5P_DEFAULT,H5P_DEFAULT,H5P_DEFAULT),H5Gclose);
+  st.check(celldata_group.get(),"H5Gcreate(CellData)");
+  H5Id dxpl(H5Pcreate(H5P_DATASET_XFER),H5Pclose);
+  if (st.check(dxpl.get(),"H5Pcreate(dataset transfer)"))
+    st.check(H5Pset_dxpl_mpio(dxpl.get(),H5FD_MPIO_COLLECTIVE),"H5Pset_dxpl_mpio");
+  st.sync(FLERR);
+
+  const hid_t x = dxpl.get();
+  const hsize_t rows = static_cast<hsize_t>(global_cells);
+  const hsize_t lrows = static_cast<hsize_t>(local_cells);
+  const hsize_t off = static_cast<hsize_t>(cell_offset);
+
+  write_dataset(st,geometry_group.get(),"Vertices",H5T_NATIVE_DOUBLE,2,3*rows,3*lrows,3*off,3,x,
+                nc ? &vertices[0] : NULL);
+  write_dataset(st,topology_group.get(),"Connectivity",H5T_NATIVE_INT,2,rows,lrows,off,3,x,
+                nc ? &connectivity[0] : NULL);
+
+  const hid_t cd = celldata_group.get();
+  if (builtin_mask_ & PROP_ID)
+    write_dataset(st,cd,"id",H5T_NATIVE_INT,1,rows,lrows,off,1,x,nc ? &id_data[0] : NULL);
+  if (builtin_mask_ & PROP_OWNER)
+    write_dataset(st,cd,"owner",H5T_NATIVE_INT,1,rows,lrows,off,1,x,nc ? &owner_data[0] : NULL);
+  if (builtin_mask_ & PROP_AREA)
+    write_dataset(st,cd,"area",H5T_NATIVE_DOUBLE,1,rows,lrows,off,1,x,nc ? &area_data[0] : NULL);
+  if (builtin_mask_ & PROP_NORMAL)
+    write_dataset(st,cd,"normal",H5T_NATIVE_DOUBLE,2,rows,lrows,off,3,x,nc ? &normal_data[0] : NULL);
+  if (builtin_mask_ & PROP_AEDGES)
+    write_dataset(st,cd,"active_edges",H5T_NATIVE_INT,1,rows,lrows,off,1,x,nc ? &aedges_data[0] : NULL);
+  if (builtin_mask_ & PROP_ACORNERS)
+    write_dataset(st,cd,"active_corners",H5T_NATIVE_INT,1,rows,lrows,off,1,x,nc ? &acorners_data[0] : NULL);
+  if (builtin_mask_ & PROP_INDEX)
+    write_dataset(st,cd,"index",H5T_NATIVE_INT,1,rows,lrows,off,1,x,nc ? &index_data[0] : NULL);
+  if (builtin_mask_ & PROP_NNEIGHS)
+    write_dataset(st,cd,"nneighs",H5T_NATIVE_INT,1,rows,lrows,off,1,x,nc ? &nneighs_data[0] : NULL);
+  for (size_t ip = 0; ip < scalar_properties_.size(); ++ip)
+    write_dataset(st,cd,scalar_properties_[ip].c_str(),H5T_NATIVE_DOUBLE,1,rows,lrows,off,1,x,
+                  nc ? &scalar_data[ip][0] : NULL);
+  for (size_t ip = 0; ip < vector_properties_.size(); ++ip)
+    write_dataset(st,cd,vector_properties_[ip].c_str(),H5T_NATIVE_DOUBLE,2,rows,lrows,off,3,x,
+                  nc ? &vector_data[ip][0] : NULL);
+
+  write_step_attributes(st,step_group.get(),step,time);
+
+  st.check(dxpl.close(),"H5Pclose(dataset transfer)");
+  st.check(celldata_group.close(),"H5Gclose(CellData)");
+  st.check(topology_group.close(),"H5Gclose(Topology)");
+  st.check(geometry_group.close(),"H5Gclose(Geometry)");
+  finish_step(st,step_group,*file,multifile != 0 || flush_flag != 0);
+
+  // ---- XDMF (rank 0)
+
+  StepEntry e;
+  e.step = step;
+  e.time = time;
+  e.count = global_cells;
+  e.h5ref = basename_of(open_name_);
+  const int where = insert_entry(entries_,e);
+  if (comm->me == 0) update_xdmf(e,where);
+#endif
 }

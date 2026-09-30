@@ -1,4 +1,18 @@
-# hdf5mpi = mpic++, Parallel HDF5 particle dump, no VTK dependency
+# hdf5mpi = mpic++, parallel HDF5 dumps (dump hdf5, dump mesh/hdf5), no VTK
+#
+# LIGGGHTS modernization branch. Build: cd src && make hdf5mpi
+# Requires an MPI-parallel HDF5 (the sources stop with #error if the HDF5
+# headers found do not define H5_HAVE_PARALLEL). See doc/dump_hdf5.txt.
+#
+# Overridable on the command line or in the environment:
+#   HDF5_PKG    pkg-config module of the parallel HDF5 (auto: hdf5-mpi,
+#               hdf5-openmpi, hdf5-mpich, hdf5)
+#   HDF5_DIR    install prefix of a parallel HDF5 without pkg-config file
+#               (uses $(HDF5_DIR)/include and $(HDF5_DIR)/lib)
+#   HDF5_INC / HDF5_PATH / HDF5_LIB   set the flags directly
+#   ARCH_FLAGS  CPU tuning, default -march=native -mtune=native; use
+#               ARCH_FLAGS= for a binary that runs on other CPUs
+# Example: make hdf5mpi HDF5_DIR=/opt/hdf5-1.12-mpich ARCH_FLAGS=
 
 SHELL = /bin/sh
 
@@ -6,13 +20,14 @@ SHELL = /bin/sh
 # compiler/linker settings
 
 CC =		mpic++
-CCFLAGS =	-O3 -march=native -mtune=native -DNDEBUG \
+ARCH_FLAGS ?=	-march=native -mtune=native
+CCFLAGS =	-O3 $(ARCH_FLAGS) -DNDEBUG \
 		-funroll-loops -fstrict-aliasing -Wall -Wno-unused-result -fPIC
 SHFLAGS =	-fPIC
 DEPFLAGS =	-M
 
 LINK =		mpic++
-LINKFLAGS =	-O3 -march=native -mtune=native -fPIC
+LINKFLAGS =	-O3 $(ARCH_FLAGS) -fPIC
 LIB =		-lstdc++
 SIZE =		size
 
@@ -43,13 +58,22 @@ JPG_INC =
 JPG_PATH =
 JPG_LIB =
 
-# Parallel HDF5.
-# Ubuntu/Debian libhdf5-openmpi-dev installs these defaults and provides h5pcc.
-# Override HDF5_INC/HDF5_PATH/HDF5_LIB if your MPI-HDF5 is installed elsewhere.
+# Parallel HDF5 (no hard-coded paths; see the header of this file).
 
-HDF5_INC =	-I/usr/include/hdf5/openmpi
-HDF5_PATH =	-L/usr/lib/x86_64-linux-gnu/hdf5/openmpi
-HDF5_LIB =	-lhdf5
+ifdef HDF5_DIR
+HDF5_INC ?=	-I$(HDF5_DIR)/include
+HDF5_PATH ?=	-L$(HDF5_DIR)/lib
+HDF5_LIB ?=	-lhdf5
+else
+HDF5_PKG ?=	$(firstword $(foreach p,hdf5-mpi hdf5-openmpi hdf5-mpich hdf5,\
+		$(shell pkg-config --exists $(p) 2>/dev/null && echo $(p))))
+ifeq ($(strip $(HDF5_PKG)),)
+$(warning Makefile.hdf5mpi: no parallel HDF5 found with pkg-config; set HDF5_DIR or HDF5_INC/HDF5_PATH/HDF5_LIB)
+endif
+HDF5_INC ?=	$(shell pkg-config --cflags-only-I $(HDF5_PKG) 2>/dev/null)
+HDF5_PATH ?=	$(shell pkg-config --libs-only-L $(HDF5_PKG) 2>/dev/null)
+HDF5_LIB ?=	$(if $(strip $(HDF5_PKG)),$(shell pkg-config --libs-only-l $(HDF5_PKG) 2>/dev/null),-lhdf5)
+endif
 
 # ---------------------------------------------------------------------
 # build rules and dependencies
