@@ -343,7 +343,8 @@ void DumpLocal::write_data(int n, double *mybuf)
 
 void DumpLocal::write_string(int n, double *mybuf)
 {
-  fwrite(mybuf,sizeof(char),n,fp);
+  // mybuf is NULL when there are no local entries (X-06)
+  if (n > 0) fwrite(mybuf,sizeof(char),n,fp);
 }
 
 /* ---------------------------------------------------------------------- */

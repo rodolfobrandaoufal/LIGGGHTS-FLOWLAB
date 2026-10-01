@@ -1020,14 +1020,14 @@ void DumpCustom::write_binary(int n, double *mybuf)
 {
   n *= size_one;
   fwrite(&n,sizeof(int),1,fp);
-  fwrite(mybuf,sizeof(double),n,fp);
+  if (n > 0) fwrite(mybuf,sizeof(double),n,fp);   // mybuf may be NULL when empty (X-06)
 }
 
 /* ---------------------------------------------------------------------- */
 
 void DumpCustom::write_string(int n, double *mybuf)
 {
-  fwrite(mybuf,sizeof(char),n,fp);
+  if (n > 0) fwrite(mybuf,sizeof(char),n,fp);     // mybuf may be NULL when empty (X-06)
 }
 
 /* ---------------------------------------------------------------------- */
