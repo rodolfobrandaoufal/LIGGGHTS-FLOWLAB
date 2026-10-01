@@ -70,8 +70,18 @@ namespace ContactModels
                 hsetup->add_history_value("surfPos_y", "0");
                 hsetup->add_history_value("surfPos_z", "0");
             } else {
-                delta_offset = hsetup->add_history_value("radij", "0");     // radius(i) + expansion factor acting on particle i at contact ij
-                hsetup->add_history_value("radji", "0");                    // radius(j) + expansion factor acting on particle j at contact ji
+                // radij/radji are a pair of values that must be swapped, not
+                // negated, when the pair is stored from the other side. The
+                // history transfer can only negate (newtonflag 1), so the radii
+                // are stored with newtonflag 1 and a negative (sign bit set) value
+                // marks a pair seen from the other side: the reader
+                // (HistoryData::compute_surfPos in fix_multicontact_halfspace.cpp)
+                // then uses radij = -radji_stored, radji = -radij_stored. The
+                // radii are > 0, so the sign is a reliable marker. Before, with
+                // newtonflag 0, the two radii were silently exchanged after such
+                // a flip (finding X-04, tests/signfma/pairflip.py).
+                delta_offset = hsetup->add_history_value("radij", "1");     // radius(i) + expansion factor acting on particle i at contact ij
+                hsetup->add_history_value("radji", "1");                    // radius(j) + expansion factor acting on particle j at contact ji
             }
             hsetup->add_history_value("fn", "0");                           // normal force
             cmb->add_history_offset("delta", delta_offset);

@@ -1,0 +1,13 @@
+Cross-agent request (signfma, phase D): multicontact radius of atom i.
+Experimental build build_audit/bin/lmp_signfma_mcexp = lmp_signfma + this change;
+with it tests/signfma pairflip case hertz_multicontact passes (9e-15).
+--- a/src/pair_gran_base.h
++++ b/src/pair_gran_base.h
+@@ (inside "if (pg->storeSumDelta()) {" in compute_force)
+             if (cj != -1)
+             {
+                 const double * const dataI = mcFix->contacthistory(i, cj);
+                 radi += dataI[3];
+             }
++            sidata.radi = radi; // the expanded radius of i, as for j (sidata.radj)
+             const int ci = mcFix->has_partner(j, tag[i]);

@@ -72,8 +72,10 @@ namespace ContactModels
       warnedNoCorrection(false)
     {
       history_offset = hsetup->add_history_value("deltaMax", "0");
-      kc_offset = hsetup->add_history_value("kc", "1");
-      fo_offset = hsetup->add_history_value("fo", "1");
+      // kc and fo are scalars (newtonflag 0, finding X-04). They are rewritten
+      // before every use, so the former newtonflag 1 had no effect on results.
+      kc_offset = hsetup->add_history_value("kc", "0");
+      fo_offset = hsetup->add_history_value("fo", "0");
       c->add_history_offset("kc_offset", kc_offset);
       c->add_history_offset("fo_offset", fo_offset);
     }

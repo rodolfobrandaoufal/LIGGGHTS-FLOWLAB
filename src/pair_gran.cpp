@@ -610,6 +610,22 @@ const NewtonHistoryValue newton_history_ok[] = {
   { "r_tor_torquez_old", 1, "rolling luding (torsion)" },
   { "deltaMax",          0, "normal hooke/hysteresis" },
   { "jkr_contact",       0, "cohesion jkr" },
+  // scalars of normal models luding / edinburgh / thornton_ning (newtonflags
+  // corrected and checked with tests/signfma/pairflip.py, finding X-04)
+  { "kc",                0, "normal luding/edinburgh/thornton_ning" },
+  { "fo",                0, "normal luding/edinburgh/thornton_ning" },
+  { "zetaLudingPlusOne", 0, "normal luding (correctRestitution)" },
+  { "old_delta",         0, "normal edinburgh" },
+  { "tn_virgin_flag",    0, "normal thornton_ning" },
+  { "delta_old",         0, "normal thornton_ning" },
+  { "delta_max",         0, "normal thornton_ning" },
+  { "force_old",         0, "normal thornton_ning" },
+  { "force_max",         0, "normal thornton_ning" },
+  { "adhesion_flag",     0, "normal thornton_ning" },
+  { "detaching_delta",   0, "normal thornton_ning" },
+  { "detaching_flag",    0, "normal thornton_ning" },
+  { "detaching_force",   0, "normal thornton_ning" },
+  { "yielding_flag",     0, "normal thornton_ning" },
   { NULL, 0, NULL }
 };
 

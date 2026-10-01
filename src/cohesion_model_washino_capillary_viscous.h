@@ -395,9 +395,23 @@ namespace ContactModels {
 
           // capilary force, case no collision
           // this is from Langmiur, 21 (24), 2005 - Eqns. 19, 20, A3
-          const double prefactor = -1. + sqrt(1.+2.*volBond1000/(M_PI*rEff*1000.*dist*dist));
-          const double dSpSp =       0.5*dist*prefactor;
-          const double alpha = sqrt(dist/rEff*prefactor);
+          double dSpSp, alpha;
+          if (dist > 0.)
+          {
+            const double prefactor = -1. + sqrt(1.+2.*volBond1000/(M_PI*rEff*1000.*dist*dist));
+            dSpSp =       0.5*dist*prefactor;
+            alpha = sqrt(dist/rEff*prefactor);
+          }
+          else
+          {
+            // exactly touching surfaces (dist = 0, e.g. a lattice packing with
+            // spacing = diameter): dist*prefactor is 0*inf = NaN above, which
+            // made the force NaN (FMA/degenerate-input sweep, phase D). Use the
+            // limit dist -> 0+: dist*prefactor -> sqrt(2 V/(pi rEff)).
+            const double dist_prefactor = sqrt(2.*volBond1000/(M_PI*rEff*1000.));
+            dSpSp = 0.5*dist_prefactor;
+            alpha = sqrt(dist_prefactor/rEff);
+          }
           const double Fcapilary = - 2.*M_PI*rEff*surfaceTension* (cos(contactAngleEff) / (1. + dist/(2.*dSpSp)) + sin(alpha)*sin(alpha+contactAngleEff));
 
           // calculate vn and vt since not in struct

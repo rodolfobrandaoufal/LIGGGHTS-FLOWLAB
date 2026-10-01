@@ -68,18 +68,23 @@ namespace ContactModels
       limitForce(false),
       displayedSettings(false)
     {
-      history_offset = hsetup->add_history_value("tn_virgin_flag", "1");
-      hsetup->add_history_value("delta_old", "1");
-      hsetup->add_history_value("delta_max", "1");
-      hsetup->add_history_value("force_old", "1");
-      hsetup->add_history_value("force_max", "1");
-      hsetup->add_history_value("adhesion_flag", "1");
-      hsetup->add_history_value("detaching_delta", "1");
-      hsetup->add_history_value("detaching_flag", "1");
-      hsetup->add_history_value("detaching_force", "1");
-      hsetup->add_history_value("yielding_flag", "1");
-      kc_offset = hsetup->add_history_value("kc", "1");
-      fo_offset = hsetup->add_history_value("fo", "1");
+      // all values below are scalars of the contact (flags, overlaps, force
+      // magnitudes, stiffness): they are the same seen from i and from j, so
+      // newtonflag 0. With newtonflag 1 they were negated whenever the pair was
+      // stored from the other side after reneighbouring (finding X-04,
+      // tests/signfma/pairflip.py).
+      history_offset = hsetup->add_history_value("tn_virgin_flag", "0");
+      hsetup->add_history_value("delta_old", "0");
+      hsetup->add_history_value("delta_max", "0");
+      hsetup->add_history_value("force_old", "0");
+      hsetup->add_history_value("force_max", "0");
+      hsetup->add_history_value("adhesion_flag", "0");
+      hsetup->add_history_value("detaching_delta", "0");
+      hsetup->add_history_value("detaching_flag", "0");
+      hsetup->add_history_value("detaching_force", "0");
+      hsetup->add_history_value("yielding_flag", "0");
+      kc_offset = hsetup->add_history_value("kc", "0");
+      fo_offset = hsetup->add_history_value("fo", "0");
       c->add_history_offset("kc_offset", kc_offset);
       c->add_history_offset("fo_offset", fo_offset);
 
@@ -152,7 +157,12 @@ namespace ContactModels
         fl = force_old + 2*(fc+sqrt(fc * (force_old + fc)));
       }
 
-      return fl;
+      // fl = (sqrt(force_old+fc) -/+ sqrt(fc))^2 >= 0 analytically. On the
+      // adhesive branch the expression above cancels: for |force_old| below
+      // about 2e-8*fc it evaluates to -O(ulp(fc)), and sqrt(fl) / pow(fl,1/3)
+      // then gave NaN (FMA sweep, phase D). Clamp to the exact lower bound 0;
+      // fl >= 0 (and -0.0, NaN) are passed through unchanged.
+      return fl < 0. ? 0. : fl;
     }
 
     inline double calculate_elastic_force_differential(double a, double E, double fl, double fc)

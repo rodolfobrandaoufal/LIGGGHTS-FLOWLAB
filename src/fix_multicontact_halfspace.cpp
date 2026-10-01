@@ -436,16 +436,24 @@ void HistoryData::compute_surfPos(const int i, const int jj, const double * cons
         double xij[3];
         vectorSubtract3D(x[j], x[i], &(xij[0]));
         const double length_xij = vectorMag3D(xij);
+        // radij, radji; stored with newtonflag 1, a set sign bit means the pair
+        // was last written from the other side (see surface_model_multicontact.h,
+        // finding X-04): swap and negate
+        double rad_ij = data_ptr[0], rad_ji = data_ptr[1];
+        if (std::signbit(rad_ij)) {
+            rad_ij = -data_ptr[1];
+            rad_ji = -data_ptr[0];
+        }
         if (data_ptr[2] > F_eps) {
             double tmp[3];
-            vectorScalarMult3D(xij, (data_ptr[0] - data_ptr[1])*0.5/length_xij, tmp);
+            vectorScalarMult3D(xij, (rad_ij - rad_ji)*0.5/length_xij, tmp);
             vectorAddMultiple3D(tmp,  0.5, xij, surfPos_ij);
             vectorAddMultiple3D(tmp, -0.5, xij, surfPos_ji);
         } else {
             // no direct contact
             // surface position will be (r_i + delta_ij)*n
-            vectorScalarMult3D(xij,  data_ptr[0]/length_xij, surfPos_ij);
-            vectorScalarMult3D(xij, -data_ptr[1]/length_xij, surfPos_ji);
+            vectorScalarMult3D(xij,  rad_ij/length_xij, surfPos_ij);
+            vectorScalarMult3D(xij, -rad_ji/length_xij, surfPos_ji);
         }
     } else {
         vectorCopy3D(data_ptr, surfPos_ij);

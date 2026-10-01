@@ -388,7 +388,10 @@ def packing(model):
     """particle-particle only (the wall contact path hung in the reference):
     a compressed cluster (50 um initial overlaps) that expands, exercising
     loading, unloading and the adhesive branch"""
-    return HEAD.replace("boundary f f f", "boundary p p p") + EEPA_PROPS.format(E=E, NU=NU, e=0.5, ratio=RATIO, kload=KLOAD, gamma=1.0) + f"""pair_style gran model {model} tangential no_history
+    # no atom sorting: with sorting the pairs change storage side, and the
+    # reference binary (before X-04) corrupted edinburgh history on such flips
+    return HEAD.replace("boundary f f f", "boundary p p p").replace(
+        "atom_modify map array", "atom_modify map array sort 0 0") + EEPA_PROPS.format(E=E, NU=NU, e=0.5, ratio=RATIO, kload=KLOAD, gamma=1.0) + f"""pair_style gran model {model} tangential no_history
 pair_coeff * *
 timestep 1e-6
 lattice sc 0.00195

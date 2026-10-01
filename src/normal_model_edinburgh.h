@@ -78,10 +78,14 @@ namespace ContactModels
       limitForce(false),
       fixKc(false)
     {
-      history_offset = hsetup->add_history_value("deltaMax", "1");
-      hsetup->add_history_value("old_delta", "1");
-      kc_offset = hsetup->add_history_value("kc", "1");
-      fo_offset = hsetup->add_history_value("fo", "1");
+      // deltaMax, old_delta, kc and fo are scalars of the contact: the same seen
+      // from i and from j, so newtonflag 0. With newtonflag 1 they were negated
+      // whenever the pair was stored from the other side after reneighbouring
+      // (finding X-04, tests/signfma/pairflip.py).
+      history_offset = hsetup->add_history_value("deltaMax", "0");
+      hsetup->add_history_value("old_delta", "0");
+      kc_offset = hsetup->add_history_value("kc", "0");
+      fo_offset = hsetup->add_history_value("fo", "0");
       c->add_history_offset("kc_offset", kc_offset);
       c->add_history_offset("fo_offset", fo_offset);
     }
