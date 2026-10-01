@@ -65,6 +65,41 @@ FixStyle(contacthistory,FixContactHistory)
 
 namespace LAMMPS_NS {
 
+/* ----------------------------------------------------------------------
+   old atom ID -> new atom ID for an order-preserving compression of the
+   IDs of the remaining atoms (delete_atoms compress yes, finding X-03)
+   built from a bitmap of the IDs that remain (one bit per ID, MPI_BOR)
+   new(t) = number of remaining IDs <= t; 0 if t does not remain
+------------------------------------------------------------------------- */
+
+class TagCompressMap {
+ public:
+  TagCompressMap() : maxtag(0) {}
+  void build(const int *tag, int nlocal, MPI_Comm world);
+  inline int operator()(int t) const
+  {
+    if (t <= 0 || t > maxtag) return 0;
+    const int w = t >> 6;
+    const unsigned long long bit = 1ULL << (t & 63);
+    if (!(bits[w] & bit)) return 0;
+    return before[w] + popcount(bits[w] & (bit - 1ULL)) + 1;
+  }
+ private:
+  static inline int popcount(unsigned long long v)
+  {
+#if defined(__GNUC__) || defined(__clang__)
+    return __builtin_popcountll(v);
+#else
+    int c = 0;
+    for (; v; v &= v - 1ULL) c++;
+    return c;
+#endif
+  }
+  int maxtag;
+  std::vector<unsigned long long> bits;
+  std::vector<int> before;
+};
+
 class FixContactHistory : public Fix {
   friend class Neighbor;
   friend class PairGran;
@@ -93,6 +128,13 @@ class FixContactHistory : public Fix {
   virtual void unpack_restart(int, int);
   int size_restart(int);
   int maxsize_restart();
+
+  // delete_atoms (finding X-03): copy the current history from the neighbor
+  // list only if the pair was computed since the last copy (the list is stale
+  // after any atom reordering or deletion); then drop partners whose tag is
+  // gone and rewrite partner tags after the atom IDs were compressed
+  void store_before_delete();
+  void remap_partner_tags(const TagCompressMap &map);
 
   // inline access
   inline int n_partner(int i)

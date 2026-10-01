@@ -1,0 +1,52 @@
+# Restart continuity with insertion, moving state and a stress/wear mesh
+# (tests/restart, LIGGGHTS modernization branch, finding X-02); derived from the chute_wear tutorial.
+# ins 0: insert/stream (mesh face), 1: insert/pack (region), 2: insert/rate/region
+# mode 1: run N, write_restart mid.restart, run M (in-process);  mode 2: read_restart mid.restart, run M
+variable mode index 1
+variable N index 2500
+variable M index 2500
+variable tdir index .
+variable ins index 1
+atom_style    granular
+atom_modify   map array
+boundary      f f f
+newton        off
+communicate   single vel yes
+units         si
+if "${mode} == 2" then "read_restart mid.restart" else &
+  "region        domain block -0.5 0.1 -0.2 0.2 -0.4 0.15 units box" "create_box    1 domain"
+if "${mode} == 2" then "region        domain block -0.5 0.1 -0.2 0.2 -0.4 0.15 units box"
+neighbor      0.002 bin
+neigh_modify  delay 0
+fix  m1 all property/global youngsModulus peratomtype 5.e6
+fix  m2 all property/global poissonsRatio peratomtype 0.45
+fix  m3 all property/global coefficientRestitution peratomtypepair 1 0.3
+fix  m4 all property/global coefficientFriction peratomtypepair 1 0.5
+fix  m5 all property/global k_finnie peratomtypepair 1 1.0
+pair_style  gran model hertz tangential history
+pair_coeff  * *
+timestep    0.00001
+fix  gravi all gravity 9.81 vector 0.0 0.0 -1.0
+fix  cad all mesh/surface/stress file ${tdir}/meshes/simple_chute.stl type 1 wear finnie
+fix  inface all mesh/surface file ${tdir}/meshes/insertion_face.stl type 1
+fix  granwalls all wall/gran model hertz tangential history mesh n_meshes 1 meshes cad
+fix  pts1 all particletemplate/sphere 15485863 atom_type 1 density constant 2500 radius constant 0.0015
+fix  pts2 all particletemplate/sphere 15485867 atom_type 1 density constant 2500 radius constant 0.0025
+fix  pdd1 all particledistribution/discrete 32452843  2 pts1 0.3 pts2 0.7
+group  nve_group region domain
+region bc cylinder z 0.0 0.0 0.015 0.05 0.12 units box
+if "${ins} == 0" then &
+  "fix    ins nve_group insert/stream seed 32452867 distributiontemplate pdd1 nparticles 6000 massrate 2.0 insert_every 1000 overlapcheck yes all_in no vel constant 0.0 0.0 -1.0 insertion_face inface" &
+  elif "${ins} == 1" &
+  "fix    ins nve_group insert/pack seed 32452867 distributiontemplate pdd1 insert_every 1000 overlapcheck yes all_in yes vel constant 0.0 0.0 -1.0 particles_in_region 250 region bc" &
+  else &
+  "fix    ins nve_group insert/rate/region seed 32452867 distributiontemplate pdd1 nparticles 6000 massrate 2.0 insert_every 1000 overlapcheck yes all_in yes vel constant 0.0 0.0 -1.0 region bc"
+fix    integr nve_group nve/sphere
+compute       1 all erotate/sphere
+thermo_style  custom step atoms ke c_1 f_cad[1] f_cad[2] f_cad[3]
+thermo_modify format float %.17g lost ignore norm no
+thermo        250
+if "${mode} == 1" then "run ${N}" "write_restart mid.restart" "run ${M}" else "run ${M}"
+dump d1 all custom 1 atoms.txt id x y z vx vy vz omegax omegay omegaz
+dump_modify d1 format "%d %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g" sort id
+run 0

@@ -228,6 +228,13 @@ class FixInsert : public Fix {
 
   bool setup_flag;
 
+  // restart continuity (finding X-02): per-proc random states read from an
+  // extended restart record, applied in setup() once the insertion
+  // properties (which may draw random numbers) are computed
+  virtual class RanPark *insertion_region_rng() { return NULL; }
+  bool rng_restart_pending_;
+  int rng_restart_state_[2];
+
   class Irregular *irregular;
 
   virtual int distribute_ninsert_this(int);

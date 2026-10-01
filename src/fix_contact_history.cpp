@@ -874,3 +874,68 @@ int FixContactHistory::size_restart(int nlocal)
 {
   return (dnum_+1)*npartner_[nlocal] + 2;
 }
+
+/* ----------------------------------------------------------------------
+   delete_atoms support (finding X-03), LIGGGHTS modernization branch
+------------------------------------------------------------------------- */
+
+void TagCompressMap::build(const int *tag, int nlocal, MPI_Comm world)
+{
+  int maxtag_me = 0;
+  for (int i = 0; i < nlocal; i++)
+    if (tag[i] > maxtag_me) maxtag_me = tag[i];
+  MPI_Allreduce(&maxtag_me,&maxtag,1,MPI_INT,MPI_MAX,world);
+
+  const int nwords = maxtag/64 + 1;
+  bits.assign(nwords,0ULL);
+  for (int i = 0; i < nlocal; i++)
+    if (tag[i] > 0) bits[tag[i] >> 6] |= 1ULL << (tag[i] & 63);
+  MPI_Allreduce(MPI_IN_PLACE,&bits[0],nwords,MPI_UNSIGNED_LONG_LONG,MPI_BOR,world);
+
+  before.resize(nwords);
+  int count = 0;
+  for (int w = 0; w < nwords; w++) {
+    before[w] = count;
+    count += popcount(bits[w]);
+  }
+}
+
+/* ----------------------------------------------------------------------
+   copy the history from the neighbor list to the per-atom arrays before
+   atoms are deleted, as setup_pre_exchange(): only if the pair was computed
+   since the last copy. A second delete_atoms, or a delete_atoms after
+   write_restart / balance (which reorder atoms without a neighbor build),
+   would otherwise read a neighbor list whose indices no longer match the
+   atoms and attach histories to the wrong atoms
+------------------------------------------------------------------------- */
+
+void FixContactHistory::store_before_delete()
+{
+  if (computeflag_ && *computeflag_) pre_exchange();
+}
+
+/* ----------------------------------------------------------------------
+   after delete_atoms: drop records of deleted partners and rewrite the
+   partner tags of owned atoms with the compressed atom IDs
+------------------------------------------------------------------------- */
+
+void FixContactHistory::remap_partner_tags(const TagCompressMap &map)
+{
+  const int nlocal = atom->nlocal;
+  int maxtouch = 0;
+  for (int i = 0; i < nlocal; i++) {
+    int m = 0;
+    for (int n = 0; n < npartner_[i]; n++) {
+      const int t = map(partner_[i][n]);
+      if (t == 0) continue;
+      partner_[i][m] = t;
+      if (m != n)
+        for (int d = 0; d < dnum_; d++)
+          contacthistory_[i][m*dnum_+d] = contacthistory_[i][n*dnum_+d];
+      m++;
+    }
+    npartner_[i] = m;
+    maxtouch = MAX(maxtouch,m);
+  }
+  maxtouch_ = maxtouch;
+}

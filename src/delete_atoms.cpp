@@ -65,6 +65,7 @@
 #include "random_mars.h"
 #include "memory.h"
 #include "error.h"
+#include "fix_contact_history.h"
 
 #include <map>
 
@@ -96,8 +97,12 @@ void DeleteAtoms::command(int narg, char **arg)
 
   bigint natoms_previous = atom->natoms;
 
-  if(modify->n_fixes_style_strict("contacthistory") > 0)
-    modify->find_fix_style_strict("contacthistory",0)->pre_exchange();
+  // copy the contact history of all granular pair styles into the per-atom
+  // arrays, but only if the neighbor list is current (finding X-03)
+
+  const int nfch = modify->n_fixes_style_strict("contacthistory");
+  for (int ifch = 0; ifch < nfch; ifch++)
+    static_cast<FixContactHistory*>(modify->find_fix_style_strict("contacthistory",ifch))->store_before_delete();
   if(modify->n_fixes_style_strict("bond/propagate/gran") > 0)
     modify->find_fix_style_strict("bond/propagate/gran",0)->pre_exchange();
 
@@ -131,7 +136,27 @@ void DeleteAtoms::command(int narg, char **arg)
   // reset atom tags to be contiguous
   // set all atom IDs to 0, call tag_extend()
 
-  if (atom->molecular == 0 && compress_flag) {
+  // with contact history (finding X-03): the partner records store atom IDs,
+  // so the IDs are compressed order-preserving (new ID = rank of the old ID
+  // among the remaining atoms, independent of the number of procs and of the
+  // atom order) and the partner IDs are rewritten with the same map; records
+  // of deleted partners are dropped. Without contact history the legacy
+  // numbering (tag_extend, in proc and local order) is kept
+
+  if (atom->molecular == 0 && compress_flag && nfch > 0) {
+    TagCompressMap tagmap;
+    tagmap.build(atom->tag,nlocal,world);
+    for (int ifch = 0; ifch < nfch; ifch++)
+      static_cast<FixContactHistory*>(modify->find_fix_style_strict("contacthistory",ifch))->remap_partner_tags(tagmap);
+    int *tag = atom->tag;
+    for (i = 0; i < nlocal; i++) tag[i] = tagmap(tag[i]);
+    if (comm->me == 0) {
+      const char *msg = "delete_atoms: contact history present, atom IDs compressed "
+                        "in ID order and partner IDs of the contact history remapped\n";
+      if (screen) fprintf(screen,"%s",msg);
+      if (logfile) fprintf(logfile,"%s",msg);
+    }
+  } else if (atom->molecular == 0 && compress_flag) {
     int *tag = atom->tag;
     for (i = 0; i < nlocal; i++) tag[i] = 0;
     atom->tag_extend();

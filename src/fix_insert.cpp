@@ -43,6 +43,7 @@
 #include <algorithm>
 #include <stdlib.h>
 #include <string.h>
+#include <vector>
 #include "atom.h"
 #include "atom_vec.h"
 #include "force.h"
@@ -85,6 +86,8 @@ FixInsert::FixInsert(LAMMPS *lmp, int narg, char **arg) :
   restart_global = 1;
 
   setup_flag = false;
+  rng_restart_pending_ = false;
+  rng_restart_state_[0] = rng_restart_state_[1] = 0;
 
   fix_distribution = NULL;
   fix_multisphere = NULL;
@@ -364,6 +367,17 @@ void FixInsert::setup(int vflag)
 
   // calculate ninsert, insert_every, ninsert_per
   calc_insertion_properties();
+
+  // restart continuity (finding X-02): continue the random sequences of this
+  // proc where they were when the restart file was written
+  if(rng_restart_pending_)
+  {
+      random->reset(rng_restart_state_[0]);
+      RanPark *rng_region = insertion_region_rng();
+      if(rng_region && rng_restart_state_[1] > 0)
+          rng_region->reset(rng_restart_state_[1]);
+      rng_restart_pending_ = false;
+  }
 
   // calc last step of insertion
   if(ninsert_exists)
@@ -974,18 +988,38 @@ void FixInsert::generate_random_velocity(double * velocity) {
 
 void FixInsert::write_restart(FILE *fp)
 {
+  // the 5 legacy values, then an extension (finding X-02, LIGGGHTS
+  // modernization branch): marker -2, nprocs, then per proc the state of the
+  // insertion random generator and of the insertion region's generator (0 if
+  // none), so that a restart with the same number of procs continues the
+  // random sequences instead of re-seeding them. Binaries without the
+  // extension read the legacy values only; legacy records are still read
+  // (Modify pads the buffer with zeros, so the marker reads 0 there)
+
+  const int nprocs = comm->nprocs;
+  RanPark *rng_region = insertion_region_rng();
+  int state_me[2];
+  state_me[0] = random->state();
+  state_me[1] = rng_region ? rng_region->state() : 0;
+  std::vector<int> state_all(2*nprocs);
+  MPI_Gather(state_me,2,MPI_INT,&state_all[0],2,MPI_INT,0,world);
+
   int n = 0;
-  double list[5];
+  std::vector<double> list(7 + 2*nprocs);
   list[n++] = static_cast<double>(random->state());
   list[n++] = static_cast<double>(ninserted);
   list[n++] = static_cast<double>(first_ins_step);
   list[n++] = static_cast<double>(next_reneighbor);
   list[n++] = massinserted;
+  list[n++] = -2.0;
+  list[n++] = static_cast<double>(nprocs);
+  for (int i = 0; i < 2*nprocs; i++)
+    list[n++] = static_cast<double>(state_all[i]);
 
   if (comm->me == 0) {
     int size = n * sizeof(double);
     fwrite(&size,sizeof(int),1,fp);
-    fwrite(list,sizeof(double),n,fp);
+    fwrite(&list[0],sizeof(double),n,fp);
   }
 }
 
@@ -1006,6 +1040,21 @@ void FixInsert::restart(char *buf)
   massinserted = list[n++];
 
   random->reset(seed);
+
+  // same number of procs: continue the random sequences of each proc (applied
+  // in setup); otherwise keep the legacy re-seeding
+  // extension (see write_restart)
+  if(list[n] == -2.0 && static_cast<int>(list[n+1]) == comm->nprocs)
+  {
+      rng_restart_state_[0] = static_cast<int>(list[n+2+2*comm->me]);
+      rng_restart_state_[1] = static_cast<int>(list[n+3+2*comm->me]);
+      rng_restart_pending_ = rng_restart_state_[0] > 0;
+      if(rng_restart_pending_ && comm->me == 0)
+      {
+          if(screen) fprintf(screen,"Fix %s: random sequences continued from restart file\n",id);
+          if(logfile) fprintf(logfile,"Fix %s: random sequences continued from restart file\n",id);
+      }
+  }
 
   // in order to be able to continue pouring with increased number of particles
   // if insert was already finished in run to be restarted

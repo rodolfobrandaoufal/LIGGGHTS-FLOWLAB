@@ -81,6 +81,11 @@ number of atoms in the system.  This is not done for molecular systems
 {compress} setting, since it would foul up the bond connectivity that
 has already been assigned.
 
+With granular contact history (pair gran with a history model), {compress
+yes} renumbers the remaining atoms in the order of their old IDs, independent
+of the number of processors, and updates the partner IDs stored in the
+contact history accordingly.
+
 It the {mol} keyword is set to {yes}, then for every atom that is
 deleted, all other atoms in the same molecule will also be deleted.
 This keyword is only used by the {region} style.  It is a way to

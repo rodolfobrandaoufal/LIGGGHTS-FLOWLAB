@@ -43,6 +43,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <vector>
 #include "fix_template_sphere.h"
 #include "fix_template_multiplespheres.h"
 #include "fix_particledistribution_discrete.h"
@@ -671,14 +672,29 @@ int FixParticledistributionDiscrete::max_nspheres()
 
 void FixParticledistributionDiscrete::write_restart(FILE *fp)
 {
+  // legacy value (random state of proc 0), then an extension (finding X-02,
+  // LIGGGHTS modernization branch): marker -2, nprocs, random state of each
+  // proc; a restart with the same number of procs continues the random
+  // sequence of each proc. Legacy records are still read (Modify pads the
+  // buffer with zeros, so the marker reads 0 there)
+
+  const int nprocs = comm->nprocs;
+  int state_me = random->state();
+  std::vector<int> state_all(nprocs);
+  MPI_Gather(&state_me,1,MPI_INT,&state_all[0],1,MPI_INT,0,world);
+
   int n = 0;
-  double list[1];
-  list[n++] = static_cast<int>(random->state());
+  std::vector<double> list(3 + nprocs);
+  list[n++] = static_cast<double>(random->state());
+  list[n++] = -2.0;
+  list[n++] = static_cast<double>(nprocs);
+  for (int i = 0; i < nprocs; i++)
+    list[n++] = static_cast<double>(state_all[i]);
 
   if (comm->me == 0) {
     int size = n * sizeof(double);
     fwrite(&size,sizeof(int),1,fp);
-    fwrite(list,sizeof(double),n,fp);
+    fwrite(&list[0],sizeof(double),n,fp);
   }
 }
 
@@ -694,6 +710,9 @@ void FixParticledistributionDiscrete::restart(char *buf)
   seed = static_cast<int> (list[n++]) + comm->me;
 
   random->reset(seed);
+
+  if(list[n] == -2.0 && static_cast<int>(list[n+1]) == comm->nprocs)
+    random->reset(static_cast<int> (list[n+2+comm->me]));
 }
 
 /* ----------------------------------------------------------------------

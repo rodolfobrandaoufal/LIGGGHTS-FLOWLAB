@@ -137,6 +137,13 @@ output, "geometric regions"_region.html, etc.
 
 :line
 
+When the number of processors is unchanged, the elapsed simulation time
+and the random sequences of fix insert/pack, fix insert/rate/region and
+fix particledistribution/discrete continue from the restart file. The
+random sequence of fix insert/stream and the processor cuts set by the
+"balance"_balance.html command or "fix balance"_fix_balance.html are not
+restored.
+
 [Restrictions:] none
 
 [Related commands:]

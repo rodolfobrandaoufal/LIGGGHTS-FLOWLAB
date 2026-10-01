@@ -94,6 +94,10 @@ class Region : protected Pointers {
   // reset random gen - is called out of restart by fix that uses region
   void reset_random(int);
 
+  // random generator, so that a fix can save and restore its state in a
+  // restart file (finding X-02, LIGGGHTS modernization branch)
+  class RanPark *random_generator() { return random; }
+
   inline void rand_bounds(bool subdomain_flag, double *lo, double *hi);
 
   // generates a random point within the region

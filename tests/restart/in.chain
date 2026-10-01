@@ -1,0 +1,94 @@
+# Restart continuity (tests/restart, LIGGGHTS modernization branch, finding X-02)
+# Settling bed, 2 types, hertz + tangential history + sjkr + epsd2 rolling, primitive wall
+# with history, periodic x/y, gravity, nve/sphere.
+# Variables:
+#   mode  0 gen  : create the initial state (np 1) and write gen.restart
+#         1 cont : read gen.restart, run N, write_restart mid.restart, run M   (in-process)
+#         2 rst  : read mid.restart, run M                                      (restart chain)
+#         3 one  : read gen.restart, run N+M                                    (uninterrupted)
+#         4 del  : read gen.restart, run N, delete_atoms region del compress ${cmp}, run M  (X-03)
+#                  del2 = 1: a second delete_atoms (region del2) right after the first
+#                  del2 = 2: one delete_atoms of the union of both regions
+#                  wrb  = 1: write_restart just before delete_atoms (reorders the atoms)
+#                  wrd  = 1: write_restart mid.restart after delete_atoms (then mode 2 continues)
+#   nw newton pair; N M step counts; px py pz processor grid; wall 0 primitive, 1 mesh floor;
+#   tang/coh/roll model choice; pd 1 = dump the contacts; th thermo interval
+variable mode index 1
+variable nw index off
+variable N index 2000
+variable M index 2000
+variable px index *
+variable py index *
+variable pz index 1
+variable nt index 0
+variable tdir index .
+variable wall index 0
+variable tang index history
+variable coh index "cohesion sjkr"
+variable roll index "rolling_friction epsd2"
+variable skin index 0.0008
+variable every index 1
+variable pd index 1
+variable th index 100
+variable cmp index yes
+variable lf index 0
+variable del2 index 0
+variable wrb index 0
+variable wrd index 0
+if "${nt} > 0" then "package omp ${nt}"
+atom_style    granular
+atom_modify   map array
+boundary      p p f
+newton        ${nw} off
+communicate   single vel yes
+units         si
+processors    ${px} ${py} ${pz}
+if "${mode} == 0" then "region domain block -0.02 0.02 -0.02 0.02 0.0 0.06 units box" "create_box 2 domain" &
+  elif "${mode} == 2" "read_restart mid.restart" else "read_restart gen.restart"
+newton        ${nw} off
+lattice       sc 0.00402
+region        fill block -0.0199 0.0199 -0.0199 0.0199 0.0021 0.03 units box
+if "${mode} == 0" then "create_atoms  1 region fill" "set type 1 type/fraction 2 0.5 15485863" "set atom * diameter 0.004 density 2500" "displace_atoms all random 0.00015 0.00015 0.00015 32452843 units box"
+if "${mode} == 0" then "write_restart gen.restart" "quit"
+neighbor      ${skin} bin
+neigh_modify  delay 0 every ${every}
+fix  m1 all property/global youngsModulus peratomtype 5.e6 7.e6
+fix  m2 all property/global poissonsRatio peratomtype 0.3 0.35
+fix  m3 all property/global coefficientRestitution peratomtypepair 2 0.5 0.6 0.6 0.7
+fix  m4 all property/global coefficientFriction peratomtypepair 2 0.5 0.4 0.4 0.3
+fix  m5 all property/global cohesionEnergyDensity peratomtypepair 2 3000 3000 3000 3000
+fix  m6 all property/global coefficientRollingFriction peratomtypepair 2 0.05 0.05 0.05 0.05
+pair_style  gran model hertz tangential ${tang} ${coh} ${roll}
+pair_coeff  * *
+if "${wall} == 0" then "fix  w1 all wall/gran model hertz tangential history primitive type 1 zplane 0.0" &
+  elif "${wall} == 1" "fix floor all mesh/surface file ${tdir}/../newton/floor.stl type 1" "fix  w1 all wall/gran model hertz tangential history mesh n_meshes 1 meshes floor"
+
+fix gravi all gravity 500.0 vector 0.1 0.2 -1.0
+fix integr all nve/sphere
+# prototype only (audit/fixes/phaseD/restart/proto): restore last-step forces in setup
+if "${lf} == 1" then "fix lastf all store/lastforce"
+timestep 2e-6
+compute rke all erotate/sphere
+compute pgl all pair/gran/local id force history
+thermo_style custom step atoms ke c_rke time
+thermo_modify format float %.17g
+thermo ${th}
+variable NM equal ${N}+${M}
+if "${mode} == 1" then "run ${N}" "write_restart mid.restart" "run ${M}"
+if "${mode} == 2" then "run ${M}"
+if "${mode} == 3" then "run ${NM}"
+region del sphere 0.0 0.0 0.006 0.006 units box
+region del2 sphere 0.01 0.01 0.006 0.005 units box
+region delu union 2 del del2
+if "${mode} == 4" then "run ${N}" &
+  'if "${wrb} == 1" then "write_restart wrb.restart"' &
+  'if "${del2} == 2" then "delete_atoms region delu compress ${cmp}" else "delete_atoms region del compress ${cmp}"' &
+  'if "${del2} == 1" then "delete_atoms region del2 compress ${cmp}"' &
+  'if "${wrd} == 1" then "write_restart mid.restart"' &
+  "run ${M}"
+dump d1 all custom 1 atoms.txt id x y z vx vy vz omegax omegay omegaz
+dump_modify d1 format "%d %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g" sort id
+if "${pd} == 1" then &
+  "dump d2 all local 1 pairs.txt c_pgl[1] c_pgl[2] c_pgl[3] c_pgl[4] c_pgl[5] c_pgl[6] c_pgl[7] c_pgl[8] c_pgl[9] c_pgl[10] c_pgl[11] c_pgl[12]" &
+  'dump_modify d2 format "%.0f %.0f %.0f %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g"'
+run 0

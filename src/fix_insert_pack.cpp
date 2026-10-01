@@ -513,6 +513,13 @@ void FixInsertPack::x_v_omega(int ninsert_this_local,int &ninserted_this_local, 
 
 /* ---------------------------------------------------------------------- */
 
+class RanPark *FixInsertPack::insertion_region_rng()
+{
+    return ins_region ? ins_region->random_generator() : NULL;
+}
+
+/* ---------------------------------------------------------------------- */
+
 void FixInsertPack::restart(char *buf)
 {
     FixInsert::restart(buf);

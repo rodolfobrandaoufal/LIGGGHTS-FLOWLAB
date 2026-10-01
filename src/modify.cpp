@@ -72,6 +72,11 @@
 #include <map>
 #include <string>
 
+// restart records (finding X-02, LIGGGHTS modernization branch)
+#define TIME_RECORD_ID "_update_time_"
+#define TIME_RECORD_STYLE "update/time"
+#define RESTART_GLOBAL_PAD (8*sizeof(double))
+
 using namespace LAMMPS_NS;
 using namespace FixConst;
 
@@ -1147,9 +1152,29 @@ void Modify::write_restart(FILE *fp)
   for (int i = 0; i < nfix; i++)
     if (fix[i]->restart_global) count++;
 
+  // one extra global record (finding X-02) holds the elapsed simulation time
+  // (update->atime); it is written like a fix record with an ID and a style
+  // that no fix uses, so binaries that do not know it ignore it
+
+  count++;
   if (me == 0) fwrite(&count,sizeof(int),1,fp);
 
   int n;
+  if (me == 0) {
+    double list[2];
+    list[0] = update->get_cur_time();
+    list[1] = static_cast<double>(update->ntimestep);
+    n = strlen(TIME_RECORD_ID) + 1;
+    fwrite(&n,sizeof(int),1,fp);
+    fwrite(TIME_RECORD_ID,sizeof(char),n,fp);
+    n = strlen(TIME_RECORD_STYLE) + 1;
+    fwrite(&n,sizeof(int),1,fp);
+    fwrite(TIME_RECORD_STYLE,sizeof(char),n,fp);
+    n = 2*sizeof(double);
+    fwrite(&n,sizeof(int),1,fp);
+    fwrite(list,sizeof(double),2,fp);
+  }
+
   for (int i = 0; i < nfix; i++)
     if (fix[i]->restart_global) {
       if (me == 0) {
@@ -1226,11 +1251,29 @@ int Modify::read_restart(FILE *fp)
     if (me == 0) fread(style_restart_global[i],sizeof(char),n,fp);
     MPI_Bcast(style_restart_global[i],n,MPI_CHAR,0,world);
 
+    // the state buffer is followed by RESTART_GLOBAL_PAD zero bytes, so that a
+    // fix can detect an optional extension appended to its legacy record by
+    // checking for a non-zero marker right after the legacy values (X-02)
+
     if (me == 0) fread(&n,sizeof(int),1,fp);
     MPI_Bcast(&n,1,MPI_INT,0,world);
-    state_restart_global[i] = new char[n];
+    state_restart_global[i] = new char[n+RESTART_GLOBAL_PAD];
+    memset(state_restart_global[i]+n,0,RESTART_GLOBAL_PAD);
     if (me == 0) fread(state_restart_global[i],sizeof(char),n,fp);
     MPI_Bcast(state_restart_global[i],n,MPI_CHAR,0,world);
+
+    // elapsed simulation time (see write_restart); files without it keep
+    // the legacy behaviour (time counted from the restart step)
+
+    if (strcmp(id_restart_global[i],TIME_RECORD_ID) == 0 &&
+        strcmp(style_restart_global[i],TIME_RECORD_STYLE) == 0 &&
+        n == 2*static_cast<int>(sizeof(double))) {
+      double *list = (double *) state_restart_global[i];
+      if (static_cast<bigint>(list[1]) == update->ntimestep) {
+        update->atime = list[0];
+        update->atimestep = update->ntimestep;
+      }
+    }
   }
 
   // nfix_restart_peratom = # of restart entries with peratom info

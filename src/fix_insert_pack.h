@@ -66,6 +66,7 @@ class FixInsertPack : public FixInsert {
 
   virtual void calc_insertion_properties();
   void init_defaults();
+  virtual class RanPark *insertion_region_rng();
 
   void calc_region_volume_local();
 
