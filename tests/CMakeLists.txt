@@ -217,6 +217,28 @@ ELSE()
 ENDIF()
 
 #---------------------------------------------------------------------------
+# K-01/K-02: edinburgh (FMA NaN in wall contacts, unbounded loop) and
+# thornton_ning (overshoot past pull-off) stop cleanly or run correctly
+IF(EXISTS "${LIGGGHTS_TESTS_DIR}/legacy/run_all.sh")
+  LIGGGHTS_TEST(legacy_suite LABELS physics regression mpi TIMEOUT 1200 PROCESSORS 2
+    ENV "TMPDIR=${LIGGGHTS_TEST_WORK}"
+    COMMAND ${LIGGGHTS_BASH} ${LIGGGHTS_TESTS_DIR}/legacy/run_all.sh ${BIN} ${REF_BIN})
+ELSE()
+  LIGGGHTS_SKIPPED_TEST(legacy_suite "tests/legacy/run_all.sh not present" physics regression mpi)
+ENDIF()
+
+#---------------------------------------------------------------------------
+# C3 newton pair on with contact history: single contacts bitwise equal to newton
+# off; history survives reneighbouring, migration, restart; 1-8 ranks
+IF(EXISTS "${LIGGGHTS_TESTS_DIR}/newton/run_all.sh")
+  LIGGGHTS_TEST(newton_suite LABELS physics mpi TIMEOUT 1200 PROCESSORS 8
+    ENV "TMPDIR=${LIGGGHTS_TEST_WORK}"
+    COMMAND ${LIGGGHTS_BASH} ${LIGGGHTS_TESTS_DIR}/newton/run_all.sh ${BIN} ${REF_BIN})
+ELSE()
+  LIGGGHTS_SKIPPED_TEST(newton_suite "tests/newton/run_all.sh not present" physics mpi)
+ENDIF()
+
+#---------------------------------------------------------------------------
 # B5 model matrix: every static whitelist combination, byte comparison against
 # the reference binary (needs LIGGGHTS_TEST_REFERENCE_BIN)
 IF(REF_BIN AND EXISTS "${LIGGGHTS_TESTS_DIR}/kernel/run_all.sh")

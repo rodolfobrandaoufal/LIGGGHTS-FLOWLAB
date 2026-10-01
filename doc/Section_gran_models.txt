@@ -28,11 +28,13 @@ model commands :h4
 
 Click on the style itself for a full description:
 
+"edinburgh"_gran_model_edinburgh.html,
 "hertz"_gran_model_hertz.html,
 "hertz/stiffness"_gran_model_hertz_stiffness.html,
 "hooke"_gran_model_hooke.html,
 "hooke/stiffness"_gran_model_hooke_stiffness.html,
-"luding"_gran_model_luding.html :tb(c=4,ea=c)
+"luding"_gran_model_luding.html,
+"thornton_ning"_gran_model_thornton_ning.html :tb(c=4,ea=c)
 
 rolling_friction commands :h4
 
