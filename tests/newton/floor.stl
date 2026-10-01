@@ -1,0 +1,58 @@
+solid floor
+  facet normal 0 0 1
+    outer loop
+      vertex -0.020000 -0.020000 0.0
+      vertex 0.000000 -0.020000 0.0
+      vertex 0.000000 0.000000 0.0
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex -0.020000 -0.020000 0.0
+      vertex 0.000000 0.000000 0.0
+      vertex -0.020000 0.000000 0.0
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex -0.020000 0.000000 0.0
+      vertex 0.000000 0.000000 0.0
+      vertex 0.000000 0.020000 0.0
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex -0.020000 0.000000 0.0
+      vertex 0.000000 0.020000 0.0
+      vertex -0.020000 0.020000 0.0
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex 0.000000 -0.020000 0.0
+      vertex 0.020000 -0.020000 0.0
+      vertex 0.020000 0.000000 0.0
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex 0.000000 -0.020000 0.0
+      vertex 0.020000 0.000000 0.0
+      vertex 0.000000 0.000000 0.0
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex 0.000000 0.000000 0.0
+      vertex 0.020000 0.000000 0.0
+      vertex 0.020000 0.020000 0.0
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex 0.000000 0.000000 0.0
+      vertex 0.020000 0.020000 0.0
+      vertex 0.000000 0.020000 0.0
+    endloop
+  endfacet
+endsolid floor

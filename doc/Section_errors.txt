@@ -6054,10 +6054,13 @@ Self-explanatory. :dd
 
 Use the communicate vel yes command to enable this. :dd
 
-{Pair granular with shear history requires newton pair off} :dt
+{Pair granular: ... requires 'newton off'} :dt
 
-This is a current restriction of the implementation of pair
-granular styles with history. :dd
+Newton pair on is supported for the history values listed in the
+"pair gran"_pair_gran.html doc page (Newton's 3rd law section). The
+named model or option stores per-contact data that is not yet
+communicated back to the owning processor, so it still needs newton
+pair off. :dd
 
 {Pair hybrid sub-style does not support single call} :dt
 

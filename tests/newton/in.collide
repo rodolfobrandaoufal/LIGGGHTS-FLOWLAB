@@ -1,0 +1,45 @@
+# Oblique binary collision with spin, newton pair on vs off (tests/newton, roadmap C3).
+# Sphere 1 starts at x < 0, sphere 2 at x > 0; with 'processors 2 1 1' they are owned by
+# different ranks during the whole impact, so with newton on the pair is computed once
+# (by one rank) and with newton off twice. Final translational and angular velocities
+# (restitution, tangential/rolling history) must agree to round-off.
+# Variables: nw (newton pair), px (processors in x)
+variable nw index on
+variable px index 1
+atom_style granular
+atom_modify map array
+boundary f f f
+newton ${nw} off
+communicate single vel yes
+units si
+processors ${px} 1 1
+region domain block -0.006 0.006 -0.006 0.006 -0.006 0.006 units box
+create_box 1 domain
+neighbor 0.0002 bin
+neigh_modify delay 0
+fix m1 all property/global youngsModulus peratomtype 1e7
+fix m2 all property/global poissonsRatio peratomtype 0.3
+fix m3 all property/global coefficientRestitution peratomtypepair 1 0.7
+fix m4 all property/global coefficientFriction peratomtypepair 1 0.3
+fix m5 all property/global coefficientRollingFriction peratomtypepair 1 0.1
+pair_style gran model hertz tangential history rolling_friction epsd2
+pair_coeff * *
+timestep 1e-7
+create_atoms 1 single -0.0012 -0.0004 0.0001 units box
+create_atoms 1 single  0.0012  0.0004 -0.0001 units box
+set atom * diameter 0.002 density 2500
+set atom 1 vx  0.5 vy 0.1 vz 0.0 omegax 0 omegay 0 omegaz 50
+set atom 2 vx -0.5 vy -0.1 vz 0.02 omegax 20 omegay 0 omegaz 0
+fix integr all nve/sphere
+variable st equal step
+variable v1x equal vx[1]
+variable v1y equal vy[1]
+variable v1z equal vz[1]
+variable w1x equal omegax[1]
+variable w1y equal omegay[1]
+variable w1z equal omegaz[1]
+variable v2x equal vx[2]
+variable w2z equal omegaz[2]
+fix pr all print 500 "${st} ${v1x} ${v1y} ${v1z} ${w1x} ${w1y} ${w1z} ${v2x} ${w2z}" file traj.txt screen no title "# step v1 w1 v2x w2z"
+thermo 1000000
+run 20000

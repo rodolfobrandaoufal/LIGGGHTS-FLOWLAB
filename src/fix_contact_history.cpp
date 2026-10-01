@@ -304,6 +304,13 @@ void FixContactHistory::setup_pre_exchange()
 
 void FixContactHistory::pre_exchange()
 {
+  // newton pair on: pairs are stored on one proc only (roadmap C3)
+  if (force->newton_pair)
+  {
+      pre_exchange_newton();
+      return;
+  }
+
   int i,j,ii,jj,m,n,inum,jnum;
   int *ilist,*jlist,*numneigh,**firstneigh;
   int *contact_flag,**first_contact_flag;
@@ -422,6 +429,216 @@ void FixContactHistory::pre_exchange()
   if(nlocal > 0) maxtouch_ = *std::max_element(npartner_, npartner_+nlocal);
 
   comm->maxexchange_fix = MAX(comm->maxexchange_fix,(dnum_+1)*maxtouch_+1);
+}
+
+/* ----------------------------------------------------------------------
+   newton pair on variant of pre_exchange()
+   LIGGGHTS modernization branch, roadmap C3 / finding S-06
+   (design follows LAMMPS FixNeighHistory::pre_exchange_newton)
+   with newton pair on, a pair (i,j) with j a ghost atom is stored in the
+   neighbor list of only one proc, so its history is known only there.
+   the partner record of j (tag of i, history from j's perspective, i.e.
+   negated where newtonflag = 1) is therefore first stored on the ghost
+   and then reverse-communicated to the proc that owns j, so that every
+   owned atom ends up with the records of all its touching partners,
+   exactly as in the newton off case, and the records migrate with the atom.
+   1) count partners of owned and ghost atoms, reverse comm of the counts
+   2) allocate page chunks for owned and ghost atoms
+   3) fill records of owned and ghost atoms, reverse comm of the records
+      (variable length, own buffers since the size is unbounded a priori)
+------------------------------------------------------------------------- */
+
+void FixContactHistory::pre_exchange_newton()
+{
+  // re-set computeflag: most current info is now in atom arrays
+  *computeflag_ = 0;
+
+  const int nlocal = atom->nlocal;
+  const int nall = nlocal + atom->nghost;
+  const int nmax = atom->nmax;
+
+  std::fill_n(npartner_, nmax, 0);
+
+  ipage_->reset();
+  dpage_->reset();
+
+  int *tag = atom->tag;
+  NeighList *list = pair_gran_->list;
+  const int inum = list->inum;
+  int *ilist = list->ilist;
+  int *numneigh = list->numneigh;
+  int **firstneigh = list->firstneigh;
+  int **first_contact_flag = list->listgranhistory->firstneigh;
+  double **firsthist = list->listgranhistory->firstdouble;
+
+  // 1st loop over neighbor list
+  // count partners of owned and ghost atoms
+
+  for (int ii = 0; ii < inum; ii++) {
+    const int i = ilist[ii];
+    const int *jlist = firstneigh[i];
+    const int jnum = numneigh[i];
+    const int *contact_flag = first_contact_flag[i];
+
+    for (int jj = 0; jj < jnum; jj++) {
+      if (contact_flag[jj]) {
+        const int j = jlist[jj] & NEIGHMASK;
+        if (j >= nall)
+          error->one(FLERR,"Contact history: neighbor list is out of date (newton pair on)");
+        npartner_[i]++;
+        npartner_[j]++;
+      }
+    }
+  }
+
+  // add the counts of ghost atoms to their owners
+
+  reverse_comm_partners(0);
+
+  // get page chunks for owned and ghost atoms
+  // capacity of each chunk is kept to check the record comm against it
+
+  capacity_.assign(nall,0);
+  for (int i = 0; i < nall; i++) {
+    const int n = npartner_[i];
+    capacity_[i] = n;
+    if (n == 0) {
+      partner_[i] = NULL;
+      contacthistory_[i] = NULL;
+      continue;
+    }
+    partner_[i] = ipage_->get(n);
+    contacthistory_[i] = dpage_->get(dnum_*n);
+    if (partner_[i] == NULL || contacthistory_[i] == NULL)
+      error->one(FLERR,"Contact history overflow, boost neigh_modify one");
+  }
+
+  // 2nd loop over neighbor list
+  // store partner IDs and history for owned and ghost atoms
+  // re-zero npartner to use as counter
+
+  std::fill_n(npartner_, nall, 0);
+
+  for (int ii = 0; ii < inum; ii++) {
+    const int i = ilist[ii];
+    const int *jlist = firstneigh[i];
+    const double *allhist = firsthist[i];
+    const int jnum = numneigh[i];
+    const int *contact_flag = first_contact_flag[i];
+
+    for (int jj = 0; jj < jnum; jj++) {
+      if (contact_flag[jj]) {
+        const double *hist = &allhist[dnum_*jj];
+        const int j = jlist[jj] & NEIGHMASK;
+
+        int m = npartner_[i]++;
+        partner_[i][m] = tag[j];
+        for (int d = 0; d < dnum_; d++)
+          contacthistory_[i][m*dnum_+d] = hist[d];
+
+        m = npartner_[j]++;
+        partner_[j][m] = tag[i];
+        for (int d = 0; d < dnum_; d++) {
+          if(newtonflag_[d])
+            contacthistory_[j][m*dnum_+d] = -hist[d];
+          else
+            contacthistory_[j][m*dnum_+d] =  hist[d];
+        }
+      }
+    }
+  }
+
+  // append the records stored on ghost atoms to the records of their owners
+
+  reverse_comm_partners(1);
+
+  // records of ghost atoms now live on the owners
+
+  for (int i = nlocal; i < nall; i++) {
+    npartner_[i] = 0;
+    partner_[i] = NULL;
+    contacthistory_[i] = NULL;
+  }
+
+  // set maxtouch = max # of partners of any owned atom
+  // bump up comm->maxexchange_fix if necessary
+
+  maxtouch_ = 0;
+  if(nlocal > 0) maxtouch_ = *std::max_element(npartner_, npartner_+nlocal);
+
+  comm->maxexchange_fix = MAX(comm->maxexchange_fix,(dnum_+1)*maxtouch_+1);
+}
+
+/* ----------------------------------------------------------------------
+   reverse communication of per-ghost partner data (newton pair on)
+   what = 0: npartner counts, added to the owner (or forwarding ghost)
+   what = 1: partner records (tag + dnum values), appended to its records
+   swaps are processed in reverse order as in Comm::reverse_comm(), so a
+   ghost that forwards the data of another ghost has received it before
+   it is packed. sizes are exchanged first; own buffers are used because
+   the record volume per atom is not bounded by the comm buffer sizes.
+------------------------------------------------------------------------- */
+
+void FixContactHistory::reverse_comm_partners(int what)
+{
+  for (int iswap = comm->nswap-1; iswap >= 0; iswap--) {
+
+    // pack data of ghost atoms received in this swap
+
+    const int first = comm->firstrecv[iswap];
+    const int last = first + comm->recvnum[iswap];
+
+    rbuf_send_.clear();
+    for (int i = first; i < last; i++) {
+      rbuf_send_.push_back(ubuf(npartner_[i]).d);
+      if (what == 0) continue;
+      for (int k = 0; k < npartner_[i]; k++) {
+        rbuf_send_.push_back(ubuf(partner_[i][k]).d);
+        for (int d = 0; d < dnum_; d++)
+          rbuf_send_.push_back(contacthistory_[i][k*dnum_+d]);
+      }
+    }
+    rbuf_send_.push_back(0.0); // keep data() valid for empty swaps
+
+    // exchange with the proc the ghosts came from
+    // if self, use the send buffer directly
+
+    const double *buf;
+    if (comm->sendproc[iswap] != comm->me) {
+      int nsend = static_cast<int>(rbuf_send_.size()) - 1;
+      int nrecv = 0;
+      MPI_Sendrecv(&nsend,1,MPI_INT,comm->recvproc[iswap],0,
+                   &nrecv,1,MPI_INT,comm->sendproc[iswap],0,
+                   world,MPI_STATUS_IGNORE);
+      rbuf_recv_.resize(nrecv+1);
+      MPI_Sendrecv(&rbuf_send_[0],nsend,MPI_DOUBLE,comm->recvproc[iswap],1,
+                   &rbuf_recv_[0],nrecv,MPI_DOUBLE,comm->sendproc[iswap],1,
+                   world,MPI_STATUS_IGNORE);
+      buf = &rbuf_recv_[0];
+    } else buf = &rbuf_send_[0];
+
+    // unpack into the atoms sent as ghosts in this swap
+
+    const int *sendlist = comm->sendlist[iswap];
+    const int nsendatoms = comm->sendnum[iswap];
+    int m = 0;
+    for (int k = 0; k < nsendatoms; k++) {
+      const int j = sendlist[k];
+      const int n = (int) ubuf(buf[m++]).i;
+      if (what == 0) {
+        npartner_[j] += n;
+        continue;
+      }
+      for (int p = 0; p < n; p++) {
+        const int slot = npartner_[j]++;
+        if (slot >= capacity_[j])
+          error->one(FLERR,"Contact history: inconsistent partner count in reverse communication (newton pair on)");
+        partner_[j][slot] = (int) ubuf(buf[m++]).i;
+        for (int d = 0; d < dnum_; d++)
+          contacthistory_[j][slot*dnum_+d] = buf[m++];
+      }
+    }
+  }
 }
 
 /* ---------------------------------------------------------------------- */

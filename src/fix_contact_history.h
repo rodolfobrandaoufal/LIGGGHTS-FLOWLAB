@@ -61,6 +61,7 @@ FixStyle(contacthistory,FixContactHistory)
 #include "fix.h"
 #include "my_page.h"
 #include "vector_liggghts.h"
+#include <vector>
 
 namespace LAMMPS_NS {
 
@@ -132,6 +133,13 @@ class FixContactHistory : public Fix {
   MyPage<double> *dpage_;        // pages of shear history with partners
 
   virtual void allocate_pages();
+
+  // newton pair on (roadmap C3, finding S-06): every pair is stored on one
+  // proc only, so partner records of ghost atoms are sent back to the owners
+  void pre_exchange_newton();
+  void reverse_comm_partners(int what);
+  std::vector<double> rbuf_send_, rbuf_recv_;
+  std::vector<int> capacity_;
 
 };
 

@@ -283,6 +283,7 @@ public:
   bool needs_neighlist;
 
   void allocate();
+  void check_newton_pair_support();
 
  private:
 

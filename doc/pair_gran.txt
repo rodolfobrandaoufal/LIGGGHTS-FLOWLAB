@@ -109,6 +109,42 @@ restart a simulation, you have to re-define them (by using the fixes mentioned a
 These pair styles can only be used via the pair keyword of the "run_style respa"_run_style.html
 command. They do not support the inner, middle, outer keywords.
 
+[Newton's 3rd law ("newton"_newton.html):]
+
+Both settings of the pairwise newton flag are supported, also for models with contact
+history (tangential {history}, rolling friction {epsd}, {epsd2}, {epsd3}, {luding},
+cohesion {jkr}, normal {hooke/hysteresis}):
+
+{newton off} (the setting of all example inputs): a pair whose two particles are owned
+by different processors is computed on both processors, and each keeps its own copy of
+the contact history. :ulb,l
+{newton on}: every pair is computed once; the force and torque on the partner are
+added to its ghost copy and summed on the owner by reverse communication. The contact
+history is stored once per pair. When atoms are exchanged, the history records of pairs
+whose partner was a ghost atom are sent back to the owner of that atom, so the history
+survives re-neighboring, migration to another processor, a change of the processor that
+computes the pair, and restart files (which can be read with either newton setting).
+This saves the duplicate computation of pairs across processor boundaries. :l
+:ule
+
+Results with {newton on} and {newton off} agree to round-off, not bitwise, because the
+sums over contacts are done in a different order (tests/newton).
+
+With {newton on}, the following options stop with an error, because they write per-contact
+or per-particle data of ghost atoms that is not reverse-communicated, or because their
+history values do not transform to the partner's view by a sign change; use {newton off}
+for them:
+
+cohesion {easo/capillary/viscous} and {washino/capillary/viscous} (liquid transfer), :ulb,l
+{computeDissipatedEnergy} and {computeElasticPotential}, :l
+normal models {luding}, {thornton_ning}, {edinburgh} and {edinburgh/stiffness},
+surface {multicontact} and {superquadric}, and any other history value that has not
+been verified for {newton on} (the error message names it), :l
+storage of per-contact forces (fix multisphere, fix continuum/weighted, multicontact),
+the per-particle sum of normal forces and energy tracking, :l
+a granular style with contact history used as a sub-style of "pair hybrid"_pair_hybrid.html. :l
+:ule
+
 [Restrictions:]
 
 These pair styles require that atoms store torque and angular velocity (omega) as

@@ -61,6 +61,44 @@
 using namespace LAMMPS_NS;
 
 /* ----------------------------------------------------------------------
+   contact history transfer for one pair (i,j) added to a newton on list
+   LIGGGHTS modernization branch, roadmap C3 / finding S-06
+   same rule as in the newton off builders: if i and j touch (within the
+   contact distance) and i has a partner record for tag[j], the history is
+   copied from it, otherwise the pair starts with zero history.
+   with newton on, the record of a pair last computed on another proc (or
+   with the other orientation) was sent to i by
+   FixContactHistory::pre_exchange_newton(), with j's sign convention
+   already applied, so the lookup is the same as for newton off.
+------------------------------------------------------------------------- */
+
+namespace {
+
+inline void gran_history_add(const int n, const int i, const int tagj,
+                             const bool touching, const int *npartner,
+                             int * const *partner, double * const *contacthistory,
+                             const int dnum, int *contact_flag_ptr,
+                             double *contact_hist_ptr, int &nn)
+{
+  int m = npartner[i];
+  if (touching)
+    for (m = 0; m < npartner[i]; m++)
+      if (partner[i][m] == tagj) break;
+
+  if (m < npartner[i]) {
+    contact_flag_ptr[n] = 1;
+    for (int d = 0; d < dnum; d++)
+      contact_hist_ptr[nn++] = contacthistory[i][m*dnum+d];
+  } else {
+    contact_flag_ptr[n] = 0;
+    for (int d = 0; d < dnum; d++)
+      contact_hist_ptr[nn++] = 0.0;
+  }
+}
+
+}
+
+/* ----------------------------------------------------------------------
    granular particles
    N^2 / 2 search for neighbor pairs with partial Newton's 3rd law
    shear history must be accounted for when a neighbor pair is added
@@ -201,7 +239,7 @@ void Neighbor::granular_nsq_no_newton(NeighList *list)
 /* ----------------------------------------------------------------------
    granular particles
    N^2 / 2 search for neighbor pairs with full Newton's 3rd law
-   no shear history is allowed for this option
+   contact history is transferred as for newton off (roadmap C3)
    pair added to list if atoms i and j are both owned and i < j
    if j is ghost only me or other proc adds pair
    decision based on itag,jtag tests
@@ -216,7 +254,6 @@ void Neighbor::granular_nsq_newton(NeighList *list)
 
   double **x = atom->x;
   double *radius = atom->radius;
-  int *tag = atom->tag;
   int *type = atom->type;
   int *mask = atom->mask;
   int *molecule = atom->molecule;
@@ -235,10 +272,46 @@ void Neighbor::granular_nsq_newton(NeighList *list)
   int inum = 0;
   ipage->reset();
 
+  // contact history (newton on, roadmap C3)
+  NeighList *listgranhistory = NULL;
+  int *npartner = NULL,**partner = NULL;
+  double **contacthistory = NULL;
+  int **first_contact_flag = NULL;
+  double **first_contact_hist = NULL;
+  MyPage<int> *ipage_contact_flag = NULL;
+  MyPage<double> *dpage_contact_hist = NULL;
+  int *contact_flag_ptr = NULL;
+  double *contact_hist_ptr = NULL;
+  int dnum = 0, nn = 0;
+  int *tag = atom->tag;
+
+  FixContactHistory *fix_history = list->fix_history;
+  if (fix_history) {
+    npartner = fix_history->npartner_;
+    partner = fix_history->partner_;
+    contacthistory = fix_history->contacthistory_;
+    listgranhistory = list->listgranhistory;
+    first_contact_flag = listgranhistory->firstneigh;
+    first_contact_hist = listgranhistory->firstdouble;
+    ipage_contact_flag = listgranhistory->ipage;
+    dpage_contact_hist = listgranhistory->dpage;
+    dnum = listgranhistory->dnum;
+    ipage_contact_flag->reset();
+    dpage_contact_hist->reset();
+  }
+
   for (i = 0; i < nlocal; i++) {
 
     n = 0;
     neighptr = ipage->vget();
+
+    if (fix_history) {
+      nn = 0;
+      contact_flag_ptr = ipage_contact_flag->vget();
+      contact_hist_ptr = dpage_contact_hist->vget();
+      if(!contact_flag_ptr || !contact_hist_ptr)
+        error->one(FLERR,"Neighbor list overflow, boost neigh_modify one");
+    }
 
     itag = tag[i];
     xtmp = x[i][0];
@@ -275,7 +348,12 @@ void Neighbor::granular_nsq_newton(NeighList *list)
       radsum = (radi + radius[j]) * contactDistanceFactor;
       cutsq = (radsum+skin) * (radsum+skin);
 
-      if (rsq <= cutsq) neighptr[n++] = j;
+      if (rsq <= cutsq) {
+        if (fix_history)
+          gran_history_add(n,i,tag[j],rsq < radsum*radsum,npartner,partner,
+                           contacthistory,dnum,contact_flag_ptr,contact_hist_ptr,nn);
+        neighptr[n++] = j;
+      }
     }
 
     ilist[inum++] = i;
@@ -284,6 +362,12 @@ void Neighbor::granular_nsq_newton(NeighList *list)
     ipage->vgot(n);
     if (ipage->status())
       error->one(FLERR,"Neighbor list overflow, boost neigh_modify one");
+    if (fix_history) {
+      first_contact_flag[i] = contact_flag_ptr;
+      first_contact_hist[i] = contact_hist_ptr;
+      ipage_contact_flag->vgot(n);
+      dpage_contact_hist->vgot(nn);
+    }
   }
 
   list->inum = inum;
@@ -642,7 +726,7 @@ void Neighbor::granular_bin_no_newton(NeighList *list)
 /* ----------------------------------------------------------------------
    granular particles
    binned neighbor list construction with full Newton's 3rd law
-   no shear history is allowed for this option
+   contact history is transferred as for newton off (roadmap C3)
    each owned atom i checks its own bin and other bins in Newton stencil
    every pair stored exactly once by some processor
 ------------------------------------------------------------------------- */
@@ -678,10 +762,46 @@ void Neighbor::granular_bin_newton(NeighList *list)
   int inum = 0;
   ipage->reset();
 
+  // contact history (newton on, roadmap C3)
+  NeighList *listgranhistory = NULL;
+  int *npartner = NULL,**partner = NULL;
+  double **contacthistory = NULL;
+  int **first_contact_flag = NULL;
+  double **first_contact_hist = NULL;
+  MyPage<int> *ipage_contact_flag = NULL;
+  MyPage<double> *dpage_contact_hist = NULL;
+  int *contact_flag_ptr = NULL;
+  double *contact_hist_ptr = NULL;
+  int dnum = 0, nn = 0;
+  int *tag = atom->tag;
+
+  FixContactHistory *fix_history = list->fix_history;
+  if (fix_history) {
+    npartner = fix_history->npartner_;
+    partner = fix_history->partner_;
+    contacthistory = fix_history->contacthistory_;
+    listgranhistory = list->listgranhistory;
+    first_contact_flag = listgranhistory->firstneigh;
+    first_contact_hist = listgranhistory->firstdouble;
+    ipage_contact_flag = listgranhistory->ipage;
+    dpage_contact_hist = listgranhistory->dpage;
+    dnum = listgranhistory->dnum;
+    ipage_contact_flag->reset();
+    dpage_contact_hist->reset();
+  }
+
   for (i = 0; i < nlocal; i++) {
 
     n = 0;
     neighptr = ipage->vget();
+
+    if (fix_history) {
+      nn = 0;
+      contact_flag_ptr = ipage_contact_flag->vget();
+      contact_hist_ptr = dpage_contact_hist->vget();
+      if(!contact_flag_ptr || !contact_hist_ptr)
+        error->one(FLERR,"Neighbor list overflow, boost neigh_modify one");
+    }
 
     xtmp = x[i][0];
     ytmp = x[i][1];
@@ -710,7 +830,12 @@ void Neighbor::granular_bin_newton(NeighList *list)
       radsum = (radi + radius[j]) * contactDistanceFactor; 
       cutsq = (radsum+skin) * (radsum+skin);
 
-      if (rsq <= cutsq) neighptr[n++] = j;
+      if (rsq <= cutsq) {
+        if (fix_history)
+          gran_history_add(n,i,tag[j],rsq < radsum*radsum,npartner,partner,
+                           contacthistory,dnum,contact_flag_ptr,contact_hist_ptr,nn);
+        neighptr[n++] = j;
+      }
     }
 
     // loop over all atoms in other bins in stencil, store every pair
@@ -724,10 +849,15 @@ void Neighbor::granular_bin_newton(NeighList *list)
         dely = ytmp - x[j][1];
         delz = ztmp - x[j][2];
         rsq = delx*delx + dely*dely + delz*delz;
-        radsum = radi + radius[j];
+        radsum = (radi + radius[j]) * contactDistanceFactor;
         cutsq = (radsum+skin) * (radsum+skin);
 
-        if (rsq <= cutsq) neighptr[n++] = j;
+        if (rsq <= cutsq) {
+          if (fix_history)
+            gran_history_add(n,i,tag[j],rsq < radsum*radsum,npartner,partner,
+                             contacthistory,dnum,contact_flag_ptr,contact_hist_ptr,nn);
+          neighptr[n++] = j;
+        }
       }
     }
 
@@ -737,6 +867,12 @@ void Neighbor::granular_bin_newton(NeighList *list)
     ipage->vgot(n);
     if (ipage->status())
       error->one(FLERR,"Neighbor list overflow, boost neigh_modify one");
+    if (fix_history) {
+      first_contact_flag[i] = contact_flag_ptr;
+      first_contact_hist[i] = contact_hist_ptr;
+      ipage_contact_flag->vgot(n);
+      dpage_contact_hist->vgot(nn);
+    }
   }
 
   list->inum = inum;
@@ -745,7 +881,7 @@ void Neighbor::granular_bin_newton(NeighList *list)
 /* ----------------------------------------------------------------------
    granular particles
    binned neighbor list construction with Newton's 3rd law for triclinic
-   no shear history is allowed for this option
+   contact history is transferred as for newton off (roadmap C3)
    each owned atom i checks its own bin and other bins in triclinic stencil
    every pair stored exactly once by some processor
 ------------------------------------------------------------------------- */
@@ -781,10 +917,46 @@ void Neighbor::granular_bin_newton_tri(NeighList *list)
   int inum = 0;
   ipage->reset();
 
+  // contact history (newton on, roadmap C3)
+  NeighList *listgranhistory = NULL;
+  int *npartner = NULL,**partner = NULL;
+  double **contacthistory = NULL;
+  int **first_contact_flag = NULL;
+  double **first_contact_hist = NULL;
+  MyPage<int> *ipage_contact_flag = NULL;
+  MyPage<double> *dpage_contact_hist = NULL;
+  int *contact_flag_ptr = NULL;
+  double *contact_hist_ptr = NULL;
+  int dnum = 0, nn = 0;
+  int *tag = atom->tag;
+
+  FixContactHistory *fix_history = list->fix_history;
+  if (fix_history) {
+    npartner = fix_history->npartner_;
+    partner = fix_history->partner_;
+    contacthistory = fix_history->contacthistory_;
+    listgranhistory = list->listgranhistory;
+    first_contact_flag = listgranhistory->firstneigh;
+    first_contact_hist = listgranhistory->firstdouble;
+    ipage_contact_flag = listgranhistory->ipage;
+    dpage_contact_hist = listgranhistory->dpage;
+    dnum = listgranhistory->dnum;
+    ipage_contact_flag->reset();
+    dpage_contact_hist->reset();
+  }
+
   for (i = 0; i < nlocal; i++) {
 
     n = 0;
     neighptr = ipage->vget();
+
+    if (fix_history) {
+      nn = 0;
+      contact_flag_ptr = ipage_contact_flag->vget();
+      contact_hist_ptr = dpage_contact_hist->vget();
+      if(!contact_flag_ptr || !contact_hist_ptr)
+        error->one(FLERR,"Neighbor list overflow, boost neigh_modify one");
+    }
 
     xtmp = x[i][0];
     ytmp = x[i][1];
@@ -818,7 +990,12 @@ void Neighbor::granular_bin_newton_tri(NeighList *list)
         radsum = (radi + radius[j]) * contactDistanceFactor; 
         cutsq = (radsum+skin) * (radsum+skin);
 
-        if (rsq <= cutsq) neighptr[n++] = j;
+        if (rsq <= cutsq) {
+          if (fix_history)
+            gran_history_add(n,i,tag[j],rsq < radsum*radsum,npartner,partner,
+                             contacthistory,dnum,contact_flag_ptr,contact_hist_ptr,nn);
+          neighptr[n++] = j;
+        }
       }
     }
 
@@ -828,6 +1005,12 @@ void Neighbor::granular_bin_newton_tri(NeighList *list)
     ipage->vgot(n);
     if (ipage->status())
       error->one(FLERR,"Neighbor list overflow, boost neigh_modify one");
+    if (fix_history) {
+      first_contact_flag[i] = contact_flag_ptr;
+      first_contact_hist[i] = contact_hist_ptr;
+      ipage_contact_flag->vgot(n);
+      dpage_contact_hist->vgot(nn);
+    }
   }
 
   list->inum = inum;
@@ -843,7 +1026,7 @@ void Neighbor::granular_bin_newton_tri(NeighList *list)
    NEWTON = 0: partial Newton's 3rd law, contact history allowed
      pair stored once if i,j are both owned and i < j
      pair stored by me if j is ghost (also stored by proc owning j)
-   NEWTON = 1: full Newton's 3rd law, no contact history
+   NEWTON = 1: full Newton's 3rd law, contact history as for NEWTON = 0
      pair stored once if i,j are both owned and i < j
      if j is ghost, stored only if j is "above" i
      (higher z, or equal z and higher y, or equal zy and higher/equal x)
@@ -909,7 +1092,7 @@ void Neighbor::granular_multiclass(NeighList *list)
   int **firstneigh = list->firstneigh;
   MyPage<int> *ipage = list->ipage;
 
-  FixContactHistory *fix_history = NEWTON ? NULL : list->fix_history;
+  FixContactHistory *fix_history = list->fix_history;
   if (fix_history) {
     npartner = fix_history->npartner_;
     partner = fix_history->partner_;

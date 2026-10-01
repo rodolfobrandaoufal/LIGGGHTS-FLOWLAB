@@ -1,0 +1,31 @@
+# newton pair on: unsupported features must stop with a clear error
+# (tests/newton, LIGGGHTS modernization branch, roadmap C3). Variable: case (1..4)
+variable case index 1
+atom_style granular
+atom_modify map array
+boundary f f f
+newton on
+communicate single vel yes
+units si
+region domain block -0.004 0.004 -0.004 0.004 -0.004 0.004 units box
+create_box 1 domain
+neighbor 0.0002 bin
+neigh_modify delay 0
+fix m1 all property/global youngsModulus peratomtype 1e7
+fix m2 all property/global poissonsRatio peratomtype 0.3
+fix m3 all property/global coefficientRestitution peratomtypepair 1 0.9
+fix m4 all property/global coefficientFriction peratomtypepair 1 0.5
+# 1: dissipated-energy tracking (per-atom writes to ghosts, history 'delta_0')
+if "${case} == 1" then "pair_style gran model hertz tangential history computeDissipatedEnergy on"
+# 2: capillary bridge model with liquid transfer (per-atom writes to ghosts, history 'contflag')
+if "${case} == 2" then "pair_style gran model hertz tangential history cohesion easo/capillary/viscous"
+# 3: elastic potential tracking (i/j torque slots cannot be swapped by a sign)
+if "${case} == 3" then "pair_style gran model hertz tangential history computeElasticPotential on"
+if "${case} <= 3" then "pair_coeff * *"
+# 4: granular style with history as a sub-style of pair hybrid (skip-list path not verified)
+if "${case} == 4" then "pair_style hybrid gran model hertz tangential history" "pair_coeff * * gran"
+timestep 1e-6
+create_atoms 1 single -0.00099 0 0 units box
+create_atoms 1 single  0.00099 0 0 units box
+set atom * diameter 0.002 density 2500
+run 1

@@ -257,8 +257,8 @@ void PairGran::init_style()
   // check if newton flag is valid
   // if first init, create Fix needed for storing shear history
 
-  if (history && force->newton_pair == 1)
-    error->all(FLERR,"Pair granular with shear history requires newton pair off");
+  // newton pair on with contact history is supported (roadmap C3); the
+  // history values are checked below, once the contacthistory fix exists
 
   dnum_all = dnum_pairgran;
 
@@ -319,6 +319,9 @@ void PairGran::init_style()
         delete [] fixarg;
     }
   }
+
+  if (force->newton_pair == 1)
+    check_newton_pair_support();
 
   // register per-particle properties for energy tracking
   if(energytrack_enable)
@@ -505,6 +508,10 @@ void PairGran::init_style()
           modify->find_fix_property("sum_normal_force_","property/atom","scalar",0,0, "pair/gran", false)
       );
 
+  if (fix_sum_normal_force_ && force->newton_pair == 1)
+    error->all(FLERR,"Pair granular: the per-particle sum of normal forces (sum_normal_force_) "
+                     "is not reverse-communicated and requires 'newton off'");
+
   // need a gran neigh list and optionally a granular history neigh list
 
   if(needs_neighlist)
@@ -570,6 +577,82 @@ void PairGran::init_style()
   MPI_Allreduce(&onerad_frozen[1],&maxrad_frozen[1],atom->ntypes,MPI_DOUBLE,MPI_MAX,world);
 
   init_granular();
+}
+
+/* ----------------------------------------------------------------------
+   newton pair on (roadmap C3, finding S-06)
+   every pair is computed once; forces and torques on ghost atoms are
+   reverse-communicated by Verlet, contact history of pairs whose partner
+   is a ghost is returned to the owner by
+   FixContactHistory::pre_exchange_newton().  this needs, for every history
+   value, a correct newtonflag: the value seen from j must be -value
+   (newtonflag 1) or +value (newtonflag 0).  only history values for which
+   this was checked are accepted; features that write per-contact or
+   per-particle data of ghost atoms without a reverse communication are
+   rejected
+------------------------------------------------------------------------- */
+
+namespace {
+
+struct NewtonHistoryValue { const char *name; int newtonflag; const char *model; };
+
+// history values whose i<->j transformation is (-1)^newtonflag, checked
+const NewtonHistoryValue newton_history_ok[] = {
+  { "shearx",            1, "tangential history" },
+  { "sheary",            1, "tangential history" },
+  { "shearz",            1, "tangential history" },
+  { "kt_old",            0, "tangential history (stiffness of previous step)" },
+  { "r_torquex_old",     1, "rolling epsd/epsd2/epsd3/luding" },
+  { "r_torquey_old",     1, "rolling epsd/epsd2/epsd3/luding" },
+  { "r_torquez_old",     1, "rolling epsd/epsd2/epsd3/luding" },
+  { "r_tor_torquex_old", 1, "rolling luding (torsion)" },
+  { "r_tor_torquey_old", 1, "rolling luding (torsion)" },
+  { "r_tor_torquez_old", 1, "rolling luding (torsion)" },
+  { "deltaMax",          0, "normal hooke/hysteresis" },
+  { "jkr_contact",       0, "cohesion jkr" },
+  { NULL, 0, NULL }
+};
+
+}
+
+void PairGran::check_newton_pair_support()
+{
+  if (store_contact_forces_ || store_contact_forces_stress_ || store_multicontact_data_)
+    error->all(FLERR,"Pair granular: storing per-contact forces (e.g. for multisphere, stress "
+                     "computations or multicontact models) requires 'newton off'");
+
+  // per-particle dissipated energy (computeDissipatedEnergy): the models add
+  // the j share only for owned j, there is no reverse communication
+  if (modify->find_fix_property("dissipated_energy","property/atom","vector",0,0,"pair gran",false))
+    error->all(FLERR,"Pair granular: 'computeDissipatedEnergy on' requires 'newton off'");
+
+  if (!history || !fix_history)
+    return;
+
+  // sub-style of pair hybrid: the skip-list history path is not verified with newton on
+  if (force->pair != this)
+    error->all(FLERR,"Pair granular with contact history as a sub-style of pair hybrid "
+                     "requires 'newton off'");
+
+  for (int d = 0; d < fix_history->dnum_; d++)
+  {
+    const char * const name = fix_history->history_id_[d];
+    const int flag = fix_history->newtonflag_[d];
+    bool ok = false;
+    for (int k = 0; newton_history_ok[k].name; k++)
+      if (0 == strcmp(name, newton_history_ok[k].name) && flag == newton_history_ok[k].newtonflag)
+        ok = true;
+    if (!ok)
+    {
+      char msg[512];
+      snprintf(msg, sizeof(msg),
+               "Pair granular with 'newton pair on': contact history value '%s' (newtonflag %d) "
+               "is not supported with newton on (its per-atom side effects or its i<->j "
+               "symmetry have not been verified). Use 'newton off' for this contact model "
+               "(see doc/pair_gran.txt)", name, flag);
+      error->all(FLERR, msg);
+    }
+  }
 }
 
 /* ----------------------------------------------------------------------

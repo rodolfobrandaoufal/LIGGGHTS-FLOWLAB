@@ -1,0 +1,59 @@
+# Contact history persistence with newton pair on (tests/newton, LIGGGHTS modernization branch, roadmap C3)
+# Two touching spheres (contact normal oblique to all axes).
+# Phase 1 (100 steps, positions fixed, no integrator): relative tangential and
+#   rolling velocities build a tangential spring and an epsd2 rolling spring.
+# Phase 2 (nmove steps): the pair is translated as a rigid body with fix move
+#   linear along x and y through a periodic box cut into slabs (processors * 1 1),
+#   so both atoms change owner many times, the pair is owned by different
+#   ranks (and by one rank or split across two), crosses the periodic boundary and is
+#   reneighbored every few steps. No relative motion => both springs must stay
+#   constant; a history reset (e.g. a record lost on an ownership change) sets
+#   the contact force back to the normal force only.
+# Variables: nw (newton flag), nmove (phase 2 steps)
+variable nw index on
+variable nmove index 6000
+hard_particles yes
+atom_style granular
+atom_modify map array
+boundary p p f
+newton ${nw}
+communicate single vel yes
+units si
+processors * 1 1
+region domain block -0.016 0.016 -0.006 0.006 -0.006 0.006 units box
+create_box 1 domain
+neighbor 0.0002 bin
+neigh_modify delay 0
+fix m1 all property/global youngsModulus peratomtype 1e7
+fix m2 all property/global poissonsRatio peratomtype 0.3
+fix m3 all property/global coefficientRestitution peratomtypepair 1 0.9
+fix m4 all property/global coefficientFriction peratomtypepair 1 10.0
+fix m5 all property/global coefficientRollingFriction peratomtypepair 1 10.0
+pair_style gran model hertz tangential history rolling_friction epsd2
+pair_coeff * *
+timestep 1e-6
+# R = 1 mm, centre distance 1.98 mm along n = (0.6, 0.48, 0.64)
+create_atoms 1 single -0.000594 -0.0004752 -0.0006336 units box
+create_atoms 1 single  0.000594  0.0004752  0.0006336 units box
+set atom * diameter 0.002 density 2500
+# phase 1: tangential slip (t = (0.8,-0.6,0) and n x t) and relative spin
+set atom 1 vx  0.016 vy -0.012 vz 0.0 omegax  2.0 omegay 1.0 omegaz -1.0
+set atom 2 vx -0.016 vy  0.012 vz 0.0 omegax -2.0 omegay -1.0 omegaz 1.0
+compute pgl all pair/gran/local id force history
+thermo 1000000
+run 100
+set atom * vx 0 vy 0 vz 0 omegax 0 omegay 0 omegaz 0
+# phase 2: rigid translation, 16 mm per 1000 steps in x (one box length per 2000 steps)
+fix mv all move linear 16.0 3.0 0.0
+variable st equal step
+variable fx equal fx[1]
+variable fy equal fy[1]
+variable fz equal fz[1]
+variable tx equal tqx[1]
+variable ty equal tqy[1]
+variable tz equal tqz[1]
+variable x1 equal x[1]
+fix pr all print 50 "${st} ${fx} ${fy} ${fz} ${tx} ${ty} ${tz} ${x1}" file traj.txt screen no title "# step fx fy fz tqx tqy tqz x1"
+dump dl all local 1000 pairs*.txt c_pgl[1] c_pgl[2] c_pgl[3] c_pgl[4] c_pgl[5] c_pgl[6] c_pgl[7] c_pgl[8] c_pgl[9] c_pgl[10] c_pgl[11] c_pgl[12]
+dump_modify dl format "%.0f %.0f %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g"
+run ${nmove}

@@ -59,6 +59,7 @@ namespace LAMMPS_NS {
 
 class Comm : protected Pointers {
  friend class Info;
+ friend class FixContactHistory;  // reverse comm of contact history (newton pair on)
 
  public:
   int me,nprocs;                    // proc info
