@@ -1,0 +1,93 @@
+"LIGGGHTS(R)-PUBLIC WWW Site"_liws - "LIGGGHTS(R)-PUBLIC Documentation"_ld - "LIGGGHTS(R)-PUBLIC Commands"_lc :c
+
+:link(liws,http://www.cfdem.com)
+:link(ld,Manual.html)
+:link(lc,Section_commands.html#comm)
+
+:line
+
+gran model edinburgh model :h3
+gran model edinburgh/stiffness model :h3
+
+[Syntax:]
+
+model edinburgh \[other model_type/model_name pairs as described "here"_pair_gran.html \] keyword values
+model edinburgh/stiffness \[other model_type/model_name pairs\] keyword values :pre
+zero or more keyword/value pairs may be appended to the end (after all models are specified) :l
+  {limitForce} values = 'on' or 'off'
+    on = the normal force is set to 0 when it would be attractive while the adhesion stiffness and pullOffForce are zero (default)
+    off = no clipping
+  {tangential_damping} values = 'on' or 'off'
+    on = tangential damping coefficient equal to the normal one (default)
+    off = no tangential damping
+  {fixKc} values = 'on' or 'off'
+    on = constant adhesion stiffness kadh = coefficientAdhesionStiffness * k1
+    off = adhesion stiffness from the surface energy (default) :pre
+
+[Examples:]
+
+pair_style gran model edinburgh tangential no_history
+pair_style gran model edinburgh/stiffness tangential no_history fixKc on :pre
+
+[Description:]
+
+Edinburgh Elasto-Plastic Adhesive (EEPA) normal contact
+"(Morrissey)"_#Morrissey2013, "(Thakur)"_#Thakur2014, with overlap exponent n
+(overlapExponent) and adhesion exponent chi (adhesionExponent):
+
+virgin loading: F = k1 delta^n
+unloading / reloading: F = k2 (delta^n - delta_p^n), with delta_p = (1 - k1/k2)^(1/n) delta_max on virgin loading
+adhesive branch: F = -kadh delta^chi :ul
+
+plus the constant pull-off force f0 (pullOffForce) and a dashpot
+-gamma_n v_n with gamma_n = sqrt(4 m* k1 / (1 + (pi/ln e)^2)) (e =
+coefficientRestitution; k1 here is the stiffness prefactor, without the
+overlap factor). k2 = UnloadingStiffness * k1, so UnloadingStiffness is the
+dimensionless ratio k2/k1 = 1/(1 - lambda_p) of the plasticity ratio lambda_p.
+
+{edinburgh}: k1 = 4/3 Y* sqrt(R*) for n != 1 and k1 = 2 Y* R* for n = 1
+(Y* and R* from youngsModulus, poissonsRatio and the radii; R* = R for a wall).
+{edinburgh/stiffness}: k1 = LoadingStiffness (force/length^n).
+
+With {fixKc} = 'off' the adhesion stiffness follows from the surface energy:
+kadh = f_min / delta_min^chi with f_min = 1.5 pi surfaceEnergy a, where a is the
+radius of the contact circle of the two spheres at the plastic overlap, capped
+at f_min <= k2 delta_p^n / 2.
+
+For a wall contact the contact circle is evaluated with the sphere-sphere
+formula at distance d = R and a partner radius 0, which gives a = 0: the
+surface-energy adhesion is zero against walls and only pullOffForce acts.
+(Before the K-01 fix, rounding could make this term slightly negative, and its
+square root NaN. The run then hung in the cohesion iteration or produced NaN
+forces, depending on the rounding of the build. The term is now clamped at 0.)
+
+[Required properties:] (all are read, even when a setting does not use them)
+
+youngsModulus, poissonsRatio (peratomtype; {edinburgh} only)
+LoadingStiffness (peratomtypepair; {edinburgh/stiffness} only), must be > 0
+coefficientRestitution (peratomtypepair)
+UnloadingStiffness (peratomtypepair), ratio k2/k1, must be >= 1 (1 = no plasticity)
+coefficientAdhesionStiffness (peratomtypepair), used with {fixKc} = 'on'
+overlapExponent, adhesionExponent (scalar), must be > 0 (usually 1.5)
+pullOffForce (peratomtypepair), finite (0 for none)
+surfaceEnergy (peratomtypepair), must be >= 0 :ul
+
+Values outside these ranges stop the run at setup with an error that names
+the property. Before the fix, UnloadingStiffness < 1 made lambda_p undefined, and
+the run hung without a message.
+
+[Restrictions:]
+
+Requires "newton off" (see "pair gran"_pair_gran.html). If the iteration of the
+adhesive branch does not converge, or its adhesion stiffness is not finite, the
+run stops with an error that names the contact and the step.
+
+[Default:]
+
+{limitForce} = 'on', {tangential_damping} = 'on', {fixKc} = 'off'
+
+:link(Morrissey2013)
+[(Morrissey)] J. P. Morrissey, Discrete element modelling of iron ore pellets to include the effects of moisture and fines, PhD thesis, University of Edinburgh (2013).
+
+:link(Thakur2014)
+[(Thakur)] S. C. Thakur, J. P. Morrissey, J. Sun, J. F. Chen, J. Y. Ooi, Micromechanical analysis of cohesive granular materials using the discrete element method with an adhesive elasto-plastic contact model, Granular Matter 16, p 383-400 (2014).

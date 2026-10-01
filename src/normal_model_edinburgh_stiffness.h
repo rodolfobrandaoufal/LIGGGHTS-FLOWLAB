@@ -48,6 +48,8 @@ NORMAL_MODEL(EDINBURGH_STIFFNESS,edinburgh/stiffness,11)
 #include "force.h"
 #include "update.h"
 #include "global_properties.h"
+#include "error.h"
+#include <cstdio>
 namespace LIGGGHTS {
 namespace ContactModels
 {
@@ -113,6 +115,46 @@ namespace ContactModels
       registry.connect("K_elastic", K_elastic, "model edinburgh/stiffness");
       registry.connect("kn2kc", kn2kc,"model edinburgh/stiffness");
 
+      validateParameters(registry.max_type());
+
+    }
+
+    // Reject parameter sets for which the model is undefined (finding K-01).
+    // They produced NaN in the overlap history, and a NaN adhesion stiffness
+    // never leaves the cohesion iteration in surfacesIntersect. Called on all
+    // ranks from connectToProperties with identical input, so error->all is
+    // collective.
+    void validationError(const char *name, int i, int j, double v, const char *req)
+    {
+      char msg[512];
+      if (i > 0)
+        snprintf(msg, sizeof(msg), "%s: property/global %s for atom type pair %d %d is %g, but %s is required",
+                 "model edinburgh/stiffness", name, i, j, v, req);
+      else
+        snprintf(msg, sizeof(msg), "%s: property/global %s is %g, but %s is required",
+                 "model edinburgh/stiffness", name, v, req);
+      error->all(FLERR, msg);
+    }
+
+    void validateParameters(const int max_type)
+    {
+      if (!(dex > 0.) || !std::isfinite(dex))
+        validationError("overlapExponent", 0, 0, dex, "> 0");
+      if (!(cex > 0.) || !std::isfinite(cex))
+        validationError("adhesionExponent", 0, 0, cex, "> 0");
+      for (int i = 1; i <= max_type; i++)
+        for (int j = 1; j <= max_type; j++)
+        {
+          // k2 = kn2k1*k1: the plastic overlap uses lambda = (1 - k1/k2)^(1/overlapExponent)
+          if (!(kn2k1[i][j] >= 1.) || !std::isfinite(kn2k1[i][j]))
+            validationError("UnloadingStiffness (unloading/loading stiffness ratio k2/k1)", i, j, kn2k1[i][j], ">= 1");
+          if (!(gamma_surf[i][j] >= 0.) || !std::isfinite(gamma_surf[i][j]))
+            validationError("surfaceEnergy", i, j, gamma_surf[i][j], ">= 0 (finite)");
+          if (!std::isfinite(f_adh[i][j]))
+            validationError("pullOffForce", i, j, f_adh[i][j], "a finite value");
+        if (!(K_elastic[i][j] > 0.) || !std::isfinite(K_elastic[i][j]))
+          validationError("LoadingStiffness", i, j, K_elastic[i][j], "> 0");
+        }
     }
 
     // effective exponent for stress-strain relationship
@@ -155,7 +197,13 @@ namespace ContactModels
     {
       double new_k_c, delta_min, a, f_min, dsq;
        dsq = d*d;
-       a = (1./(2.*d)) * sqrt(4* dsq * risq - ((dsq - rjsq + risq)*(dsq - rjsq + risq)));
+       // 4 d^2 a^2 >= 0 analytically. For a wall contact (d = ri, rj = 0) it is
+       // exactly 0, but the floating-point result can be -O(ulp) (e.g. with
+       // FMA contraction). sqrt of that is NaN, which hung the cohesion
+       // iteration (finding K-01). Clamp negative values to 0; for arguments
+       // >= 0 (and -0.0) the result is unchanged.
+       const double a_arg = 4* dsq * risq - ((dsq - rjsq + risq)*(dsq - rjsq + risq));
+       a = (1./(2.*d)) * sqrt(a_arg < 0. ? 0. : a_arg);
        f_min = ( 1.5 * M_PI * g_surf * a);
 
       if (f_min > f_min_lim)
@@ -167,6 +215,21 @@ namespace ContactModels
       }
       new_k_c = f_min/pow(delta_min, cex);
       return new_k_c;
+    }
+
+    // Per-contact fault inside the force loop: only this rank sees it, so
+    // error->one (error->all would deadlock the other ranks).
+    void cohesionIterationError(const SurfacesIntersectData & sidata, const double k_adh, const int n_iter)
+    {
+      char msg[768];
+      snprintf(msg, sizeof(msg),
+               "%s: the cohesion-branch iteration did not converge at step " BIGINT_FORMAT
+               " (%s contact of atom %d, overlap %g, adhesion stiffness %g, %d iterations). "
+               "Check surfaceEnergy, UnloadingStiffness, overlapExponent and adhesionExponent, "
+               "and the timestep",
+               "model edinburgh/stiffness", update->ntimestep, sidata.is_wall ? "wall" : "particle-particle",
+               atom->tag[sidata.i], sidata.deltan, k_adh, n_iter);
+      error->one(FLERR, msg);
     }
 
     inline void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
@@ -231,6 +294,8 @@ namespace ContactModels
         double risq = ri*ri;
         double rjsq = rj*rj;
 
+        int n_cohesion_iter = 0;
+
         temp_calc:
 
         deltan_pe_max = pow(deltan_p_max, dex);
@@ -248,6 +313,10 @@ namespace ContactModels
           }else{  // cohesion part
 
             if (deltan > history[1]){
+              // guard (K-01): a non-finite adhesion stiffness never satisfies
+              // the exit tests above, so this iteration would never end
+              if (!std::isfinite(k_adh) || ++n_cohesion_iter > 10000)
+                cohesionIterationError(sidata, k_adh, n_cohesion_iter);
               count_flag = 1;
               deltan_p_max = calculate_deltan_p_max (deltan_p, &sidata.contact_history[history_offset], count_flag, f_0, fTmp, k2, dex, dex_i, deltan, k_adh);
               goto temp_calc;

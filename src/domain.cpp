@@ -89,6 +89,26 @@ using namespace MathConst;
 enum{NO_REMAP,X_REMAP,V_REMAP};                   // same as fix_deform.cpp
 
 /* ----------------------------------------------------------------------
+   stop with a clear message when an atom coordinate is NaN or inf
+   (finding K-02: such atoms used to reach Neighbor::bin_atoms and segfault).
+   Per-rank fault, so error->one; kept out of line so the pbc() loop stays tight.
+------------------------------------------------------------------------- */
+
+#if defined(__GNUC__)
+__attribute__((noinline, cold))
+#endif
+static void nonfinite_position_error(Error *error, Atom *atom, Update *update, int triclinic, int i)
+{
+  char msg[512];
+  snprintf(msg, sizeof(msg),
+           "Non-finite position of atom %d at step " BIGINT_FORMAT " (%s = %g %g %g): the simulation "
+           "has become numerically unstable. Check the timestep and the contact model parameters",
+           atom->tag[i], update->ntimestep, triclinic ? "lamda coords" : "x",
+           atom->x[i][0], atom->x[i][1], atom->x[i][2]);
+  error->one(FLERR, msg);
+}
+
+/* ----------------------------------------------------------------------
    default is periodic
 ------------------------------------------------------------------------- */
 
@@ -554,6 +574,10 @@ void Domain::pbc()
   }
 
   for (i = 0; i < nlocal; i++) {
+    // comparison only: positions of valid runs are untouched
+    if (!std::isfinite(x[i][0]) || !std::isfinite(x[i][1]) || !std::isfinite(x[i][2]))
+      nonfinite_position_error(error, atom, update, triclinic, i);
+
     if (xperiodic) {
       if (x[i][0] < lo[0]) {
         x[i][0] += period[0];

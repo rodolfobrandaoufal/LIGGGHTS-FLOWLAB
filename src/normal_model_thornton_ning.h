@@ -49,6 +49,8 @@ NORMAL_MODEL(THORNTON_NING,thornton_ning,8)
 #include "update.h"
 #include "global_properties.h"
 #include "math_extra_liggghts.h"
+#include "error.h"
+#include <cstdio>
 namespace LIGGGHTS {
 
 namespace ContactModels
@@ -104,6 +106,28 @@ namespace ContactModels
       registry.connect("betaeff", betaeff,"model thornton_ning");
       registry.connect("gamma_surf", gamma_surf,"model thornton_ning");
       registry.connect("yield_ratio", yield_ratio, "model thornton_ning");
+
+      // Input validation (finding K-02). All ranks see the same input, so
+      // error->all is collective here.
+      const int max_type = registry.max_type();
+      char msg[512];
+      for (int i = 1; i <= max_type; i++)
+      {
+        if (!(yield_ratio[i] > 0.) || !(yield_ratio[i] <= 1.))
+        {
+          snprintf(msg, sizeof(msg), "model thornton_ning: property/global coefficientYieldRatio for atom type %d is %g, "
+                   "but 0 < coefficientYieldRatio <= 1 is required (yield contact radius = coefficientYieldRatio * radius)",
+                   i, yield_ratio[i]);
+          error->all(FLERR, msg);
+        }
+        for (int j = 1; j <= max_type; j++)
+          if (!(gamma_surf[i][j] >= 0.) || !std::isfinite(gamma_surf[i][j]))
+          {
+            snprintf(msg, sizeof(msg), "model thornton_ning: property/global surfaceEnergy for atom type pair %d %d is %g, "
+                     "but a finite surfaceEnergy >= 0 is required", i, j, gamma_surf[i][j]);
+            error->all(FLERR, msg);
+          }
+      }
       // registry.connect("coeffRestLog", coeffRestLog,"model thornton_ning_oblique");
     }
 
@@ -204,6 +228,30 @@ namespace ContactModels
 
     /* ------------------------- END OF CALL FUNCTIONS ------------------------*/
 
+    // Per-contact fault inside the force loop: only this rank sees it, so
+    // error->one (error->all would deadlock the other ranks).
+    void nonFiniteForceError(const SurfacesIntersectData & sidata, const double fc, const double delta,
+                             const double delta_old, const double force_old)
+    {
+      char msg[1024];
+      if (force_old < -fc)
+        snprintf(msg, sizeof(msg),
+                 "model thornton_ning: non-finite normal force at step " BIGINT_FORMAT " (%s contact of atom %d): "
+                 "the stored contact force %g fell below the JKR pull-off force -Fc = %g in the previous step. "
+                 "The incremental JKR update cannot resolve the overlap change per step (%g, current overlap %g) "
+                 "near pull-off: reduce the timestep (or check surfaceEnergy and youngsModulus)",
+                 update->ntimestep, sidata.is_wall ? "wall" : "particle-particle", atom->tag[sidata.i],
+                 force_old, -fc, delta - delta_old, delta);
+      else
+        snprintf(msg, sizeof(msg),
+                 "model thornton_ning: non-finite normal force at step " BIGINT_FORMAT " (%s contact of atom %d, "
+                 "overlap %g, previous force %g, Fc = %g): check youngsModulus, surfaceEnergy, coefficientYieldRatio "
+                 "and the timestep",
+                 update->ntimestep, sidata.is_wall ? "wall" : "particle-particle", atom->tag[sidata.i],
+                 delta, force_old, fc);
+      error->one(FLERR, msg);
+    }
+
     inline void surfacesIntersect(SurfacesIntersectData & sidata, ForceData & i_forces, ForceData & j_forces)
     {
       const int itype = sidata.itype;
@@ -248,7 +296,9 @@ namespace ContactModels
 
       if (yield_stress < limit_yield_stress) plastic_from_start = 1;
 
-      if (yield_stress <= 0) error->all(FLERR,"Invalid yield stress, please check surface energy and yield ratio!");
+      // error->one: this runs per contact inside the force loop, where only this
+      // rank may see the fault (error->all would deadlock the other ranks)
+      if (yield_stress <= 0) error->one(FLERR,"Invalid yield stress, please check surface energy and yield ratio!");
 
       double f, fl, fl_max;                                                                                                 //forces
       double df;                                                                                                            // differentials
@@ -366,6 +416,11 @@ namespace ContactModels
             detaching_force = force_old;
           }
         }
+      // A non-finite force would put the atoms at NaN a step later (finding
+      // K-02: segfault in Neighbor::bin_atoms). Stop with a diagnosis instead.
+      // A comparison only: finite results are unchanged.
+      if (!std::isfinite(f)) nonFiniteForceError(sidata, fc, delta, delta_old, force_old);
+
       // put force where it belongs
       sidata.Fn = f;
       sidata.kt = k_t;

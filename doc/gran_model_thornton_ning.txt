@@ -1,0 +1,65 @@
+"LIGGGHTS(R)-PUBLIC WWW Site"_liws - "LIGGGHTS(R)-PUBLIC Documentation"_ld - "LIGGGHTS(R)-PUBLIC Commands"_lc :c
+
+:link(liws,http://www.cfdem.com)
+:link(ld,Manual.html)
+:link(lc,Section_commands.html#comm)
+
+:line
+
+gran model thornton_ning model :h3
+
+[Syntax:]
+
+model thornton_ning \[other model_type/model_name pairs as described "here"_pair_gran.html \] keyword values :pre
+zero or more keyword/value pairs may be appended to the end (after all models are specified) :l
+  {tangential_damping} values = 'on' or 'off'
+  {limitForce} values = 'on' or 'off' (accepted, has no effect) :pre
+
+[Examples:]
+
+pair_style gran model thornton_ning tangential history :pre
+
+[Description:]
+
+Elastic-plastic adhesive normal contact of "(Thornton)"_#Thornton1998. The
+contact follows JKR theory with pull-off force Fc = 1.5 pi surfaceEnergy R*.
+Once the contact radius reaches the yield radius a_y = coefficientYieldRatio * R_i,
+the contact loads plastically. It unloads along a JKR curve with a modified
+radius. The force is updated incrementally from the overlap change of each
+step. There is no normal dashpot: the only normal dissipation is plastic and
+adhesive hysteresis. coefficientRestitution enters only the tangential
+damping.
+
+[Required properties:]
+
+youngsModulus, poissonsRatio (peratomtype)
+coefficientRestitution (peratomtypepair)
+surfaceEnergy (peratomtypepair), must be >= 0 (0 = no adhesion)
+coefficientYieldRatio (peratomtype), 0 < value <= 1 :ul
+
+Values outside these ranges stop the run at setup with an error that names
+the property. The yield stress, which depends on the radii, is checked per
+contact.
+
+[Timestep:]
+
+The incremental JKR update must resolve the overlap range near pull-off. That
+range is of order (pi^2 surfaceEnergy^2 R* / E*^2)^(1/3), the JKR pull-off
+overlap. If the overlap change of one step is comparable to it, the stored
+force can overshoot below -Fc. The next square root is then undefined.
+Previously this silently put atoms at NaN, and the run crashed in the
+neighbour binning (finding K-02). The run now stops with an error that names
+the contact, the step and the overshoot. Reduce the timestep, or check
+surfaceEnergy and youngsModulus. Soft, undamped, adhesive particles at high
+impact speed need small timesteps.
+
+[Restrictions:]
+
+Requires "newton off" (see "pair gran"_pair_gran.html).
+
+[Default:]
+
+{tangential_damping} = 'on', {limitForce} = 'off'
+
+:link(Thornton1998)
+[(Thornton)] C. Thornton, Z. Ning, A theoretical model for the stick/bounce behaviour of adhesive, elastic-plastic spheres, Powder Technol. 99, p 154-162 (1998).

@@ -945,7 +945,7 @@ namespace MODEL_PARAMS
       if(sanity_checks)
       {
         if(vi < 0. || vi > 1)
-          lmp->error->all(FLERR,"0 <= poissonsRatio <= 1 required");
+          lmp->error->all(FLERR,"0 <= coefficientYieldRatio <= 1 required");
       }
 
       vec->data[i] = vi;
