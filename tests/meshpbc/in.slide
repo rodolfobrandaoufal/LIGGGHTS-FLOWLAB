@@ -1,0 +1,72 @@
+# X-01 regression (tests/meshpbc, LIGGGHTS modernization branch):
+# 64 spheres slide and roll together across a triangulated floor (8 triangles,
+# floor.stl) in a box that is periodic in x and y. They cross triangle edges,
+# triangle corners, processor boundaries and the periodic boundaries. All
+# spheres have the same initial velocity and are 1 mm apart, so they never
+# touch each other: the result must not depend on the processor count, and must
+# equal (to round-off) the same motion on a 5x5 tiled floor in a non-periodic
+# box (wide = 1, floor_wide.stl).
+# mesh = floor_shift: the same floor shifted by (5,3) mm, so that triangles
+# straddle the periodic boundaries (covered by their periodic images).
+# Variables: nsteps, px py (processors), wide (0 periodic, 1 non-periodic wide floor),
+#            mesh (floor or floor_shift), tdir (directory of the STL files),
+#            leg (1 coplanar_legacy yes, 0 no, -1 keyword omitted for reference binaries)
+variable nsteps index 15000
+variable px index *
+variable py index *
+variable wide index 0
+variable tdir index .
+variable mesh index floor
+variable leg index 0
+if "${leg} == 1" then "variable mopt string 'coplanar_legacy yes'" &
+  elif "${leg} == 0" "variable mopt string 'coplanar_legacy no'" &
+  else "variable mopt string ' '"
+atom_style    granular
+atom_modify   map array
+if "${wide} == 0" then "boundary p p f" else "boundary f f f"
+newton        off
+communicate   single vel yes
+units         si
+processors    ${px} ${py} 1
+if "${wide} == 0" then "region domain block -0.02 0.02 -0.02 0.02 0.0 0.01 units box" &
+  else "region domain block -0.1 0.1 -0.1 0.1 0.0 0.01 units box"
+create_box    1 domain
+neighbor      0.0008 bin
+neigh_modify  delay 0
+fix  m1 all property/global youngsModulus peratomtype 5.e6
+fix  m2 all property/global poissonsRatio peratomtype 0.3
+fix  m3 all property/global coefficientRestitution peratomtypepair 1 0.5
+fix  m4 all property/global coefficientFriction peratomtypepair 1 0.1
+pair_style  gran model hertz tangential history
+pair_coeff  * *
+if "${wide} == 0" then "fix floor all mesh/surface file ${tdir}/${mesh}.stl type 1 ${mopt}" &
+  else "fix floor all mesh/surface file ${tdir}/${mesh}_wide.stl type 1 ${mopt}"
+fix  w1 all wall/gran model hertz tangential history mesh n_meshes 1 meshes floor
+variable i loop 8
+label li
+variable j loop 8
+label lj
+variable xx equal -0.0175+0.005*(${i}-1)
+variable yy equal -0.0175+0.005*(${j}-1)
+create_atoms 1 single ${xx} ${yy} 0.00198 units box
+next j
+jump SELF lj
+next i
+jump SELF li
+set atom * diameter 0.004 density 2500
+velocity all set 1.3 0.7 0.0 units box
+fix gravi all gravity 500.0 vector 0.1 0.05 -1.0
+fix integr all nve/sphere
+timestep 2e-6
+compute pgl all pair/gran/local id
+# largest |vz| of any sphere per step: a spurious wall kick shows up here
+variable avz atom abs(vz)
+compute vzmax all reduce max v_avz
+fix vzlog all ave/time 1 1 1 c_vzmax file vzmax.txt
+thermo_style custom step atoms ke
+thermo_modify format float %.17g
+thermo 1000
+dump d1 all custom 500 atoms.txt id x y z vx vy vz fx fy fz omegax omegay omegaz
+dump_modify d1 format "%d %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g" sort id
+dump d2 all local 500 pairs.txt c_pgl[1] c_pgl[2]
+run ${nsteps}

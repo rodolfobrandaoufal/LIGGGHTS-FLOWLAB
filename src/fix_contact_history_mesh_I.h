@@ -53,8 +53,32 @@
     
     // check if contact with iTri was there before
     // if so, set history to correct location and return
-    if(haveContact(iP,idTri,history,intersect))
+    const int iContact = findContact(iP,idTri);
+    if(iContact >= 0)
+    {
+      // X-01 (LIGGGHTS modernization branch): a particle whose centre lies on
+      // the shared edge of two coplanar triangles (within the mesh precision)
+      // is in face contact with both. The legacy code computed the force once
+      // when the triangle with the existing contact came first in the
+      // triangle loop, but twice when the new coplanar triangle came first.
+      // The triangle order depends on the processor decomposition, so the
+      // result was rank-count dependent (and doubled the wall force for one
+      // step). Skip the existing contact as well if a coplanar contact was
+      // already handled in this step; its history was copied to that contact.
+      if(faceflag && !coplanar_legacy_ && coplanarContactAlready(iP,idTri))
+      {
+        // flag only (several OpenMP threads may get here: atomic write)
+#if defined(_OPENMP)
+        #pragma omp atomic write
+#endif
+        coplanar_skips_ = 1;
+        return false;
+      }
+      if(dnum_ > 0) history = &(contacthistory_[iP][iContact*dnum_]);
+      keepflag_[iP][iContact] = true;
+      intersectflag_[iP][iContact] = intersect;
       return true;
+    }
 
     // else new contact - add contact if did not calculate contact with coplanar neighbor already
     
@@ -130,6 +154,19 @@
 
   /* ---------------------------------------------------------------------- */
 
+  inline int FixContactHistoryMesh::findContact(int iP, int idTri)
+  {
+    const int *tri = partner_[iP];
+    const int nneighs = fix_nneighs_->get_vector_atom_int(iP);
+
+    for(int i = 0; i < nneighs; i++)
+      if(tri[i] == idTri)
+        return i;
+    return -1;
+  }
+
+  /* ---------------------------------------------------------------------- */
+
   inline bool FixContactHistoryMesh::coplanarContactAlready(int iP, int idTri)
   {
     const int nneighs = fix_nneighs_->get_vector_atom_int(iP);
@@ -138,11 +175,11 @@
       
       int idPartnerTri = partner_[iP][i];
 
-      if(idPartnerTri >= 0 && idPartnerTri != idTri && mesh_->map(idPartnerTri, 0) >= 0 && mesh_->areCoplanarNodeNeighs(idPartnerTri,idTri))
+      // keepflag first: cheap test, called for every existing face contact (X-01)
+      if(keepflag_[iP][i] && idPartnerTri >= 0 && idPartnerTri != idTri && mesh_->map(idPartnerTri, 0) >= 0 && mesh_->areCoplanarNodeNeighs(idPartnerTri,idTri))
       {
-        
         // other coplanar contact handled already - do not handle this contact
-        if(keepflag_[iP][i]) return true;
+        return true;
       }
     }
 

@@ -899,24 +899,52 @@ bool SurfaceMesh<NUM_NODES,NUM_NEIGH_MAX>::areCoplanarNodeNeighs(int tag_a, int 
         this->error->one(FLERR,"Internal error: Illegal call to SurfaceMesh::areCoplanarNeighs()");
 
     // check if two faces are coplanar
-    
-    // must be neighs, otherwise not considered coplanar
-    for(int i = 0; i < nNeighs_(a); i++)
-        if(neighFaces_(a)[i] == tag_b)
-            areNeighs = true;
 
+    // must be neighs, otherwise not considered coplanar
+    // X-01 (LIGGGHTS modernization branch): an element can be present several
+    // times on a proc (owned copy plus periodic-image ghosts, or several ghost
+    // images). map(tag,0) may be any of them, and the neighbor list of a ghost
+    // image only holds the neighbors that are present next to that image on
+    // this proc. Checking only map(tag,0) made the result depend on the
+    // decomposition (mesh contact history lost / coplanar contact counted
+    // twice at rank and periodic boundaries). Check all local copies, both ways.
+    const int nTri_i = this->map_size(tag_a);
     const int nTri_j = this->map_size(tag_b);
+    for (int ia = 0; ia < nTri_i && !areNeighs; ia++)
+    {
+        const int a_tmp = this->map(tag_a, ia);
+        if(a_tmp < 0) continue;
+        const int nn = nNeighs_(a_tmp) < NUM_NEIGH_MAX ? nNeighs_(a_tmp) : NUM_NEIGH_MAX;
+        for(int i = 0; i < nn; i++)
+            if(neighFaces_(a_tmp)[i] == tag_b)
+                areNeighs = true;
+    }
+    for (int jb = 0; jb < nTri_j && !areNeighs; jb++)
+    {
+        const int b_tmp = this->map(tag_b, jb);
+        if(b_tmp < 0) continue;
+        const int nn = nNeighs_(b_tmp) < NUM_NEIGH_MAX ? nNeighs_(b_tmp) : NUM_NEIGH_MAX;
+        for(int i = 0; i < nn; i++)
+            if(neighFaces_(b_tmp)[i] == tag_a)
+                areNeighs = true;
+    }
+
     bool found = false;
     // only check if normals are equal if they are not listed as neigbors
     if (!areNeighs)
     {
-        for (int j = 0; j < nTri_j; j++)
+        for (int ia = 0; ia < nTri_i && !found; ia++)
         {
-            const int b_tmp = this->map(tag_b, j);
-            if (MultiNodeMesh<NUM_NODES>::nSharedNodes(a,b_tmp) != 0)
+            const int a_tmp = this->map(tag_a, ia);
+            if(a_tmp < 0) continue;
+            for (int j = 0; j < nTri_j; j++)
             {
-                found = true;
-                break;
+                const int b_tmp = this->map(tag_b, j);
+                if (b_tmp >= 0 && MultiNodeMesh<NUM_NODES>::nSharedNodes(a_tmp,b_tmp) != 0)
+                {
+                    found = true;
+                    break;
+                }
             }
         }
     }

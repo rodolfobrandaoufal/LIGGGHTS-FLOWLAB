@@ -114,6 +114,11 @@ class FixContactHistoryMesh : public FixContactHistory {
 
   int get_contact(const int i, const int j);
 
+  // X-01: legacy handling of a particle that is in face contact with two
+  // coplanar neighbor triangles in the same step (see handleContact())
+  void set_coplanar_legacy(bool flag)
+  { coplanar_legacy_ = flag; }
+
  protected:
 
   MyPage<int> *ipage1_;        // pages of neighbor tri IDs
@@ -133,6 +138,7 @@ class FixContactHistoryMesh : public FixContactHistory {
 
   // functions specific for mesh - contact management
   bool haveContact(int indexPart, int idTri, double *&history, bool intersectflag);
+  int findContact(int indexPart, int idTri);
   bool coplanarContactAlready(int indexPart, int idTri);
   void checkCoplanarContactHistory(int indexPart, int idTri, double *&history);
   void addNewTriContactToExistingParticle(int indexPart, int idTri, double *&history, bool intersectflag);
@@ -143,6 +149,12 @@ class FixContactHistoryMesh : public FixContactHistory {
   bool build_neighlist_;
   double *swap_;
   int numpages_;
+
+  // X-01: true restores the legacy (processing-order dependent) double
+  // counting of coplanar face contacts; skip flag for the one-time warning
+  bool coplanar_legacy_;
+  int coplanar_skips_;
+  bool coplanar_warned_;
 
   void sort_contacts();
   void swap(int ilocal,int ineigh, int jneigh, bool keepflag_swap);

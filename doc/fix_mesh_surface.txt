@@ -58,7 +58,7 @@ mesh_keyword = {scale} or {move} or {rotate} or {temperature} or {mass_temperatu
   {extrude_planar} value = length
     length = length (length units) that a planar mesh is extruded in anti-normal direction :pre
 zero or more surface_keywords/surface_value pairs may be appended :l
-surface_keyword = {surface_vel} or {surface_ang_vel} or {curvature} or {curvature_tolerant} :l
+surface_keyword = {surface_vel} or {surface_ang_vel} or {curvature} or {curvature_tolerant} or {coplanar_legacy} :l
   {surface_vel} values = vx vy vz
     vx vy vz = conveyor belt surface velocity  (velocity units)
   {surface_ang_vel} values = origin ox oy oz axis ax ay az omega om
@@ -71,7 +71,9 @@ surface_keyword = {surface_vel} or {surface_ang_vel} or {curvature} or {curvatur
   {curvature} value = c
     c = maximum angle between mesh faces belonging to the same surface (in degree) 
   {curvature_tolerant} value = ct
-    ct = yes or no :pre
+    ct = yes or no
+  {coplanar_legacy} value = cl
+    cl = yes or no (default no) :pre
 zero or more module_keywords/module_value pairs may be appended if a mesh module is used :l
   see the respective mesh module parameter list for details :pre
 
@@ -261,6 +263,21 @@ The {curvature_tolerant} keyword can simply turn off the check that
 the {curvature} must not be larger than any angle in any mesh element.
 This is typically not recommended, but can be used as a last resort measure.
 
+The {coplanar_legacy} keyword concerns a particle whose centre lies on the
+shared edge of two coplanar mesh elements (within the mesh {precision}), so
+that it is in face contact with both elements in the same time step. Such a
+contact is computed once, with the contact history of the element it came
+from. Versions of the LIGGGHTS modernization branch before the X-01 fix
+computed the wall force twice in that step when the new element came first
+in the element loop. That order depends on the processor decomposition, so
+results depended on the number of processors, and the particle received a
+spurious kick normal to the wall. {coplanar_legacy} = yes restores the old
+behaviour (for bitwise comparison with old results only). A one-time warning
+is printed when the corrected handling is used for the first time in a run.
+The contact history of mesh elements is only tracked if the wall model has
+history (e.g. {tangential history}); without history both contacts are always
+computed, as before.
+
 [Restart, fix_modify, output, run start/stop, minimize info:]
 
 This fix writes the STL data to binary "restart files"_restart.html to be able to
@@ -285,4 +302,4 @@ It is not supported to use both the moving mesh and the conveyor belt feature.
 
 "fix wall/gran"_fix_wall_gran.html
 
-[Default:] curvature = 0.256235 degrees, precision = 1e-8, verbose = no, heal = no
+[Default:] curvature = 0.256235 degrees, precision = 1e-8, verbose = no, heal = no, coplanar_legacy = no

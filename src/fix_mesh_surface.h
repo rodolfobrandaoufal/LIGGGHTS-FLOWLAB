@@ -218,6 +218,9 @@ namespace LAMMPS_NS
         double curvature_;
         bool curvature_tolerant_;
 
+        // X-01: legacy coplanar double counting in the mesh contact history
+        bool coplanar_legacy_;
+
         // extrude mesh
         bool extrude_mesh_;
         double extrusion_length_;

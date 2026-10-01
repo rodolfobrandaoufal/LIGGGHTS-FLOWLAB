@@ -101,6 +101,7 @@ FixMeshSurface::FixMeshSurface(LAMMPS *lmp, int narg, char **arg)
   n_dump_active_(0),
   curvature_(0.),
   curvature_tolerant_(false),
+  coplanar_legacy_(false),
   extrude_mesh_(false),
   extrusion_length_(0.0),
   extrusion_tri_count_(0),
@@ -205,6 +206,18 @@ FixMeshSurface::FixMeshSurface(LAMMPS *lmp, int narg, char **arg)
             curvature_tolerant_= false;
           else
             error->fix_error(FLERR,this,"expecting 'yes' or 'no' after 'curvature_tolerant'");
+          iarg_++;
+          hasargs = true;
+      } else if (strcmp(arg[iarg_],"coplanar_legacy") == 0) {
+          if (narg < iarg_+2)
+            error->fix_error(FLERR,this,"not enough arguments for 'coplanar_legacy'");
+          iarg_++;
+          if(0 == strcmp(arg[iarg_],"yes"))
+            coplanar_legacy_ = true;
+          else if(0 == strcmp(arg[iarg_],"no"))
+            coplanar_legacy_ = false;
+          else
+            error->fix_error(FLERR,this,"expecting 'yes' or 'no' after 'coplanar_legacy'");
           iarg_++;
           hasargs = true;
       } else if (strcmp(arg[iarg_], "extrude_planar") == 0) {
@@ -707,6 +720,8 @@ void FixMeshSurface::createContactHistory(int dnum)
     modify->add_fix(5,const_cast<char**>(fixarg));
 
     fix_contact_history_mesh_ = static_cast<FixContactHistoryMesh*>(modify->find_fix_id(contacthist_name));
+    if(fix_contact_history_mesh_)
+        fix_contact_history_mesh_->set_coplanar_legacy(coplanar_legacy_);
 
     delete []contacthist_name;
     delete []my_id;

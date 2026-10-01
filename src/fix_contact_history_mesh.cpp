@@ -80,7 +80,10 @@ FixContactHistoryMesh::FixContactHistoryMesh(LAMMPS *lmp, int narg, char **arg) 
   fix_neighlist_mesh_(0),
   fix_nneighs_(0),
   build_neighlist_(true),
-  numpages_(0)
+  numpages_(0),
+  coplanar_legacy_(false),
+  coplanar_skips_(0),
+  coplanar_warned_(false)
 {
   
   // parse args
@@ -274,6 +277,25 @@ void FixContactHistoryMesh::pre_exchange()
     
     if(!recent_restart)
         sort_contacts();
+
+   // X-01: one-time warning when the corrected coplanar contact handling
+   // changed a result compared to the legacy code (collective call)
+   if(!coplanar_legacy_ && !coplanar_warned_)
+   {
+       int skipped = coplanar_skips_;
+       MPI_Max_Scalar(skipped,world);
+       if(skipped)
+       {
+           coplanar_warned_ = true;
+           if(comm->me == 0)
+               error->warning(FLERR,"Mesh contact: a particle was in face contact with two coplanar "
+                              "triangles in the same step (shared edge within the mesh precision). "
+                              "Its wall force is now computed once; versions before the X-01 fix "
+                              "computed it twice when the triangles were processed in one order "
+                              "(rank-count dependent). Use 'coplanar_legacy yes' in fix mesh/surface "
+                              "for the old behaviour.");
+       }
+   }
 
    // set maxtouch = max # of partners of any owned atom
    // bump up comm->maxexchange_fix if necessary
