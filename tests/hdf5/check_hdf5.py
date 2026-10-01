@@ -280,9 +280,9 @@ def sec3_chain():
             names = sorted(h.keys(), key=lambda s: int(s[5:]))
             times = [float(h[n].attrs["time"][0]) for n in names]
         want = list(range(0, 1001, 100)) if app == "yes" else list(range(500, 1001, 100))
-        # append=yes continues the time axis; without append the time restarts at 0 after
-        # read_restart (LIGGGHTS does not store the elapsed time in restart files)
-        wt = [s * DT for s in want] if app == "yes" else [(s - 500) * DT for s in want]
+        # the elapsed time is stored in restart files since X-02, so the time axis
+        # continues after read_restart with or without append
+        wt = [s * DT for s in want]
         check(names == [f"Step_{s}" for s in want], f"chain append={app} np{np_}: steps kept", str(names))
         check(np.allclose(times, wt, rtol=0, atol=1e-15), f"chain append={app} np{np_}: times")
         gr = check_xdmf_refs(os.path.join(wd, "post/chain.h5.xdmf"), f"chain append={app} np{np_}")

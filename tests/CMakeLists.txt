@@ -239,6 +239,38 @@ ELSE()
 ENDIF()
 
 #---------------------------------------------------------------------------
+# X-02/X-03 restart continuity (time, insertion RNG) and delete_atoms with
+# contact history (compress renumbering, stale history copies)
+IF(EXISTS "${LIGGGHTS_TESTS_DIR}/restart/run_all.sh")
+  LIGGGHTS_TEST(restart_suite LABELS physics regression mpi TIMEOUT 1200 PROCESSORS 8
+    ENV "TMPDIR=${LIGGGHTS_TEST_WORK}"
+    COMMAND ${LIGGGHTS_BASH} ${LIGGGHTS_TESTS_DIR}/restart/run_all.sh ${BIN} ${REF_BIN})
+ELSE()
+  LIGGGHTS_SKIPPED_TEST(restart_suite "tests/restart/run_all.sh not present" physics regression mpi)
+ENDIF()
+
+#---------------------------------------------------------------------------
+# X-04 pair-flip history signs and degenerate-input (FMA) guards
+IF(EXISTS "${LIGGGHTS_TESTS_DIR}/signfma/run_all.sh")
+  LIGGGHTS_TEST(signfma_suite LABELS physics regression mpi TIMEOUT 900 PROCESSORS 2
+    ENV "TMPDIR=${LIGGGHTS_TEST_WORK}"
+    COMMAND ${LIGGGHTS_BASH} ${LIGGGHTS_TESTS_DIR}/signfma/run_all.sh ${BIN} ${REF_BIN})
+ELSE()
+  LIGGGHTS_SKIPPED_TEST(signfma_suite "tests/signfma/run_all.sh not present" physics regression mpi)
+ENDIF()
+
+#---------------------------------------------------------------------------
+# X-01 mesh walls in periodic boxes: rank-independent results, single coplanar
+# edge contact (coplanar_legacy restores the old double count)
+IF(EXISTS "${LIGGGHTS_TESTS_DIR}/meshpbc/run_all.sh")
+  LIGGGHTS_TEST(meshpbc_suite LABELS physics regression mpi TIMEOUT 1500 PROCESSORS 9
+    ENV "TMPDIR=${LIGGGHTS_TEST_WORK}"
+    COMMAND ${LIGGGHTS_BASH} ${LIGGGHTS_TESTS_DIR}/meshpbc/run_all.sh ${BIN} ${REF_BIN})
+ELSE()
+  LIGGGHTS_SKIPPED_TEST(meshpbc_suite "tests/meshpbc/run_all.sh not present" physics regression mpi)
+ENDIF()
+
+#---------------------------------------------------------------------------
 # B5 model matrix: every static whitelist combination, byte comparison against
 # the reference binary (needs LIGGGHTS_TEST_REFERENCE_BIN)
 IF(REF_BIN AND EXISTS "${LIGGGHTS_TESTS_DIR}/kernel/run_all.sh")

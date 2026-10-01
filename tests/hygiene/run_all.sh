@@ -86,7 +86,10 @@ if has_hdf5; then
     sed -i 's/c_rmin c_rmax v_rhodecay$/c_rmin c_rmax v_rhodecay f_ts_check[1] f_ts_check[2]/' $D/in.chute_wear_hpc
     if [ $np = 1 ]; then (cd $D && "$BIN" -in in.chute_wear_hpc > run.out 2>&1); rc=$?
     else (cd $D && mpirun --oversubscribe -np $np "$BIN" -in in.chute_wear_hpc > run.out 2>&1); rc=$?; fi
-    other=$(grep "WARNING" $D/run.out | grep -v "cohesion model generalized_adhesion is EXPERIMENTAL" | head -3)
+    # documented one-time warnings: experimental adhesion model, and the X-01b
+    # coplanar edge contact that older versions counted twice
+    other=$(grep "WARNING" $D/run.out | grep -v "cohesion model generalized_adhesion is EXPERIMENTAL" \
+            | grep -v "face contact with two coplanar triangles" | head -3)
     nexp=$(grep -c "cohesion model generalized_adhesion is EXPERIMENTAL" $D/run.out)
     res=$(python3 - "$D/run.out" <<'PY'
 import sys
