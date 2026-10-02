@@ -498,8 +498,11 @@ bool Granular<ContactModel>::compute_force_thr(PairGran * pg, int eflag, int vfl
         } else if(rsq < contactDistanceMultiplier * radsum * radsum && !shapetype_flag) {
           sidata.has_force_update = false;
           cmodel.surfacesClose(sidata, i_forces, j_forces);
-        } else
+        } else {
           sidata.has_force_update = false;
+          if (sidata.contact_flags && *sidata.contact_flags)
+            reset_separated_pair(sidata, dnum);  // finding X-05 (pair_gran_base.h)
+        }
 
         if (mode == M_BLOCK) {
           if (sidata.has_force_update && computeflag) {

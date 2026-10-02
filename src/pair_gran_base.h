@@ -59,6 +59,9 @@
 #include "pair_gran.h"
 #include "neighbor.h"
 #include "neigh_list.h"
+#include "comm.h"
+#include "update.h"
+#include "error.h"
 #include "fix_contact_property_atom.h"
 #include "os_specific.h"
 #include "fix_insert_stream_predefined.h"
@@ -66,6 +69,7 @@
 #include "granular_pair_style.h"
 
 #ifdef LIGGGHTS_OMP
+#include <omp.h>
 #include "thr_granular.h"
 #endif
 
@@ -87,6 +91,24 @@ class Granular : private Pointers, public IGranularPairStyle {
   LIGGGHTS::ThrGranular::PairState * thr_state_ = NULL;
 #endif
 
+  // LIGGGHTS modernization branch, finding X-05: the contact history of a
+  // pair that is beyond the contact distance is reset at once (as fix
+  // wall/gran does for walls and the neighbor build does at the next
+  // rebuild). 'history_clear_legacy on' keeps the record until the next
+  // neighbor build (behaviour up to phase D).
+  bool history_clear_legacy_;
+  // multicontact: atom i uses its per-contact expanded radius, as atom j does.
+  // 'multicontact_radius_legacy on' restores the unexpanded radius of i.
+  bool multicontact_radius_legacy_;
+  // one-time warning of the corrected default (see reset_separated_pair())
+  std::vector<std::vector<int*> > reset_slots_;
+  bigint reset_ncalls_;
+  int history_changed_;
+  bool history_clear_warned_;
+  bool history_warning_pending_;
+  int me_;
+  bool multicontact_warned_;
+
   inline void force_update(double relax,double *const f, double *const torque,
       const ForceData & forces)
   {
@@ -102,11 +124,22 @@ public:
     aligned_sidata(aligned_malloc<SurfacesIntersectData>(32)),
     aligned_i_forces(aligned_malloc<ForceData>(32)),
     aligned_j_forces(aligned_malloc<ForceData>(32)),
-    cmodel(lmp, parent,false /*is_wall*/, hash)
+    cmodel(lmp, parent,false /*is_wall*/, hash),
+    history_clear_legacy_(false),
+    multicontact_radius_legacy_(false),
+    reset_ncalls_(-1),
+    history_changed_(0),
+    history_clear_warned_(false),
+    history_warning_pending_(false),
+    me_(comm->me),
+    multicontact_warned_(false)
   {
   }
 
   virtual ~Granular() {
+    // a pending X-05 warning of the last run (comm is already deleted here)
+    if (history_warning_pending_ && me_ == 0)
+      print_history_warning();
     aligned_free(aligned_sidata);
     aligned_free(aligned_i_forces);
     aligned_free(aligned_j_forces);
@@ -121,6 +154,8 @@ public:
   virtual void settings(int nargs, char ** args, IContactHistorySetup *hsetup) {
     Settings settings(lmp);
     cmodel.registerSettings(settings);
+    settings.registerOnOff("history_clear_legacy", history_clear_legacy_, false);
+    settings.registerOnOff("multicontact_radius_legacy", multicontact_radius_legacy_, false);
     bool success = settings.parseArguments(nargs, args);
     cmodel.postSettings(hsetup);
 
@@ -195,24 +230,138 @@ public:
     return cmodel.stressStrainExponent();
   }
 
+  /* ----------------------------------------------------------------------
+     finding X-05: called for a pair beyond the contact distance (no
+     surfacesIntersect, no surfacesClose) whose contact flag is set. Resets
+     its contact flag and history as the next neighbor build would, so that a
+     pair touching again before that build starts from zero history. Only for
+     a force evaluation that updates the history (not in setup, not for
+     compute pair/gran/local). Each pair is evaluated by one thread, so the
+     record itself needs no synchronisation.
+     For the one-time warning, a reset record that held non-zero history is
+     remembered (per thread) until the next neighbor build; if the pair
+     touches again before that build (its flag is set again), the corrected
+     default can have changed the result (history_pass_end()). This is a
+     superset: a stale value that the models overwrite before reading it
+     (e.g. kt_old without a stored spring) leaves the result unchanged.
+  ------------------------------------------------------------------------- */
+  void reset_separated_pair(SurfacesIntersectData & sidata, const int dnum)
+  {
+    int * const cflag = sidata.contact_flags;
+    if (!cflag || !*cflag || history_clear_legacy_ || !sidata.computeflag || !sidata.shearupdate)
+      return;
+    *cflag = 0;
+    bool nonzero = false;
+    double * const hist = sidata.contact_history;
+    if (hist)
+      for (int d = 0; d < dnum; d++) {
+        if (hist[d] != 0.0) nonzero = true;
+        hist[d] = 0.0;
+      }
+    if (nonzero && !history_clear_warned_) {
+#ifdef LIGGGHTS_OMP
+      const size_t tid = omp_in_parallel() ? (size_t)omp_get_thread_num() : 0;
+#else
+      const size_t tid = 0;
+#endif
+      if (tid < reset_slots_.size())
+        reset_slots_[tid].push_back(cflag);
+    }
+  }
+
+  // before a force evaluation: forget the reset records of an old neighbor
+  // list (their addresses are no longer valid), one record list per thread
+  void history_pass_begin(PairGran * pg)
+  {
+    if (history_clear_legacy_ || history_clear_warned_ || pg->dnum() == 0)
+      return;
+    if (reset_ncalls_ != neighbor->ncalls) {
+      for (size_t t = 0; t < reset_slots_.size(); t++)
+        reset_slots_[t].clear();
+      reset_ncalls_ = neighbor->ncalls;
+    }
+#ifdef LIGGGHTS_OMP
+    size_t nthr = (size_t)omp_get_max_threads();
+    const size_t nthr_pkg = (size_t)LIGGGHTS::ThrGranular::config(lmp).nthreads;
+    if (nthr_pkg > nthr) nthr = nthr_pkg;
+#else
+    const size_t nthr = 1;
+#endif
+    if (reset_slots_.size() < nthr)
+      reset_slots_.resize(nthr);
+  }
+
+  // after a force evaluation: did a pair touch again after its history was
+  // reset? The flag is reduced over all procs only at the last step of a run
+  // (the same step on all procs) and only until the first warning, so that
+  // the per-step cost is negligible. The warning itself is printed by rank 0
+  // at the setup of the next run or at the end of the input, i.e. outside the
+  // thermo output of the run.
+  void history_pass_end(PairGran * pg)
+  {
+    if (history_clear_legacy_ || history_clear_warned_ || pg->dnum() == 0)
+      return;
+    for (size_t t = 0; t < reset_slots_.size() && !history_changed_; t++)
+      for (size_t k = 0; k < reset_slots_[t].size(); k++)
+        if (*reset_slots_[t][k]) { history_changed_ = 1; break; }
+    if (update->ntimestep == update->laststep && !update->setupflag) {
+      int any = 0;
+      MPI_Allreduce(&history_changed_, &any, 1, MPI_INT, MPI_MAX, world);
+      if (any) {
+        history_clear_warned_ = true;
+        history_warning_pending_ = true;
+        for (size_t t = 0; t < reset_slots_.size(); t++)
+          std::vector<int*>().swap(reset_slots_[t]);
+      }
+    }
+  }
+
+  void print_history_warning()
+  {
+    history_warning_pending_ = false;
+    error->warning(FLERR, "pair gran: in the previous run a pair touched again within one neighbor "
+                   "interval after separating; its contact history was reset at the separation "
+                   "(finding X-05), up to now it was kept until the next neighbor build, so results "
+                   "can differ from earlier versions. Use 'history_clear_legacy on' for the old behaviour");
+  }
+
+  // one-time warning for the multicontact radius (rank 0)
+  void multicontact_warning(PairGran * pg)
+  {
+    if (!multicontact_radius_legacy_ && !multicontact_warned_ && pg->storeSumDelta()) {
+      multicontact_warned_ = true;
+      if (comm->me == 0)
+        error->warning(FLERR, "pair gran: surface multicontact now uses the expanded radius of both particles "
+                       "of a contact (the radius of atom i was unexpanded up to now, so results depended on "
+                       "the pair orientation). Use 'multicontact_radius_legacy on' for the old behaviour");
+    }
+  }
+
+  virtual void compute_force(PairGran * pg, int eflag, int vflag, int addflag)
+  {
+    if (history_warning_pending_ && update->setupflag) {
+      if (comm->me == 0) print_history_warning();
+      history_warning_pending_ = false;
+    }
+    multicontact_warning(pg);
+    history_pass_begin(pg);
+#ifdef LIGGGHTS_OMP
+    if (!compute_force_thr(pg, eflag, vflag, addflag))
+#endif
+      compute_force_serial(pg, eflag, vflag, addflag);
+    history_pass_end(pg);
+  }
+
 #ifdef LIGGGHTS_OMP
   // OpenMP kernel (roadmap C2/B8). Defined in pair_gran_omp.cpp and
   // explicitly instantiated there, so that this translation unit (which
   // instantiates all contact models) and hence the serial kernel's code
   // generation stay unchanged. Returns false if the serial kernel must run.
   bool compute_force_thr(PairGran * pg, int eflag, int vflag, int addflag);
-
-  virtual void compute_force(PairGran * pg, int eflag, int vflag, int addflag)
-  {
-    if (!compute_force_thr(pg, eflag, vflag, addflag))
-      compute_force_serial(pg, eflag, vflag, addflag);
-  }
-
-  // the unchanged serial kernel
-  void compute_force_serial(PairGran * pg, int eflag, int vflag, int addflag)
-#else
-  virtual void compute_force(PairGran * pg, int eflag, int vflag, int addflag)
 #endif
+
+  // the serial kernel
+  void compute_force_serial(PairGran * pg, int eflag, int vflag, int addflag)
   {
     if (eflag || vflag)
       pg->ev_setup(eflag, vflag);
@@ -322,6 +471,9 @@ public:
                 const double * const dataI = mcFix->contacthistory(i, cj);
                 radi += dataI[3];
             }
+            // the expanded radius of i, as for j (sidata.radj) below
+            if (!multicontact_radius_legacy_)
+                sidata.radi = radi;
             const int ci = mcFix->has_partner(j, tag[i]);
             if (ci != -1)
             {
@@ -445,8 +597,11 @@ public:
           // apply force update only if selected contact models have requested it
           sidata.has_force_update = false;
           cmodel.surfacesClose(sidata, i_forces, j_forces);
-        } else
+        } else {
           sidata.has_force_update = false;
+          if (sidata.contact_flags && *sidata.contact_flags)
+            reset_separated_pair(sidata, dnum);   // finding X-05
+        }
 
         if(sidata.has_force_update) {
           if (sidata.computeflag) {

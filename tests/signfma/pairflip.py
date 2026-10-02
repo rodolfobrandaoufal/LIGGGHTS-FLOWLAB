@@ -273,9 +273,8 @@ TOL = 1e-9
 # known failures that are not history-sign problems (see
 # audit/fixes/phaseD/signfma/REPORT.md); SIGNFMA_STRICT=1 counts them
 XFAIL = {
-  "hertz_multicontact": "pair_gran_base.h does not pass the multicontact-expanded radius of "
-                        "atom i to the models (sidata.radi), only that of j, so the model itself "
-                        "depends on the pair orientation; passes with that one-line fix",
+  # hertz_multicontact passes since phase E (sidata.radi now uses the expanded
+  # radius of i, multicontact_radius_legacy restores the old behaviour)
 }
 
 def main():

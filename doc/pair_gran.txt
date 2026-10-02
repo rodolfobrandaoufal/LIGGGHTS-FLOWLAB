@@ -24,13 +24,21 @@ zero or more model_type/model_name pairs may be appended. They must be appended 
   {surface} values = described "here"_Section_gran_models.html :pre
 following the model_type/model_name pairs, zero or more model_keyword/model_valuezero pairs may be appended in arbitrary order :l
   model_type/model_name pairs = described for each model separately "here"_Section_gran_models.html  :pre
+in addition, the following keywords of the pair style itself may be appended :l
+  {history_clear_legacy} values = {on} or {off}
+    {off} (default) = the contact history of a pair is reset as soon as the pair is beyond the contact distance
+    {on} = keep it until the next neighbor list build (behaviour of earlier versions, see below)
+  {multicontact_radius_legacy} values = {on} or {off}
+    {off} (default) = with surface {multicontact}, both particles of a contact use their per-contact expanded radius
+    {on} = particle i uses its unexpanded radius (behaviour of earlier versions, see below) :pre
 :ule
 
 [Examples:]
 
 pair_style gran model hooke tangential history
 pair_style gran model hertz tangential history rolling_friction cdt
-pair_style gran model hertz tangential no_history cohesion sjkr  :pre
+pair_style gran model hertz tangential no_history cohesion sjkr
+pair_style gran model hertz tangential history history_clear_legacy on  :pre
 
 [General description:]
 
@@ -94,6 +102,47 @@ should be used if all atoms in the simulation interact via a granular potential
 of "pair_style hybrid"_pair_hybrid.html, then specific atom types can be used in the pair_coeff
 command to determine which atoms interact via a granular potential.
 
+
+[Contact history of separating pairs:]
+
+The contact history of a pair (tangential spring, rolling spring, maximum overlap,
+...) is reset to zero as soon as the pair is evaluated beyond its contact distance,
+i.e. when neither the particle surfaces touch nor the pair is within the distance at
+which models act without contact ("neigh_modify contact_distance_factor"_neigh_modify.html,
+set automatically by e.g. cohesion {easo/capillary/viscous}, {washino/capillary/viscous}
+and {jkr}). Inside that distance each model keeps or resets its own history as
+documented for it (a liquid bridge keeps its history until it ruptures; tangential
+{history} resets its spring when the surfaces separate). The same reset is done for
+particle-wall contacts by "fix wall/gran"_fix_wall_gran.html, and by the neighbor list
+build for pairs beyond the contact distance. A pair that touches again therefore starts
+from zero history, and the result does not depend on when the neighbor list is
+rebuilt: it equals a run with "neigh_modify every 1 delay 0 check no"_neigh_modify.html
+(tests/x05).
+
+IMPORTANT NOTE: Up to the phase-D version of the LIGGGHTS modernization branch, the
+history of a separated pair was kept until the next neighbor list build (finding X-05).
+A pair that touched again within one neighbor interval (rebounds, vibrated beds,
+rattlers) re-used the old tangential and rolling springs, and the results depended on
+the neighbor list settings and on run boundaries. Results of such simulations change.
+{history_clear_legacy on} restores the old behaviour. A warning is printed once
+(rank 0, after the run in question: at the setup of the next run or at the end of
+the input, so that it does not interrupt the thermo output) the first time the
+corrected default can change a result, i.e. when a pair
+whose non-zero history was reset touches again before the next neighbor list build
+(in rare cases the models overwrite the reset values before using them, and the
+result is unchanged although the warning is printed).
+
+IMPORTANT NOTE: With surface {multicontact}, the per-contact expanded radius
+(fix multicontact/halfspace) was applied to particle j of a pair only, while
+particle i used its unexpanded radius, so the contact depended on which particle
+of the pair was "i" (this changes with atom sorting, re-neighboring and the number
+of processors). Both particles now use their expanded radius.
+{multicontact_radius_legacy on} restores the old behaviour. A warning is printed
+once when the corrected default is in use.
+
+The keywords {history_clear_legacy} and {multicontact_radius_legacy} are not stored
+in restart files; re-issue the pair_style command after "read_restart"_read_restart.html
+to use them.
 
 [Mixing, shift, table, tail correction, restart, rRESPA info:]
 
@@ -168,4 +217,6 @@ Models for use with this command are described "here"_Section_gran_models.html
 {rolling_friction} = 'off'
 {cohesion} = 'off'
 {surface} = 'default'
+{history_clear_legacy} = 'off'
+{multicontact_radius_legacy} = 'off'
 

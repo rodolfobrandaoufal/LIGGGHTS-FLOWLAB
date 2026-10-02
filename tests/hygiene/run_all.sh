@@ -89,7 +89,8 @@ if has_hdf5; then
     # documented one-time warnings: experimental adhesion model, and the X-01b
     # coplanar edge contact that older versions counted twice
     other=$(grep "WARNING" $D/run.out | grep -v "cohesion model generalized_adhesion is EXPERIMENTAL" \
-            | grep -v "face contact with two coplanar triangles" | head -3)
+            | grep -v "face contact with two coplanar triangles" \
+            | grep -v "contact history was reset at the separation" | head -3)
     nexp=$(grep -c "cohesion model generalized_adhesion is EXPERIMENTAL" $D/run.out)
     res=$(python3 - "$D/run.out" <<'PY'
 import sys

@@ -25,7 +25,8 @@ for c in jkr dmt; do
       > comb_${c}_$np.out 2>&1 || { echo "FAIL phaseB combined $c np$np run"; fail=1; }
   done
   k1=$(col comb_${c}_1.log 8000 3); k2=$(col comb_${c}_2.log 8000 3)
-  nw=$(cat comb_${c}_1.log comb_${c}_2.log | grep -c WARN)
+  # the one-time X-05 notice can appear when a pair re-touches; other warnings may not
+  nw=$(cat comb_${c}_1.log comb_${c}_2.log | grep WARN | grep -vc "contact history was reset at the separation")
   if [ -n "$k1" ] && python3 -c "import sys; a,b=float('$k1'),float('$k2'); sys.exit(0 if abs(a-b)<=1e-9*abs(a) else 1)" 2>/dev/null \
      && [ "$nw" = 0 ]; then echo "PASS phaseB combined $c: ke np1=$k1 np2=$k2, no warnings"
   else echo "FAIL phaseB combined $c: ke np1=$k1 np2=$k2, $nw warnings"; fail=1; fi
