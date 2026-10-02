@@ -121,6 +121,17 @@ Since this compute is typically done when output is created (at the end of
 the time-step), this is not necessarily exactly equal to (with machine precision)
 the p-p or p-w forces which were calculated within one time-step.
 
+For particle-particle pairs the compute first refreshes the ghost atoms
+(positions, velocities and angular velocities, by the same forward
+communication the integrator uses), so every pair is evaluated with the
+end-of-step state of both particles, whether its partner is owned by the same
+processor, by another processor, or is a periodic image. The output is
+therefore the same (to round-off) for any number of processors and for
+{newton} on or off. Earlier versions evaluated a pair whose partner was a
+ghost atom with the ghost velocity of the previous forward communication,
+half a time-step older (finding X-07); only the output changed, the dynamics
+are not affected.
+
 [Output info:]
 
 This compute calculates a local vector or local array depending on the

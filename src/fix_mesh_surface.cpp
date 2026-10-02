@@ -344,6 +344,15 @@ FixMeshSurface::~FixMeshSurface()
     delete [] omegaStr_;
     if (extrusion_tri_nodes_)
         delete [] extrusion_tri_nodes_;
+
+    // P0-14: the mesh modules are created in the constructor (meshmodule_creator)
+    // and owned by this fix; free them here, while the mesh they point to still
+    // exists (it is destroyed afterwards, in ~FixMesh)
+    std::map<std::string, MeshModule*>::iterator it;
+    for(it = active_mesh_modules.begin(); it != active_mesh_modules.end(); it++)
+        delete it->second;
+    active_mesh_modules.clear();
+    mesh_module_order.clear();
 }
 
 /* ---------------------------------------------------------------------- */

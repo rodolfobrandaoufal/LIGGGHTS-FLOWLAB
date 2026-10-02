@@ -43,6 +43,7 @@
 #include <string.h>
 #include "compute_pair_gran_local.h"
 #include "atom.h"
+#include "comm.h"
 #include "update.h"
 #include "force.h"
 #include "pair.h"
@@ -318,6 +319,21 @@ void ComputePairGranLocal::compute_local()
   {
       ipair = 0;
       if(pairgran == NULL) error->one(FLERR,"null");
+
+      // finding X-07: the pair data are re-evaluated here, at the end of the
+      // step, from the current atom state. Owned atoms already carry the
+      // end-of-step velocity (final_integrate), but ghost atoms still hold the
+      // copy made by the forward communication of this step (after
+      // initial_integrate). A pair whose partner is a ghost (processor or
+      // periodic boundary) was therefore evaluated with a velocity half a step
+      // older than that of an owned partner, so the output depended on the
+      // decomposition and on newton. Refresh the ghosts first (the same forward
+      // communication as in the integrator: x, v, omega and the atom style's
+      // extra quantities), so every pair sees the owners' current state. Ghost
+      // positions are re-sent unchanged; the next step overwrites the ghosts
+      // anyway, so the dynamics are unaffected.
+      comm->forward_comm();
+
       pairgran->compute_pgl(0,0);
 
       // get heat flux data

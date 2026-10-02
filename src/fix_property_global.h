@@ -135,6 +135,7 @@ class FixPropertyGlobal : public Fix {
 
   void update_variable_values();
   void ensure_variable_values_initialized();
+  void init_computes_before_evaluation();
   bool value_bounds(double &lo, double &hi, bool &lo_open) const;
   double clamp_value(double);
   void check_literal_value(double);

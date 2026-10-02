@@ -52,6 +52,8 @@
 #include "error.h"
 #include "group.h"
 #include "neighbor.h"
+#include "neigh_request.h"
+#include "compute.h"
 #include "input.h"
 #include "variable.h"
 #include "fix_property_global.h"
@@ -331,6 +333,8 @@ void FixPropertyGlobal::init()
             if(!input->variable->equalstyle(value_variable_indices[i]))
                 error->fix_error(FLERR,this,"Variable for fix property/global must be equal-style");
         }
+        // F-14: Modify::init() calls this before it initialises the computes
+        init_computes_before_evaluation();
         update_variable_values();
     }
 }
@@ -565,7 +569,41 @@ void FixPropertyGlobal::ensure_variable_values_initialized()
             error->fix_error(FLERR,this,"Variable for fix property/global must be equal-style");
     }
 
+    // F-14: the first evaluation usually happens here, from the registry
+    // creators in Force::init(), i.e. before Modify::init() has initialised
+    // the computes a variable may reference
+    init_computes_before_evaluation();
     update_variable_values();
+}
+
+/* ----------------------------------------------------------------------
+   F-14: the v_ values are also evaluated during LAMMPS::init(), before
+   Modify::init() has initialised the computes (registry creators in
+   Force::init(), and FixPropertyGlobal::init(), which runs before the
+   compute loop of Modify::init()). An equal-style variable that references a
+   compute (c_ID) would then invoke a compute that was never initialised
+   (e.g. compute reduce dereferences unset indices and crashes; compute temp
+   uses an unset dof factor). Initialise the computes first. Modify::init()
+   initialises them again, in the usual order, afterwards (init() is called
+   at every run anyway), and the neighbor-list requests made by these early
+   calls are withdrawn so that Neighbor::init() sees exactly the usual
+   requests. The values used from setup on are evaluated in setup_pre_force()
+   with fully initialised computes, as before.
+------------------------------------------------------------------------- */
+
+void FixPropertyGlobal::init_computes_before_evaluation()
+{
+    if(modify->ncompute == 0) return;
+
+    const int nrequest_before = neighbor->nrequest;
+    for(int i = 0; i < modify->ncompute; i++)
+        modify->compute[i]->init();
+    for(int i = nrequest_before; i < neighbor->nrequest; i++)
+    {
+        delete neighbor->requests[i];
+        neighbor->requests[i] = NULL;
+    }
+    neighbor->nrequest = nrequest_before;
 }
 
 /* ---------------------------------------------------------------------- */

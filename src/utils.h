@@ -191,7 +191,12 @@ namespace Utils {
     typedef typename Interface::ParentType ParentType;
     typedef Interface * (*Creator)(class LAMMPS * lmp, ParentType* parent, int64_t hash);
     typedef int64_t (*VariantSelector)(int & argc, char ** & argv, Custom_contact_models ccm);
-    typedef std::map<std::pair<std::string, int>, Creator> StyleTable;
+    // finding P0-18: the key carries the full 64-bit contact-model hash
+    // (generate_gran_hashcode / GranStyle::HASHCODE are int64_t); an int key
+    // would truncate it, and two hashes differing only in the upper 32 bits
+    // would collide
+    typedef std::pair<std::string, int64_t> StyleKey;
+    typedef std::map<StyleKey, Creator> StyleTable;
     typedef std::map<std::string, VariantSelector> VariantSelectorTable;
     StyleTable styleTable;
     VariantSelectorTable variantSelectorTable;
@@ -203,7 +208,7 @@ namespace Utils {
 
   public:
     Interface * create(const std::string & name, int64_t variant, class LAMMPS * lmp, ParentType* parent) {
-      std::pair<std::string, int> key(name, variant);
+      StyleKey key(name, variant);
       if(styleTable.find(key) != styleTable.end()) {
         return styleTable[key](lmp, parent, variant);
       }
@@ -211,7 +216,7 @@ namespace Utils {
       // ContactModel<GranStyle<> > (registered under the all-OFF hash in
       // granular_styles.h unless LIGGGHTS_NO_CONTACT_MODEL_FALLBACK is set)
       int64_t default_variant = generate_gran_hashcode(ContactModels::NORMAL_OFF, ContactModels::TANGENTIAL_OFF, ContactModels::COHESION_OFF, ContactModels::ROLLING_OFF, 0);
-      std::pair<std::string, int> default_key(name, default_variant);
+      StyleKey default_key(name, default_variant);
       if(styleTable.find(default_key) != styleTable.end()) {
         return styleTable[default_key](lmp, parent, variant);
       }
@@ -220,7 +225,7 @@ namespace Utils {
 
     // true if 'variant' is compiled as a static (whitelisted) combination
     bool hasStaticVariant(const std::string & name, int64_t variant) {
-      std::pair<std::string, int> key(name, variant);
+      StyleKey key(name, variant);
       return styleTable.find(key) != styleTable.end();
     }
 
@@ -231,8 +236,8 @@ namespace Utils {
       return 0;
     }
 
-    void addStyle(const std::string & name, int variant, Creator create) {
-      std::pair<std::string, int> key(name, variant);
+    void addStyle(const std::string & name, int64_t variant, Creator create) {
+      StyleKey key(name, variant);
       if(styleTable.find(key) != styleTable.end()){
         std::cerr << "WARNING! Style collision detected! Duplicate entry (" << key.first << ", " << key.second << ") in style table." << std::endl;
       }

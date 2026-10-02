@@ -105,6 +105,14 @@ Equal-style variables give the same value on all MPI ranks, so the update is
 consistent in parallel. When no value is given as v_name, the fix costs nothing
 during the run; 'every N' without any v_name value only prints a warning.
 
+The variable may reference computes (c_ID), e.g. a friction coefficient that
+depends on a temperature computed by compute reduce. The values are first
+evaluated while the run is initialised, when the contact models read the
+material properties and before the computes would normally be initialised;
+the fix therefore initialises the computes before this evaluation (they are
+initialised again, as usual, afterwards). The values used for the forces from
+the first step on are evaluated at setup, with all computes initialised.
+
 IMPORTANT NOTE: Changing a stiffness-related property (e.g. {youngsModulus},
 {poissonsRatio}, {kn}, {kt}) while contacts are open changes the elastic
 energy stored in these contacts instantly; no rescaling of the contact state is

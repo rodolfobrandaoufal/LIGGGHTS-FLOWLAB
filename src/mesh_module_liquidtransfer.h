@@ -58,7 +58,7 @@ namespace LAMMPS_NS
       public:
 
         MeshModuleLiquidTransfer(LAMMPS *lmp, int &iarg_, int narg, char **arg, FixMeshSurface *fix_mesh);
-        ~MeshModuleLiquidTransfer();
+        virtual ~MeshModuleLiquidTransfer();
 
         void post_create_pre_restart();
         virtual void post_create();

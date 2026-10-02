@@ -58,7 +58,8 @@ namespace LAMMPS_NS
     class MeshModule : protected Pointers
     {
     public:
-        ~MeshModule();
+        // virtual: FixMeshSurface deletes the modules through MeshModule* (P0-14)
+        virtual ~MeshModule();
 
         virtual void post_create_pre_restart() {}
         virtual void post_create() {}

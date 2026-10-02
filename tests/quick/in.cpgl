@@ -1,0 +1,41 @@
+# X-07 test deck (LIGGGHTS modernization branch, tests/quick).
+# A dense, periodic granular gas: 216 spheres on a simple cubic grid slightly
+# closer than their diameter (data.cpgl), with pseudo-random velocities, so
+# that many contacts cross the periodic boundaries and (with more than one
+# rank) the processor boundaries. compute pair/gran/local is dumped every
+# 10 steps. Atom IDs come from the data file, so they do not depend on the
+# rank count.
+# variables: newton (on/off), nsteps, out (dump file), tmodel (tangential
+#            model), datafile
+variable newton index off
+variable nsteps index 200
+variable out index pairs.txt
+variable tmodel index history
+variable datafile index data.cpgl
+atom_style  granular
+atom_modify map array
+boundary    p p p
+newton      ${newton}
+communicate single vel yes
+units       si
+read_data   ${datafile}
+neighbor    0.0004 bin
+neigh_modify delay 0
+
+fix m1 all property/global youngsModulus peratomtype 5.e6
+fix m2 all property/global poissonsRatio peratomtype 0.45
+fix m3 all property/global coefficientRestitution peratomtypepair 1 0.7
+fix m4 all property/global coefficientFriction peratomtypepair 1 0.5
+
+pair_style  gran model hertz tangential ${tmodel}
+pair_coeff  * *
+timestep    1e-6
+
+fix integr all nve/sphere
+
+compute pl all pair/gran/local id force torque
+dump dl all local 10 ${out} c_pl[1] c_pl[2] c_pl[3] c_pl[4] c_pl[5] c_pl[6] c_pl[7] c_pl[8] c_pl[9]
+dump_modify dl format "%.0f %.0f %.0f %.17g %.17g %.17g %.17g %.17g %.17g"
+thermo_style custom step atoms ke
+thermo 100
+run ${nsteps}
