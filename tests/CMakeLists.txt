@@ -282,6 +282,17 @@ ELSE()
 ENDIF()
 
 #---------------------------------------------------------------------------
+# X-05 pair history cleared at separation (default == rebuild every step) and
+# multicontact radius of i; legacy keywords reproduce the earlier behaviour
+IF(EXISTS "${LIGGGHTS_TESTS_DIR}/x05/run_all.sh")
+  LIGGGHTS_TEST(x05_suite LABELS physics regression mpi TIMEOUT 1500 PROCESSORS 2
+    ENV "TMPDIR=${LIGGGHTS_TEST_WORK}"
+    COMMAND ${LIGGGHTS_BASH} ${LIGGGHTS_TESTS_DIR}/x05/run_all.sh ${BIN} ${REF_BIN})
+ELSE()
+  LIGGGHTS_SKIPPED_TEST(x05_suite "tests/x05/run_all.sh not present" physics regression mpi)
+ENDIF()
+
+#---------------------------------------------------------------------------
 # B5 model matrix: every static whitelist combination, byte comparison against
 # the reference binary (needs LIGGGHTS_TEST_REFERENCE_BIN)
 IF(REF_BIN AND EXISTS "${LIGGGHTS_TESTS_DIR}/kernel/run_all.sh")

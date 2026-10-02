@@ -64,6 +64,19 @@ run() {
 same() { cmp -s "$W/$1/atoms.txt" "$W/$2/atoms.txt" && cmp -s "$W/$1/pairs.txt" "$W/$2/pairs.txt"; }
 nwarn() { grep -c "finding X-05" "$W/$1/log"; }
 
+# The reference comparisons below verify X-05 against a build that predates it
+# (e.g. lmp_integF). A reference that already knows history_clear_legacy has the
+# new default, so those comparisons do not apply; other suites (kernel matrix,
+# bitwise suites) cover regression against such a reference.
+rc_saved=$rc   # a failing probe (older reference) must not count as a failure
+if [ -n "$REF" ] && run ref_probe 1 "$REF" -var model hertz -var extra "history_clear_legacy on" -var nmod "delay 0" > /dev/null 2>&1; then
+  echo "NOTE reference $(basename $REF) already contains X-05: pre-change comparisons skipped"
+  REF=""
+fi
+if [ -n "$OREF" ] && run oref_probe 1 "$OREF" -var model hertz -var extra "history_clear_legacy on" -var nmod "delay 0" -var nt 1 > /dev/null 2>&1; then
+  OREF=""
+fi
+rc=$rc_saved
 echo "== 1. bounce: reset at separation == every-step neighbor build"
 for c in "hertz|model hertz|" "hooke_epsd2|model hooke|rolling_friction epsd2" "hertz_sjkr|model hertz|cohesion sjkr" "hertz_cdf|model hertz|"; do
   IFS='|' read n mdl ex <<< "$c"
