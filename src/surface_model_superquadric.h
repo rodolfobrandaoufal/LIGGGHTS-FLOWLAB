@@ -73,7 +73,9 @@ namespace ContactModels
     enum {SURFACES_FAR, SURFACES_CLOSE, SURFACES_INTERSECT};
   public:
     SurfaceModel(LAMMPS * lmp, IContactHistorySetup* hsetup,class ContactModelBase *cmb) :
-        SurfaceModelBase(lmp, hsetup, cmb)
+        SurfaceModelBase(lmp, hsetup, cmb),
+        history_legacy(false),
+        flip_warned(false)
     {
       if(!atom->superquadric_flag)
         error->one(FLERR,"Applying surface model superquadric to a non-superquadric particle!");
@@ -83,8 +85,18 @@ namespace ContactModels
       cmb->add_history_offset("contact_point_offset", contact_point_offset);
       hsetup->add_history_value("cpy", "0");
       hsetup->add_history_value("cpz", "0");
-      alpha1_offset = hsetup->add_history_value("a1", "0");
-      alpha2_offset = hsetup->add_history_value("a2", "0");
+      // a1/a2: line-search parameters of the overlap of particle i / of
+      // particle j, used as starting guesses of surface_line_intersection in
+      // the next step. Under i<->j they swap. They are > 0 for a contact
+      // (contact point inside both particles, search towards the partner), so
+      // they are registered with newtonflag 1: the partner copy of a record
+      // (fix_contact_history pre_exchange) holds (-a1, -a2), and a record whose
+      // two values both have the sign bit set was written from the other side;
+      // checkSurfaceIntersect() then swaps and negates them (finding X-04,
+      // same technique as radij/radji in surface_model_multicontact.h).
+      // An unflipped record is read unchanged.
+      alpha1_offset = hsetup->add_history_value("a1", "1");
+      alpha2_offset = hsetup->add_history_value("a2", "1");
       cmb->add_history_offset("alpha1_offset", alpha1_offset);
       cmb->add_history_offset("alpha2_offset", alpha2_offset);
       cmb->get_history_offset("alpha2_offset");
@@ -94,6 +106,10 @@ namespace ContactModels
       settings.registerDoubleSetting("curvatureLimitFactor",curvatureLimitFactor, 0.0);
       settings.registerYesNo("meanCurvature", meanCurvature, false);
       settings.registerYesNo("gaussianCurvature", gaussianCurvature, false);
+      // 'superquadric_history_legacy on' restores the behaviour before the
+      // phase-F fix: unswapped a1/a2 starting guesses after a pair changes
+      // side, and a compute pair/gran/local pass that writes the contact state
+      settings.registerOnOff("superquadric_history_legacy", history_legacy, false);
       if(curvatureLimitFactor < 0.0)
         error->one(FLERR,"Curvature limiter cannot be negative!");
       if(!meanCurvature && !gaussianCurvature)
@@ -109,9 +125,30 @@ namespace ContactModels
     {
       sidata.is_non_spherical = true;
       bool particles_in_contact = false;
-      double *const prev_step_point = &sidata.contact_history[contact_point_offset]; //contact points
-      double *const inequality_start = &sidata.contact_history[inequality_start_offset];
-      double *const particles_were_in_contact = &sidata.contact_history[particles_were_in_contact_offset];
+      double *prev_step_point = &sidata.contact_history[contact_point_offset]; //contact points
+      double *inequality_start = &sidata.contact_history[inequality_start_offset];
+      double *particles_were_in_contact = &sidata.contact_history[particles_were_in_contact_offset];
+      double *alpha_i = &sidata.contact_history[alpha1_offset];
+      double *alpha_j = &sidata.contact_history[alpha2_offset];
+
+      // An evaluation outside the force computation (computeflag 0: the extra
+      // pass of compute pair/gran/local) must not change the stored contact
+      // state; it works on a copy. Before, that pass re-solved the contact
+      // point from the stored one and wrote it back, so adding the compute
+      // (e.g. for a dump) changed the following steps at solver tolerance.
+      double scratch[7];
+      if (!sidata.computeflag && !history_legacy) {
+        vectorCopy3D(prev_step_point, scratch);
+        scratch[3] = *inequality_start;
+        scratch[4] = *particles_were_in_contact;
+        scratch[5] = *alpha_i;
+        scratch[6] = *alpha_j;
+        prev_step_point = &scratch[0];
+        inequality_start = &scratch[3];
+        particles_were_in_contact = &scratch[4];
+        alpha_i = &scratch[5];
+        alpha_j = &scratch[6];
+      }
 
       const int iPart = sidata.i;
       const int jPart = sidata.j;
@@ -160,8 +197,28 @@ namespace ContactModels
           vectorSubtract3D(particle_j.gradient, particle_i.gradient, sidata.en);
           vectorNormalize3D(sidata.en); //normalize
 
-          double *const alpha_i = &sidata.contact_history[alpha1_offset];
-          double *const alpha_j = &sidata.contact_history[alpha2_offset];
+          if (std::signbit(*alpha_i) && std::signbit(*alpha_j)) {
+            // record written from the other side of the pair (see constructor)
+            if (history_legacy) {
+              // legacy: the partner's values unswapped (exact: -(-a) == a)
+              *alpha_i = -*alpha_i;
+              *alpha_j = -*alpha_j;
+            } else {
+              const double alpha_i_stored = *alpha_i;
+              *alpha_i = -*alpha_j;
+              *alpha_j = -alpha_i_stored;
+              if (!flip_warned && sidata.computeflag) {
+                flip_warned = true;
+                // printed by the first process that meets a flipped record
+                // (only processes with a screen/log file print warnings)
+                error->warning(FLERR, "surface superquadric: a touching pair changed side (atom sorting, "
+                               "migration or newton on); its stored line-search starting guesses a1/a2 are now "
+                               "swapped to the new orientation (finding X-04). Converged forces are unchanged, "
+                               "results can differ at round-off from earlier versions. Use "
+                               "'superquadric_history_legacy on' for the old behaviour");
+              }
+            }
+          }
 
           sidata.deltan = extended_overlap_algorithm(&particle_i, &particle_j, sidata.en, alpha_i, alpha_j,
                 sidata.contact_point, contact_point_i, contact_point_j, sidata.delta);
@@ -227,6 +284,8 @@ namespace ContactModels
     inline void tally_pw(double,int,int,int) {}
 
   protected:
+     bool history_legacy;
+     bool flip_warned;
      double curvatureLimitFactor;
      bool meanCurvature;
      bool gaussianCurvature;

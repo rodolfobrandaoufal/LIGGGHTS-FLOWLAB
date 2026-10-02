@@ -626,6 +626,16 @@ const NewtonHistoryValue newton_history_ok[] = {
   { "detaching_flag",    0, "normal thornton_ning" },
   { "detaching_force",   0, "normal thornton_ning" },
   { "yielding_flag",     0, "normal thornton_ning" },
+  // surface superquadric: OBB start-axis hint, contact state flag, global
+  // contact point (same for both sides); a1/a2 swap, which is encoded with
+  // newtonflag 1 and undone by the reader (tests/sq/pairflip_sq.py)
+  { "inequality_obb",            0, "surface superquadric" },
+  { "particles_were_in_contact", 0, "surface superquadric" },
+  { "cpx",                       0, "surface superquadric" },
+  { "cpy",                       0, "surface superquadric" },
+  { "cpz",                       0, "surface superquadric" },
+  { "a1",                        1, "surface superquadric" },
+  { "a2",                        1, "surface superquadric" },
   { NULL, 0, NULL }
 };
 

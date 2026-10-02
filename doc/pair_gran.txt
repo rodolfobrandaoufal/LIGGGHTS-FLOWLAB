@@ -162,7 +162,8 @@ command. They do not support the inner, middle, outer keywords.
 
 Both settings of the pairwise newton flag are supported, also for models with contact
 history (tangential {history}, rolling friction {epsd}, {epsd2}, {epsd3}, {luding},
-cohesion {jkr}, normal {hooke/hysteresis}):
+cohesion {jkr}, normal {hooke/hysteresis}, {luding}, {edinburgh},
+{edinburgh/stiffness}, {thornton_ning}, surface {superquadric}):
 
 {newton off} (the setting of all example inputs): a pair whose two particles are owned
 by different processors is computed on both processors, and each keeps its own copy of
@@ -186,8 +187,7 @@ for them:
 
 cohesion {easo/capillary/viscous} and {washino/capillary/viscous} (liquid transfer), :ulb,l
 {computeDissipatedEnergy} and {computeElasticPotential}, :l
-normal models {luding}, {thornton_ning}, {edinburgh} and {edinburgh/stiffness},
-surface {multicontact} and {superquadric}, and any other history value that has not
+surface {multicontact}, and any other history value that has not
 been verified for {newton on} (the error message names it), :l
 storage of per-contact forces (fix multisphere, fix continuum/weighted, multicontact),
 the per-particle sum of normal forces and energy tracking, :l
