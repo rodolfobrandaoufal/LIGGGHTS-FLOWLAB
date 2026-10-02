@@ -37,6 +37,12 @@
       "cacheVariables": { "LIGGGHTS_ENABLE_OPENMP": "ON" }
     },
     {
+      "name": "release-native-hdf5-nofma",
+      "displayName": "release-native-hdf5 + -ffp-contract=off (results independent of FMA contraction; not bitwise equal to release-native-hdf5)",
+      "inherits": "release-native-hdf5",
+      "cacheVariables": { "LIGGGHTS_FP_CONTRACT_OFF": "ON" }
+    },
+    {
       "name": "relwithdebinfo",
       "displayName": "RelWithDebInfo (-O2 -g)",
       "inherits": "base",
@@ -70,6 +76,7 @@
     { "name": "release-hdf5",        "configurePreset": "release-hdf5",        "targets": ["liggghts_bin"] },
     { "name": "release-native-hdf5", "configurePreset": "release-native-hdf5", "targets": ["liggghts_bin"] },
     { "name": "release-native-hdf5-omp", "configurePreset": "release-native-hdf5-omp", "targets": ["liggghts_bin"] },
+    { "name": "release-native-hdf5-nofma", "configurePreset": "release-native-hdf5-nofma", "targets": ["liggghts_bin"] },
     { "name": "relwithdebinfo",      "configurePreset": "relwithdebinfo",      "targets": ["liggghts_bin"] },
     { "name": "relwithdebinfo-hdf5", "configurePreset": "relwithdebinfo-hdf5", "targets": ["liggghts_bin"] },
     { "name": "debug-asan",          "configurePreset": "debug-asan",          "targets": ["liggghts_bin"] },

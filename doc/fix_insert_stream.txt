@@ -250,6 +250,11 @@ Information about this fix is written to "binary restart
 files"_restart.html.  This means you can restart a simulation simulation
 while inserting particles, when the restart file was written during the
 insertion operation.
+When the restart file is read with the same number of processors, the
+random sequences of this fix, including the random positions on the
+insertion face, continue where they were when the file was written, so
+the restarted run inserts the same particles as a run continued without
+the restart. With a different number of processors they are re-seeded.
 
 None of the "fix_modify"_fix_modify.html options are relevant to this
 fix. A global vector is stored by this fix for access by various "output

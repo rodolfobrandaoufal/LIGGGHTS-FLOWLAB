@@ -1,0 +1,42 @@
+# Wall heat conduction (fix wall/gran ... temperature, contact_area overlap)
+# phase E, misc agent (LIGGGHTS modernization branch).
+# Spheres resting on a hot primitive wall (zplane 0, T = 400 K), no pair contacts.
+# deg 1: grazing contacts. Overlap 2e-15 m, scaled by deltan_ratio =
+#        (Y/Y_orig)^(2/3) = 1e-4 (area_correction yes), is below ulp(r)/2, so
+#        r - delta == r and the contact area (r^2 - (r-delta)^2) pi is the
+#        rounding error of r*r under FMA contraction: negative for some radii,
+#        sqrt -> NaN temperature before the fix. Exact limit: area 0.
+# deg 0: ordinary overlaps (1e-5 .. 1e-4 m): results must be bitwise unchanged.
+# The positions file pos.in (create_atoms/set lines) is written by run_all.sh.
+variable deg index 1
+atom_style    granular
+atom_modify   map array
+boundary      f f f
+newton        off
+communicate   single vel yes
+units         si
+region        reg block -0.01 0.2 -0.05 0.05 0. 0.05 units box
+create_box    1 reg
+neighbor      0.001 bin
+neigh_modify  delay 0
+fix  m1 all property/global youngsModulus peratomtype 5.e6
+fix  m1o all property/global youngsModulusOriginal peratomtype 5.e12
+fix  m2 all property/global poissonsRatio peratomtype 0.45
+fix  m3 all property/global coefficientRestitution peratomtypepair 1 0.7
+fix  m4 all property/global coefficientFriction peratomtypepair 1 0.05
+pair_style gran model hertz tangential history
+pair_coeff * *
+timestep 1.e-7
+fix  ftco all property/global thermalConductivity peratomtype 100.
+fix  ftca all property/global thermalCapacity peratomtype 10.
+fix  heattransfer all heat/gran/conduction initial_temperature 300. area_correction yes
+fix  hotwall all wall/gran model hertz tangential history primitive type 1 zplane 0.0 temperature 400.
+include pos.in
+fix  integr all nve/sphere
+thermo_style custom step atoms f_heattransfer
+thermo_modify format float %.17g norm no
+thermo 1
+run 3
+dump d1 all custom 1 atoms.txt id radius z f_Temp[0] f_heatFlux[0]
+dump_modify d1 format "%d %.17g %.17g %.17g %.17g" sort id
+run 0

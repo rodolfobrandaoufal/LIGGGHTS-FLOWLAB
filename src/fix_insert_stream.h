@@ -100,6 +100,18 @@ class FixInsertStream : public FixInsert {
 
   virtual void calc_insertion_properties();
 
+  // restart continuity: the random generator of the insertion face (random
+  // positions on the mesh) is saved and restored by FixInsert::write_restart
+  // and FixInsert::setup like the insertion region generator of insert/pack
+  virtual class RanPark *insertion_region_rng();
+
+  // the Monte Carlo insertion fraction (and the extrusion range) of this
+  // proc is restored with the random states; recomputing it after a restart
+  // would draw ntry_mc extra random numbers
+  virtual int restart_extra_size() { return 4; }
+  virtual void pack_restart_extra(double *buf);
+  virtual void unpack_restart_extra(const double *buf);
+
   bool pre_insert();
 
   int is_nearby(int);

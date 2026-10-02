@@ -401,8 +401,12 @@ void Superquadric::pre_initial_estimate(const double *input_point, int nphi, int
   double local_point[3];
   global2local(input_point, local_point);
   double r = MathExtra::len3(local_point);
-  double cos_theta = local_point[2] / r;
-  double sin_theta = sqrt(1.0 - cos_theta*cos_theta);
+  // cos_theta and cos_phi are ratios of rounded quantities and can leave
+  // [-1,1] by a few ulps (e.g. cos_phi for a point with y = 0, on the local
+  // x-z plane), which made acos (and the sqrt) return NaN. Clamping changes
+  // nothing for arguments inside [-1,1] (LIGGGHTS modernization branch)
+  double cos_theta = std::max(-1.0, std::min(1.0, local_point[2] / r));
+  double sin_theta = sqrt(std::max(0.0, 1.0 - cos_theta*cos_theta));
   if(sin_theta < sin(dtheta)) {
     if(cos_theta > 0.0)
       theta = theta_start;
@@ -411,7 +415,7 @@ void Superquadric::pre_initial_estimate(const double *input_point, int nphi, int
     phi = M_PI;
   } else {
     theta = acos(cos_theta);
-    double cos_phi = local_point[0] / sin_theta / r;
+    double cos_phi = std::max(-1.0, std::min(1.0, local_point[0] / sin_theta / r));
     double sin_phi = local_point[1] / sin_theta / r;
     if(sin_phi > 0.0)
       phi = acos(cos_phi);

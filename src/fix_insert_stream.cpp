@@ -247,6 +247,7 @@ void FixInsertStream::pre_delete(bool unfixflag)
 void FixInsertStream::init_defaults()
 {
     face_style = FACE_NONE;
+    ins_face = NULL;
     extrude_length = 0.;
 
     extrude_length_min = extrude_length_max = 0.;
@@ -283,6 +284,40 @@ void FixInsertStream::register_tracer_callback(FixPropertyAtomTracerStream* tr)
    calculate ninsert, insert_every, ninsert_per, massinsert, flowrates etc
    also perform error checks
 ------------------------------------------------------------------------- */
+
+class RanPark *FixInsertStream::insertion_region_rng()
+{
+    // random points on the insertion face are drawn from the mesh generator
+    return (face_style == FACE_MESH && ins_face) ? ins_face->random_generator() : NULL;
+}
+
+/* ---------------------------------------------------------------------- */
+
+void FixInsertStream::pack_restart_extra(double *buf)
+{
+    buf[0] = do_ins_fraction_calc ? 1. : 0.;
+    buf[1] = ins_fraction;
+    buf[2] = extrude_length_min;
+    buf[3] = extrude_length_max;
+}
+
+/* ---------------------------------------------------------------------- */
+
+void FixInsertStream::unpack_restart_extra(const double *buf)
+{
+    // called in setup() after calc_insertion_properties(); if the fraction
+    // was still to be computed when the file was written, it is computed at
+    // the first insertion as in the uninterrupted run
+    if(buf[0] == 0.)
+    {
+        do_ins_fraction_calc = false;
+        ins_fraction = buf[1];
+        extrude_length_min = buf[2];
+        extrude_length_max = buf[3];
+    }
+}
+
+/* ---------------------------------------------------------------------- */
 
 void FixInsertStream::calc_insertion_properties()
 {

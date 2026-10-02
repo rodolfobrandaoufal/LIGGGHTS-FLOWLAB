@@ -46,6 +46,7 @@
 #ifndef LMP_FIX_INSERT_H
 #define LMP_FIX_INSERT_H
 
+#include <vector>
 #include "fix.h"
 #include "bounding_box.h"
 #include "region_neighbor_list.h"
@@ -234,6 +235,17 @@ class FixInsert : public Fix {
   virtual class RanPark *insertion_region_rng() { return NULL; }
   bool rng_restart_pending_;
   int rng_restart_state_[2];
+
+  // optional per-proc state of a derived fix that must be restored together
+  // with the random sequences (e.g. the Monte Carlo insertion fraction of
+  // insert/stream, whose recomputation would draw random numbers). Written
+  // after the random states (marker -3, count per proc, values per proc),
+  // read only with the same number of procs, applied in setup() right
+  // after the random states (LIGGGHTS modernization branch)
+  virtual int restart_extra_size() { return 0; }
+  virtual void pack_restart_extra(double *) {}
+  virtual void unpack_restart_extra(const double *) {}
+  std::vector<double> restart_extra_;
 
   class Irregular *irregular;
 

@@ -175,6 +175,12 @@ namespace LAMMPS_NS
         virtual bool isDeforming()
         { return false; }
 
+        // random generator of this mesh (random points on the mesh), so that
+        // fix insert/stream can save and restore its state in restart files
+        // (LIGGGHTS modernization branch)
+        inline RanPark* random_generator()
+        { return random_; }
+
       protected:
         MultiNodeMesh(LAMMPS *lmp);
         virtual ~MultiNodeMesh();

@@ -366,7 +366,9 @@ void WriteRestart::write(char *file)
 
         fwrite(&recv_size,sizeof(int),1,fp);
         
-        fwrite(buf,sizeof(double),recv_size,fp);
+        // buf is NULL when no proc has atoms (e.g. before the first
+        // insertion); a zero-length fwrite of NULL is undefined (UBSan)
+        if (recv_size > 0) fwrite(buf,sizeof(double),recv_size,fp);
       }
       fclose(fp);
 
@@ -391,7 +393,7 @@ void WriteRestart::write(char *file)
     }
     delete [] perproc;
     fwrite(&send_size,sizeof(int),1,fp);
-    fwrite(buf,sizeof(double),send_size,fp);
+    if (send_size > 0) fwrite(buf,sizeof(double),send_size,fp);
     fclose(fp);
   }
 

@@ -376,6 +376,9 @@ void FixInsert::setup(int vflag)
       RanPark *rng_region = insertion_region_rng();
       if(rng_region && rng_restart_state_[1] > 0)
           rng_region->reset(rng_restart_state_[1]);
+      if(!restart_extra_.empty())
+          unpack_restart_extra(&restart_extra_[0]);
+      restart_extra_.clear();
       rng_restart_pending_ = false;
   }
 
@@ -1004,8 +1007,19 @@ void FixInsert::write_restart(FILE *fp)
   std::vector<int> state_all(2*nprocs);
   MPI_Gather(state_me,2,MPI_INT,&state_all[0],2,MPI_INT,0,world);
 
+  // second extension (phase E): marker -3, nextra, then nextra values per
+  // proc of the derived fix (restart_extra_size), only if nextra > 0
+  const int nextra = restart_extra_size();
+  std::vector<double> extra_me(nextra > 0 ? nextra : 1), extra_all;
+  if(nextra > 0)
+  {
+      pack_restart_extra(&extra_me[0]);
+      extra_all.resize(nextra*nprocs);
+      MPI_Gather(&extra_me[0],nextra,MPI_DOUBLE,&extra_all[0],nextra,MPI_DOUBLE,0,world);
+  }
+
   int n = 0;
-  std::vector<double> list(7 + 2*nprocs);
+  std::vector<double> list(7 + 2*nprocs + (nextra > 0 ? 2 + nextra*nprocs : 0));
   list[n++] = static_cast<double>(random->state());
   list[n++] = static_cast<double>(ninserted);
   list[n++] = static_cast<double>(first_ins_step);
@@ -1015,6 +1029,13 @@ void FixInsert::write_restart(FILE *fp)
   list[n++] = static_cast<double>(nprocs);
   for (int i = 0; i < 2*nprocs; i++)
     list[n++] = static_cast<double>(state_all[i]);
+  if(nextra > 0)
+  {
+    list[n++] = -3.0;
+    list[n++] = static_cast<double>(nextra);
+    for (int i = 0; i < nextra*nprocs; i++)
+      list[n++] = extra_all[i];
+  }
 
   if (comm->me == 0) {
     int size = n * sizeof(double);
@@ -1049,6 +1070,15 @@ void FixInsert::restart(char *buf)
       rng_restart_state_[0] = static_cast<int>(list[n+2+2*comm->me]);
       rng_restart_state_[1] = static_cast<int>(list[n+3+2*comm->me]);
       rng_restart_pending_ = rng_restart_state_[0] > 0;
+
+      // second extension: per-proc state of the derived fix. A record
+      // without it reads 0 here (end of record or Modify's zero padding)
+      const int m = n + 2 + 2*comm->nprocs;
+      const int nextra = restart_extra_size();
+      restart_extra_.clear();
+      if(nextra > 0 && list[m] == -3.0 && static_cast<int>(list[m+1]) == nextra)
+          restart_extra_.assign(list + m + 2 + nextra*comm->me,
+                                list + m + 2 + nextra*(comm->me+1));
       if(rng_restart_pending_ && comm->me == 0)
       {
           if(screen) fprintf(screen,"Fix %s: random sequences continued from restart file\n",id);

@@ -1666,6 +1666,13 @@ void FixWallGran::addHeatFlux(TriMesh *mesh,int ip, const double ri, double delt
         r = ri - delta_n;
 
         Acont = (reff_wall*reff_wall-r*r)*M_PI*area_ratio; //contact area sphere-wall
+
+        // with a (scaled) overlap below ulp(ri)/2, r == ri and the difference
+        // of squares is the rounding error of r*r (FMA contraction), which
+        // can be negative and gave sqrt(Acont) = NaN. The exact area is 0 in
+        // that limit; positive values are unchanged (LIGGGHTS modernization
+        // branch)
+        if(Acont < 0.) Acont = 0.;
     }
     else if (CONDUCTION_CONTACT_AREA_CONSTANT == area_calculation_mode_)
         Acont = fixed_contact_area_;

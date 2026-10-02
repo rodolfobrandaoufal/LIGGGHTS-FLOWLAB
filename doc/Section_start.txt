@@ -775,6 +775,7 @@ release: optimised (-O3), IEEE floating point, portable
 release-hdf5: release with the parallel HDF5 dumps
 release-native-hdf5: release-hdf5 plus -march=native
 release-native-hdf5-omp: release-native-hdf5 plus LIGGGHTS_ENABLE_OPENMP (OpenMP threading of pair gran and fix wall/gran)
+release-native-hdf5-nofma: release-native-hdf5 plus LIGGGHTS_FP_CONTRACT_OFF (no FMA contraction)
 relwithdebinfo, relwithdebinfo-hdf5: -O2 -g
 debug-asan, debug-asan-hdf5: -O1 -g with AddressSanitizer and UndefinedBehaviorSanitizer :ul
 
@@ -797,6 +798,7 @@ LIGGGHTS_ENABLE_GPU_DEM:BOOL=OFF: also configures the experimental src/GPU_DEM s
 LIGGGHTS_FAST_MATH:BOOL=OFF: adds -ffast-math. This changes floating-point results, so they are no longer bitwise reproducible with the default build.
 LIGGGHTS_NATIVE_ARCH:BOOL=OFF: adds -march=native. The binary then runs only on CPUs like the build host.
 LIGGGHTS_MATH_ERRNO:BOOL=ON: keeps errno semantics for libm calls. OFF adds -fno-math-errno. It gave no measured speed-up, and some contact models (hooke/hysteresis) no longer match the default build bitwise.
+LIGGGHTS_FP_CONTRACT_OFF:BOOL=OFF: adds -ffp-contract=off (GCC and Clang), so the compiler never fuses a*b+c into one fused multiply-add (FMA). Results then no longer depend on whether the target CPU has FMA instructions or on how the compiler contracts expressions, which is useful when runs must reproduce across hosts and compilers. They differ from the default build in the last bits for every contact model (all 108 combinations of tests/kernel), and chaotic granular runs then diverge from it. No measurable cost (loop time ratio 1.002, 95% CI [0.989, 1.015]). Preset: release-native-hdf5-nofma.
 LIGGGHTS_ENABLE_OPENMP:BOOL=OFF: builds the OpenMP-threaded kernels of pair gran and fix wall/gran and the styles "package omp"_package_omp.html and fix nve/sphere/omp (adds -fopenmp and -DLIGGGHTS_OMP). The thread count per MPI rank comes from OMP_NUM_THREADS or the "package omp"_package_omp.html command. By default the forces are summed in a fixed order, so results are bitwise identical to the unthreaded build for any thread count. With the option OFF (default) the build is exactly the serial code.
 LIGGGHTS_OPENMP_SERIAL_BITWISE:BOOL=ON: with LIGGGHTS_ENABLE_OPENMP, compiles the threaded pair kernel with -fno-inline so that its results equal the serial kernel bitwise. OFF is about 10% faster in pair gran; results are then still identical for any thread count >= 2, but for some contact models (measured: the no_history family) differ in the last bits from 1 thread and from the serial build.
 LIGGGHTS_SANITIZE:STRING=: a list for -fsanitize=, for example address,undefined.
