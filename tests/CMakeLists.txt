@@ -173,7 +173,7 @@ ENDIF()
 # Phase B physics options (roadmap B1-B4, B6, B7). Each suite verifies its opt-in
 # model against a stated reference; with a reference binary it also checks that
 # the default input is bitwise unchanged.
-FOREACH(suite tangential adhesion easo_dt normal wear)
+FOREACH(suite tangential adhesion easo_dt normal wear quick)
   IF(EXISTS "${LIGGGHTS_TESTS_DIR}/${suite}/run_all.sh")
     LIGGGHTS_TEST(${suite}_suite LABELS physics mpi TIMEOUT 1500 PROCESSORS 2
       ENV "TMPDIR=${LIGGGHTS_TEST_WORK}"
@@ -290,6 +290,17 @@ IF(EXISTS "${LIGGGHTS_TESTS_DIR}/x05/run_all.sh")
     COMMAND ${LIGGGHTS_BASH} ${LIGGGHTS_TESTS_DIR}/x05/run_all.sh ${BIN} ${REF_BIN})
 ELSE()
   LIGGGHTS_SKIPPED_TEST(x05_suite "tests/x05/run_all.sh not present" physics regression mpi)
+ENDIF()
+
+#---------------------------------------------------------------------------
+# superquadric a1/a2 pair-flip swap, compute pair/gran/local side effect, newton on
+# (needs a superquadric build: this build with ENABLE_SQ or LIGGGHTS_TEST_SQ_BIN)
+IF(SQ_BIN AND EXISTS "${LIGGGHTS_TESTS_DIR}/sq/run_all.sh")
+  LIGGGHTS_TEST(sq_suite LABELS physics regression mpi TIMEOUT 1800 PROCESSORS 2
+    ENV "TMPDIR=${LIGGGHTS_TEST_WORK}"
+    COMMAND ${LIGGGHTS_BASH} ${LIGGGHTS_TESTS_DIR}/sq/run_all.sh ${SQ_BIN})
+ELSE()
+  LIGGGHTS_SKIPPED_TEST(sq_suite "no superquadric binary (ENABLE_SQ or LIGGGHTS_TEST_SQ_BIN)" physics regression mpi)
 ENDIF()
 
 #---------------------------------------------------------------------------

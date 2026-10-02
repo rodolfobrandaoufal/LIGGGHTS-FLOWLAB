@@ -29,7 +29,7 @@ run() {
   cp -r "$MESHDIR" "$d/meshes"
   (cd "$d" && taskset -c "$CPUS" mpirun --oversubscribe -np "$np" "$bin" -in "$deck" "$@" > screen.txt 2>&1)
 }
-thermo() { awk '/^ *Step /{p=1;print;next} /^Loop time/{p=0} p' "$1" | grep -v -e '^Fix balance' -e ' splits = '; }
+thermo() { awk '/^ *Step /{p=1;print;next} /^Loop time/{p=0} p' "$1" | grep -v -e '^Fix balance' -e ' splits = ' -e '^WARNING'; }
 
 # 1) history integrity / trajectory equality, primitive wall, all np
 for np in $NPS; do
