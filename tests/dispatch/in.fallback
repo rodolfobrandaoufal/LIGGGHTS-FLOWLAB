@@ -1,5 +1,5 @@
 # Regression deck (dispatch fix A4, P0-01/S-10/C-04): a contact-model combination that is NOT in
-# src/contact_model_whitelist.txt (hertz/history/rolling epsd2, default surface) used by pair gran
+# src/contact_model_whitelist.txt (hertz/no_history/rolling epsd2, default surface) used by pair gran
 # AND wall/gran. It must run through the runtime fallback with exactly one warning.
 # whitelist-coverage: skip  (deliberately not whitelisted)
 atom_style    granular
@@ -18,9 +18,9 @@ fix  m2 all property/global poissonsRatio peratomtype 0.3
 fix  m3 all property/global coefficientRestitution peratomtypepair 1 0.5
 fix  m4 all property/global coefficientFriction peratomtypepair 1 0.5
 fix  m5 all property/global coefficientRollingFriction peratomtypepair 1 0.1
-pair_style  gran model hertz tangential history rolling_friction epsd2
+pair_style  gran model hertz tangential no_history rolling_friction epsd2
 pair_coeff  * *
-fix  wall all wall/gran model hertz tangential history rolling_friction epsd2 primitive type 1 zplane -0.001
+fix  wall all wall/gran model hertz tangential no_history rolling_friction epsd2 primitive type 1 zplane -0.001
 create_atoms  1 single -0.00099 0 0 units box
 create_atoms  1 single  0.00099 0 0 units box
 set atom * diameter 0.002 density 2500

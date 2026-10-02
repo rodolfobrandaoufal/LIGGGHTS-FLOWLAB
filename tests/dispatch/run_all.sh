@@ -4,7 +4,7 @@
 # ref_release_binary: pre-fix build for the bitwise check (skipped if empty)
 # strict_binary: build with -DLIGGGHTS_NO_CONTACT_MODEL_FALLBACK (skipped if empty)
 # Exit status: number of failed checks. (LIGGGHTS modernization branch)
-set -u
+set -u -o pipefail   # a failing check must not be masked by "| tail -1"
 HERE=$(cd "$(dirname "$0")" && pwd); BIN=$1; REF=${2:-}; STRICT=${3:-}
 W=$(mktemp -d); n=0
 python3 $HERE/check_whitelist_coverage.py | tail -1 || n=$((n+1))

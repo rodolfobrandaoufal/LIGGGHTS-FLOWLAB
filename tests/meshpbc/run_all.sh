@@ -74,7 +74,10 @@ done
 
 if [ -n "$REF" ] && [ -x "$REF" ]; then
   echo "== reference binary $(basename $REF) =="
-  run ref_legacy_1 1 "$REF" in.slide -var leg -1 && {
+  # a reference built before X-01 has no coplanar_legacy keyword: its default is the
+  # legacy behaviour; a newer reference must run the same keyword as the candidate
+  refleg=-1; run ref_probe 1 "$REF" in.slide -var leg 1 > /dev/null 2>&1 && refleg=1
+  run ref_legacy_1 1 "$REF" in.slide -var leg $refleg && {
     cmp -s $W/ref_legacy_1/atoms.txt $W/legacy_1/atoms.txt && pass "coplanar_legacy yes np 1 bitwise == reference" \
       || fail "coplanar_legacy yes np 1 differs from reference"; } || rc=1
   run ref_bed_1 1 "$REF" in.bed -var rd 1 -var leg -1 && {

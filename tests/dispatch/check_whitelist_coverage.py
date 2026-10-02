@@ -42,6 +42,8 @@ def parse(tokens):
 rows = []
 decks = [f for pat in ("examples/**/in.*", "tests/**/in.*", "benchmarks/**/in.*")
          for f in glob.glob(os.path.join(ROOT, pat), recursive=True)]
+# scratch output of test runners is not part of the deck set
+decks = [f for f in decks if "/work/" not in f]
 for f in sorted(set(decks)):
     try: lines = open(f, errors="ignore").read().replace("&\n", " ").splitlines()
     except IsADirectoryError: continue
