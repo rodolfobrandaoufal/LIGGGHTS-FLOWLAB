@@ -61,6 +61,10 @@ ENDIF()
 SET(REF_BIN "${LIGGGHTS_TEST_REFERENCE_BIN}")
 
 SET(test_env "ASAN_OPTIONS=detect_leaks=0")
+# OpenMP builds: without this, an unset OMP_NUM_THREADS gives one thread per
+# core plus a warning, which the hygiene/integration/adhesion/bitwise checks
+# count as a difference. Suites that test threading set their own count.
+LIST(APPEND test_env "OMP_NUM_THREADS=1")
 IF(LIGGGHTS_TEST_CPUS)
   LIST(APPEND test_env "LIGGGHTS_TEST_CPUS=${LIGGGHTS_TEST_CPUS}")
 ENDIF()
@@ -301,6 +305,21 @@ IF(SQ_BIN AND EXISTS "${LIGGGHTS_TESTS_DIR}/sq/run_all.sh")
     COMMAND ${LIGGGHTS_BASH} ${LIGGGHTS_TESTS_DIR}/sq/run_all.sh ${SQ_BIN})
 ELSE()
   LIGGGHTS_SKIPPED_TEST(sq_suite "no superquadric binary (ENABLE_SQ or LIGGGHTS_TEST_SQ_BIN)" physics regression mpi)
+ENDIF()
+
+#---------------------------------------------------------------------------
+# S-17 velocity predictor (fix nve/sphere velocity_predictor): convergence order,
+# momentum, newton on/off, default identity; OpenMP checks on an OpenMP build
+IF(EXISTS "${LIGGGHTS_TESTS_DIR}/verlet/run_all.sh")
+  SET(verlet_env "TMPDIR=${LIGGGHTS_TEST_WORK}")
+  IF(LIGGGHTS_ENABLE_OPENMP)
+    LIST(APPEND verlet_env "VERLET_OMP_BIN=${BIN}")
+  ENDIF()
+  LIGGGHTS_TEST(verlet_suite LABELS physics mpi TIMEOUT 2400 PROCESSORS 8
+    ENV ${verlet_env}
+    COMMAND ${LIGGGHTS_BASH} ${LIGGGHTS_TESTS_DIR}/verlet/run_all.sh ${BIN} ${REF_BIN})
+ELSE()
+  LIGGGHTS_SKIPPED_TEST(verlet_suite "tests/verlet/run_all.sh not present" physics mpi)
 ENDIF()
 
 #---------------------------------------------------------------------------
