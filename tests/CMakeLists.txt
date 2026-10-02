@@ -271,6 +271,17 @@ ELSE()
 ENDIF()
 
 #---------------------------------------------------------------------------
+# phase E leftovers: superquadric acos and wall heat-conduction guards,
+# insert/stream restart continuity, fp-contract option
+IF(EXISTS "${LIGGGHTS_TESTS_DIR}/misc/run_all.sh")
+  LIGGGHTS_TEST(misc_suite LABELS physics regression mpi TIMEOUT 1200 PROCESSORS 4
+    ENV "TMPDIR=${LIGGGHTS_TEST_WORK}"
+    COMMAND ${LIGGGHTS_BASH} ${LIGGGHTS_TESTS_DIR}/misc/run_all.sh ${BIN} ${REF_BIN})
+ELSE()
+  LIGGGHTS_SKIPPED_TEST(misc_suite "tests/misc/run_all.sh not present" physics regression mpi)
+ENDIF()
+
+#---------------------------------------------------------------------------
 # B5 model matrix: every static whitelist combination, byte comparison against
 # the reference binary (needs LIGGGHTS_TEST_REFERENCE_BIN)
 IF(REF_BIN AND EXISTS "${LIGGGHTS_TESTS_DIR}/kernel/run_all.sh")
