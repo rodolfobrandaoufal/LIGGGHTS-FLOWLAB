@@ -18,14 +18,15 @@ Nevery = check the imbalance at re-neighboring steps at least this many steps ap
 thresh = imbalance threshold that must be exceeded to perform a re-balance (>= 1.0) :l
 shift args = dimstr Niter stopthresh, as for the "balance"_balance.html command :l
 zero or more keyword/value pairs may be appended :l
-keyword = {weight} or {out} or {minwidth}, as for the "balance"_balance.html command :l
+keyword = {weight} or {out} or {minwidth} or {improve} or {advise}, as for the "balance"_balance.html command :l
 :ule
 
 [Examples:]
 
 fix bal all balance 1000 1.1 shift z 20 1.02
 fix bal all balance 500 1.05 shift xyz 20 1.02 weight neigh 0.2 out splits.txt
-fix bal all balance 0 1.05 shift xyz 30 1.01 :pre
+fix bal all balance 0 1.05 shift xyz 30 1.01
+fix bal all balance 5000 1.05 shift x 20 1.02 weight neigh 0.2 advise yes :pre
 
 [Description:]
 
@@ -46,6 +47,21 @@ the same step, after all other pre-exchange operations, so the contact
 history of pair and wall interactions is stored with the particles
 before they move.
 
+A shift result is applied only if it lowers the predicted imbalance
+factor by more than the fraction {improve} (default 0.02) relative to
+the current cuts; otherwise the best combination of "keep", "shift" and
+"uniform" cuts over the balanced dimensions is applied if it passes the
+same test, or the cuts are kept.  See "balance"_balance.html for the
+details.  This prevents the fix from moving the cuts to a partition
+that is worse than the current one, which happens for distributions
+that are correlated across dimensions (an inclined particle stream on
+the default grid), and lets it return to uniform cuts.  The margin
+{improve} also acts as a hysteresis: a cut change must pay for itself,
+so the cuts do not oscillate between nearly equivalent positions from
+check to check.  The first rejected check of a run is reported with the
+predicted imbalance factors; the end-of-run summary counts all of
+them.
+
 If a mesh ("fix mesh/surface"_fix_mesh_surface.html) is distributed
 over the processors, a cut is moved at most up to its neighboring old
 cut minus half the neighbor skin in one re-balance, because mesh
@@ -64,12 +80,29 @@ neighbor lists do not use the cached bin lists of static meshes, and
 thermo styles other than {custom} print a "Volume" column.  With a
 very large {thresh} the fix never re-balances; results are then
 bitwise identical to a run without the fix for decks without
-insertion.
+insertion.  These overheads remain while the fix keeps the
+cuts unchanged: on the chute_wear tutorial at np 8 (rate 1.0, mesh
+walls, insertion every 1000 steps) a fix that never re-balances made
+the run about 1.08x slower than no fix.  If the grid cannot be balanced
+(the advisor shows no gain), remove the fix or change the grid.
 
-At the end of each run the fix prints the number of re-balances, the
-imbalance factor before and (predicted) after the last one, the current
-imbalance factor and the minimum/average/maximum Pair time per
-processor, followed by the current cuts.
+At the end of each run the fix prints the number of re-balances (and
+how many of them applied a partial/uniform alternative), the number of
+rejected checks, the imbalance factor before and (predicted) after the
+last one, the current imbalance factor and the
+minimum/average/maximum Pair time per processor, followed by the
+current cuts.
+
+With {advise yes} the fix also prints the grid advisor of the
+"balance"_balance.html command at the end of each run, i.e. the
+predicted imbalance factor of every processor grid for the particle
+distribution and weights at that time, and the recommended
+"processors"_processors.html setting.  Use it after a warm-up or filling
+run and restart with the recommended grid.  When shift balancing is
+slower than no balancing, the cause is usually the grid: a stream or a
+chute flow on a 3d grid such as 2x2x2 cannot be balanced by moving cut
+planes, while a slab grid ("processors 8 1 1" with {shift x} for the
+chute_wear tutorial at np 8) can.
 
 [Restart, fix_modify, output, run start/stop, minimize info:]
 
@@ -80,10 +113,11 @@ re-balances in the setup of the next run).  None of the
 "fix_modify"_fix_modify.html options are relevant to this fix.
 
 This fix computes a global scalar, the predicted imbalance factor after
-the last re-balance, and a global vector of length 3: (1) the maximum
-cost per processor at the last check, (2) the number of bisection
-iterations of the last re-balance, (3) the imbalance factor before the
-last re-balance.  They are intensive and can be used by
+the last re-balance (after a rejected check: predicted for the kept
+cuts), and a global vector of length 4: (1) the maximum cost per
+processor at the last check, (2) the number of bisection iterations of
+the last check, (3) the imbalance factor before the last re-balance,
+(4) the number of rejected checks since the fix was defined.  They are intensive and can be used by
 "thermo_style custom"_thermo_style.html as f_ID and f_ID\[i\].
 
 No parameter of this fix can be used with the {start/stop} keywords of
@@ -106,4 +140,5 @@ cost more than the balancing gains.
 
 [Default:]
 
-weight none, no out file, minwidth = neighbor cutoff
+weight none, no out file, minwidth = neighbor cutoff, improve = 0.02,
+advise no

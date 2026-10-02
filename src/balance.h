@@ -81,6 +81,8 @@ class Balance : protected Pointers {
   double imbalance_predicted();           // same, for owners implied by current splits
   int compute_targets();                  // shift targets, returns bisection iterations
   int apply_stage(int staged);            // move splits towards targets, 1 = reached
+  int select_targets();                   // acceptance guard, sets apply_mask
+  void advise_grids(const char *prefix);  // predicted imbalance of every proc grid
   int mesh_parallel_active();             // 1 if a parallelized mesh must migrate
   void mesh_migrate();                    // re-own mesh elements after split change
   void migrate_atoms_now();               // Irregular migration of owned atoms
@@ -101,6 +103,21 @@ class Balance : protected Pointers {
   double last_alpha;            // fraction of the requested move applied in last stage
   int last_changed;             // 1 if the last apply_stage() moved a split
 
+  // acceptance guard (select_targets): a shift candidate is applied only
+  // if its predicted imbalance is < (1-minimprove) * the predicted
+  // imbalance of the current cuts; otherwise single dims/subsets of the
+  // shifted dims are tried, else the current cuts are kept
+  double minimprove;            // "improve" keyword
+  int apply_mask;               // dims (bit d) moved by apply_stage()
+  int last_select;              // SELECT_* of the last select_targets()
+  double last_imbold;           // predicted imbalance with the current cuts
+  double last_imbcand;          // predicted imbalance of the full candidate
+  double last_imbsel;           // predicted imbalance of the applied candidate
+  int advise;                   // "advise yes": print the grid advisor
+  enum { SELECT_NONE, SELECT_FULL, SELECT_ALT, SELECT_REJECT };
+  int last_choice[3];           // per dim: 0 kept, 1 shift target, 2 uniform
+  void choice_string(char *);   // "x shift, y uniform, ..."
+
  private:
   int me,nprocs;
   double *weight;               // per-atom cost, size maxweight
@@ -116,6 +133,9 @@ class Balance : protected Pointers {
   void enforce_minwidth(int dim, int np, double *split);
   double stage_alpha(int np, double *cursplit, double *tgt, double margin);
   double fraccoord(int i, int dim);
+  double predict(double **split);         // max/avg cost for given splits
+  void stage_splits(int mask, int staged, double **out);
+  void hist_cuts(const double *h, int nbin, int np, double *out, int dim);
 };
 
 }

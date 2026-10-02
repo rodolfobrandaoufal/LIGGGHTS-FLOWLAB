@@ -1,0 +1,3 @@
+# advisor only, changes nothing
+balance 1.0 advise yes
+run 0

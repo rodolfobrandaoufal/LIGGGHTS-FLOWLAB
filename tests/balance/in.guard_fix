@@ -1,0 +1,3 @@
+# fix balance: the setup check must keep the uniform cuts
+fix bal all balance 0 1.0 shift xy 30 1.01
+run 10

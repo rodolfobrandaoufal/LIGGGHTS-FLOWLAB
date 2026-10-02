@@ -1,0 +1,46 @@
+# chute_wear stream at massrate 1.0 (about 9700 particles), np 8 (LIGGGHTS modernization
+# branch, balance2; from audit/fixes/phaseG/design/decks/in.chute_np). vars: grid, bal
+atom_style    granular
+atom_modify   map array
+boundary      f f f
+newton        off
+communicate   single vel yes
+units         si
+variable rate index 0.1
+variable nwarm index 100000
+variable nrun index 20000
+variable grid index "* * *"
+variable bal index "fix bal all balance 5000 1.05 shift xyz 20 1.02 weight neigh 0.2"
+processors ${grid}
+region        domain block -0.5 0.1 -0.2 0.2 -0.4 0.15 units box
+create_box    1 domain
+neighbor      0.002 bin
+neigh_modify  delay 0
+fix  m1 all property/global youngsModulus peratomtype 5.e6
+fix  m2 all property/global poissonsRatio peratomtype 0.45
+fix  m3 all property/global coefficientRestitution peratomtypepair 1 0.3
+fix  m4 all property/global coefficientFriction peratomtypepair 1 0.5
+fix  m5 all property/global k_finnie peratomtypepair 1 1.0
+pair_style  gran model hertz tangential history
+pair_coeff  * *
+timestep    0.00001
+fix  gravi all gravity 9.81 vector 0.0 0.0 -1.0
+fix  cad all mesh/surface/stress file meshes/simple_chute.stl type 1 wear finnie
+fix  inface all mesh/surface file meshes/insertion_face.stl type 1
+fix  granwalls all wall/gran model hertz tangential history mesh n_meshes 1 meshes cad
+fix  pts1 all particletemplate/sphere 15485863 atom_type 1 density constant 2500 radius constant 0.0015
+fix  pts2 all particletemplate/sphere 15485867 atom_type 1 density constant 2500 radius constant 0.0025
+fix  pdd1 all particledistribution/discrete 32452843  2 pts1 0.3 pts2 0.7
+group  nve_group region domain
+fix    ins nve_group insert/stream seed 32452867 distributiontemplate pdd1 &
+       nparticles 1000000 massrate ${rate} insert_every 1000 overlapcheck yes all_in no vel constant 0.0 0.0 -1.0 &
+       insertion_face inface
+fix    integr nve_group nve/sphere
+thermo_style  custom step atoms ke
+thermo        5000
+thermo_modify lost ignore norm no
+modify_timing on
+run 1
+${bal}
+run ${nwarm}
+run ${nrun}

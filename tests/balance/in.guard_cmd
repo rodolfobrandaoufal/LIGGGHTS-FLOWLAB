@@ -1,0 +1,2 @@
+# shift result worse than the uniform cuts: must be rejected
+balance 1.0 shift xy 30 1.01 improve 0.0 advise yes

@@ -91,7 +91,7 @@ FixBalance::FixBalance(LAMMPS *lmp, int narg, char **arg) :
   scalar_flag = 1;
   extscalar = 0;
   vector_flag = 1;
-  size_vector = 3;
+  size_vector = 4;
   extvector = 0;
   global_freq = 1;
 
@@ -117,7 +117,7 @@ FixBalance::FixBalance(LAMMPS *lmp, int narg, char **arg) :
   imbnow = imbprev = imbfinal = 1.0;
   maxcost = 0.0;
   itercount = 0;
-  nrebalance = nstaged = 0;
+  nrebalance = nstaged = nalt = nreject = nreject_total = 0;
 }
 
 /* ---------------------------------------------------------------------- */
@@ -142,7 +142,7 @@ int FixBalance::setmask()
 void FixBalance::init()
 {
   balance->check_compatible("Fix balance");
-  nrebalance = nstaged = 0;
+  nrebalance = nstaged = nalt = nreject = 0;
 }
 
 /* ----------------------------------------------------------------------
@@ -181,8 +181,6 @@ void FixBalance::rebalance()
   imbnow = balance->imbalance_factor(maxcost);
   if (imbnow <= thresh) return;
 
-  imbprev = imbnow;
-
   // parallel meshes can only hand elements to neighbouring procs; their
   // centres may have drifted up to skin/2 since the last exchange
 
@@ -191,10 +189,35 @@ void FixBalance::rebalance()
     balance->margin_frac[d] = staged ? 0.5*neighbor->skin/domain->prd[d] : 0.0;
 
   itercount = balance->compute_targets();
+
+  // never accept a worse partition (see Balance::select_targets()):
+  // the candidate is judged by its final targets, also if a parallel
+  // mesh makes this rebalance only one stage towards them; the
+  // "improve" margin is the hysteresis against cut oscillation
+
+  balance->select_targets();
+  if (balance->last_select == Balance::SELECT_REJECT) {
+    imbfinal = balance->last_imbold;
+    if (nreject == 0 && comm->me == 0) {
+      char str[512];
+      sprintf(str,"Fix balance %s: step " BIGINT_FORMAT ": imbalance %g > %g, but "
+              "the shift candidate is not better (predicted %g vs %g with the current "
+              "cuts): cuts kept (reported once per run)\n",id,update->ntimestep,
+              imbnow,thresh,balance->last_imbcand,balance->last_imbold);
+      if (screen) fputs(str,screen);
+      if (logfile) fputs(str,logfile);
+    }
+    nreject++;
+    nreject_total++;
+    return;
+  }
+
+  imbprev = imbnow;
   int done = balance->apply_stage(staged);
   imbfinal = balance->imbalance_predicted();
   if (!balance->last_changed) return;   // already within stopthresh
   if (!done) nstaged++;
+  if (balance->last_select == Balance::SELECT_ALT) nalt++;
 
   // atoms are moved by the caller's comm->exchange()
 
@@ -223,15 +246,17 @@ void FixBalance::post_run()
 
   if (comm->me == 0) {
     char str[512];
-    sprintf(str,"Fix balance %s: %d rebalance(s) (%d mesh-staged), "
+    sprintf(str,"Fix balance %s: %d rebalance(s) (%d mesh-staged, %d partial/uniform), "
+            "%d candidate(s) rejected (no predicted gain), "
             "last imbalance %g -> %g, now %g; "
             "Pair time per rank min/avg/max = %g %g %g (max/avg %g)\n",
-            id,nrebalance,nstaged,imbprev,imbfinal,imbend,
+            id,nrebalance,nstaged,nalt,nreject,imbprev,imbfinal,imbend,
             tmin,tavg,tmax,tavg > 0.0 ? tmax/tavg : 1.0);
     if (screen) fputs(str,screen);
     if (logfile) fputs(str,logfile);
   }
   balance->print_splits("  ");
+  if (balance->advise) balance->advise_grids("  ");
 }
 
 /* ---------------------------------------------------------------------- */
@@ -247,5 +272,6 @@ double FixBalance::compute_vector(int i)
 {
   if (i == 0) return maxcost;
   if (i == 1) return static_cast<double>(itercount);
-  return imbprev;
+  if (i == 2) return imbprev;
+  return static_cast<double>(nreject_total);
 }

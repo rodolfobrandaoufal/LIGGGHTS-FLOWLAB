@@ -1,0 +1,4 @@
+# start from a bad explicit cut; the full shift result improves it, but
+# going back to uniform x cuts is better by more than the margin
+balance 1.0 x 0.3
+balance 1.0 shift xy 30 1.01

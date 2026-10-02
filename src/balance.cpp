@@ -116,6 +116,11 @@ Balance::Balance(LAMMPS *lmp) : Pointers(lmp)
   margin_frac[0] = margin_frac[1] = margin_frac[2] = 0.0;
   last_alpha = 1.0;
   last_changed = 0;
+  minimprove = 0.02;
+  apply_mask = 7;
+  last_select = SELECT_NONE;
+  last_imbold = last_imbcand = last_imbsel = 1.0;
+  advise = 0;
 
   weight = NULL;
   maxweight = 0;
@@ -204,8 +209,19 @@ void Balance::command(int narg, char **arg)
     }
   }
 
-  if (!shiftflag && !xyzstyle[0] && !xyzstyle[1] && !xyzstyle[2])
-    error->all(FLERR,"Illegal balance command: no style given");
+  int advise_only = 0;
+  if (!shiftflag && !xyzstyle[0] && !xyzstyle[1] && !xyzstyle[2]) {
+    if (!advise) error->all(FLERR,"Illegal balance command: no style given");
+    advise_only = 1;
+  }
+
+  // advisor only: report, change nothing
+
+  if (advise_only) {
+    compute_weights();
+    advise_grids("  ");
+    return;
+  }
 
   check_compatible("balance");
 
@@ -229,6 +245,7 @@ void Balance::command(int narg, char **arg)
   domain->reset_box();
 
   compute_weights();
+  if (advise) advise_grids("  ");
   double maxcost;
   double imbinit = imbalance_factor(maxcost);
 
@@ -248,7 +265,28 @@ void Balance::command(int narg, char **arg)
   int iter = 0;
   if (shiftflag) {
     iter = compute_targets();
+
+    // never accept a worse partition: the candidate (final targets, also
+    // if they are reached in mesh stages) must lower the predicted
+    // imbalance; else the best keep/shift/uniform combination of the
+    // shifted dims, else keep the cuts (see select_targets())
+
+    select_targets();
+    if (last_select == SELECT_REJECT) {
+      if (me == 0) {
+        char str[512];
+        sprintf(str,"  imbalance factor %g > threshold %g, but the shift candidate "
+                "would not improve it (predicted %g, current cuts %g, required < %g): "
+                "sub-domains unchanged\n",
+                imbinit,thresh,last_imbcand,last_imbold,(1.0-minimprove)*last_imbold);
+        if (screen) fputs(str,screen);
+        if (logfile) fputs(str,logfile);
+      }
+      print_splits("  ");
+      return;
+    }
   } else {
+    apply_mask = 7;
     for (int d = 0; d < 3; d++) {
       if (xyzstyle[d] == BSTYLE_NONE) continue;
       int np = procgrid[d];
@@ -304,6 +342,18 @@ void Balance::command(int narg, char **arg)
             imbinit,imbfinal);
     if (screen) fputs(str,screen);
     if (logfile) fputs(str,logfile);
+    if (shiftflag && last_select != SELECT_NONE) {
+      char dims[128];
+      choice_string(dims);
+      if (last_select == SELECT_ALT)
+        sprintf(str,"  full shift result predicted %g (current cuts %g); "
+                "applied %s instead (predicted %g)\n",last_imbcand,last_imbold,dims,last_imbsel);
+      else
+        sprintf(str,"  shift accepted (predicted %g vs current cuts %g)\n",
+                last_imbcand,last_imbold);
+      if (screen) fputs(str,screen);
+      if (logfile) fputs(str,logfile);
+    }
   }
   print_splits("  ");
 }
@@ -370,6 +420,20 @@ int Balance::parse_keyword(int iarg, int narg, char **arg)
         error->one(FLERR,str);
       }
     } else fp = (FILE *) 1;  // marks "enabled" on other ranks, never written
+    return iarg+2;
+  }
+  if (strcmp(arg[iarg],"improve") == 0) {
+    if (iarg+2 > narg) error->all(FLERR,"Illegal balance improve keyword");
+    minimprove = force->numeric(FLERR,arg[iarg+1]);
+    if (minimprove < 0.0 || minimprove >= 1.0)
+      error->all(FLERR,"Illegal balance improve value (must be >= 0 and < 1)");
+    return iarg+2;
+  }
+  if (strcmp(arg[iarg],"advise") == 0) {
+    if (iarg+2 > narg) error->all(FLERR,"Illegal balance advise keyword");
+    if (strcmp(arg[iarg+1],"yes") == 0) advise = 1;
+    else if (strcmp(arg[iarg+1],"no") == 0) advise = 0;
+    else error->all(FLERR,"Illegal balance advise keyword: expected yes or no");
     return iarg+2;
   }
   if (strcmp(arg[iarg],"minwidth") == 0) {
@@ -497,8 +561,18 @@ double Balance::imbalance_factor(double &maxcost)
 
 double Balance::imbalance_predicted()
 {
-  int *procgrid = comm->procgrid;
   double *split[3] = {comm->xsplit,comm->ysplit,comm->zsplit};
+  return predict(split);
+}
+
+/* ----------------------------------------------------------------------
+   max/avg of per-proc cost for the owners implied by the given splits
+   (one per dim, ascending, procgrid[d]+1 entries); collective
+------------------------------------------------------------------------- */
+
+double Balance::predict(double **split)
+{
+  int *procgrid = comm->procgrid;
   std::vector<double> local(nprocs,0.0), all(nprocs,0.0);
   int nlocal = atom->nlocal;
   int loc[3];
@@ -668,6 +742,8 @@ int Balance::compute_targets()
 {
   int *procgrid = comm->procgrid;
   int iter = 0;
+  apply_mask = 7;
+  last_select = SELECT_NONE;
   for (int d = 0; d < 3; d++) have_tgt[d] = 0;
   for (int n = 0; n < ndim; n++) {
     int d = bdim[n];
@@ -710,6 +786,400 @@ double Balance::stage_alpha(int np, double *c, double *t, double margin)
 }
 
 /* ----------------------------------------------------------------------
+   splits that apply_stage() would produce for the dims in mask
+   (same arithmetic); out[d] has procgrid[d]+1 entries
+------------------------------------------------------------------------- */
+
+void Balance::stage_splits(int mask, int staged, double **out)
+{
+  int *procgrid = comm->procgrid;
+  for (int d = 0; d < 3; d++) {
+    int np = procgrid[d];
+    double *split = (d == 0) ? comm->xsplit : ((d == 1) ? comm->ysplit : comm->zsplit);
+    for (int i = 0; i <= np; i++) out[d][i] = split[i];
+    if (!have_tgt[d] || !(mask & (1 << d))) continue;
+    double alpha = 1.0;
+    if (staged) alpha = stage_alpha(np,split,tgt[d],margin_frac[d]);
+    for (int i = 1; i < np; i++)
+      out[d][i] = (alpha >= 1.0) ? tgt[d][i] : split[i] + alpha*(tgt[d][i]-split[i]);
+    out[d][0] = 0.0;
+    out[d][np] = 1.0;
+  }
+}
+
+/* ----------------------------------------------------------------------
+   acceptance guard for the shift targets of compute_targets()
+
+   The shift style equalises the cost of the slabs of every dim
+   separately.  On a tensor grid this does not bound the cost of the
+   individual sub-domains: for a distribution that is correlated across
+   dims (an inclined stream) the shifted cuts can be worse than the
+   current or the uniform ones.  A candidate is therefore accepted only
+   if its predicted imbalance (max/avg per-proc cost, by the chosen
+   weight) is < (1-f) times the predicted imbalance of the current cuts,
+   f = minimprove; the margin is the hysteresis against cut oscillation
+   in fix balance.  Candidates: the full shift result (final targets of
+   all shifted dims, also when a parallel mesh makes the caller reach
+   them in stages) and every other combination of {keep, shift target,
+   uniform} over the shifted dims (the per-dim targets are independent
+   of each other); uniform cuts let the balancer return to the default
+   partition after the distribution changed.  The full shift result is
+   taken if it passes and no alternative is better by more than the
+   margin (imb_alt < (1-f)*imb_full); else the best alternative if it
+   passes; else the current cuts are kept.  The alternatives are not
+   evaluated if (1-f)*imb_full <= 1 (none can be better).
+
+   sets apply_mask (dims apply_stage() moves), tgt[] of the dims that go
+   back to uniform cuts, last_choice[] and last_select;
+   SELECT_NONE: no target differs from the current cuts (nothing to judge)
+   all ranks take the same decision (reduced quantities only)
+------------------------------------------------------------------------- */
+
+int Balance::select_targets()
+{
+  int *procgrid = comm->procgrid;
+  int full = 0;
+  for (int d = 0; d < 3; d++) {
+    last_choice[d] = have_tgt[d] ? 1 : 0;
+    if (have_tgt[d]) full |= (1 << d);
+  }
+  apply_mask = full;
+  last_select = SELECT_NONE;
+  if (!full) return apply_mask;
+
+  std::vector<double> buf[3];
+  double *cand[3];
+  double *cur[3] = {comm->xsplit,comm->ysplit,comm->zsplit};
+  for (int d = 0; d < 3; d++) {
+    buf[d].resize(procgrid[d]+1);
+    cand[d] = &buf[d][0];
+  }
+
+  stage_splits(full,0,cand);
+  int changed = 0;
+  for (int d = 0; d < 3; d++)
+    for (int i = 0; i <= procgrid[d]; i++)
+      if (cand[d][i] != cur[d][i]) changed = 1;
+  if (!changed) return apply_mask;
+
+  last_imbold = predict(cur);
+  last_imbcand = last_imbsel = predict(cand);
+  double limit = (1.0-minimprove)*last_imbold;
+  int fullok = (last_imbcand < limit);
+  if (fullok) {
+    last_select = SELECT_FULL;
+    if ((1.0-minimprove)*last_imbcand <= 1.0) return apply_mask;
+    limit = (1.0-minimprove)*last_imbcand;
+  }
+
+  // alternatives: per shifted dim keep (0), shift target (1), uniform (2)
+
+  int nd = 0, dl[3];
+  for (int d = 0; d < 3; d++) if (have_tgt[d]) dl[nd++] = d;
+  int ncomb = 1;
+  for (int k = 0; k < nd; k++) ncomb *= 3;
+
+  int best = -1;
+  double bestimb = limit;
+  for (int c = 0; c < ncomb; c++) {
+    int opt[3], allshift = 1;
+    for (int k = 0, cc = c; k < nd; k++, cc /= 3) {
+      opt[k] = cc % 3;
+      if (opt[k] != 1) allshift = 0;
+    }
+    if (allshift) continue;
+    int diff = 0;
+    for (int d = 0; d < 3; d++)
+      for (int i = 0; i <= procgrid[d]; i++) cand[d][i] = cur[d][i];
+    for (int k = 0; k < nd; k++) {
+      int d = dl[k], np = procgrid[d];
+      if (opt[k] == 0) continue;
+      for (int i = 1; i < np; i++) {
+        cand[d][i] = (opt[k] == 1) ? tgt[d][i] : static_cast<double>(i)/np;
+        if (cand[d][i] != cur[d][i]) diff = 1;
+      }
+    }
+    if (!diff) continue;
+    double imb = predict(cand);
+    if (imb < bestimb) {
+      bestimb = imb;
+      best = c;
+    }
+  }
+
+  if (best >= 0) {
+    apply_mask = 0;
+    for (int k = 0, cc = best; k < nd; k++, cc /= 3) {
+      int d = dl[k], np = procgrid[d], o = cc % 3;
+      last_choice[d] = o;
+      if (o == 0) continue;
+      apply_mask |= (1 << d);
+      if (o == 2)
+        for (int i = 0; i <= np; i++) tgt[d][i] = static_cast<double>(i)/np;
+    }
+    last_imbsel = bestimb;
+    last_select = SELECT_ALT;
+  } else if (fullok) {
+    last_select = SELECT_FULL;
+  } else {
+    apply_mask = 0;
+    for (int d = 0; d < 3; d++) last_choice[d] = 0;
+    last_imbsel = last_imbold;
+    last_select = SELECT_REJECT;
+  }
+  return apply_mask;
+}
+
+/* ----------------------------------------------------------------------
+   text for last_choice[]: e.g. "x shift, y uniform, z kept"
+------------------------------------------------------------------------- */
+
+void Balance::choice_string(char *str)
+{
+  const char *what[3] = {"kept","shift","uniform"};
+  str[0] = '\0';
+  int first = 1;
+  for (int d = 0; d < 3; d++) {
+    if (comm->procgrid[d] == 1) continue;
+    sprintf(str+strlen(str),"%s%c %s",first ? "" : ", ","xyz"[d],what[last_choice[d]]);
+    first = 0;
+  }
+}
+
+/* ----------------------------------------------------------------------
+   shift-style cuts of np slabs along dim from a global cost histogram
+   h[0..nbin) over the fractional coordinate: cut i at the position where
+   the cumulative cost equals i/np of the total (linear inside a bin),
+   then the minimum width of the real balancer
+------------------------------------------------------------------------- */
+
+void Balance::hist_cuts(const double *h, int nbin, int np, double *out, int dim)
+{
+  double total = 0.0;
+  for (int b = 0; b < nbin; b++) total += h[b];
+  out[0] = 0.0;
+  out[np] = 1.0;
+  if (total <= 0.0) {
+    for (int i = 1; i < np; i++) out[i] = static_cast<double>(i)/np;
+  } else {
+    int b = 0;
+    double cumb = 0.0;          // cost in bins [0,b)
+    for (int i = 1; i < np; i++) {
+      double t = total*i/np;
+      while (b < nbin-1 && cumb + h[b] < t) cumb += h[b++];
+      double frac = (h[b] > 0.0) ? (t-cumb)/h[b] : 0.0;
+      frac = std::min(1.0,std::max(0.0,frac));
+      out[i] = (b + frac)/nbin;
+    }
+  }
+  if (np > 1) enforce_minwidth(dim,np,out);
+}
+
+/* ----------------------------------------------------------------------
+   grid advisor: for every factorisation px*py*pz = nprocs (pz = 1 in 2d)
+   predict the per-proc cost with uniform cuts and after shift balancing
+   on that grid, from the current particle positions and weights
+   (compute_weights() first); collective, prints on rank 0
+
+   - shift cuts: per dim from a global 1d cost histogram (NBIN bins), as
+     the shift style converges to (cumulative cost i/P, minimum width)
+   - imb: max/avg of the owned cost per sub-domain (what balance and fix
+     balance report)
+   - est: as imb, plus the pair work duplicated across sub-domain
+     boundaries (newton off): a particle within the neighbor cutoff of a
+     foreign sub-domain adds GFAC*(w-1) to it, w-1 = c*n with n its
+     half-list neighbours (about 2n full neighbours): for a uniform
+     neighbourhood at a uniformly distributed distance s in [0,rc] from
+     the boundary plane, the mean fraction of the cutoff sphere across
+     the plane is int_0^1 (1-t)^2(2+t)/4 dt = 0.1875, i.e. 0.375n pairs
+     reach across; half of them are already in the owners' weights, so
+     GFAC = 0.1875; zero for weight none
+   - ghosts: particles within the neighbor cutoff outside a sub-domain
+   ranking key: min(est_uniform, est_shift + UPREF); UPREF prefers a grid
+   that needs no balancing (no migration, no sub-domain-change overheads)
+   when it is predicted within UPREF of the best balanced grid
+   cost: one MPI_Allreduce of 3*NBIN doubles plus one of 6*nprocs doubles
+   per factorisation, O(nlocal) work per factorisation
+------------------------------------------------------------------------- */
+
+void Balance::advise_grids(const char *prefix)
+{
+  const int NBIN = 4096;
+  const double GFAC = 0.1875;
+  const double UPREF = 0.02;
+  int dimension = domain->dimension;
+  int nlocal = atom->nlocal;
+  int P = nprocs;
+
+  std::vector<double> hl(3*NBIN,0.0), h(3*NBIN,0.0);
+  for (int i = 0; i < nlocal; i++)
+    for (int d = 0; d < dimension; d++) {
+      int b = static_cast<int>(fraccoord(i,d)*NBIN);
+      if (b < 0) b = 0;
+      if (b > NBIN-1) b = NBIN-1;
+      hl[d*NBIN+b] += weight[i];
+    }
+  MPI_Allreduce(&hl[0],&h[0],3*NBIN,MPI_DOUBLE,MPI_SUM,world);
+
+  double cf[3];
+  for (int d = 0; d < 3; d++) cf[d] = neighbor->cutneighmax/domain->prd[d];
+  int *periodic = domain->periodicity;
+
+  // per grid, mode 0 = uniform cuts, mode 1 = shift cuts
+
+  struct Row { int g[3]; double imb[2], est[2], gmax[2], key; int mode; };
+  std::vector<Row> rows;
+  double total = 0.0;
+
+  for (int px = 1; px <= P; px++) {
+    if (P % px) continue;
+    for (int py = 1; py <= P/px; py++) {
+      if ((P/px) % py) continue;
+      int pz = P/px/py;
+      if (dimension == 2 && pz != 1) continue;
+      int g[3] = {px,py,pz};
+      Row r;
+      for (int d = 0; d < 3; d++) r.g[d] = g[d];
+
+      for (int mode = 0; mode < 2; mode++) {
+        std::vector<double> cutbuf[3];
+        for (int d = 0; d < 3; d++) {
+          cutbuf[d].resize(g[d]+1);
+          if (mode == 1) hist_cuts(&h[d*NBIN],NBIN,g[d],&cutbuf[d][0],d);
+          else for (int i = 0; i <= g[d]; i++) cutbuf[d][i] = static_cast<double>(i)/g[d];
+        }
+
+        std::vector<double> loc(3*P,0.0), all(3*P,0.0);
+        for (int i = 0; i < nlocal; i++) {
+          int nb[3][3], nn[3];
+          for (int d = 0; d < 3; d++) {
+            const double *c = &cutbuf[d][0];
+            int n = g[d];
+            double f = fraccoord(i,d);
+            int k = static_cast<int>(std::upper_bound(c,c+n,f) - c) - 1;
+            if (k < 0) k = 0;
+            if (k > n-1) k = n-1;
+            nb[d][0] = k;
+            nn[d] = 1;
+            if (n == 1) continue;
+            int km = -1, kp = -1;
+            if (f - c[k] < cf[d]) {
+              if (k > 0) km = k-1;
+              else if (periodic[d]) km = n-1;
+            }
+            if (c[k+1] - f < cf[d]) {
+              if (k < n-1) kp = k+1;
+              else if (periodic[d]) kp = 0;
+            }
+            if (km >= 0 && km != k) nb[d][nn[d]++] = km;
+            if (kp >= 0 && kp != k && kp != km) nb[d][nn[d]++] = kp;
+          }
+          double w = weight[i];
+          int own = (nb[0][0]*g[1] + nb[1][0])*g[2] + nb[2][0];
+          loc[own] += w;
+          for (int a = 0; a < nn[0]; a++)
+            for (int b = 0; b < nn[1]; b++)
+              for (int c = 0; c < nn[2]; c++) {
+                if (a == 0 && b == 0 && c == 0) continue;
+                int cell = (nb[0][a]*g[1] + nb[1][b])*g[2] + nb[2][c];
+                loc[P+cell] += GFAC*(w-1.0);
+                loc[2*P+cell] += 1.0;
+              }
+        }
+        MPI_Allreduce(&loc[0],&all[0],3*P,MPI_DOUBLE,MPI_SUM,world);
+
+        double sum = 0.0, mx = 0.0, mxe = 0.0, gmx = 0.0;
+        for (int p = 0; p < P; p++) {
+          sum += all[p];
+          mx = std::max(mx,all[p]);
+          mxe = std::max(mxe,all[p]+all[P+p]);
+          gmx = std::max(gmx,all[2*P+p]);
+        }
+        total = sum;
+        double avg = sum/P;
+        r.imb[mode] = (avg > 0.0) ? mx/avg : 1.0;
+        r.est[mode] = (avg > 0.0) ? mxe/avg : 1.0;
+        r.gmax[mode] = gmx;
+      }
+      if (r.est[0] <= r.est[1] + UPREF) {
+        r.key = r.est[0];
+        r.mode = 0;
+      } else {
+        r.key = r.est[1] + UPREF;
+        r.mode = 1;
+      }
+      rows.push_back(r);
+    }
+  }
+
+  double curimb = imbalance_predicted();
+
+  if (me != 0) return;
+
+  // rank by key, then fewer ghosts (stable insertion sort, few rows)
+
+  std::vector<int> order(rows.size());
+  for (size_t k = 0; k < rows.size(); k++) order[k] = static_cast<int>(k);
+  for (size_t a = 1; a < order.size(); a++)
+    for (size_t b = a; b > 0; b--) {
+      const Row &r1 = rows[order[b-1]], &r2 = rows[order[b]];
+      int swap = 0;
+      if (r2.key < r1.key - 1.0e-12) swap = 1;
+      else if (fabs(r2.key - r1.key) <= 1.0e-12 && r2.gmax[r2.mode] < r1.gmax[r1.mode]) swap = 1;
+      if (!swap) break;
+      std::swap(order[b-1],order[b]);
+    }
+
+  int *pg = comm->procgrid;
+  const char *wname = (wstyle == WEIGHT_NONE || weights_valid != 1) ? "particle count" :
+    (wstyle == WEIGHT_NEIGH ? "1 + c*neighbors" : "1 + c*contacts");
+  const int MAXROW = 12;
+
+  for (int pass = 0; pass < 2; pass++) {
+    FILE *out = (pass == 0) ? screen : logfile;
+    if (!out) continue;
+    fprintf(out,"%sBalance grid advisor (step " BIGINT_FORMAT ", %d procs, weights = %s, "
+            "total cost %g, minwidth %g):\n",prefix,update->ntimestep,P,wname,total,
+            (minwidth >= 0.0) ? minwidth : neighbor->cutneighmax);
+    fprintf(out,"%s  imb = max/avg cost per proc; est = imb incl. pair work duplicated "
+            "at sub-domain boundaries (ranking)\n",prefix);
+    fprintf(out,"%s  %-10s %10s %10s %10s %10s %12s\n",prefix,"grid","uniform","uniform",
+            "shift","shift","ghosts/proc");
+    fprintf(out,"%s  %-10s %10s %10s %10s %10s %12s\n",prefix,"","imb","est",
+            "imb","est","max (shift)");
+    int shown = 0;
+    for (size_t k = 0; k < order.size(); k++) {
+      const Row &r = rows[order[k]];
+      int iscur = (r.g[0] == pg[0] && r.g[1] == pg[1] && r.g[2] == pg[2]);
+      if (shown >= MAXROW && !iscur) continue;
+      char gstr[64];
+      sprintf(gstr,"%dx%dx%d",r.g[0],r.g[1],r.g[2]);
+      fprintf(out,"%s  %-10s %10.4g %10.4g %10.4g %10.4g %12.0f%s\n",prefix,gstr,
+              r.imb[0],r.est[0],r.imb[1],r.est[1],r.gmax[1],
+              iscur ? "   <- current grid" : "");
+      shown++;
+    }
+    const Row &b = rows[order[0]];
+    char dims[4]; int nd = 0;
+    for (int d = 0; d < 3; d++) if (b.g[d] > 1) dims[nd++] = "xyz"[d];
+    dims[nd] = '\0';
+    fprintf(out,"%s  current grid %dx%dx%d, current cuts: imbalance %g\n",prefix,
+            pg[0],pg[1],pg[2],curimb);
+    int same = (b.g[0] == pg[0] && b.g[1] == pg[1] && b.g[2] == pg[2]);
+    if (b.mode == 0)
+      fprintf(out,"%s  recommendation: %s\"processors %d %d %d\" without balancing "
+              "(uniform cuts, predicted imbalance %g, est %g)%s\n",prefix,
+              same ? "keep " : "",b.g[0],b.g[1],b.g[2],b.imb[0],b.est[0],
+              same ? "" : "; takes effect on a new start or read_restart");
+    else
+      fprintf(out,"%s  recommendation: %s\"processors %d %d %d\" with shift %s "
+              "(predicted imbalance %g, est %g)%s\n",prefix,same ? "keep " : "",
+              b.g[0],b.g[1],b.g[2],nd ? dims : "x",b.imb[1],b.est[1],
+              same ? "" : "; takes effect on a new start or read_restart");
+  }
+}
+
+/* ----------------------------------------------------------------------
    move comm splits towards the targets (all the way if !staged)
    updates the local sub-box; returns 1 if the targets are reached
 ------------------------------------------------------------------------- */
@@ -721,7 +1191,7 @@ int Balance::apply_stage(int staged)
   last_alpha = 1.0;
   last_changed = 0;
   for (int d = 0; d < 3; d++) {
-    if (!have_tgt[d]) continue;
+    if (!have_tgt[d] || !(apply_mask & (1 << d))) continue;
     int np = procgrid[d];
     double *split = (d == 0) ? comm->xsplit : ((d == 1) ? comm->ysplit : comm->zsplit);
     double alpha = 1.0;

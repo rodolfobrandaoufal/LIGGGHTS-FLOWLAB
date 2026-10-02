@@ -127,5 +127,42 @@ if [ -n "$REF" ]; then
   || bad "reference comparison runs"
 fi
 
+# 9) acceptance guard (balance2): a shift result that is worse than the
+#    current cuts is rejected; a better alternative (uniform x) is preferred;
+#    fix balance keeps the cuts; the advisor recommends the 1x4x1 slab grid
+spl() { grep -h " splits = " "$1" | tail -2 | tr '\n' ' '; }
+if run q4_cmd 4 "$BIN" in.guard -var mode cmd; then
+  f=$W/q4_cmd/screen.txt
+  if grep -q "shift candidate would not improve it (predicted 1.98" "$f" && [ "$(spl $f)" = "  x splits = 0 0.5 1   y splits = 0 0.5 1 " ]; then pass "guard: worse shift result rejected"; else bad "guard: worse shift result not rejected (see $f)"; fi
+  if grep -q 'recommendation: "processors 1 4 1" with shift y' "$f"; then pass "advisor: 1x4x1 recommended"; else bad "advisor recommendation (see $f)"; fi
+else bad "guard cmd run"; fi
+if run q4_back 4 "$BIN" in.guard -var mode back && grep -q "applied x uniform, y kept instead (predicted 1.50" "$W/q4_back/screen.txt" \
+   && [ "$(spl $W/q4_back/screen.txt)" = "  x splits = 0 0.5 1   y splits = 0 0.5 1 " ]; then pass "guard: back to uniform cuts"; else bad "guard: back to uniform (see $W/q4_back/screen.txt)"; fi
+if run q4_fix 4 "$BIN" in.guard -var mode fix && grep -q "Fix balance bal: 0 rebalance(s) (0 mesh-staged, 0 partial/uniform), 1 candidate(s) rejected" "$W/q4_fix/screen.txt"; then pass "guard: fix balance keeps the cuts"; else bad "guard: fix balance (see $W/q4_fix/screen.txt)"; fi
+if run q4_adv 4 "$BIN" in.guard -var mode advise && grep -q 'recommendation: "processors 1 4 1"' "$W/q4_adv/screen.txt" && ! grep -q "Balancing" "$W/q4_adv/screen.txt"; then pass "advisor only"; else bad "advisor only (see $W/q4_adv/screen.txt)"; fi
+
+# 10) chute stream at np 8 (balance2): fix balance shift xyz on the automatic
+#     2x2x2 grid must not end worse than the uniform cuts (advisor value for
+#     the current grid), and the advisor must recommend a slab grid
+if [ "${BALANCE_QUICK:-0}" != 1 ]; then
+  if run k8 8 "$BIN" in.chute_np8 -var rate 1.0 -var nwarm 100000 -var nrun 5000 -var bal "fix bal all balance 5000 1.05 shift xyz 20 1.02 weight neigh 0.2 advise yes"; then
+    python3 - "$W/k8/screen.txt" <<'PY'
+import sys,re
+s=open(sys.argv[1]).read()
+now=[float(v) for v in re.findall(r'Fix balance bal: .*?now ([\d.e+-]+);',s)]
+cur=re.findall(r'\n +2x2x2 +([\d.e+-]+) +[\d.e+-]+ +([\d.e+-]+) .*<- current grid',s)
+rec=re.findall(r'recommendation: "processors (\d+) (\d+) (\d+)" with shift (\w+) \(predicted imbalance ([\d.e+-]+)',s)
+ok=bool(now and cur and rec)
+if ok:
+    uni=float(cur[-1][0]); g=tuple(int(v) for v in rec[-1][:3]); pimb=float(rec[-1][4])
+    ok = now[-1] <= 1.05*uni and sorted(g)==[1,1,8] and pimb < 1.1
+    print('%s chute np8: end imbalance %.3f (uniform cuts %.3f, old shift xyz ~1.97-2.0); advisor %s, predicted %.3f' % ('PASS' if ok else 'FAIL', now[-1], uni, 'x'.join(map(str,g)), pimb))
+else: print('FAIL chute np8: output not found')
+sys.exit(0 if ok else 1)
+PY
+    [ $? = 0 ] || fail=1
+  else bad "chute np8 run (see $W/k8/screen.txt)"; fi
+fi
+
 [ $fail = 0 ] && echo "BALANCE TESTS: PASS" || echo "BALANCE TESTS: FAIL (workdir $W)"
 exit $fail

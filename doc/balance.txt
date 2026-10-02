@@ -10,10 +10,12 @@ balance command :h3
 
 [Syntax:]
 
-balance thresh style args ... keyword value ... :pre
+balance thresh style args ... keyword value ...
+balance thresh advise yes keyword value ... :pre
 
 thresh = imbalance threshold that must be exceeded to perform a re-balance (>= 1.0) :ulb,l
-one or more style/arg pairs may be used; {shift} cannot be combined with {x}/{y}/{z} :l
+one or more style/arg pairs may be used; {shift} cannot be combined with {x}/{y}/{z};
+no style is needed if {advise yes} is given (report only) :l
 style = {x} or {y} or {z} or {shift} :l
   {x} args = {uniform} or Px-1 numbers between 0 and 1
     {uniform} = evenly spaced cuts between processors in x dimension
@@ -25,7 +27,7 @@ style = {x} or {y} or {z} or {shift} :l
     stopthresh = stop the iterations of a dimension once its imbalance factor is <= stopthresh (>= 1.0) :pre
 
 zero or more keyword/value pairs may be appended :l
-keyword = {weight} or {out} or {minwidth} :l
+keyword = {weight} or {out} or {minwidth} or {improve} or {advise} :l
   {weight} values = {none} or {neigh} factor or {contacts} factor
     {none} = every particle has the cost 1 (default)
     {neigh} factor = cost of particle i is 1 + factor * (# of neighbor-list partners of i)
@@ -33,14 +35,20 @@ keyword = {weight} or {out} or {minwidth} :l
   {out} value = filename
     filename = append the new sub-domain splits to this file
   {minwidth} value = w
-    w = minimum sub-domain width in each balanced dimension (distance units), default = neighbor cutoff :pre
+    w = minimum sub-domain width in each balanced dimension (distance units), default = neighbor cutoff
+  {improve} value = f
+    f = a {shift} result is applied only if its predicted imbalance factor is < (1-f) times that of the current cuts (0 <= f < 1)
+  {advise} value = {yes} or {no}
+    {yes} = print the predicted imbalance of every processor grid and recommend one (see below) :pre
 :ule
 
 [Examples:]
 
 balance 1.1 shift z 20 1.02
 balance 1.0 shift xyz 30 1.01 weight contacts 0.5
-balance 1.0 x uniform z 0.05 0.1 0.2 :pre
+balance 1.0 x uniform z 0.05 0.1 0.2
+balance 1.0 advise yes weight neigh 0.2
+balance 1.05 shift xyz 20 1.02 weight neigh 0.2 advise yes improve 0.05 :pre
 
 [Description:]
 
@@ -100,6 +108,89 @@ The command prints the number of bisection iterations, the number of
 stages (see below), the initial and final imbalance factor and the new
 cuts.
 
+[Acceptance of a shift result:]
+
+The {shift} style equalizes the cost of the slabs of each dimension
+separately.  The cost of the individual sub-domains, which are the
+intersections of the slabs, is not controlled by this: for a particle
+distribution that is correlated across dimensions (a narrow inclined
+stream, a heap on a chute) the shifted cuts can be worse than the
+current or the uniform ones.  On the chute_wear tutorial (rate 1.0,
+about 9700 particles) on 8 processors with the automatic 2x2x2 grid,
+{shift xyz} predicts an imbalance factor of 1.97 where the uniform cuts
+have 1.74.
+
+The shift result is therefore applied only if the imbalance factor
+predicted for it (maximum / average cost per processor of the
+particles' new owners, with the chosen {weight}) is below (1-{improve})
+times the imbalance factor predicted for the current cuts.  If it is
+not, every combination of "keep the current cuts", "shift result" and
+"uniform cuts" for the dimensions in {dimstr} is evaluated (one global
+reduction each; the shift result of a dimension does not depend on the
+other dimensions) and the best one is applied if it passes the same
+test.  Otherwise the cuts are not changed, and the command prints the
+predicted values.  When a combination other than the full shift result
+is applied, the command prints which dimensions were shifted, kept or
+set back to uniform cuts.  Explicit {x}/{y}/{z} cuts are always
+applied.  With a parallel mesh the decision is taken for the final cuts
+of the staged move.
+
+[Choosing the processor grid; the advisor:]
+
+Shift balancing works within the processor grid set by the
+"processors"_processors.html command, and the choice of the grid
+matters more than the balancing itself when the particles occupy a
+correlated part of the box.  As a rule of thumb:
+
+a bed or a layer that fills the lower part of the box: put no
+processor cut through the empty part, e.g. "processors * * 1"; this is
+balanced without any balancing command if the bed is homogeneous in x
+and y, :ulb,l
+a stream, a chute or any distribution that is narrow in two dimensions
+and extended in the third: use a slab grid along the extended
+dimension ("processors P 1 1", "processors 1 1 P", or 2 slabs in a
+second dimension for many processors) with {shift} in that dimension
+only, :l
+a distribution that changes between phases (filling, then discharge):
+use a grid that suits the long phase, and check it with the advisor in
+each phase. :l,ule
+
+Measured on the chute_wear tutorial (rate 1.0, about 9800 particles,
+np 8, "fix balance 5000 1.05 shift ... weight neigh 0.2"): on the
+automatic 2x2x2 grid {shift xyz} made the run 1.36x slower than no
+balancing before the acceptance test above was added; it now returns
+to the uniform cuts and costs only the overhead of the sub-domain
+change flag (see "fix balance"_fix_balance.html, about 1.07x on this
+deck).  "processors 8 1 1" with {shift x} runs 1.19x faster than the
+2x2x2 grid without balancing, "processors 1 1 8" with {shift z} 1.10x.
+
+{advise yes} prints, before balancing (or alone, if no style is
+given; then nothing is changed), a table with one row for every
+factorization Px*Py*Pz of the number of processors (Pz = 1 in 2d).  For
+each grid it predicts, from the current particle positions and the
+chosen {weight}, the imbalance factor with uniform cuts and after
+{shift} balancing of all dimensions (cuts at the weighted cumulative
+cost i/P of each dimension, with {minwidth}), and an estimate "est" that
+also counts the pair work that is duplicated at sub-domain boundaries
+(newton off: particles within the neighbor cutoff of a foreign
+sub-domain add 0.1875 times their weight in excess of 1 to it; this
+term is zero for {weight none}).  The rows are ranked by "est", a grid
+that needs no balancing is preferred when it is within 0.02 of the
+best balanced one, and the best grid is recommended, e.g.
+
+  recommendation: "processors 8 1 1" with shift x (predicted imbalance 1.001, est 1.03) :pre
+
+The cost is one global reduction of 3*4096 values plus two of 3*P
+values per factorization.  The prediction is a model: it does not
+include communication latency or mesh work, and the real {shift}
+iterations stop at {stopthresh}.  It matched the measured imbalance
+factor within 1-5% in the study this feature is based on.  The grid can
+only be changed at a new start or with "read_restart"_read_restart.html
+(the "processors"_processors.html command precedes the box definition);
+use a "neigh" or "contacts" weight from a representative state of the
+simulation, e.g. at the end of a settling or warm-up run (see also
+{advise} of "fix balance"_fix_balance.html).
+
 [Data consistency:]
 
 All per-particle data travels with the particles (contact history of
@@ -144,4 +235,5 @@ has no effect.
 
 [Default:]
 
-weight none, no out file, minwidth = neighbor cutoff
+weight none, no out file, minwidth = neighbor cutoff, improve = 0.02,
+advise no

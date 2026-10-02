@@ -86,6 +86,9 @@ class FixBalance : public Fix {
   int itercount;                // bisection iterations of the last rebalance
   int nrebalance;               // rebalances in this run
   int nstaged;                  // rebalances limited by mesh staging
+  int nalt;                  // rebalances that applied an alternative (some dims kept or uniform)
+  int nreject;                  // candidates rejected (no predicted gain)
+  int nreject_total;            // same, over all runs (output vector)
 
   void rebalance();
 };

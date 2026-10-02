@@ -67,7 +67,15 @@ sub-domain.
 
 LIGGGHTS(R)-PUBLIC does not change the grid of 3d processors on-the-fly;
 the "balance"_balance.html command and "fix balance"_fix_balance.html
-only move the sub-domain boundaries within this grid.  Choosing explicit
+only move the sub-domain boundaries within this grid.  For particles that
+occupy a correlated part of the box (a stream, a chute flow, a bed in
+the lower part of the box) the grid decides how well the load can be
+balanced: e.g. "processors * * 1" for a bed, a slab grid such as
+"processors 8 1 1" for a chute stream.  The {advise} keyword of
+"balance"_balance.html and "fix balance"_fix_balance.html predicts the
+imbalance of every grid from the current particle distribution and
+recommends one, to be used at the next start or
+"read_restart"_read_restart.html.  Choosing explicit
 values for Px or Py or Pz can
 be used to override the LIGGGHTS(R)-PUBLIC default if it is known to be
 sub-optimal for a particular problem.  E.g. a problem where the extent
