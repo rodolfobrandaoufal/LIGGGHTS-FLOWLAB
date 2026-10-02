@@ -58,6 +58,10 @@
 #include "contact_models.h"
 #include "granular_wall.h"
 #include "fix_calculate_energy_wall.h"
+#include "fix_property_atom.h"
+#include "modify.h"
+#include "update.h"
+#include "velocity_predictor.h"
 
 #ifdef SUPERQUADRIC_ACTIVE_FLAG
   #include "math_const.h"
@@ -73,6 +77,8 @@ class Granular : private Pointers, public IGranularWall {
   FixWallGran * parent;
   int dissipation_offset_;
   FixCalculateWallEnergy *fix_dissipated_energy_;
+  FixPropertyAtom *fix_vpred_;   // finding S-17, NULL unless velocity_predictor normal|full
+  bool vpred_full_;
 
 public:
   Granular(LAMMPS * lmp, FixWallGran * parent, const int64_t hash) :
@@ -80,7 +86,9 @@ public:
     cmodel(lmp, parent,true /*is_wall*/, hash),
     parent(parent),
     dissipation_offset_(-1),
-    fix_dissipated_energy_(NULL)
+    fix_dissipated_energy_(NULL),
+    fix_vpred_(NULL),
+    vpred_full_(false)
   {
   }
 
@@ -90,6 +98,18 @@ public:
 
   virtual void init_granular() {
     cmodel.connectToProperties(force->registry);
+    // finding S-17 (velocity_predictor.h)
+    fix_vpred_ = static_cast<FixPropertyAtom*>(modify->find_fix_property(
+        VELOCITY_PREDICTOR_FULL,"property/atom","vector",6,0,"fix wall/gran",false));
+    vpred_full_ = (fix_vpred_ != NULL);
+    if (!fix_vpred_)
+      fix_vpred_ = static_cast<FixPropertyAtom*>(modify->find_fix_property(
+          VELOCITY_PREDICTOR_NORMAL,"property/atom","vector",3,0,"fix wall/gran",false));
+    if (vpred_full_ && !(cmodel.contact_match("surface","default") &&
+                         (cmodel.contact_match("tangential","history") ||
+                          cmodel.contact_match("tangential","no_history"))))
+      error->fix_error(FLERR, parent, "'velocity_predictor full' supports surface default with tangential "
+                       "history or no_history only; use 'velocity_predictor normal'");
 
 #ifdef LIGGGHTS_DEBUG
     if(comm->me == 0) {
@@ -146,6 +166,21 @@ public:
   }
 
   virtual void compute_force(FixWallGran * wg, SurfacesIntersectData & sidata, bool intersectflag,double *vwall, class FixMeshSurface * fix_mesh = 0, int iMesh = 0, class TriMesh *mesh = 0,int iTri = 0)
+  {
+    // finding S-17: separate instantiations with the velocity predictor, so
+    // that the code generated for the default (inlining, FMA contraction)
+    // and hence its results are unchanged
+    if (!fix_vpred_ || wg->addflag() || update->setupflag)
+      compute_force_t<0>(wg, sidata, intersectflag, vwall, fix_mesh, iMesh, mesh, iTri);
+    else if (vpred_full_)
+      compute_force_t<2>(wg, sidata, intersectflag, vwall, fix_mesh, iMesh, mesh, iTri);
+    else
+      compute_force_t<1>(wg, sidata, intersectflag, vwall, fix_mesh, iMesh, mesh, iTri);
+  }
+
+  // VPRED: 0 no predictor, 1 'normal', 2 'full'
+  template<int VPRED>
+  void compute_force_t(FixWallGran * wg, SurfacesIntersectData & sidata, bool intersectflag,double *vwall, class FixMeshSurface * fix_mesh, int iMesh, class TriMesh *mesh,int iTri)
   {
     const int ip = sidata.i;
 
@@ -258,6 +293,17 @@ public:
         sidata.en[0] = enx;
         sidata.en[1] = eny;
         sidata.en[2] = enz;
+    }
+
+    // finding S-17 (opt-in): predicted normal velocity (velocity_predictor.h),
+    // only during the force evaluation of a time step
+    VelocityPredictorScratch vpred;
+    if (VPRED == 2 && intersectflag)
+        velocity_predictor_full(sidata, fix_vpred_->array_atom[ip], NULL, vpred);
+    else if (VPRED == 1 && intersectflag)
+    {
+        velocity_predictor_normal(v, fix_vpred_->array_atom[ip], sidata.en, vpred.vi);
+        sidata.v_i = vpred.vi;
     }
 
     double delta[3];

@@ -66,9 +66,13 @@ class FixNVESphere : public FixNVE {
  public:
   FixNVESphere(class LAMMPS *, int, char **);
   virtual ~FixNVESphere() {}
+  virtual int setmask();
+  virtual void post_create();
+  virtual void pre_delete(bool unfixflag);
   void init();
   virtual void initial_integrate(int);
   virtual void final_integrate();
+  virtual void pre_force(int);
 
  protected:
   int extra;
@@ -76,6 +80,14 @@ class FixNVESphere : public FixNVE {
   bool   useAM_;
   double CAddRhoFluid_;   //Added mass coefficient times relative fluid density (C_add*rhoFluid/rhoP)
   double onePlusCAddRhoFluid_;
+
+  // finding S-17: 'velocity_predictor normal|full' stores dv = dt/2 a(n)
+  // (and dw = dt/2 alpha(n) for full) per atom (see velocity_predictor.h)
+  int velocityPredictor_;      // 0 no, 1 normal, 2 full
+  class FixPropertyAtom *fix_vpred_;
+  void store_velocity_predictor();
+  const char * vpred_name() const;
+  int vpred_nvalues() const;
 };
 
 }

@@ -180,9 +180,17 @@ namespace ContactModels
           updateHistoryFrameIndifferent(sidata, shear);
         } else if (update_history) {
           const double dt = update->dt;
+          if (sidata.vtr_pred_shift) {
+            // finding S-17: displacement-consistent (half-step) increment
+            const double * const sh = sidata.vtr_pred_shift;
+            shear[0] += (sidata.vtr1 - sh[0]) * dt;
+            shear[1] += (sidata.vtr2 - sh[1]) * dt;
+            shear[2] += (sidata.vtr3 - sh[2]) * dt;
+          } else {
           shear[0] += sidata.vtr1 * dt;
           shear[1] += sidata.vtr2 * dt;
           shear[2] += sidata.vtr3 * dt;
+          }
 
           // rotate shear displacements
 
@@ -532,9 +540,17 @@ namespace ContactModels
         }
 
         // increment (vtr is tangential by construction)
+        if (sidata.vtr_pred_shift) {
+            // finding S-17: displacement-consistent (half-step) increment
+            const double * const sh = sidata.vtr_pred_shift;
+            shear[0] += (sidata.vtr1 - sh[0]) * dt;
+            shear[1] += (sidata.vtr2 - sh[1]) * dt;
+            shear[2] += (sidata.vtr3 - sh[2]) * dt;
+        } else {
         shear[0] += sidata.vtr1 * dt;
         shear[1] += sidata.vtr2 * dt;
         shear[2] += sidata.vtr3 * dt;
+        }
     }
 
    protected:

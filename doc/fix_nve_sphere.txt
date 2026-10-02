@@ -15,15 +15,20 @@ fix ID group-ID nve/sphere :pre
 ID, group-ID are documented in "fix"_fix.html command :ulb,l
 nve/sphere = style name of this fix command :l
 zero or more keyword/value pairs may be appended :l
-keyword = {update} :l
+keyword = {update} or {velocity_predictor} :l
   {update} value = {dipole}
-    dipole = update orientation of dipole moment during integration :pre
+    dipole = update orientation of dipole moment during integration
+  {velocity_predictor} value = {no} or {normal} or {full} or {yes}
+    no = contact forces use the half-step velocity (default)
+    normal = predict the normal relative velocity of contacts
+    full = predict the translational and angular velocities (= yes) :pre
 :ule
 
 [Examples:]
 
 fix 1 all nve/sphere
-fix 1 all nve/sphere update dipole :pre
+fix 1 all nve/sphere update dipole
+fix 1 all nve/sphere velocity_predictor full :pre
 
 [Description:]
 
@@ -41,6 +46,61 @@ during the time integration.  This option should be used for models
 where a dipole moment is assigned to particles via use of the
 "atom_style dipole"_atom_style.html command.
 
+The {velocity_predictor} keyword (opt-in, default {no}) improves the
+time accuracy of velocity-dependent contact forces of "pair_style
+gran"_pair_gran.html and "fix wall/gran"_fix_wall_gran.html: normal
+and tangential dashpots and the viscous terms of cohesion models.
+Velocity-Verlet evaluates the forces of step n+1 with the half-step
+velocity v(n+1/2) = v(n) + dt/2 a(n), so a dashpot c*v is evaluated
+half a step too early. Damped contacts then converge only first order
+in the time step (V-04): the error of the contact time and of the
+coefficient of restitution halves when dt halves. With the keyword the
+fix stores dt/2 a(n) (and dt/2 alpha(n) for {full}) per particle,
+communicates it to ghost particles, and the contact kernels pass the
+predicted velocity v(n+1/2) + dt/2 a(n) = v(n+1) + O(dt^2) to the
+velocity-dependent terms. Positions, the integration itself and all
+forces that do not depend on velocity are unchanged.
+
+{normal}: only the normal relative velocity of a contact is predicted
+(normal dashpot, viscous normal cohesion). Works with all contact
+models of spherical particles.
+
+{full} (or {yes}): the relative translational and rotational
+velocities are predicted, so the tangential dashpot also uses them.
+The tangential spring of "tangential history"_gran_tangential_history.html
+keeps the displacement-consistent half-step increment vtr(n+1/2)*dt;
+predicting it would add a first-order bias. Requires surface model
+{default} and tangential model {history} or {no_history}; use {normal}
+otherwise.
+
+Measured with head-on collisions (hooke, hertz, luding; e = 0.1, 0.5,
+0.9; dt = tH/25 to tH/400; averaged over the contact-onset phase):
+contact time error order 1.0 without and 1.9 to 2.0 with the
+predictor; restitution error order 0.4 to 1.0 without and 1.3 to 2.1 with it
+(the errors at tH/400 are 17 to 60 times smaller for e <= 0.5). The
+linear dashpot of hooke and luding jumps at contact onset and at
+separation, which leaves a first-order error whose sign depends on
+where the contact starts within a time step; it averages out over many
+contacts but can dominate single collisions. In a sticking oblique
+impact the tangential and spin errors at tH/400 are halved with {full}
+and are 1.2 to 1.4 times larger with {normal}. Tangential results
+remain first order because the shear spring starts with a full
+increment vtr*dt in the step where the contact begins.
+
+Notes: the predictor is inactive in the setup of a run and for
+"compute pair/gran/local"_compute_pair_gran_local.html (velocities are
+synchronized there). Particles not integrated by this fix (other
+integrators, frozen particles) contribute no prediction. For strongly
+damped contacts the stability limit of the time step is smaller: for
+a linear contact with damping ratio zeta = 0.5 / 1 / 2 the largest
+stable dt*omega0 is 0.83 / 0.48 / 0.25 with the predictor against
+1.24 / 0.83 / 0.48 without (omega0 = sqrt(k/m)), i.e. about half for
+over-damped contacts such as viscous liquid bridges. The cost is one
+forward communication of 3 ({normal}) or 6 ({full}) values per
+particle and step and a few operations per contact. Only one
+integrator fix may use the keyword; run_style respa and non-spherical
+particles are not supported.
+
 :line
 
 [Restart, fix_modify, output, run start/stop, minimize info:]
@@ -55,6 +115,11 @@ This fix is not invoked during "energy minimization"_minimize.html.
 
 [Restrictions:]
 
+With {velocity_predictor}, the fix creates an internal "fix
+property/atom"_fix_property.html named velocityPredictorDv ({normal})
+or velocityPredictorDvDw ({full}); it is not written to restart files
+and is re-initialized in the first step of a run.
+
 This fix requires that atoms store torque and angular velocity (omega)
 and a radius as defined by the "atom_style sphere"_atom_style.html
 command.  If the {dipole} keyword is used, then they must also store a
@@ -68,4 +133,4 @@ be point particles.
 
 "fix nve"_fix_nve.html, "fix nve/asphere"_fix_nve_asphere.html
 
-[Default:] none
+[Default:] velocity_predictor = no

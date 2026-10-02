@@ -163,7 +163,13 @@ struct SurfacesIntersectData : SurfacesCloseData {
 
   mutable double P_diss; 
 
-  SurfacesIntersectData() : Fn(0.0), Ft(0.0) {}
+  // finding S-17 ('velocity_predictor full', velocity_predictor.h): when not
+  // NULL, vtr above is the predicted relative tangential velocity and the
+  // tangential history increment uses (vtr - vtr_pred_shift), the half-step
+  // (displacement-consistent) value. NULL by default.
+  const double *vtr_pred_shift;
+
+  SurfacesIntersectData() : Fn(0.0), Ft(0.0), vtr_pred_shift(NULL) {}
 };
 
 struct ForceData {

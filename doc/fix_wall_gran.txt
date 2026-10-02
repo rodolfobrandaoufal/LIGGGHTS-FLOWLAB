@@ -176,6 +176,10 @@ For moving granular wall with style mesh, use "fix move/mesh"_fix_move_mesh.html
 
 Any dimension (xyz) that has a planar granular wall must be non-periodic.
 
+Damping forces against walls use the half-step particle velocity by default;
+see the {velocity_predictor} keyword of "fix nve/sphere"_fix_nve_sphere.html for
+second-order convergence of damped contacts.
+
 [Related commands:]
 
 "fix mesh/surface"_fix_mesh_surface.html, "fix_move_mesh"_fix_move_mesh.html, "pair_style granular"_pair_gran.html

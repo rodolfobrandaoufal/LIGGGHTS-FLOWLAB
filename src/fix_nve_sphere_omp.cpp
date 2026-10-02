@@ -78,6 +78,9 @@ void FixNVESphereOMP::initial_integrate(int vflag)
   if (domain->dimension == 2) dtfrotate = dtf / 0.5;
   else dtfrotate  = dtf / INERTIA;
 
+  // finding S-17 (opt-in): per-atom copy, thread-count independent
+  if (velocityPredictor_) store_velocity_predictor();
+
 #if defined(LIGGGHTS_OMP)
   #pragma omp parallel for num_threads(nthr) schedule(static)
 #endif

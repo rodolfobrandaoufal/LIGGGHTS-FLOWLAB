@@ -65,6 +65,9 @@
 #include "fix_contact_property_atom.h"
 #include "os_specific.h"
 #include "fix_insert_stream_predefined.h"
+#include "fix_property_atom.h"
+#include "modify.h"
+#include "velocity_predictor.h"
 
 #include "granular_pair_style.h"
 
@@ -108,6 +111,8 @@ class Granular : private Pointers, public IGranularPairStyle {
   bool history_warning_pending_;
   int me_;
   bool multicontact_warned_;
+  FixPropertyAtom * fix_vpred_;   // finding S-17, NULL unless velocity_predictor normal|full
+  bool vpred_full_;
 
   inline void force_update(double relax,double *const f, double *const torque,
       const ForceData & forces)
@@ -132,7 +137,9 @@ public:
     history_clear_warned_(false),
     history_warning_pending_(false),
     me_(comm->me),
-    multicontact_warned_(false)
+    multicontact_warned_(false),
+    fix_vpred_(NULL),
+    vpred_full_(false)
   {
   }
 
@@ -178,6 +185,18 @@ public:
 
   virtual void init_granular() {
     cmodel.connectToProperties(force->registry);
+    // finding S-17 (velocity_predictor.h)
+    fix_vpred_ = static_cast<FixPropertyAtom*>(modify->find_fix_property(
+        VELOCITY_PREDICTOR_FULL,"property/atom","vector",6,0,"pair gran",false));
+    vpred_full_ = (fix_vpred_ != NULL);
+    if (!fix_vpred_)
+      fix_vpred_ = static_cast<FixPropertyAtom*>(modify->find_fix_property(
+          VELOCITY_PREDICTOR_NORMAL,"property/atom","vector",3,0,"pair gran",false));
+    if (vpred_full_ && !(cmodel.contact_match("surface","default") &&
+                         (cmodel.contact_match("tangential","history") ||
+                          cmodel.contact_match("tangential","no_history"))))
+      error->all(FLERR,"pair gran: 'velocity_predictor full' supports surface default with tangential "
+                 "history or no_history only; use 'velocity_predictor normal'");
 
 #ifdef LIGGGHTS_DEBUG
     if(comm->me == 0) {
@@ -337,6 +356,18 @@ public:
     }
   }
 
+  /* ----------------------------------------------------------------------
+     finding S-17: the stored increments dv = dt/2 a(n) of 'fix nve/sphere
+     ... velocity_predictor yes', or NULL. Only during the force evaluation
+     of a time step: in setup and for compute pair/gran/local (addflag) the
+     velocities are already synchronised.
+  ------------------------------------------------------------------------- */
+  inline double ** velocity_predictor_dv(const int addflag) const
+  {
+    if (!fix_vpred_ || addflag || update->setupflag) return NULL;
+    return fix_vpred_->array_atom;
+  }
+
   virtual void compute_force(PairGran * pg, int eflag, int vflag, int addflag)
   {
     if (history_warning_pending_ && update->setupflag) {
@@ -362,6 +393,21 @@ public:
 
   // the serial kernel
   void compute_force_serial(PairGran * pg, int eflag, int vflag, int addflag)
+  {
+    // finding S-17: a separate instantiation with the velocity predictor, so
+    // that the code generated for the default kernel (and hence its floating
+    // point results, e.g. FMA contraction) is unchanged
+    if (!velocity_predictor_dv(addflag))
+      compute_force_serial_t<0>(pg, eflag, vflag, addflag);
+    else if (vpred_full_)
+      compute_force_serial_t<2>(pg, eflag, vflag, addflag);
+    else
+      compute_force_serial_t<1>(pg, eflag, vflag, addflag);
+  }
+
+  // VPRED: 0 no predictor, 1 'normal', 2 'full'
+  template<int VPRED>
+  void compute_force_serial_t(PairGran * pg, int eflag, int vflag, int addflag)
   {
     if (eflag || vflag)
       pg->ev_setup(eflag, vflag);
@@ -398,6 +444,10 @@ public:
     const int freeze_group_bit = pg->freeze_group_bit();
 
     const double contactDistanceMultiplier = neighbor->contactDistanceFactor*neighbor->contactDistanceFactor;
+
+    // finding S-17: predicted normal velocities (velocity_predictor.h)
+    double ** const vpred_dv = VPRED ? velocity_predictor_dv(addflag) : NULL;
+    VelocityPredictorScratch vpred;
 
     // fix insert/stream/predefined
     // check if inserted
@@ -584,6 +634,15 @@ public:
           }
           sidata.omega_i = omega[i];
           sidata.omega_j = omega[j];
+
+          if (VPRED == 2)
+            velocity_predictor_full(sidata, vpred_dv[i], vpred_dv[j], vpred);
+          else if (VPRED == 1) {
+            velocity_predictor_normal(v[i], vpred_dv[i], sidata.en, vpred.vi);
+            velocity_predictor_normal(v[j], vpred_dv[j], sidata.en, vpred.vj);
+            sidata.v_i = vpred.vi;
+            sidata.v_j = vpred.vj;
+          }
 
           cmodel.surfacesIntersect(sidata, i_forces, j_forces);
 

@@ -61,6 +61,10 @@
 #include "force.h"
 #include "error.h"
 #include "domain.h" 
+#include "modify.h"
+#include "comm.h"
+#include "fix_property_atom.h"
+#include "velocity_predictor.h"
 
 using namespace LAMMPS_NS;
 using namespace FixConst;
@@ -75,7 +79,9 @@ FixNVESphere::FixNVESphere(LAMMPS *lmp, int narg, char **arg) :
   FixNVE(lmp, narg, arg),
   useAM_(false),
   CAddRhoFluid_(0.0),
-  onePlusCAddRhoFluid_(1.0)
+  onePlusCAddRhoFluid_(1.0),
+  velocityPredictor_(0),
+  fix_vpred_(NULL)
 {
   if (narg < 3) error->all(FLERR,"Illegal fix nve/sphere command");
 
@@ -103,6 +109,14 @@ FixNVESphere::FixNVESphere(LAMMPS *lmp, int narg, char **arg) :
       }
       else error->all(FLERR,"Illegal fix nve/sphere command");
       iarg += 2;
+    } else if (strcmp(arg[iarg],"velocity_predictor") == 0) {
+      // finding S-17 (opt-in), see velocity_predictor.h
+      if (iarg+2 > narg) error->fix_error(FLERR,this,"not enough arguments for 'velocity_predictor'");
+      if (strcmp(arg[iarg+1],"no") == 0) velocityPredictor_ = 0;
+      else if (strcmp(arg[iarg+1],"normal") == 0) velocityPredictor_ = 1;
+      else if (strcmp(arg[iarg+1],"full") == 0 || strcmp(arg[iarg+1],"yes") == 0) velocityPredictor_ = 2;
+      else error->fix_error(FLERR,this,"expecting 'no', 'normal', 'full' or 'yes' after 'velocity_predictor'");
+      iarg += 2;
     } else error->all(FLERR,"Illegal fix nve/sphere command");
   }
 
@@ -116,9 +130,66 @@ FixNVESphere::FixNVESphere(LAMMPS *lmp, int narg, char **arg) :
 
 /* ---------------------------------------------------------------------- */
 
+int FixNVESphere::setmask()
+{
+  int mask = FixNVE::setmask();
+  if (velocityPredictor_) mask |= PRE_FORCE;
+  return mask;
+}
+
+/* ----------------------------------------------------------------------
+   finding S-17: per-atom storage of dv = dt/2 a(n), communicated to ghosts
+------------------------------------------------------------------------- */
+
+void FixNVESphere::post_create()
+{
+  if (!velocityPredictor_) return;
+
+  if (modify->find_fix_property(VELOCITY_PREDICTOR_NORMAL,"property/atom","vector",0,0,style,false) ||
+      modify->find_fix_property(VELOCITY_PREDICTOR_FULL,"property/atom","vector",0,0,style,false))
+    error->fix_error(FLERR,this,"'velocity_predictor' can be used by one integrator fix only");
+
+  const char * const name = vpred_name();
+  const char *fixarg[14];
+  fixarg[0] = name;
+  fixarg[1] = "all";
+  fixarg[2] = "property/atom";
+  fixarg[3] = name;
+  fixarg[4] = "vector";
+  fixarg[5] = "no";    // restart: re-set in the first initial_integrate
+  fixarg[6] = "yes";   // communicate ghost
+  fixarg[7] = "no";    // communicate rev
+  const int nv = vpred_nvalues();
+  for (int k = 0; k < nv; k++) fixarg[8+k] = "0.";
+  modify->add_fix(8+nv,const_cast<char**>(fixarg));
+  fix_vpred_ = static_cast<FixPropertyAtom*>(
+      modify->find_fix_property(name,"property/atom","vector",nv,0,style));
+}
+
+/* ---------------------------------------------------------------------- */
+
+void FixNVESphere::pre_delete(bool unfixflag)
+{
+  // without the integrator the stored increments become stale: remove them
+  if (unfixflag && fix_vpred_)
+    modify->delete_fix(vpred_name());
+  fix_vpred_ = NULL;
+}
+
+/* ---------------------------------------------------------------------- */
+
 void FixNVESphere::init()
 {
   FixNVE::init();
+
+  if (velocityPredictor_) {
+    fix_vpred_ = static_cast<FixPropertyAtom*>(
+        modify->find_fix_property(vpred_name(),"property/atom","vector",vpred_nvalues(),0,style));
+    if (strstr(update->integrate_style,"respa"))
+      error->fix_error(FLERR,this,"'velocity_predictor' does not support run_style respa");
+    if (atom->superquadric_flag || atom->shapetype_flag)
+      error->fix_error(FLERR,this,"'velocity_predictor' supports spherical particles only");
+  }
 
   // check that all particles are finite-size spheres
   // no point particles allowed
@@ -156,6 +227,8 @@ void FixNVESphere::initial_integrate(int vflag)
   double dtfrotate; 
   if (domain->dimension == 2) dtfrotate = dtf / 0.5; // for discs the formula is I=0.5*Mass*Radius^2
   else dtfrotate  = dtf / INERTIA;
+
+  if (velocityPredictor_) store_velocity_predictor();
 
   // update 1/2 step for v and omega, and full step for  x for all particles
   // d_omega/dt = torque / inertia
@@ -243,4 +316,60 @@ void FixNVESphere::final_integrate()
       omega[i][1] += dtirotate * torque[i][1];
       omega[i][2] += dtirotate * torque[i][2];
     }
+}
+
+/* ----------------------------------------------------------------------
+   finding S-17: dv = dt/2 f(n)/m, the increment of the first half-kick
+   (called before that half-kick, while f still holds f(n))
+------------------------------------------------------------------------- */
+
+void FixNVESphere::store_velocity_predictor()
+{
+  double **f = atom->f;
+  double **torque = atom->torque;
+  double *radius = atom->radius;
+  double *rmass = atom->rmass;
+  int *mask = atom->mask;
+  int nlocal = atom->nlocal;
+  if (igroup == atom->firstgroup) nlocal = atom->nfirst;
+  double **dv = fix_vpred_->array_atom;
+
+  double dtfrotate;
+  if (domain->dimension == 2) dtfrotate = dtf / 0.5;
+  else dtfrotate  = dtf / INERTIA;
+
+  for (int i = 0; i < nlocal; i++)
+    if (mask[i] & groupbit) {
+      const double dtfm = dtf / (rmass[i]*onePlusCAddRhoFluid_);
+      dv[i][0] = dtfm * f[i][0];
+      dv[i][1] = dtfm * f[i][1];
+      dv[i][2] = dtfm * f[i][2];
+      if (velocityPredictor_ == 2) {
+        const double dtirotate = dtfrotate / (radius[i]*radius[i]*rmass[i]);
+        dv[i][3] = dtirotate * torque[i][0];
+        dv[i][4] = dtirotate * torque[i][1];
+        dv[i][5] = dtirotate * torque[i][2];
+      }
+    }
+}
+
+/* ----------------------------------------------------------------------
+   finding S-17: ghosts receive dv after this step's exchange/borders
+------------------------------------------------------------------------- */
+
+void FixNVESphere::pre_force(int)
+{
+  if (fix_vpred_) fix_vpred_->do_forward_comm();
+}
+
+/* ---------------------------------------------------------------------- */
+
+const char * FixNVESphere::vpred_name() const
+{
+  return velocityPredictor_ == 2 ? VELOCITY_PREDICTOR_FULL : VELOCITY_PREDICTOR_NORMAL;
+}
+
+int FixNVESphere::vpred_nvalues() const
+{
+  return velocityPredictor_ == 2 ? 6 : 3;
 }

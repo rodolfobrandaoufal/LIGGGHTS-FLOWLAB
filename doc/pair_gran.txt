@@ -205,6 +205,11 @@ velocites are stored by ghost atoms.
 
 Only unit system that are self-consistent (si, cgs, lj) can be used with this pair style.
 
+Velocity-dependent contact forces (dashpots) use the half-step velocity of the
+velocity-Verlet integrator by default, which makes damped contacts converge at
+first order in the timestep. The {velocity_predictor} keyword of
+"fix nve/sphere"_fix_nve_sphere.html restores second-order convergence.
+
 [Related commands:]
 
 "pair_coeff"_pair_coeff.html

@@ -227,7 +227,9 @@ bool Granular<ContactModel>::compute_force_thr(PairGran * pg, int eflag, int vfl
   // pass (lists always rebuilt) invalidates the cached per-atom lists
   if (update->setupflag && thr_state_) thr_state_->invalidate();
 
-  if (cfg.nthreads <= 1) return false;
+  // finding S-17: with the velocity predictor one thread also runs this
+  // kernel, so that results are bitwise identical for any thread count
+  if (cfg.nthreads <= 1 && !velocity_predictor_dv(addflag)) return false;
 
   // conditions under which the serial kernel runs
   std::string why;
@@ -286,6 +288,7 @@ bool Granular<ContactModel>::compute_force_thr(PairGran * pg, int eflag, int vfl
   const bool sphere_flag = atom->sphere_flag;
   const bool shapetype_flag = atom->shapetype_flag;
   const double contactDistanceMultiplier = neighbor->contactDistanceFactor*neighbor->contactDistanceFactor;
+  double ** const vpred_dv = velocity_predictor_dv(addflag);   // finding S-17
 
   // blocked deterministic mode (default); the slot mode below is used for
   // energy/virial steps, newton on, or lists without a row for every atom
@@ -349,6 +352,7 @@ bool Granular<ContactModel>::compute_force_thr(PairGran * pg, int eflag, int vfl
 
     SurfacesIntersectData & sidata = *scr.sidata;
     ForceData & i_forces = *scr.i_forces;
+    VelocityPredictorScratch vpred;   // finding S-17, per thread
     ForceData & j_forces = *scr.j_forces;
     sidata.is_wall = false;
     sidata.computeflag = computeflag;
@@ -488,6 +492,18 @@ bool Granular<ContactModel>::compute_force_thr(PairGran * pg, int eflag, int vfl
           }
           sidata.omega_i = omega[i];
           sidata.omega_j = omega[j];
+
+          // finding S-17 (opt-in), as in the serial kernel
+          if (vpred_dv) {
+            if (vpred_full_)
+              velocity_predictor_full(sidata, vpred_dv[i], vpred_dv[j], vpred);
+            else {
+              velocity_predictor_normal(v[i], vpred_dv[i], sidata.en, vpred.vi);
+              velocity_predictor_normal(v[j], vpred_dv[j], sidata.en, vpred.vj);
+              sidata.v_i = vpred.vi;
+              sidata.v_j = vpred.vj;
+            }
+          }
 
           cmodel.surfacesIntersect(sidata, i_forces, j_forces);
 
