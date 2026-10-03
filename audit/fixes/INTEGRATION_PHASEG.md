@@ -67,4 +67,4 @@
   - restart vs uninterrupted run, cause A;
   - superquadric i/j asymmetry (up to 1e-5).
 - **Deferred or not recommended.** RCB (deferred), C5 (not recommended).
-- **Feature proposals.** S-13, S-15, S-19 and S-22.
+- **Feature proposals.** S-13, S-15 and S-19. S-22 (calibration workflow) was dropped from scope by the project owner on 2026-10-03.

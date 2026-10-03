@@ -323,6 +323,25 @@ ELSE()
 ENDIF()
 
 #---------------------------------------------------------------------------
+# S-13 twisting resistance (tangential history ... twisting_marshall on), V-R2
+IF(EXISTS "${LIGGGHTS_TESTS_DIR}/twist/run_all.sh")
+  LIGGGHTS_TEST(twist_suite LABELS physics TIMEOUT 1200 PROCESSORS 1
+    ENV "TMPDIR=${LIGGGHTS_TEST_WORK}"
+    COMMAND ${LIGGGHTS_BASH} ${LIGGGHTS_TESTS_DIR}/twist/run_all.sh ${BIN} ${REF_BIN} ${LIGGGHTS_TEST_WORK}/twist)
+ELSE()
+  LIGGGHTS_SKIPPED_TEST(twist_suite "tests/twist/run_all.sh not present" physics)
+ENDIF()
+
+#---------------------------------------------------------------------------
+# S-19 public coarsegraining command
+IF(EXISTS "${LIGGGHTS_TESTS_DIR}/cg/run_all.sh")
+  LIGGGHTS_TEST(cg_suite LABELS physics TIMEOUT 1800 PROCESSORS 1
+    COMMAND ${LIGGGHTS_BASH} ${LIGGGHTS_TESTS_DIR}/cg/run_all.sh ${BIN} ${REF_BIN} ${LIGGGHTS_TEST_WORK}/cg)
+ELSE()
+  LIGGGHTS_SKIPPED_TEST(cg_suite "tests/cg/run_all.sh not present" physics)
+ENDIF()
+
+#---------------------------------------------------------------------------
 # B5 model matrix: every static whitelist combination, byte comparison against
 # the reference binary (needs LIGGGHTS_TEST_REFERENCE_BIN)
 IF(REF_BIN AND EXISTS "${LIGGGHTS_TESTS_DIR}/kernel/run_all.sh")

@@ -300,7 +300,7 @@ Effort: S ≤ 2 person-weeks, M ≤ 3 person-months, L > 3 person-months. Impact
 | S-19 | Coarse-graining command + scaling tests | ADAPT | M | `force.h`, new `coarsegraining.cpp`, models' `error->cg` | Bierwisch 2009; Queteschiner 2018 | Industrial-scale runs | V-CG1 |
 | S-20 | Remove unused `contact_model_crtp_api.h` | IGNORE/DELETE | S | `contact_model_crtp_api.h` | — | Less confusion | build |
 | S-21 | Auto skin suggestion | ADAPT | S | `neighbor.cpp` | Yade `InsertionSortCollider` | 5–20% neigh+pair tuning ([HYPOTHESIS]) | B-2 |
-| S-22 | Python calibration workflow (DOE on angle of repose, drum, shear cell) | ADAPT | M | `python/`, `examples/calibration/` | EDEM/Rocky calibration [VENDOR]; Dosta et al. 2024 decks | Usability | V-S1, B-2 |
+| S-22 | **Dropped from scope (2026-10-03).** Python calibration workflow (DOE on angle of repose, drum, shear cell) | ADAPT | M | `python/`, `examples/calibration/` | EDEM/Rocky calibration [VENDOR]; Dosta et al. 2024 decks | Usability | V-S1, B-2 |
 | — | Sqrt-avoidance micro-opts | IGNORE (no further work) | — | model headers | — | <1% ([HYPOTHESIS]) | — |
 | — | Dump accessor indirection | IGNORE | — | `dump_custom.*`, `compute_property_atom.*` | — | ~0 | — |
 | — | Hash-map contact history | IGNORE | — | — | — | Not justified at DEM coordination numbers | — |
