@@ -69,7 +69,10 @@ models of spherical particles.
 velocities are predicted, so the tangential dashpot also uses them.
 The tangential spring of "tangential history"_gran_tangential_history.html
 keeps the displacement-consistent half-step increment vtr(n+1/2)*dt;
-predicting it would add a first-order bias. Requires surface model
+predicting it would add a first-order bias. In the first step of a
+contact the increment is weighted by the part of the step in which the
+surfaces touched, deltan/(|vn|*dt) (overlap growing linearly over the
+step), instead of a full step. Requires surface model
 {default} and tangential model {history} or {no_history}; use {normal}
 otherwise.
 
@@ -82,10 +85,11 @@ linear dashpot of hooke and luding jumps at contact onset and at
 separation, which leaves a first-order error whose sign depends on
 where the contact starts within a time step; it averages out over many
 contacts but can dominate single collisions. In a sticking oblique
-impact the tangential and spin errors at tH/400 are halved with {full}
-and are 1.2 to 1.4 times larger with {normal}. Tangential results
-remain first order because the shear spring starts with a full
-increment vtr*dt in the step where the contact begins.
+impact (45 degrees, e = 0.5, mu = 1) the tangential and spin rebound
+errors are second order with {full} (order 2.0 to 2.4; at tH/400 they
+are 120 to 400 times smaller than without the predictor) and first
+order, 1.2 to 1.4 times larger than without, with {normal}, which
+leaves the tangential spring and dashpot unchanged.
 
 Notes: the predictor is inactive in the setup of a run and for
 "compute pair/gran/local"_compute_pair_gran_local.html (velocities are

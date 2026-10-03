@@ -81,6 +81,12 @@ using namespace ContactModels;
 
 namespace PairStyles {
 
+// finding S-17 ('synchronized_verlet on'): true if one of the tangential
+// frame-update options is switched on in the pair_style arguments.
+// Defined in pair_gran_sync.cpp (see compute_force_sync()).
+bool synchronized_verlet_frame_options(int nargs, char ** args);
+
+
 using namespace LAMMPS_NS;
 
 template<typename ContactModel>
@@ -113,6 +119,11 @@ class Granular : private Pointers, public IGranularPairStyle {
   bool multicontact_warned_;
   FixPropertyAtom * fix_vpred_;   // finding S-17, NULL unless velocity_predictor normal|full
   bool vpred_full_;
+  // finding S-17, 'synchronized_verlet on' (Vyas et al., Comput. Phys. Commun.
+  // 2025, 109524; LAMMPS pair granular): pair normal at the half step
+  bool synchronized_verlet_;
+  bool sync_frame_options_;       // tangential_rotate/rescale/incremental given
+  double sync_en_full_[3];        // full-step normal of the current pair (serial kernel)
 
   inline void force_update(double relax,double *const f, double *const torque,
       const ForceData & forces)
@@ -139,7 +150,9 @@ public:
     me_(comm->me),
     multicontact_warned_(false),
     fix_vpred_(NULL),
-    vpred_full_(false)
+    vpred_full_(false),
+    synchronized_verlet_(false),
+    sync_frame_options_(false)
   {
   }
 
@@ -163,7 +176,9 @@ public:
     cmodel.registerSettings(settings);
     settings.registerOnOff("history_clear_legacy", history_clear_legacy_, false);
     settings.registerOnOff("multicontact_radius_legacy", multicontact_radius_legacy_, false);
+    settings.registerOnOff("synchronized_verlet", synchronized_verlet_, false);
     bool success = settings.parseArguments(nargs, args);
+    sync_frame_options_ = synchronized_verlet_frame_options(nargs, args);   // pair_gran_sync.cpp
     cmodel.postSettings(hsetup);
 
 #ifdef LIGGGHTS_DEBUG
@@ -197,6 +212,7 @@ public:
                           cmodel.contact_match("tangential","no_history"))))
       error->all(FLERR,"pair gran: 'velocity_predictor full' supports surface default with tangential "
                  "history or no_history only; use 'velocity_predictor normal'");
+    if (synchronized_verlet_) check_synchronized_verlet();   // pair_gran_sync.cpp
 
 #ifdef LIGGGHTS_DEBUG
     if(comm->me == 0) {
@@ -391,13 +407,23 @@ public:
   bool compute_force_thr(PairGran * pg, int eflag, int vflag, int addflag);
 #endif
 
+  // finding S-17, 'synchronized_verlet on': compute_force_serial_t<3>,
+  // defined and explicitly instantiated in pair_gran_sync.cpp only, so that
+  // the translation unit with the default kernel (all contact models) is
+  // compiled exactly as before (GCC's unit-wide inlining budget, and with it
+  // FMA contraction, would otherwise change)
+  void compute_force_sync(PairGran * pg, int eflag, int vflag, int addflag);
+  void check_synchronized_verlet();
+
   // the serial kernel
   void compute_force_serial(PairGran * pg, int eflag, int vflag, int addflag)
   {
     // finding S-17: a separate instantiation with the velocity predictor, so
     // that the code generated for the default kernel (and hence its floating
     // point results, e.g. FMA contraction) is unchanged
-    if (!velocity_predictor_dv(addflag))
+    if (synchronized_verlet_ && !addflag && !update->setupflag)
+      compute_force_sync(pg, eflag, vflag, addflag);
+    else if (!velocity_predictor_dv(addflag))
       compute_force_serial_t<0>(pg, eflag, vflag, addflag);
     else if (vpred_full_)
       compute_force_serial_t<2>(pg, eflag, vflag, addflag);
@@ -405,7 +431,7 @@ public:
       compute_force_serial_t<1>(pg, eflag, vflag, addflag);
   }
 
-  // VPRED: 0 no predictor, 1 'normal', 2 'full'
+  // VPRED: 0 no predictor, 1 'normal', 2 'full', 3 synchronized_verlet
   template<int VPRED>
   void compute_force_serial_t(PairGran * pg, int eflag, int vflag, int addflag)
   {
@@ -419,6 +445,13 @@ public:
     double **f = atom->f;
     double **omega = atom->omega;
     double **torque = atom->torque;
+    // per-atom 3-vectors are contiguous (Memory::create): index the data block
+    // directly instead of loading the row pointer x[j] first
+    const double * const x0 = x ? x[0] : NULL;
+    double * const v0 = v ? v[0] : NULL;
+    double * const f0 = f ? f[0] : NULL;
+    double * const om0 = omega ? omega[0] : NULL;
+    double * const t0 = torque ? torque[0] : NULL;
     double *radius = atom->radius;
     double *rmass = atom->rmass;
     double *mass = atom->mass;
@@ -480,9 +513,9 @@ public:
 
     for (int ii = 0; ii < inum; ii++) {
       const int i = ilist[ii];
-      const double xtmp = x[i][0];
-      const double ytmp = x[i][1];
-      const double ztmp = x[i][2];
+      const double xtmp = x0[3*i];
+      const double ytmp = x0[3*i+1];
+      const double ztmp = x0[3*i+2];
       double radi = radius[i];
       int * const contact_flags = first_contact_flag ? first_contact_flag[i] : NULL;
       double * const all_contact_hist = first_contact_hist ? first_contact_hist[i] : NULL;
@@ -502,9 +535,9 @@ public:
       for (int jj = 0; jj < jnum; jj++) {
         const int j = jlist[jj] & NEIGHMASK;
 
-        const double xj = x[j][0];
-        const double yj = x[j][1];
-        const double zj = x[j][2];
+        const double xj = x0[3*j];
+        const double yj = x0[3*j+1];
+        const double zj = x0[3*j+2];
         const double delx = xtmp - xj;
         const double dely = ytmp - yj;
         const double delz = ztmp - zj;
@@ -574,12 +607,12 @@ public:
           sidata.mi = mass[type[i]];
           sidata.mj = mass[type[j]];
         }
-        sidata.omega_i = omega[i];
-        sidata.omega_j = omega[j];
+        sidata.omega_i = om0+3*i;
+        sidata.omega_j = om0+3*j;
         #endif
 
-        sidata.v_i     = v[i];
-        sidata.v_j     = v[j];
+        sidata.v_i     = v0+3*i;
+        sidata.v_j     = v0+3*j;
         const int itype = type[i];
         const int jtype = type[j];
         sidata.itype = itype;
@@ -632,14 +665,34 @@ public:
               sidata.en[1]   = eny_sphere;
               sidata.en[2]   = enz_sphere;
           }
-          sidata.omega_i = omega[i];
-          sidata.omega_j = omega[j];
+          sidata.omega_i = om0+3*i;
+          sidata.omega_j = om0+3*j;
 
-          if (VPRED == 2)
+          if (VPRED == 3) {
+            // finding S-17 (synchronized_verlet): the velocities are at the half
+            // step, so take the normal at x(n+1/2) = x(n+1) - dt/2 v(n+1/2);
+            // delta is rescaled to it for the rotational term of vtr
+            const double hdt = 0.5*update->dt;
+            const double * const vi = v0+3*i;
+            const double * const vj = v0+3*j;
+            double nh[3] = { delx - hdt*(vi[0]-vj[0]),
+                             dely - hdt*(vi[1]-vj[1]),
+                             delz - hdt*(vi[2]-vj[2]) };
+            const double nhinv = 1.0/sqrt(nh[0]*nh[0] + nh[1]*nh[1] + nh[2]*nh[2]);
+            sync_en_full_[0] = sidata.en[0];
+            sync_en_full_[1] = sidata.en[1];
+            sync_en_full_[2] = sidata.en[2];
+            for (int k = 0; k < 3; k++) {
+              sidata.en[k] = nh[k]*nhinv;
+              sidata.delta[k] = sidata.en[k]*r;
+            }
+            sidata.en_full = sync_en_full_;
+          }
+          else if (VPRED == 2)
             velocity_predictor_full(sidata, vpred_dv[i], vpred_dv[j], vpred);
           else if (VPRED == 1) {
-            velocity_predictor_normal(v[i], vpred_dv[i], sidata.en, vpred.vi);
-            velocity_predictor_normal(v[j], vpred_dv[j], sidata.en, vpred.vj);
+            velocity_predictor_normal(v0+3*i, vpred_dv[i], sidata.en, vpred.vi);
+            velocity_predictor_normal(v0+3*j, vpred_dv[j], sidata.en, vpred.vj);
             sidata.v_i = vpred.vi;
             sidata.v_j = vpred.vj;
           }
@@ -666,11 +719,11 @@ public:
           if (sidata.computeflag) {
 
             const double relax_i = pg->relax(i);
-            force_update(relax_i,f[i],torque[i],i_forces);
+            force_update(relax_i,f0+3*i,t0+3*i,i_forces);
 
             if(newton_pair || j < nlocal) {
               const double relax_j = pg->relax(j);
-              force_update(relax_j,f[j],torque[j],j_forces);
+              force_update(relax_j,f0+3*j,t0+3*j,j_forces);
             }
 
             // summation of f.n to compute a simplistic pressure

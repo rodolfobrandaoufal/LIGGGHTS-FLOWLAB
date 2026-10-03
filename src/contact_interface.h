@@ -169,7 +169,13 @@ struct SurfacesIntersectData : SurfacesCloseData {
   // (displacement-consistent) value. NULL by default.
   const double *vtr_pred_shift;
 
-  SurfacesIntersectData() : Fn(0.0), Ft(0.0), vtr_pred_shift(NULL) {}
+  // finding S-17, 'pair_style gran ... synchronized_verlet on': when not NULL,
+  // en is the half-step normal and this is the full-step normal; the
+  // tangential history is projected onto the plane of the full-step normal.
+  // NULL by default.
+  const double *en_full;
+
+  SurfacesIntersectData() : Fn(0.0), Ft(0.0), vtr_pred_shift(NULL), en_full(NULL) {}
 };
 
 struct ForceData {

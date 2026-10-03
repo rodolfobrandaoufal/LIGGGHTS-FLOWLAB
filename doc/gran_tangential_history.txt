@@ -26,7 +26,10 @@ zero or more keyword/value pairs may be appended to the end (after all models ar
     off = total-form spring F_t = -k_t(delta) * u_t (legacy)
   {coulomb_total} values = 'on' or 'off'
     on = Coulomb limit applied to the total tangential force (spring + damping)
-    off = Coulomb limit applied to the spring force only (legacy) :pre
+    off = Coulomb limit applied to the spring force only (legacy)
+  {twisting_marshall} values = 'on' or 'off'
+    on = twisting resistance about the contact normal (Marshall model, as LAMMPS pair granular)
+    off = no twisting resistance (legacy) :pre
 
 [Description:]
 
@@ -114,6 +117,30 @@ store the contact history. A run that uses {tangential_incremental on} has one
 extra history value per contact, so a restart must keep the same setting for
 {tangential_incremental}.
 
+{twisting_marshall on}: adds a torque about the contact normal that
+resists the relative spin w_n = (omega_i - omega_j).n (Marshall 2009, as
+"twisting marshall" in LAMMPS pair granular). The twist angle
+phi += w_n dt is stored per contact, and the torque on particle i is
+M n with M = -k_tw phi - gamma_tw w_n, limited to |M| <= M_crit, where
+
+k_tw = k_t a^2/2, gamma_tw = gamma_t a^2/2, M_crit = 2/3 a mu |F_n|, :pre
+
+k_t, gamma_t and mu are the tangential stiffness, damping and friction
+coefficient of the contact, and a = sqrt(delta_n R*) is the contact radius.
+When the limit is reached the stored angle is reset so that the torque
+equals the limit (sliding). Particle j gets -M n. For wall contacts the
+spin of the wall is taken as zero. Without this option a spinning
+sphere on a plane keeps spinning forever, since no other force law in
+LIGGGHTS-PUBLIC acts about the contact normal (the {luding} rolling
+model has a {torsion} option of its own).
+
+Test (tests/twist): a sphere at rest on a plane or on a fixed sphere,
+given a spin of 20 rad/s about the vertical, decelerates at
+M_crit/I to within 1e-4 (sphere-plane 91.5 rad/s^2, sphere-sphere
+72.6 rad/s^2), then sticks and rings around zero spin on the twist
+spring. One extra history value per contact is used, so a restart must
+keep the same setting.
+
 This model contributes to surface heating in the frame of 
 "surface sphere/heatable"_gran_surface_sphere_heatable.html if the 
 appropriate flag is activated (only available in the PREMIUM version).
@@ -135,7 +162,8 @@ may not be available in LIGGGHTS(R)-PUBLIC.
 [Default:]
 
 {heating_tangential_history} = 'off', {tangential_rescale} = 'off',
-{tangential_rotate} = 'off', {tangential_incremental} = 'off', {coulomb_total} = 'off'
+{tangential_rotate} = 'off', {tangential_incremental} = 'off', {coulomb_total} = 'off',
+{twisting_marshall} = 'off'
 
 :line
 

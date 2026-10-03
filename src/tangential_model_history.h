@@ -82,7 +82,9 @@ namespace ContactModels
         incremental_(false),
         coulomb_total_(false),
         frame_update_(false),
-        kt_old_offset_(-1)
+        kt_old_offset_(-1),
+        twisting_marshall_(false),
+        twist_offset_(-1)
     {
         history_offset = hsetup->add_history_value("shearx", "1");
         hsetup->add_history_value("sheary", "1");
@@ -100,6 +102,9 @@ namespace ContactModels
                               "computeElasticPotential or computeDissipatedEnergy");
         if (incremental_)
             kt_old_offset_ = hsetup->add_history_value("kt_old", "0");
+        // S-13: twist angle (omega_i - omega_j).n dt is symmetric in i/j
+        if (twisting_marshall_)
+            twist_offset_ = hsetup->add_history_value("twist", "0");
         if ((frame_update_ || coulomb_total_) && comm->me == 0)
         {
             const char *fmt = "tangential_model history (%s): tangential_rescale %s, tangential_rotate %s, "
@@ -143,6 +148,8 @@ namespace ContactModels
         settings.registerOnOff("tangential_rotate", rotate_, false);
         settings.registerOnOff("tangential_incremental", incremental_, false);
         settings.registerOnOff("coulomb_total", coulomb_total_, false);
+        // S-13: twisting resistance (Marshall), opt-in
+        settings.registerOnOff("twisting_marshall", twisting_marshall_, false);
         //TODO error->one(FLERR,"TODO here also check if right surface model used");
     }
 
@@ -181,11 +188,13 @@ namespace ContactModels
         } else if (update_history) {
           const double dt = update->dt;
           if (sidata.vtr_pred_shift) {
-            // finding S-17: displacement-consistent (half-step) increment
+            // finding S-17: displacement-consistent (half-step) increment,
+            // weighted by the part of the step spent in contact on the first step
             const double * const sh = sidata.vtr_pred_shift;
-            shear[0] += (sidata.vtr1 - sh[0]) * dt;
-            shear[1] += (sidata.vtr2 - sh[1]) * dt;
-            shear[2] += (sidata.vtr3 - sh[2]) * dt;
+            const double dtw = dt * onset_fraction(sidata, shear, dt);
+            shear[0] += (sidata.vtr1 - sh[0]) * dtw;
+            shear[1] += (sidata.vtr2 - sh[1]) * dtw;
+            shear[2] += (sidata.vtr3 - sh[2]) * dtw;
           } else {
           shear[0] += sidata.vtr1 * dt;
           shear[1] += sidata.vtr2 * dt;
@@ -194,10 +203,20 @@ namespace ContactModels
 
           // rotate shear displacements
 
+          if (sidata.en_full) {
+            // finding S-17 (synchronized_verlet): vtr was taken with the
+            // half-step normal; keep the spring in the plane of the full-step one
+            const double * const nf = sidata.en_full;
+            const double rshf = shear[0]*nf[0] + shear[1]*nf[1] + shear[2]*nf[2];
+            shear[0] -= rshf * nf[0];
+            shear[1] -= rshf * nf[1];
+            shear[2] -= rshf * nf[2];
+          } else {
           double rsht = shear[0]*enx + shear[1]*eny + shear[2]*enz;
           shear[0] -= rsht * enx;
           shear[1] -= rsht * eny;
           shear[2] -= rsht * enz;
+          }
         }
 
         const double shrsq = shear[0]*shear[0] + shear[1]*shear[1] + shear[2]*shear[2];
@@ -408,6 +427,9 @@ namespace ContactModels
             }
         }
 
+        if (twist_offset_ >= 0)
+            twistingMarshall(sidata, update_history, xmu, i_forces, j_forces);
+
         // return resulting forces
         if(sidata.is_wall)
         {
@@ -450,6 +472,8 @@ namespace ContactModels
         shear[2] = 0.0;
         if (kt_old_offset_ >= 0)
             scdata.contact_history[kt_old_offset_] = 0.0;
+        if (twist_offset_ >= 0)
+            scdata.contact_history[twist_offset_] = 0.0;
     }
 
     inline void beginPass(SurfacesIntersectData&, ForceData&, ForceData&){}
@@ -541,11 +565,13 @@ namespace ContactModels
 
         // increment (vtr is tangential by construction)
         if (sidata.vtr_pred_shift) {
-            // finding S-17: displacement-consistent (half-step) increment
+            // finding S-17: displacement-consistent (half-step) increment,
+            // weighted by the part of the step spent in contact on the first step
             const double * const sh = sidata.vtr_pred_shift;
-            shear[0] += (sidata.vtr1 - sh[0]) * dt;
-            shear[1] += (sidata.vtr2 - sh[1]) * dt;
-            shear[2] += (sidata.vtr3 - sh[2]) * dt;
+            const double dtw = dt * onset_fraction(sidata, shear, dt);
+            shear[0] += (sidata.vtr1 - sh[0]) * dtw;
+            shear[1] += (sidata.vtr2 - sh[1]) * dtw;
+            shear[2] += (sidata.vtr3 - sh[2]) * dtw;
         } else {
         shear[0] += sidata.vtr1 * dt;
         shear[1] += sidata.vtr2 * dt;
@@ -554,6 +580,53 @@ namespace ContactModels
     }
 
    protected:
+    /* S-13, 'twisting_marshall on': twisting resistance about the contact
+       normal as LAMMPS pair granular 'twisting marshall' (Marshall, Ann.
+       Rev. Fluid Mech. 2009): spring-dashpot-slider on the twist angle with
+       k = kt a^2/2, gamma = gammat a^2/2 and limit 2/3 a mu |Fn|, where
+       a = sqrt(deltan reff) is the contact radius. For walls the wall spin
+       is taken as zero. */
+    inline void twistingMarshall(const SurfacesIntersectData & sidata, const bool update_history,
+                                 const double xmu, ForceData & i_forces, ForceData & j_forces)
+    {
+        const double * const en = sidata.en;
+        double wn = sidata.omega_i[0]*en[0] + sidata.omega_i[1]*en[1] + sidata.omega_i[2]*en[2];
+        if (!sidata.is_wall)
+            wn -= sidata.omega_j[0]*en[0] + sidata.omega_j[1]*en[1] + sidata.omega_j[2]*en[2];
+
+        const double reff = sidata.is_wall ? sidata.radi : sidata.radi*sidata.radj/sidata.radsum;
+        const double a2 = (sidata.deltan > 0.0 ? sidata.deltan : 0.0) * reff;
+        const double ktw = 0.5*sidata.kt*a2;
+        const double gtw = 0.5*sidata.gammat*a2;
+        const double Mcrit = 2.0/3.0*sqrt(a2)*xmu*fabs(sidata.Fn);
+
+        double & twist = sidata.contact_history[twist_offset_];
+        if (update_history) twist += wn*update->dt;
+        double M = -ktw*twist - gtw*wn;
+        if (fabs(M) > Mcrit) {
+            M = (M > 0.0) ? Mcrit : -Mcrit;
+            if (update_history) twist = (ktw > 0.0) ? -(M + gtw*wn)/ktw : 0.0;
+        }
+
+        const double scale = sidata.is_wall ? sidata.area_ratio : 1.0;
+        for (int k = 0; k < 3; k++) i_forces.delta_torque[k] += M*en[k]*scale;
+        if (!sidata.is_wall)
+            for (int k = 0; k < 3; k++) j_forces.delta_torque[k] -= M*en[k];
+    }
+
+    // finding S-17 follow-up ('velocity_predictor full' only): on the first
+    // step of a contact (history still exactly zero) the surfaces touched for
+    // only part of the step. With the overlap growing linearly over the step,
+    // that part is deltan / (|vn| dt); using it for the first increment
+    // removes the O(dt) onset error of the tangential spring.
+    static inline double onset_fraction(const SurfacesIntersectData & sidata,
+                                        const double * const shear, const double dt)
+    {
+        if (shear[0] != 0.0 || shear[1] != 0.0 || shear[2] != 0.0) return 1.0;
+        const double approach = fabs(sidata.vn) * dt;
+        return (approach > sidata.deltan) ? sidata.deltan / approach : 1.0;
+    }
+
     bool heating;
     bool heating_track;
     class ContactModelBase *cmb;
@@ -568,6 +641,8 @@ namespace ContactModels
     bool coulomb_total_;
     bool frame_update_;
     int kt_old_offset_;
+    bool twisting_marshall_;
+    int twist_offset_;
   };
 }
 }

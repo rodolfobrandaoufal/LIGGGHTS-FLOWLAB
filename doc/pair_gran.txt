@@ -30,7 +30,10 @@ in addition, the following keywords of the pair style itself may be appended :l
     {on} = keep it until the next neighbor list build (behaviour of earlier versions, see below)
   {multicontact_radius_legacy} values = {on} or {off}
     {off} (default) = with surface {multicontact}, both particles of a contact use their per-contact expanded radius
-    {on} = particle i uses its unexpanded radius (behaviour of earlier versions, see below) :pre
+    {on} = particle i uses its unexpanded radius (behaviour of earlier versions, see below)
+  {synchronized_verlet} values = {on} or {off}
+    {off} (default) = pair contacts use the normal at the current (full-step) positions
+    {on} = pair contacts use the normal at the half-step positions, consistent with the half-step velocities (see below) :pre
 :ule
 
 [Examples:]
@@ -38,7 +41,8 @@ in addition, the following keywords of the pair style itself may be appended :l
 pair_style gran model hooke tangential history
 pair_style gran model hertz tangential history rolling_friction cdt
 pair_style gran model hertz tangential no_history cohesion sjkr
-pair_style gran model hertz tangential history history_clear_legacy on  :pre
+pair_style gran model hertz tangential history history_clear_legacy on
+pair_style gran model hertz tangential history synchronized_verlet on  :pre
 
 [General description:]
 
@@ -140,7 +144,40 @@ of processors). Both particles now use their expanded radius.
 {multicontact_radius_legacy on} restores the old behaviour. A warning is printed
 once when the corrected default is in use.
 
-The keywords {history_clear_legacy} and {multicontact_radius_legacy} are not stored
+{synchronized_verlet on} follows Vyas et al. ("(Vyas)"_#Vyas) and LAMMPS
+pair granular: velocity-Verlet evaluates the forces of a step with the
+positions x(n+1) but the half-step velocities v(n+1/2). For pair contacts
+the normal is then taken at the half-step positions,
+n = (dx - dt/2 vr) / |dx - dt/2 vr| with dx = xi - xj and vr = vi - vj,
+and used for the normal and tangential relative velocities, the normal
+force and the torques. The tangential history is incremented with this
+relative velocity and then projected onto the plane of the full-step
+normal. Wall contacts are unchanged. The tangential dashpot uses the
+relative velocity in the half-step plane (LAMMPS rotates it into the
+full-step plane; the difference is of the order of the rotation of the
+normal within one step).
+
+Without it, a fine particle rolling over coarse ones does not leave
+them where it should at size ratios above about 3. Test: a fine sphere
+rolls off two fixed spheres 7 times larger (friction 10, rolling
+without slip, released 20 degrees from the top). The rigid analytic
+separation angle is 66.5 degrees. The default gives 74.1 degrees, and
+69.7 with a 4 times smaller time step (first order in dt); with
+{synchronized_verlet on} it gives 68.5 degrees at both time steps (the
+remaining difference is the elastic contact, not the integration).
+
+{synchronized_verlet on} requires spherical particles, surface
+{default}, tangential {history} (without {tangential_rotate},
+{tangential_rescale} or {tangential_incremental}) or {no_history},
+cohesion {off}, {sjkr} or {sjkr2}, and rolling_friction {off}, {cdt} or
+{epsd2}. It cannot be combined with the {velocity_predictor} keyword of
+"fix nve/sphere"_fix_nve_sphere.html. It is not applied in the setup
+of a run or for "compute pair/gran/local"_compute_pair_gran_local.html,
+where positions and velocities are both at the full step. With
+"package omp"_package.html the serial pair kernel is used.
+
+The keywords {history_clear_legacy}, {multicontact_radius_legacy} and
+{synchronized_verlet} are not stored
 in restart files; re-issue the pair_style command after "read_restart"_read_restart.html
 to use them.
 
@@ -224,4 +261,11 @@ Models for use with this command are described "here"_Section_gran_models.html
 {surface} = 'default'
 {history_clear_legacy} = 'off'
 {multicontact_radius_legacy} = 'off'
+{synchronized_verlet} = 'off'
 
+:line
+
+:link(Vyas)
+[(Vyas)] Vyas, Ottino, Lueptow and Umbanhowar, Improved velocity-Verlet
+algorithm for the discrete element method, Comput. Phys. Commun. (2025)
+109524.

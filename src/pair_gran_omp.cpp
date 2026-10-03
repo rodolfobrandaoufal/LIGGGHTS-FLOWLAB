@@ -245,6 +245,7 @@ bool Granular<ContactModel>::compute_force_thr(PairGran * pg, int eflag, int vfl
     else if (atom->superquadric_flag) why = "superquadric particles";
     else if (atom->shapetype_flag) why = "non-spherical (convex) particles";
     else if (modify->n_fixes_style("insert/stream/predefined") > 0) why = "fix insert/stream/predefined";
+    else if (synchronized_verlet_) why = "synchronized_verlet";
     if (!why.empty()) ThrGranular::fallback_warning(lmp, pg, "pair gran", why);
   }
   if (!why.empty()) return false;
@@ -262,6 +263,12 @@ bool Granular<ContactModel>::compute_force_thr(PairGran * pg, int eflag, int vfl
   double **f = atom->f;
   double **omega = atom->omega;
   double **torque = atom->torque;
+  // contiguous per-atom 3-vectors: index the data block directly (pair_gran_base.h)
+  const double * const x0 = x ? x[0] : NULL;
+  double * const v0 = v ? v[0] : NULL;
+  double * const f0 = f ? f[0] : NULL;
+  double * const om0 = omega ? omega[0] : NULL;
+  double * const t0 = torque ? torque[0] : NULL;
   double *radius = atom->radius;
   double *rmass = atom->rmass;
   double *mass = atom->mass;
@@ -375,9 +382,9 @@ bool Granular<ContactModel>::compute_force_thr(PairGran * pg, int eflag, int vfl
     auto row = [&](const int ii, const int jj0, const int jj1, const int mode)
     {
       const int i = ilist[ii];
-      const double xtmp = x[i][0];
-      const double ytmp = x[i][1];
-      const double ztmp = x[i][2];
+      const double xtmp = x0[3*i];
+      const double ytmp = x0[3*i+1];
+      const double ztmp = x0[3*i+2];
       const double radi = radius[i];
       int * const contact_flags = first_contact_flag ? first_contact_flag[i] : NULL;
       double * const all_contact_hist = first_contact_hist ? first_contact_hist[i] : NULL;
@@ -407,9 +414,9 @@ bool Granular<ContactModel>::compute_force_thr(PairGran * pg, int eflag, int vfl
           }
         }
 
-        const double xj = x[j][0];
-        const double yj = x[j][1];
-        const double zj = x[j][2];
+        const double xj = x0[3*j];
+        const double yj = x0[3*j+1];
+        const double zj = x0[3*j+2];
         const double delx = xtmp - xj;
         const double dely = ytmp - yj;
         const double delz = ztmp - zj;
@@ -439,12 +446,12 @@ bool Granular<ContactModel>::compute_force_thr(PairGran * pg, int eflag, int vfl
           sidata.mi = mass[type[i]];
           sidata.mj = mass[type[j]];
         }
-        sidata.omega_i = omega[i];
-        sidata.omega_j = omega[j];
+        sidata.omega_i = om0+3*i;
+        sidata.omega_j = om0+3*j;
         #endif
 
-        sidata.v_i     = v[i];
-        sidata.v_j     = v[j];
+        sidata.v_i     = v0+3*i;
+        sidata.v_j     = v0+3*j;
         const int itype = type[i];
         const int jtype = type[j];
         sidata.itype = itype;
@@ -490,16 +497,16 @@ bool Granular<ContactModel>::compute_force_thr(PairGran * pg, int eflag, int vfl
               sidata.en[1]   = eny_sphere;
               sidata.en[2]   = enz_sphere;
           }
-          sidata.omega_i = omega[i];
-          sidata.omega_j = omega[j];
+          sidata.omega_i = om0+3*i;
+          sidata.omega_j = om0+3*j;
 
           // finding S-17 (opt-in), as in the serial kernel
           if (vpred_dv) {
             if (vpred_full_)
               velocity_predictor_full(sidata, vpred_dv[i], vpred_dv[j], vpred);
             else {
-              velocity_predictor_normal(v[i], vpred_dv[i], sidata.en, vpred.vi);
-              velocity_predictor_normal(v[j], vpred_dv[j], sidata.en, vpred.vj);
+              velocity_predictor_normal(v0+3*i, vpred_dv[i], sidata.en, vpred.vi);
+              velocity_predictor_normal(v0+3*j, vpred_dv[j], sidata.en, vpred.vj);
               sidata.v_i = vpred.vi;
               sidata.v_j = vpred.vj;
             }
@@ -523,10 +530,10 @@ bool Granular<ContactModel>::compute_force_thr(PairGran * pg, int eflag, int vfl
         if (mode == M_BLOCK) {
           if (sidata.has_force_update && computeflag) {
             const double relax_i = pg->relax(i);
-            force_update(relax_i, f[i], torque[i], i_forces);
+            force_update(relax_i, f0+3*i, t0+3*i, i_forces);
             if (j < nlocal) {
               const double relax_j = pg->relax(j);
-              force_update(relax_j, f[j], torque[j], j_forces);
+              force_update(relax_j, f0+3*j, t0+3*j, j_forces);
             }
           }
         } else if (mode == M_CROSS) {

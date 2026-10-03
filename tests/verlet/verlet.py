@@ -19,7 +19,8 @@ Sections (env VERLET_TEST_ONLY=conv,elastic,oblique,momentum,omp,ident,err,pack)
             (no velocity-dependent force), |e_out - 1| <= 2e-4 (dt = tH/100).
   oblique   sphere-wall impact at 45 deg, e = 0.5, mu = 1 (sticking): normal
             rebound order >= 1.8 ('normal', 'full'); 'full' halves the
-            tangential and spin errors at tH/400 against 'no'.
+            tangential and spin errors at tH/400 against 'no', and makes them
+            second order (order >= 1.8, onset-weighted first increment).
   momentum  periodic granular gas (hertz, tangential history, e = 0.5,
             'full'): total momentum conserved to 1e-15 (relative to sum m|v|)
             on 1/2/4 ranks, newton off and on; KE consistent across ranks
@@ -39,7 +40,7 @@ Exit status: number of failed checks (0 = pass).
 import math, os, sys, tempfile, subprocess, concurrent.futures as cf
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from common import *
-import headon, oblique
+import headon, oblique, sync
 
 BIN = os.path.abspath(sys.argv[1])
 REF = os.path.abspath(sys.argv[2]) if len(sys.argv) > 2 and sys.argv[2] not in ("", "-") else None
@@ -148,11 +149,41 @@ def oblique_sec():
         for mode in ("normal", "full"):
             o = fit_order(dts, err[mode][0])
             check(f"oblique_vn_{m}_{mode}", o >= 1.8, f"normal rebound order {fit_order(dts, err['no'][0]):.2f} -> {o:.2f}")
+        # onset-weighted first tangential increment: vt and spin second order with 'full'
+        o_vt, o_w = fit_order(dts, err["full"][1]), fit_order(dts, err["full"][2])
+        check(f"oblique_vt_order_{m}_full", o_vt >= 1.8 and o_w >= 1.8,
+              f"tangential rebound order {fit_order(dts, err['no'][1]):.2f} -> {o_vt:.2f}, "
+              f"spin order {fit_order(dts, err['no'][2]):.2f} -> {o_w:.2f}")
         ok = err["full"][1][-1]*1.8 <= err["no"][1][-1] and err["full"][2][-1]*1.8 <= err["no"][2][-1]
         check(f"oblique_vt_{m}_full", ok,
               f"tH/400: vt err {err['no'][1][-1]:.1e} -> {err['full'][1][-1]:.1e}, "
               f"R*w err {err['no'][2][-1]:.1e} -> {err['full'][2][-1]:.1e} "
               f"('normal': {err['normal'][1][-1]:.1e})")
+
+
+# ------------------------------------------------------------------ sync
+def sync_sec():
+    """V-S2: fine sphere rolling off two fixed large spheres (R = 7r, theta0 = 20 deg,
+    mu = 10, rolling without slip): separation angle against the rigid analytic value"""
+    exact = sync.theta_sep_exact(7, 20)
+    jobs = [(s_, f) for s_ in ("off", "on") for f in (1.0, 0.25)]
+    with cf.ThreadPoolExecutor(NJOBS) as ex:
+        out = list(ex.map(lambda j: sync.separation(BIN, WORK, 7, 20, 10.0, j[0], j[1]), jobs))
+    th = {}
+    for j, (t, tmax, rc, o) in zip(jobs, out):
+        if rc != 0 or t is None:
+            check(f"sync_{j[0]}_dt{j[1]}", False, f"no separation or run failed (rc {rc}): "
+                  + o[-300:].replace("\n", " | "))
+            return
+        th[j] = t
+    print(f"  exact {exact:.2f} deg; standard {th[('off',1.0)]:.2f} / {th[('off',0.25)]:.2f}, "
+          f"synchronized {th[('on',1.0)]:.2f} / {th[('on',0.25)]:.2f} (dt, dt/4)")
+    d_on, d_off = abs(th[("on",1.0)]-th[("on",0.25)]), abs(th[("off",1.0)]-th[("off",0.25)])
+    check("sync_converged", d_on < 0.1 and d_off > 2.0,
+          f"dt -> dt/4 changes the separation angle by {d_on:.3f} deg (synchronized) vs {d_off:.2f} (standard)")
+    check("sync_vs_exact", abs(th[("on",0.25)]-exact) < 3.0 and abs(th[("on",1.0)]-exact) < abs(th[("off",1.0)]-exact),
+          f"synchronized {th[('on',0.25)]:.2f} vs rigid analytic {exact:.2f} deg; standard at dt "
+          f"{th[('off',1.0)]:.2f}")
 
 
 # ------------------------------------------------------------------ gas deck
@@ -314,6 +345,12 @@ def errors():
            "create_atoms 1 single 0 0 0 units box\nset atom * diameter 0.002 density 2500\n")
     cases["full_tan_luding"] = (lud + "fix i all nve/sphere velocity_predictor full\nrun 1\n",
                                 "supports surface default with tangential")
+    sbase = base.replace("tangential history\n", "tangential history synchronized_verlet on\n")
+    cases["sync_with_predictor"] = (sbase + "fix i all nve/sphere velocity_predictor full\nrun 1\n",
+                                    "cannot be combined with 'fix nve/sphere ... velocity_predictor'")
+    cases["sync_rotate"] = (base.replace("tangential history\n",
+                            "tangential history tangential_rotate on synchronized_verlet on\n")
+                            + "fix i all nve/sphere\nrun 1\n", "'synchronized_verlet on' supports")
     for tag, (txt, msg) in cases.items():
         rc, out, _ = run(BIN, os.path.join(WORK, "err", tag), txt)
         check("error_" + tag, rc != 0 and msg in out, f"rejected with '{msg}'" if msg in out else out[-300:].replace("\n", " | "))
@@ -368,7 +405,7 @@ def pack():
 if __name__ == "__main__":
     only = os.environ.get("VERLET_TEST_ONLY", "")
     secs = [("conv", conv), ("elastic", elastic), ("oblique", oblique_sec), ("momentum", momentum),
-            ("omp", omp_sec), ("ident", ident), ("err", errors), ("pack", pack)]
+            ("omp", omp_sec), ("ident", ident), ("err", errors), ("pack", pack), ("sync", sync_sec)]
     for name, fn in secs:
         if not only or name in only.split(","):
             print(f"== {name}", flush=True)
