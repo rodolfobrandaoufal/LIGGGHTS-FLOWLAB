@@ -43,7 +43,7 @@ Clean copy of the tracked and new files in the scratchpad (`next_tree`); release
 | `ctest` release against `lmp_integI`, 40 tests | **37 pass, 3 skipped** (strict, ASan startup, omp) |
 | `ctest` OpenMP against `lmp_integI_omp`, 40 tests | **38 pass, 2 skipped** (strict, ASan startup) |
 | kernel model matrix, release and OpenMP | byte-identical to `lmp_integI` / `lmp_integI_omp` (after the change in "Code generation of the default kernel") |
-| `ctest` ASan + UBSan (`halt_on_error=1`, no suppressions), reference = ASan build of `faa82377` | running when this report was committed; the result is added in a follow-up commit |
+| `ctest` ASan + UBSan (`halt_on_error=1`, no suppressions), reference = ASan build of `faa82377` | **38 pass, 2 skipped** (strict, omp), **0 sanitizer reports** (ctest log and per-test work directories) |
 
 New reference builds: `build_audit/bin/lmp_integJ`, `lmp_integJ_omp`, `lmp_integJ_sq`.
 
