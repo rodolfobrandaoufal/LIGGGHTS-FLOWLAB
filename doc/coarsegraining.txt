@@ -1,0 +1,77 @@
+"LIGGGHTS(R)-PUBLIC WWW Site"_liws - "LIGGGHTS(R)-PUBLIC Documentation"_ld - "LIGGGHTS(R)-PUBLIC Commands"_lc :c
+
+:link(liws,http://www.cfdem.com)
+:link(ld,Manual.html)
+:link(lc,Section_commands.html#comm)
+
+:line
+
+coarsegraining command :h3
+
+[Syntax:]
+
+coarsegraining factor keyword value :pre
+
+factor = coarse-graining factor alpha >= 1 :ulb,l
+zero or one keyword/value pair may be appended :l
+keyword = {model_check} :l
+  {model_check} value = {error} or {warn}
+    error = stop if a model is used that is not consistent with coarse-graining (default)
+    warn = print a warning instead :pre
+:ule
+
+[Examples:]
+
+coarsegraining 2.0
+coarsegraining 3.0 model_check warn :pre
+
+[Description:]
+
+Coarse-graining represents alpha^3 original particles of radius r by one
+particle of radius alpha*r with the same material properties, so that a
+system of N particles is simulated with about N/alpha^3 particles (the
+time step can grow with alpha as well, since the Rayleigh time scales
+with the radius). This command sets alpha:
+
+the radius given in "fix particletemplate/sphere"_fix_particletemplate_sphere.html
+({radius constant}) and in "set"_set.html {diameter} is multiplied by alpha, :ulb,l
+where the per-type-pair properties {kn}, {gamman} and {gamman_abs} are
+read, they are multiplied by alpha, 1/alpha and alpha^2 (the models that
+read them are nevertheless flagged by the model check below), :l
+models and commands whose results change with alpha stop with an
+error, or warn with {model_check warn}: the hooke, hooke/hysteresis,
+hooke/stiffness, hertz/stiffness and luding normal models, all cohesion
+models, the rolling friction models, "create_atoms"_create_atoms.html
+(it places particles without scaling), and the fixes addforce, buoyancy,
+drag, efield, spring, spring/rg, spring/self and viscous. :l,ule
+
+The hertz normal model with tangential history needs no scaling: with
+the same Young's modulus, Poisson ratio, restitution and friction the
+contact stresses, and hence the bulk stresses of a dense packing, do not
+depend on the particle size.
+
+Test (tests/cg): a bed made by inserting a solid volume fraction of 0.25
+of particles with radius 1 mm and letting it settle under gravity
+(hertz, tangential history, mu = 0.5, e = 0.3) was repeated with
+"coarsegraining 2" (radius 2 mm). The mass was equal to 1e-4 and the
+height of the centre of mass agreed to 1.2 % (10313 against 1289
+particles).
+
+The command must be given before the simulation box is defined (before
+"create_box"_create_box.html, "read_data"_read_data.html or
+"read_restart"_read_restart.html); the factor is not stored in restart
+files, so repeat the command before read_restart.
+
+[Restrictions:]
+
+One factor for all atom types. Coarse-graining is an approximation: flows
+in which the number of particles across a gap, the particle size
+relative to walls, or individual collisions matter are not reproduced.
+
+[Related commands:]
+
+"fix particletemplate/sphere"_fix_particletemplate_sphere.html, "set"_set.html
+
+[Default:]
+
+No coarse-graining (alpha = 1); model_check error.

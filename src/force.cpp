@@ -163,7 +163,8 @@ void Force::init()
   if (angle) angle->init();
   if (dihedral) dihedral->init();
   if (improper) improper->init();
-  if(cg_active() && warn_cg() && atom->ntypes != int(coarsegrainingTypeBased_.size()))
+  if(cg_active() && warn_cg() && !coarsegrainingTypeBased_.empty() &&
+     atom->ntypes != int(coarsegrainingTypeBased_.size()))
     error->warningAll(FLERR,"Coarse graining factor not specified for all atom types. will use maximum CG for unspecified atom types.\n\n");
 }
 
