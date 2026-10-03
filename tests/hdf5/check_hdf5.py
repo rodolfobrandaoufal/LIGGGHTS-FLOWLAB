@@ -140,11 +140,11 @@ def check_xdmf_refs(xdmf, tag):
     check(not bad and len(grids) > 0, f"{tag}: XDMF references valid ({len(grids)} grids)", "; ".join(bad[:5]))
     return grids
 
-def read_text_dump(path):
+def read_text_dump(path, ncol=15):
     with open(path) as f: lines = f.readlines()
     i = lines.index(next(l for l in lines if l.startswith("ITEM: ATOMS"))) + 1
-    a = np.array([[float(x) for x in l.split()] for l in lines[i:]]) if len(lines) > i else np.zeros((0, 15))
-    return a.reshape(-1, 15)
+    a = np.array([[float(x) for x in l.split()] for l in lines[i:]]) if len(lines) > i else np.zeros((0, ncol))
+    return a.reshape(-1, ncol)
 
 DT = 1e-5
 EVERY, NSTEPS = 100, 400
@@ -381,6 +381,65 @@ try:
     sec5_bigids()
 except Exception as ex:
     check(False, 'sec5_bigids: exception', repr(ex))
+
+# ---------------------------------------------------------------- 6. extra fields and compression (S-15)
+def sec6_fields():
+    for np_ in NPS:
+        out_ok = True
+        for comp in (0, 4):
+            wd = os.path.join(WORK, f"fields_np{np_}_z{comp}")
+            shutil.rmtree(wd, ignore_errors=True); os.makedirs(wd)
+            d = HEAD + ATOMS + """compute ke all ke/atom
+compute pa all property/atom vx vz
+fix ss all store/state 10 vy omegax
+variable r2 atom x*x+y
+"""
+            d += f"dump h all hdf5 {EVERY} post/f.h5 c_ke c_pa[2] f_ss[1] f_ss[2] v_r2\n"
+            if comp: d += f"dump_modify h compress {comp}\n"
+            d += f"dump t all custom {EVERY} post/f_*.txt id c_ke c_pa[2] f_ss[1] f_ss[2] v_r2\n"
+            d += 'dump_modify t format "%d %.17g %.17g %.17g %.17g %.17g"\n'
+            d += f"run {NSTEPS}\n"
+            rc, out = run(wd, d, np_=np_, vars=dict(px=np_))
+            if not check(rc == 0, f"fields np{np_} compress {comp}: run", out[-1500:]):
+                continue
+            names = ["c_ke", "c_pa_2", "f_ss_1", "f_ss_2", "v_r2"]
+            ok = True; detail = ""
+            with h5py.File(os.path.join(wd, "post/f.h5"), "r") as h:
+                for st in steps:
+                    g = h[f"Step_{st}"]
+                    ids = g["id"][:]; order = np.argsort(ids)
+                    txt = read_text_dump(os.path.join(wd, f"post/f_{st}.txt"), 6)
+                    txt = txt[np.argsort(txt[:, 0])]
+                    h5a = np.column_stack([ids[order]] + [g[n][:][order] for n in names])
+                    if h5a.shape != txt.shape or not np.array_equal(h5a, txt):
+                        ok = False; detail = f"step {st}"
+                    if comp:
+                        filt = g["position"].compression, g["c_ke"].compression
+                        if filt != ("gzip", "gzip"): ok = False; detail = f"compression {filt}"
+            check(ok, f"fields np{np_} compress {comp}: c_/f_/v_ datasets == dump custom (%.17g)", detail)
+            xd = open(os.path.join(wd, "post/f.h5.xdmf")).read()
+            check(all(f'Name="{n}"' in xd for n in names), f"fields np{np_} compress {comp}: XDMF lists the fields")
+            check_xdmf_refs(os.path.join(wd, "post/f.h5.xdmf"), f"fields np{np_} z{comp}")
+        if np_ == NPS[0]:
+            a = os.path.getsize(os.path.join(WORK, f"fields_np{np_}_z0", "post/f.h5"))
+            b = os.path.getsize(os.path.join(WORK, f"fields_np{np_}_z4", "post/f.h5"))
+            check(b < a, f"fields np{np_}: compress 4 file smaller ({b} vs {a} bytes)")
+    wd = os.path.join(WORK, "fields_err"); os.makedirs(wd, exist_ok=True)
+    errs = {
+        "c_nope": ("dump h all hdf5 10 post/e.h5 c_nope\nrun 1\n", "compute ID 'nope' does not exist"),
+        "c_array_nocol": ("compute pa all property/atom vx vz\ndump h all hdf5 10 post/e.h5 c_pa\nrun 1\n", "give a column"),
+        "v_equal": ("variable q equal 1\ndump h all hdf5 10 post/e.h5 v_q\nrun 1\n", "is not atom-style"),
+        "compress_10": ("dump h all hdf5 10 post/e.h5\ndump_modify h compress 10\nrun 1\n", "level must be 0-9"),
+        "bad_field": ("dump h all hdf5 10 post/e.h5 vx\nrun 1\n", "expected c_ID"),
+    }
+    for tag, (txt, msg) in errs.items():
+        rc, out = run(wd, HEAD + ATOMS + txt, name=f"in.{tag}", vars=dict(px=1))
+        check(rc != 0 and msg in out, f"fields error {tag}", out[-400:])
+
+try:
+    sec6_fields()
+except Exception as ex:
+    check(False, 'sec6_fields: exception', repr(ex))
 
 print(f"hdf5 checks failed: {len(failures)}")
 for f in failures: print("  FAILED:", f)

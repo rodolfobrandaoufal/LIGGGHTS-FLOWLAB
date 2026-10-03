@@ -49,6 +49,13 @@
 #include "atom.h"
 #include "error.h"
 #include "update.h"
+#include "modify.h"
+#include "compute.h"
+#include "fix.h"
+#include "input.h"
+#include "variable.h"
+#include "group.h"
+#include "memory.h"
 #include <mpi.h>
 #include <stdio.h>
 #include <string.h>
@@ -226,6 +233,12 @@ herr_t collect_step_groups(hid_t, const char *name, const H5L_info_t *, void *da
   return 0;
 }
 
+herr_t collect_links(hid_t, const char *name, const H5L_info_t *, void *data)
+{
+  static_cast<std::vector<std::string> *>(data)->push_back(std::string(name));
+  return 0;
+}
+
 }
 
 Status::Status(Error *error, MPI_Comm world, const char *style) :
@@ -268,7 +281,7 @@ void Status::sync(const char *file, int line)
 void DumpHDF5Util::write_dataset(Status &st, hid_t loc, const char *name, hid_t type,
                                  int rank, hsize_t rows_global, hsize_t rows_local,
                                  hsize_t row_offset, hsize_t ncol, hid_t dxpl,
-                                 const void *data)
+                                 const void *data, int deflate)
 {
   const hsize_t dims[2] = {rows_global,ncol};
   const hsize_t count[2] = {rows_local,ncol};
@@ -307,6 +320,11 @@ void DumpHDF5Util::write_dataset(Status &st, hid_t loc, const char *name, hid_t 
   if (st.ok()) {
     what = std::string("H5Pset_chunk for ") + name;
     st.check(H5Pset_chunk(dcpl.get(),rank,chunk),what.c_str());
+    // S-15: deflate (collective writes, so parallel compression applies)
+    if (deflate > 0 && rows_global > 0 && st.ok()) {
+      what = std::string("H5Pset_deflate for ") + name;
+      st.check(H5Pset_deflate(dcpl.get(),static_cast<unsigned>(deflate)),what.c_str());
+    }
   }
   st.sync(FLERR);
 
@@ -389,6 +407,16 @@ static bool read_steps_impl(hid_t file, const std::string &h5ref,
     if (H5Sget_simple_extent_dims(space.get(),dims,NULL) < 0) return false;
     e.count = static_cast<long long>(dims[0]);
     e.has_type = H5Lexists(group.get(),"type",H5P_DEFAULT) > 0;
+    {
+      // S-15: per-atom c_/f_/v_ datasets of the particle dump
+      std::vector<std::string> links;
+      hsize_t lidx = 0;
+      if (H5Literate(group.get(),H5_INDEX_NAME,H5_ITER_NATIVE,&lidx,collect_links,&links) >= 0)
+        for (size_t k = 0; k < links.size(); ++k)
+          if (links[k].size() > 2 && links[k][1] == '_' &&
+              (links[k][0] == 'c' || links[k][0] == 'f' || links[k][0] == 'v'))
+            e.extra.push_back(links[k]);
+    }
 
     insert_entry(entries,e);
   }
@@ -579,10 +607,47 @@ DumpHDF5::DumpHDF5(LAMMPS *lmp, int narg, char **arg) :
   truncate_warned_(false),
   opened_once_(false),
   time_offset_(0.0),
-  time_offset_set_(false)
+  time_offset_set_(false),
+  compress_level_(0)
 {
-  if (narg != 5)
-    error->all(FLERR,"Illegal dump hdf5 command: expected 'dump ID group hdf5 N file.h5'");
+  if (narg < 5)
+    error->all(FLERR,"Illegal dump hdf5 command: expected 'dump ID group hdf5 N file.h5 [c_ID f_ID v_name ...]'");
+
+  nevery_ = atoi(arg[3]);
+
+  // S-15: extra per-atom fields
+  for (int iarg = 5; iarg < narg; iarg++) {
+    const char *a = arg[iarg];
+    Field fld;
+    if (strncmp(a,"c_",2) == 0) fld.kind = 0;
+    else if (strncmp(a,"f_",2) == 0) fld.kind = 1;
+    else if (strncmp(a,"v_",2) == 0) fld.kind = 2;
+    else {
+      char msg[512];
+      snprintf(msg,sizeof(msg),"Illegal dump hdf5 field '%s': expected c_ID, c_ID[i], f_ID, f_ID[i] or v_name",a);
+      error->all(FLERR,msg);
+    }
+    std::string s(a+2);
+    fld.col = 0;
+    const std::string::size_type lb = s.find('[');
+    if (lb != std::string::npos) {
+      if (fld.kind == 2 || s[s.size()-1] != ']')
+        error->all(FLERR,"Illegal dump hdf5 field: only c_ID[i] and f_ID[i] take a column index");
+      fld.col = atoi(s.substr(lb+1,s.size()-lb-2).c_str());
+      if (fld.col < 1) error->all(FLERR,"Illegal dump hdf5 field: column index must be >= 1");
+      s = s.substr(0,lb);
+    }
+    fld.id = s;
+    fld.index = -1;
+    char buf[32];
+    snprintf(buf,sizeof(buf),"_%d",fld.col);
+    fld.dataset = std::string(a,2) + s + (fld.col ? std::string(buf) : std::string());
+    for (size_t k = 0; k < fields_.size(); ++k)
+      if (fields_[k].dataset == fld.dataset)
+        error->all(FLERR,"Dump hdf5: a field is given twice");
+    fields_.push_back(fld);
+    if (fld.kind == 0) clearstep = 1;
+  }
   if (strchr(filename,'%'))
     error->all(FLERR,"Dump hdf5 does not support '%' in the file name "
                "(all ranks write one file collectively)");
@@ -629,7 +694,76 @@ void DumpHDF5::init_style()
   if (format_user)
     error->all(FLERR,"dump_modify format is not supported by dump hdf5 "
                "(data are stored in binary double/integer datasets)");
+
+  // S-15: resolve the extra fields
+  for (size_t k = 0; k < fields_.size(); ++k) {
+    Field &fld = fields_[k];
+    char msg[512];
+    if (fld.kind == 0) {
+      fld.index = modify->find_compute(fld.id.c_str());
+      if (fld.index < 0) { snprintf(msg,sizeof(msg),"Dump hdf5: compute ID '%s' does not exist",fld.id.c_str()); error->all(FLERR,msg); }
+      Compute *c = modify->compute[fld.index];
+      if (!c->peratom_flag) { snprintf(msg,sizeof(msg),"Dump hdf5: compute '%s' does not compute per-atom values",fld.id.c_str()); error->all(FLERR,msg); }
+      if ((fld.col == 0 && c->size_peratom_cols != 0) || (fld.col > 0 && fld.col > c->size_peratom_cols)) {
+        snprintf(msg,sizeof(msg),"Dump hdf5: compute '%s' per-atom %s does not match the field",fld.id.c_str(),
+                 c->size_peratom_cols ? "array (give a column c_ID[i])" : "vector (no column index)");
+        error->all(FLERR,msg);
+      }
+    } else if (fld.kind == 1) {
+      fld.index = modify->find_fix(fld.id.c_str());
+      if (fld.index < 0) { snprintf(msg,sizeof(msg),"Dump hdf5: fix ID '%s' does not exist",fld.id.c_str()); error->all(FLERR,msg); }
+      Fix *f = modify->fix[fld.index];
+      if (!f->peratom_flag) { snprintf(msg,sizeof(msg),"Dump hdf5: fix '%s' does not compute per-atom values",fld.id.c_str()); error->all(FLERR,msg); }
+      if ((fld.col == 0 && f->size_peratom_cols != 0) || (fld.col > 0 && fld.col > f->size_peratom_cols)) {
+        snprintf(msg,sizeof(msg),"Dump hdf5: fix '%s' per-atom %s does not match the field",fld.id.c_str(),
+                 f->size_peratom_cols ? "array (give a column f_ID[i])" : "vector (no column index)");
+        error->all(FLERR,msg);
+      }
+      if (f->peratom_freq > 0 && nevery_ % f->peratom_freq) {
+        snprintf(msg,sizeof(msg),"Dump hdf5: fix '%s' per-atom values are not computed at the dump frequency",fld.id.c_str());
+        error->all(FLERR,msg);
+      }
+    } else {
+      fld.index = input->variable->find(const_cast<char *>(fld.id.c_str()));
+      if (fld.index < 0) { snprintf(msg,sizeof(msg),"Dump hdf5: variable '%s' does not exist",fld.id.c_str()); error->all(FLERR,msg); }
+      if (!input->variable->atomstyle(fld.index)) { snprintf(msg,sizeof(msg),"Dump hdf5: variable '%s' is not atom-style",fld.id.c_str()); error->all(FLERR,msg); }
+    }
+  }
 #endif
+}
+
+/* ----------------------------------------------------------------------
+   S-15: values of one extra field for the selected (group) atoms
+------------------------------------------------------------------------- */
+
+void DumpHDF5::field_values(const Field &fld, std::vector<double> &out, int nlocal_selected)
+{
+  const int nlocal = atom->nlocal;
+  int *mask = atom->mask;
+  out.resize(nlocal_selected > 0 ? nlocal_selected : 1);
+  std::vector<double> vbuf;
+  const double *vec = NULL;
+  double **arr = NULL;
+  if (fld.kind == 0) {
+    Compute *c = modify->compute[fld.index];
+    if (!(c->invoked_flag & INVOKED_PERATOM)) {
+      c->compute_peratom();
+      c->invoked_flag |= INVOKED_PERATOM;
+    }
+    if (fld.col) arr = c->array_atom; else vec = c->vector_atom;
+  } else if (fld.kind == 1) {
+    Fix *f = modify->fix[fld.index];
+    if (fld.col) arr = f->array_atom; else vec = f->vector_atom;
+  } else {
+    vbuf.resize(atom->nmax > 0 ? atom->nmax : 1);
+    input->variable->compute_atom(fld.index,igroup,&vbuf[0],1,0);
+    vec = &vbuf[0];
+  }
+  size_t m = 0;
+  for (int i = 0; i < nlocal; i++) {
+    if (!(mask[i] & groupbit)) continue;
+    out[m++] = arr ? arr[i][fld.col-1] : (vec ? vec[i] : 0.0);
+  }
 }
 
 /* ----------------------------------------------------------------------
@@ -637,12 +771,28 @@ void DumpHDF5::init_style()
    Reject them instead of letting SortBuffer accept 'sort' silently.
 ------------------------------------------------------------------------- */
 
-int DumpHDF5::modify_param(int /*narg*/, char **arg)
+int DumpHDF5::modify_param(int narg, char **arg)
 {
+  // S-15: deflate compression of all datasets
+  if (strcmp(arg[0],"compress") == 0) {
+    if (narg < 2) error->all(FLERR,"Illegal dump_modify compress: expected a level 0-9");
+    compress_level_ = atoi(arg[1]);
+    if (compress_level_ < 0 || compress_level_ > 9)
+      error->all(FLERR,"Illegal dump_modify compress: the level must be 0-9");
+#ifdef LIGGGHTS_HDF5
+    unsigned int cfg = 0;
+    if (compress_level_ > 0 &&
+        (H5Zfilter_avail(H5Z_FILTER_DEFLATE) <= 0 ||
+         H5Zget_filter_info(H5Z_FILTER_DEFLATE,&cfg) < 0 ||
+         !(cfg & H5Z_FILTER_CONFIG_ENCODE_ENABLED)))
+      error->all(FLERR,"dump_modify compress: the HDF5 library has no deflate (zlib) encoder");
+#endif
+    return 2;
+  }
   char msg[512];
   snprintf(msg,sizeof(msg),
            "dump_modify keyword '%s' is not supported by dump %s "
-           "(supported: append, every, first, flush, pad)",arg[0],style);
+           "(supported: append, every, first, flush, pad, compress)",arg[0],style);
   error->all(FLERR,msg);
   return 0;
 }
@@ -702,6 +852,9 @@ std::string DumpHDF5::grid_xml(const StepEntry &e) const
   s += attribute_xml("force","Vector","Node",data_item("Float",8,n,3,e.h5ref,e.step,"force"));
   s += attribute_xml("omega","Vector","Node",data_item("Float",8,n,3,e.h5ref,e.step,"omega"));
   s += attribute_xml("radius","Scalar","Node",data_item("Float",8,n,1,e.h5ref,e.step,"radius"));
+  for (size_t k = 0; k < e.extra.size(); ++k)
+    s += attribute_xml(e.extra[k].c_str(),"Scalar","Node",
+                       data_item("Float",8,n,1,e.h5ref,e.step,e.extra[k].c_str()));
   s += "      </Grid>\n";
   return s;
 }
@@ -769,6 +922,12 @@ void DumpHDF5::write()
   if (n > 0)
     pack_local(&ids[0],&types[0],&positions[0],&velocities[0],&forces[0],
                &omegas[0],&radii[0],nlocal_selected);
+
+  // S-15: extra per-atom fields (computes, fixes, atom-style variables);
+  // evaluated on all ranks before the collective HDF5 calls
+  std::vector<std::vector<double> > extra(fields_.size());
+  for (size_t k = 0; k < fields_.size(); ++k)
+    field_values(fields_[k],extra[k],nlocal_selected);
 
   const bigint step = update->ntimestep;
   // elapsed simulation time as LIGGGHTS computes it (thermo keyword 'time')
@@ -875,13 +1034,17 @@ void DumpHDF5::write()
   const hid_t g = group.get();
   const hid_t x = dxpl.get();
 
-  write_dataset(st,g,"id",H5T_NATIVE_LLONG,1,rows,lrows,off,1,x,n ? &ids[0] : NULL);
-  write_dataset(st,g,"type",H5T_NATIVE_INT,1,rows,lrows,off,1,x,n ? &types[0] : NULL);
-  write_dataset(st,g,"position",H5T_NATIVE_DOUBLE,2,rows,lrows,off,3,x,n ? &positions[0] : NULL);
-  write_dataset(st,g,"velocity",H5T_NATIVE_DOUBLE,2,rows,lrows,off,3,x,n ? &velocities[0] : NULL);
-  write_dataset(st,g,"force",H5T_NATIVE_DOUBLE,2,rows,lrows,off,3,x,n ? &forces[0] : NULL);
-  write_dataset(st,g,"omega",H5T_NATIVE_DOUBLE,2,rows,lrows,off,3,x,n ? &omegas[0] : NULL);
-  write_dataset(st,g,"radius",H5T_NATIVE_DOUBLE,1,rows,lrows,off,1,x,n ? &radii[0] : NULL);
+  const int z = compress_level_;
+  write_dataset(st,g,"id",H5T_NATIVE_LLONG,1,rows,lrows,off,1,x,n ? &ids[0] : NULL,z);
+  write_dataset(st,g,"type",H5T_NATIVE_INT,1,rows,lrows,off,1,x,n ? &types[0] : NULL,z);
+  write_dataset(st,g,"position",H5T_NATIVE_DOUBLE,2,rows,lrows,off,3,x,n ? &positions[0] : NULL,z);
+  write_dataset(st,g,"velocity",H5T_NATIVE_DOUBLE,2,rows,lrows,off,3,x,n ? &velocities[0] : NULL,z);
+  write_dataset(st,g,"force",H5T_NATIVE_DOUBLE,2,rows,lrows,off,3,x,n ? &forces[0] : NULL,z);
+  write_dataset(st,g,"omega",H5T_NATIVE_DOUBLE,2,rows,lrows,off,3,x,n ? &omegas[0] : NULL,z);
+  write_dataset(st,g,"radius",H5T_NATIVE_DOUBLE,1,rows,lrows,off,1,x,n ? &radii[0] : NULL,z);
+  for (size_t k = 0; k < fields_.size(); ++k)
+    write_dataset(st,g,fields_[k].dataset.c_str(),H5T_NATIVE_DOUBLE,1,rows,lrows,off,1,x,
+                  n ? &extra[k][0] : NULL,z);
   write_step_attributes(st,g,step,time);
 
   st.check(dxpl.close(),"H5Pclose(dataset transfer)");
@@ -897,6 +1060,7 @@ void DumpHDF5::write()
   e.count = global_count_ll;
   e.h5ref = basename_of(open_name_);
   e.has_type = true;
+  for (size_t k = 0; k < fields_.size(); ++k) e.extra.push_back(fields_[k].dataset);
   const int where = insert_entry(entries_,e);
   if (me == 0) update_xdmf(e,where);
 #endif

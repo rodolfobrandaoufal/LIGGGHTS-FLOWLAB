@@ -78,6 +78,7 @@ struct StepEntry {
   long long count;      // particles (hdf5) or triangles (mesh/hdf5)
   std::string h5ref;    // HDF5 file name relative to the XDMF file
   bool has_type;        // particle dump: 'type' dataset present
+  std::vector<std::string> extra;   // particle dump: per-atom c_/f_/v_ datasets (S-15)
   StepEntry() : step(0), time(0.0), count(0), has_type(false) {}
 };
 
@@ -177,7 +178,7 @@ class Status {
 void write_dataset(Status &st, hid_t loc, const char *name, hid_t type,
                    int rank, hsize_t rows_global, hsize_t rows_local,
                    hsize_t row_offset, hsize_t ncol, hid_t dxpl,
-                   const void *data);
+                   const void *data, int deflate = 0);
 
 void write_scalar_attribute(Status &st, hid_t loc, const char *name,
                             hid_t type, const void *value);
@@ -247,6 +248,20 @@ class DumpHDF5 : public Dump {
   bool opened_once_;                  // single file: created/opened before
   double time_offset_;                // append mode, see continuity_offset()
   bool time_offset_set_;
+
+  // S-15: extra per-atom fields (c_ID, c_ID[i], f_ID, f_ID[i], v_name) and
+  // 'dump_modify ID compress N' (deflate level 0-9)
+  struct Field {
+    int kind;             // 0 compute, 1 fix, 2 variable
+    std::string id;       // compute/fix ID or variable name
+    int col;              // 0: per-atom vector, i > 0: column i of the per-atom array
+    int index;            // resolved in init_style()
+    std::string dataset;  // dataset name (c_ID_i, ...)
+  };
+  std::vector<Field> fields_;
+  int compress_level_;
+  int nevery_;           // dump frequency (fix per-atom frequency check)
+  void field_values(const Field &fld, std::vector<double> &out, int nlocal_selected);
 
   std::string grid_xml(const DumpHDF5Util::StepEntry &e) const;
   std::string all_grids_xml() const;
