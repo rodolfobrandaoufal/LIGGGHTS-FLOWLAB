@@ -82,6 +82,7 @@ FixNeighlistMesh::FixNeighlistMesh(LAMMPS *lmp, int narg, char **arg)
   changingMesh(false),
   changingDomain(false),
   last_bin_update(-1),
+  boxVersionSeen_(-1),
   avec(0),
   otherList_(false)
 {
@@ -152,7 +153,10 @@ void FixNeighlistMesh::post_create()
 void FixNeighlistMesh::initializeNeighlist()
 {
     changingMesh = mesh_->isMoving() || mesh_->isDeforming();
-    changingDomain = (domain->nonperiodic == 2) || domain->box_change;
+    // finding B-01: sub-domains that only move when fix balance applies new
+    // cuts keep the cached bin lists (rebuilt below when box_version changes);
+    // a changing box size or shape keeps the uncached path
+    changingDomain = (domain->nonperiodic == 2) || domain->box_change_size || domain->box_change_shape;
 
     // remove old lists, init new ones
     
@@ -232,7 +236,10 @@ void FixNeighlistMesh::pre_force(int)
     if(!buildNeighList) return;
 
     changingMesh = mesh_->isMoving() || mesh_->isDeforming();
-    changingDomain = (domain->nonperiodic == 2) || domain->box_change;
+    // finding B-01: sub-domains that only move when fix balance applies new
+    // cuts keep the cached bin lists (rebuilt below when box_version changes);
+    // a changing box size or shape keeps the uncached path
+    changingDomain = (domain->nonperiodic == 2) || domain->box_change_size || domain->box_change_shape;
 
     buildNeighList = false;
     numAllContacts_ = 0;
@@ -279,7 +286,12 @@ void FixNeighlistMesh::pre_force(int)
     }
 
     // update precomputed bins if necessary
-    if((skin != prev_skin) || (distmax != prev_distmax) || (neighbor->last_setup_bins_timestep > last_bin_update)) {
+    // with box_change set, setup_bins() runs at every reneighboring; the bins
+    // only differ if the box or the sub-domains changed (B-01)
+    const bool boxChanged = domain->box_change && domain->box_changed_since(boxVersionSeen_);
+    const bool binsChanged = (neighbor->last_setup_bins_timestep > last_bin_update) &&
+                             (last_bin_update < 0 || !domain->box_change || boxChanged);
+    if((skin != prev_skin) || (distmax != prev_distmax) || binsChanged) {
       generate_bin_list(nall);
     }
 

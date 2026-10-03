@@ -98,6 +98,7 @@ Atom::Atom(LAMMPS *lmp) : Pointers(lmp)
   sortfreq = 1000;
   nextsort = 0;
   userbinsize = 0.0;
+  sortbinfactor = 0.5;
   maxbin = maxnext = 0;
   binhead = NULL;
   next = permute = NULL;
@@ -560,6 +561,12 @@ void Atom::modify_params(int narg, char **arg)
         error->all(FLERR,"Atom_modify sort and first options "
                    "cannot be used together");
       iarg += 3;
+    } else if (strcmp(arg[iarg],"sort_bin_factor") == 0) {
+      if (iarg+2 > narg) error->all(FLERR,"Illegal atom_modify command");
+      sortbinfactor = force->numeric(FLERR,arg[iarg+1]);
+      if (sortbinfactor <= 0.0)
+        error->all(FLERR,"Illegal atom_modify command: sort_bin_factor must be > 0");
+      iarg += 2;
     } else error->all(FLERR,"Illegal atom_modify command");
   }
 }
@@ -1415,13 +1422,13 @@ void Atom::setup_sort_bins()
 {
   // binsize:
   // user setting if explicitly set
-  // 1/2 of neighbor cutoff for non-CUDA
+  // sortbinfactor (default 1/2) of neighbor cutoff for non-CUDA
   // CUDA_CHUNK atoms/proc for CUDA
   // check if neighbor cutoff = 0.0
 
   double binsize;
   if (userbinsize > 0.0) binsize = userbinsize;
-  else if (!lmp->cuda) binsize = 0.5 * neighbor->cutneighmax;
+  else if (!lmp->cuda) binsize = sortbinfactor * neighbor->cutneighmax;
   else {
     if (domain->dimension == 3) {
       double vol = (domain->boxhi[0]-domain->boxlo[0]) *

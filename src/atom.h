@@ -317,6 +317,7 @@ class Atom : protected Pointers {
   int *next;                      // next atom in bin
   int *permute;                   // permutation vector
   double userbinsize;             // requested sort bin size
+  double sortbinfactor;           // default sort bin = factor * cutneighmax
   double bininvx,bininvy,bininvz; // inverse actual bin sizes
   double bboxlo[3],bboxhi[3];     // bounding box of my sub-domain
 

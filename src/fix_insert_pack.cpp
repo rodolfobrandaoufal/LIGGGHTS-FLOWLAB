@@ -163,6 +163,7 @@ void FixInsertPack::init_defaults()
       ins_region = NULL;
       idregion = 0;
       ntry_mc = 100000;
+      box_version_seen_ = -1;
 
       volumefraction_region = 0.0;
       ntotal_region = 0;
@@ -356,7 +357,8 @@ int FixInsertPack::calc_ninsert_this()
 double FixInsertPack::insertion_fraction()
 {
     // have to re-calculate region_volume_local in case simulation box is changing
-    if(domain->box_change)
+    // finding B-01: only if the box or sub-domains really changed
+    if(domain->box_change && domain->box_changed_since(box_version_seen_))
         calc_region_volume_local();
 
     return region_volume_local/region_volume;

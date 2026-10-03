@@ -141,6 +141,7 @@ Domain::Domain(LAMMPS *lmp) :
     box_change_size(0),
     box_change_shape(0),
     box_change_domain(0),
+    box_version(0),
     deform_flag(0),
     deform_vremap(0),
     deform_groupbit(0),
@@ -398,6 +399,38 @@ void Domain::set_local_box()
       subhi[2] = boxlo[2] + zprd*zsplit[myloc[2]+1];
     else subhi[2] = boxhi[2];
 
+  }
+
+  update_box_version();
+}
+
+/* ----------------------------------------------------------------------
+   finding B-01: bump box_version if the global box, the tilt factors or the
+   sub-domain splits differ from the previous call (global data only, so all
+   procs agree)
+------------------------------------------------------------------------- */
+
+void Domain::update_box_version()
+{
+  int *procgrid = comm->procgrid;
+  std::vector<double> state;
+  state.reserve(12 + procgrid[0] + procgrid[1] + procgrid[2]);
+  for (int d = 0; d < 3; d++) {
+    state.push_back(boxlo[d]);
+    state.push_back(boxhi[d]);
+    state.push_back(static_cast<double>(procgrid[d]));
+  }
+  state.push_back(xy);
+  state.push_back(xz);
+  state.push_back(yz);
+  double *split[3] = {comm->xsplit, comm->ysplit, comm->zsplit};
+  for (int d = 0; d < 3; d++)
+    if (split[d])
+      for (int i = 0; i <= procgrid[d]; i++) state.push_back(split[d][i]);
+
+  if (state != box_version_state_) {
+    box_version_state_.swap(state);
+    box_version++;
   }
 }
 

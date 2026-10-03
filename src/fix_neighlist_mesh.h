@@ -155,6 +155,7 @@ class FixNeighlistMesh : public Fix
     bool changingDomain;
 
     bigint last_bin_update;
+    bigint boxVersionSeen_;       // Domain::box_version at the last bin-list update (B-01)
 
     void generate_bin_list(size_t nall);
 

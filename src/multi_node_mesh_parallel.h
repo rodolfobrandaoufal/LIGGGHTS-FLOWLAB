@@ -223,6 +223,8 @@ namespace LAMMPS_NS
 
         int *pbc_flag_;              // general flag for sending atoms thru PBC
         int **pbc_;                  // dimension flags for PBC adjustments
+
+        bigint boxVersionSeen_;      // Domain::box_version at the last exchange (B-01)
   };
 
   // *************************************

@@ -53,6 +53,7 @@
 #define LMP_DOMAIN_H
 
 #include <cmath>
+#include <vector>
 #include "pointers.h"
 #include "error.h" 
 #include "comm.h" 
@@ -126,6 +127,15 @@ class Domain : protected Pointers {
   int box_change_shape;          // 1 if box shape changes, 0 if not
                                  
   int box_change_domain;         // 1 if proc sub-domains change, 0 if not
+
+  // finding B-01: increases whenever set_local_box() sees a different global
+  // box, tilt or sub-domain split than the previous call. It depends only on
+  // global data, so it is identical on all procs and may gate collectives.
+  // box_change only says that the box *may* change (e.g. fix balance exists).
+  bigint box_version;
+  // true if box_version changed since 'seen' was last updated; updates 'seen'
+  bool box_changed_since(bigint &seen)
+  { const bool changed = (seen != box_version); seen = box_version; return changed; }
 
   int deform_flag;                // 1 if fix deform exist, else 0
   int deform_vremap;              // 1 if fix deform remaps v, else 0
@@ -205,6 +215,8 @@ class Domain : protected Pointers {
 
  private:
   double small[3];                  // fractions of box lengths
+  std::vector<double> box_version_state_;   // global state behind box_version
+  void update_box_version();
 };
 
 #include "domain_I.h"

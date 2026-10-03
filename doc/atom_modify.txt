@@ -13,19 +13,22 @@ atom_modify command :h3
 atom_modify keyword values ... :pre
 
 one or more keyword/value pairs may be appended :ulb,l
-keyword = {map} or {first} or {sort} :l
+keyword = {map} or {first} or {sort} or {sort_bin_factor} :l
   {map} value = {array} or {hash}
   {first} value = group-ID = group whose atoms will appear first in internal atom lists
   {sort} values = Nfreq binsize
     Nfreq = sort atoms spatially every this many time steps
-    binsize = bin size for spatial sorting (distance units) :pre
+    binsize = bin size for spatial sorting (distance units)
+  {sort_bin_factor} value = f
+    f = sort bin size as a multiple of the neighbor cutoff, used when binsize = 0.0 :pre
 :ule
 
 [Examples:]
 
 atom_modify map hash
 atom_modify map array sort 10000 2.0
-atom_modify first colloid :pre
+atom_modify first colloid
+atom_modify sort_bin_factor 1.0 :pre
 
 [Description:]
 
@@ -78,9 +81,11 @@ or iterations during a minimization.  More precisely, reordering
 occurs at the first reneighboring that occurs after the target
 timestep.  The reordering is performed locally by each processor,
 using bins of the specified {binsize}.  If {binsize} is set to 0.0,
-then a binsize equal to half the "neighbor"_neighbor.html cutoff
-distance (force cutoff plus skin distance) is used, which is a
-reasonable value.  After the atoms have been binned, they are
+then a binsize equal to {f} times the "neighbor"_neighbor.html cutoff
+distance (force cutoff plus skin distance) is used, with {f} = 0.5
+unless set by the {sort_bin_factor} keyword.  Unlike an absolute
+{binsize}, this follows the cutoff when it changes, for example when
+particles grow.  After the atoms have been binned, they are
 reordered so that atoms in the same bin are adjacent to each other in
 the processor's 1d list of atoms.
 
@@ -91,6 +96,15 @@ pairwise interactions and neighbor lists are computed.  Note that if
 bins are too small, there will be few atoms/bin.  Likewise if bins are
 too large, there will be many atoms/bin.  In both cases, the goal of
 cache locality will be undermined.
+
+For granular simulations with many atoms per processor, {sort_bin_factor}
+1.0 is usually faster than the default 0.5. Measured on an idle
+machine (paired runs, settled bed, hertz with history): with 200k atoms
+per processor the loop was 13-15 % faster, at 25k atoms 1.5-3 % faster,
+and on a 10k-atom chute there was no measurable change.  It changes the atom order, and therefore the
+summation order, so results differ from the default at round-off level
+(see the note below).  The default stays 0.5 so that existing results
+remain bitwise reproducible.
 
 IMPORTANT NOTE: Running a simulation with sorting on versus off should
 not change the simulation results in a statistical sense.  However, a
@@ -120,7 +134,7 @@ By default, non-molecular problems do not allocate maps.  For
 molecular problems, the option default is map = array.  By default, a
 "first" group is not defined.  By default, sorting is enabled with a
 frequency of 1000 and a binsize of 0.0, which means the neighbor
-cutoff will be used to set the bin size.
+cutoff will be used to set the bin size, with sort_bin_factor = 0.5.
 
 :line
 

@@ -77,7 +77,8 @@
     sendwraplist_(0),
     maxsendlist_(0),
     pbc_flag_(0),
-    pbc_(0)
+    pbc_(0),
+    boxVersionSeen_(-1)
   {
       // initialize comm buffers & exchange memory
       
@@ -658,7 +659,12 @@
       // perform operations that should be done before setting up parallellism and exchanging elements
       preSetup();
 
-      if(!setupFlag && !this->isMoving() && !this->isDeforming() && !this->domain->box_change) return;
+      // finding B-01: a box that only *may* change (box_change, e.g. fix balance)
+      // needs the exchange only when box or sub-domains really changed;
+      // box_version is global, so all procs take the same branch
+      const bool boxChanged = this->domain->box_change &&
+                              this->domain->box_changed_since(boxVersionSeen_);
+      if(!setupFlag && !this->isMoving() && !this->isDeforming() && !boxChanged) return;
 
       // set-up mesh parallelism
       setup();

@@ -83,6 +83,7 @@ class FixInsertPack : public FixInsert {
   class Region *ins_region;
   char *idregion;
   double region_volume,region_volume_local;
+  bigint box_version_seen_;   // Domain::box_version at the last calc_region_volume_local() (B-01)
   int ntry_mc;
 
   // target that region should fulfil after each insertion

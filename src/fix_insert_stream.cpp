@@ -159,6 +159,7 @@ FixInsertStream::FixInsertStream(LAMMPS *lmp, int narg, char **arg) :
 
   ins_fraction = 0.;
   do_ins_fraction_calc = true;
+  box_version_seen_ = -1;
 
   nevery = 1;
 }
@@ -513,7 +514,10 @@ double FixInsertStream::insertion_fraction()
     // have to re-calculate insertion fraction for my subbox
     // in case subdomains of simulation box are changing
     
-    if(domain->box_change || do_ins_fraction_calc || ins_face->isMoving())
+    // finding B-01: only if the box or sub-domains really changed (box_version
+    // is global, so all procs draw the same random numbers)
+    const bool box_changed = domain->box_change && domain->box_changed_since(box_version_seen_);
+    if(box_changed || do_ins_fraction_calc || ins_face->isMoving())
         calc_ins_fraction();
 
     return ins_fraction;

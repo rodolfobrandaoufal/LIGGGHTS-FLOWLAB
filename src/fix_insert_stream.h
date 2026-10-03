@@ -143,6 +143,7 @@ class FixInsertStream : public FixInsert {
   double v_normal[3];      // insertion velocity projected on face
   double ins_fraction;     
   bool do_ins_fraction_calc;
+  bigint box_version_seen_;   // Domain::box_version at the last calc_ins_fraction() (B-01)
 
   // mesh face and bounding box of extruded face
   class TriMesh *ins_face;
