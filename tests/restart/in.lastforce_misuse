@@ -1,0 +1,28 @@
+# fix store/lastforce misuse (tests/restart, LIGGGHTS modernization branch, X-02 cause A)
+#   case 1 (order): store/lastforce defined before fix gravity -> error at init
+#   case 2 (vel)  : velocities changed between the runs -> warning, recomputed forces
+variable case index 1
+atom_style    granular
+atom_modify   map array
+boundary      p p f
+newton        off
+communicate   single vel yes
+units         si
+read_restart  gen.restart
+neighbor      0.0008 bin
+neigh_modify  delay 0
+fix  m1 all property/global youngsModulus peratomtype 5.e6 7.e6
+fix  m2 all property/global poissonsRatio peratomtype 0.3 0.35
+fix  m3 all property/global coefficientRestitution peratomtypepair 2 0.5 0.6 0.6 0.7
+fix  m4 all property/global coefficientFriction peratomtypepair 2 0.5 0.4 0.4 0.3
+pair_style  gran model hertz tangential history
+pair_coeff  * *
+if "${case} == 1" then "fix lastf all store/lastforce"
+fix  w1 all wall/gran model hertz tangential history primitive type 1 zplane 0.0
+fix gravi all gravity 500.0 vector 0.1 0.2 -1.0
+fix integr all nve/sphere
+if "${case} == 2" then "fix lastf all store/lastforce"
+timestep 2e-6
+run 200
+if "${case} == 2" then "velocity all set 0.0 0.0 -0.01 sum yes units box"
+run 200

@@ -69,6 +69,26 @@ t1=$(tcol 4000 $W/ch_off_1.c/log); t2=$(tcol 4000 $W/ch_off_1.r/log)
 echo "== 1b. reference only (not a pass criterion): uninterrupted 'run N+M' vs the restart chain =="
 run ch_one_1 1 "$BIN" in.chain - -var mode 3 && echo "INFO uninterrupted vs restart chain np 1: $($CMP $W/ch_one_1 $W/ch_off_1.r 1)"
 
+echo "== 1c. X-02 cause A: with 'fix store/lastforce' the restart chain equals the uninterrupted run =="
+# without the fix the first step after the run boundary uses forces recomputed with v(N)
+# instead of v(N-1/2); measured 2.5e-13 with the fix vs O(1e-1) contact forces without
+for np in 1 4; do
+  [ $np -le $NPMAX ] || continue
+  run lf_one_$np $np "$BIN" in.chain - -var mode 3 -var lf 1 && \
+  run lf_$np.c $np "$BIN" in.chain - -var mode 1 -var lf 1 && \
+  run lf_$np.r $np "$BIN" in.chain $W/lf_$np.c/mid.restart -var mode 2 -var lf 1 || { rc=1; continue; }
+  out=$($CMP $W/lf_one_$np $W/lf_$np.r 1e-9) && pass "store/lastforce np $np: restart chain vs uninterrupted: $out" \
+                                            || fail "store/lastforce np $np: restart chain vs uninterrupted: $out"
+  same lf_$np.c lf_$np.r && pass "store/lastforce np $np: restart chain bitwise == in-process continuation" \
+                         || fail "store/lastforce np $np: restart chain vs in-process: $($CMP $W/lf_$np.c $W/lf_$np.r 1)"
+done
+[ -d $W/ch_one_1 ] && { $CMP $W/ch_one_1 $W/ch_off_1.r 1e-9 > /dev/null && fail "without store/lastforce the chain already matches to 1e-9 (check is not sensitive)" \
+                                                                   || pass "without store/lastforce the chain differs by more than 1e-9 (check is sensitive)"; }
+run lf_order 1 "$BIN" in.lastforce_misuse - -var case 1; grep -q "must be defined after all fixes that add forces (fix w1" $W/lf_order/out \
+  && pass "store/lastforce before wall/gran and gravity is an error naming the later fix" || fail "store/lastforce order check: $(grep -m1 ERROR $W/lf_order/out)"
+run lf_vel 1 "$BIN" in.lastforce_misuse - -var case 2 && grep -q "store/lastforce: the state changed" $W/lf_vel/out \
+  && pass "store/lastforce warns and recomputes when velocities changed between runs" || fail "store/lastforce: no warning after 'velocity set'"
+
 echo "== 2. X-02: insertion random sequences continue after read_restart (same number of procs) =="
 for ins in 1 2; do for np in 1 4; do
   [ $np -le $NPMAX ] || continue; n=ins${ins}_$np

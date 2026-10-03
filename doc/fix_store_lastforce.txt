@@ -1,0 +1,89 @@
+"LIGGGHTS(R)-PUBLIC WWW Site"_liws - "LIGGGHTS(R)-PUBLIC Documentation"_ld - "LIGGGHTS(R)-PUBLIC Commands"_lc :c
+
+:link(liws,http://www.cfdem.com)
+:link(ld,Manual.html)
+:link(lc,Section_commands.html#comm)
+
+:line
+
+fix store/lastforce command :h3
+
+[Syntax:]
+
+fix ID group-ID store/lastforce :pre
+
+ID, group-ID are documented in "fix"_fix.html command :ulb,l
+store/lastforce = style name of this fix command
+no further arguments :l
+:ule
+
+[Examples:]
+
+fix lastf all store/lastforce :pre
+
+[Description:]
+
+Makes a continued run, i.e. "run N" followed by "run M" in one input
+script, or "run N", "write_restart", and "read_restart" followed by
+"run M", follow the uninterrupted "run N+M" to round-off.
+
+At the start of every run, "Verlet" recomputes all forces at the current
+step with the full-step velocities v(N). The uninterrupted run uses the
+forces that were computed during step N with the half-step velocities
+v(N-1/2). With velocity-dependent contact forces (dashpots, viscous
+cohesion) the two differ by a term of order gamma*dt^2, so a continued
+run and an uninterrupted run separate after the run boundary and,
+because granular systems are chaotic, diverge over time. For a settling
+bed (hertz with damping, 551 particles) the contact forces differed by
+2.6e-2 (relative) 2000 steps after the boundary.
+
+This fix stores the force and torque of every atom at the end of each
+step. At the start of the next run it puts them back, after all forces
+of the setup have been computed, if nothing changed in between:
+
+the time step is the stored one, :ulb,l
+every atom has stored data (atoms created in between have none), :l
+velocities and angular velocities are bitwise the stored values, :l
+positions are the stored ones up to a periodic image. :l,ule
+
+If any condition fails on any processor, the recomputed forces are kept
+on all processors and a warning is printed once. With the fix, the
+settling bed above followed the uninterrupted run to 2.5e-13 (1 proc)
+and 1.2e-12 (4 procs) in the contact forces, which is the round-off
+caused by the neighbor list rebuild at the run boundary.
+
+The stored values migrate with the atoms and are written to restart
+files, so a restart chain behaves like an in-process continuation.
+
+The fix must be defined after all fixes that add forces (for example
+"fix gravity"_fix_gravity.html and "fix wall/gran"_fix_wall_gran.html),
+because those add their contributions in their own setup and the
+stored values replace the total. This is checked at the start of each
+run.
+
+Changes made between the runs that do not show up in the checked
+quantities, for example new material properties, a changed time step
+size or other force-field settings, are not detected: the restored
+forces then belong to the old settings for the first half-step. Leave
+the fix out of such input scripts.
+
+[Restart, fix_modify, output, run start/stop, minimize info:]
+
+The step of the stored values and the per-atom values (16 doubles per
+atom) are written to "binary restart files"_restart.html. None of the
+"fix_modify"_fix_modify.html options are relevant to this fix. No
+global or per-atom quantities are stored by this fix for access by
+various "output commands"_Section_howto.html#howto_15. This fix is not
+invoked during "energy minimization"_minimize.html.
+
+[Restrictions:]
+
+Requires an atom style with torque and angular velocity (granular,
+sphere). Not supported with "run_style respa"_run_style.html.
+
+[Related commands:]
+
+"write_restart"_write_restart.html, "read_restart"_read_restart.html,
+"run"_run.html
+
+[Default:] none
