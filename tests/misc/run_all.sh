@@ -15,6 +15,10 @@
 #     'run N; write_restart; run M' (np 1 and 4; also N = 0, before the first
 #     insertion); with ref_bin, old files read by <bin> and new files read by
 #     ref_bin behave like ref_bin with its own files (both directions).
+#  4. write_data -> read_data round trip: a file written by write_data reads
+#     back (its title line, which carries the version string, can exceed
+#     read_data's line buffer) and writes the same data again; a title of
+#     1000 characters is skipped as well.
 # Usage: run_all.sh <bin> [ref_bin] [workdir]
 # Env:   MISC_CPUS (taskset list, default 14-27), MISC_SQ_BIN, MISC_SQ_REF,
 #        MISC_NP (max ranks, default 4)
@@ -158,6 +162,18 @@ if [ $NP -ge 4 ] && [ -f $W/st_4_2500.c/mid.restart ]; then
   lmp $W/np41 1 $BIN $RT/in.insert -var tdir $RT -var mode 2 -var ins 0 && ! grep -q "random sequences continued" $W/np41/out \
     && pass "restart written at np 4, read at np 1: runs, legacy re-seeding" || fail "np 4 -> np 1 restart"
 fi
+
+echo "== 4. write_data -> read_data round trip"
+d=$W/datatrip; rm -rf $d; mkdir -p $d
+if lmp $d 1 $BIN $HERE/in.datatrip -var mode 0; then
+  echo "    title line of w0.data: $(head -1 $d/w0.data | wc -c) characters"
+  { printf 'long title %.0s' $(seq 1 90); echo; tail -n +2 $d/w0.data; } > $d/long.data
+  for f in w0.data long.data; do
+    if lmp $d 1 $BIN $HERE/in.datatrip -var mode 1 -var f $f && cmp -s <(tail -n +2 $d/w0.data) <(tail -n +2 $d/w1.data); then
+      pass "read_data $f ($(head -1 $d/$f | wc -c)-character title), write_data again: identical data"
+    else fail "read_data $f ($(head -1 $d/$f | wc -c)-character title): does not read back identically (see $d/out)"; fi
+  done
+else fail "write_data of the small system did not run"; fi
 
 echo "misc: $([ $rc = 0 ] && echo PASS || echo FAIL) ($nrun checks, work dir $W)"
 [ $nrun = 0 ] && exit 77

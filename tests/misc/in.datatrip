@@ -1,0 +1,28 @@
+# write_data -> read_data round trip of a small granular system (misc suite, section 4)
+# mode 0: build, write w0.data; mode 1: read_data ${f}, write w1.data
+atom_style granular
+atom_modify map array
+boundary p p f
+newton off
+communicate single vel yes
+units si
+variable mode index 0
+if "${mode} == 0" then &
+  "region dom block 0 0.02 0 0.02 0 0.02 units box" &
+  "create_box 1 dom" &
+  "lattice sc 0.004" &
+  "create_atoms 1 box" &
+  "set group all diameter 0.003 density 2500" &
+  "velocity all set 0.1 -0.2 0.05" &
+else &
+  "read_data ${f}"
+neighbor 0.0005 bin
+neigh_modify delay 0
+fix m1 all property/global youngsModulus peratomtype 5.e6
+fix m2 all property/global poissonsRatio peratomtype 0.45
+fix m3 all property/global coefficientRestitution peratomtypepair 1 0.3
+fix m4 all property/global coefficientFriction peratomtypepair 1 0.5
+pair_style gran model hertz tangential history
+pair_coeff * *
+write_data w${mode}.data
+run 0

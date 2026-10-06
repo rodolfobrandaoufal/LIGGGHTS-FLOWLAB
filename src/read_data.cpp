@@ -458,11 +458,14 @@ void ReadData::header(int flag, int add)
      "EndBondTorsion Coeffs","AngleTorsion Coeffs",
      "AngleAngleTorsion Coeffs","BondBond13 Coeffs","AngleAngle Coeffs"};
 
-  // skip 1st line of file
+  // skip 1st line of file, however long
+  // (the write_data title carries the version string, which can exceed MAXLINE)
 
   if (me == 0) {
-    char *eof = fgets(line,MAXLINE,fp);
-    if (eof == NULL) error->one(FLERR,"Unexpected end of data file");
+    do {
+      char *eof = fgets(line,MAXLINE,fp);
+      if (eof == NULL) error->one(FLERR,"Unexpected end of data file");
+    } while (!strchr(line,'\n'));
   }
 
   // customize for new header lines
