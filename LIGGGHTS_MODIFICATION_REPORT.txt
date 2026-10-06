@@ -5,6 +5,11 @@ Branch: modernization/baseline-vv
 Scope: local changes from the git-tracked LIGGGHTS tree (branch base) to the
 current working tree, superseding the report generated 2026-07-02.
 
+NOTE (2026-10-06): the GPU_DEM module (src/GPU_DEM/, scripts/gpu_dem/,
+docs/gpu_*.md, CMake option LIGGGHTS_ENABLE_GPU_DEM) described below has
+been removed from this version by the project owner. The sections about it
+are kept as a historical record only.
+
 ===============================================================================
 1. Executive Summary
 ===============================================================================

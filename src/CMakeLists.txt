@@ -144,7 +144,6 @@ OPTION(ENABLE_LONGLONG_TO_LONG "System does not recognize “long long” data t
 
 # Modernization-branch options (documented in doc/Section_start.txt)
 OPTION(LIGGGHTS_ENABLE_HDF5 "Build dump hdf5 and dump mesh/hdf5 (requires a parallel HDF5)" OFF)
-OPTION(LIGGGHTS_ENABLE_GPU_DEM "Also configure the experimental src/GPU_DEM subproject" OFF)
 OPTION(LIGGGHTS_FAST_MATH "Compile with -ffast-math (changes floating-point results; not bitwise reproducible with the Make route)" OFF)
 OPTION(LIGGGHTS_NATIVE_ARCH "Compile with -march=native (binary only runs on CPUs like the build host)" OFF)
 OPTION(LIGGGHTS_MATH_ERRNO "Keep errno semantics for libm calls. OFF adds -fno-math-errno: no measured speed-up, and NOT bitwise identical for some contact models (hooke/hysteresis); see audit/fixes/phaseC/kernel/REPORT.md" ON)
@@ -430,17 +429,6 @@ IF(ENABLE_MODEL_SURFACE_MULTICONTACT)
 ENDIF()
 
 WRITE_WHITELIST()
-
-#========================================
-# Sub-projects are opt-in; subdirectories are no longer added automatically
-# (P0-07), so a CPU-only configure never touches src/GPU_DEM.
-IF(LIGGGHTS_ENABLE_GPU_DEM)
-  IF(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/GPU_DEM/CMakeLists.txt")
-    MESSAGE(FATAL_ERROR "LIGGGHTS_ENABLE_GPU_DEM=ON but ${CMAKE_CURRENT_SOURCE_DIR}/GPU_DEM/CMakeLists.txt does not exist")
-  ENDIF()
-  ADD_SUBDIRECTORY(GPU_DEM)
-  SET(ENABLED_OPTIONS "${ENABLED_OPTIONS} GPU_DEM")
-ENDIF()
 
 #=======================================
 FILE(GLOB SOURCES *.cpp)

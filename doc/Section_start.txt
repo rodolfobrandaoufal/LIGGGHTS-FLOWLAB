@@ -794,7 +794,6 @@ LIGGGHTS_ENABLE_HDF5:BOOL=OFF: builds "dump hdf5"_dump_hdf5.html and dump mesh/h
 LIGGGHTS_CONTACT_WHITELIST:FILEPATH=src/contact_model_whitelist.txt: sets the list of GRAN_MODEL(...) contact-model combinations that are compiled into the fast static path. src/style_contact_model_user.whitelist is added if it exists. Combinations that are not listed still run, through a slower runtime fallback, which prints a one-time warning naming the line to add.
 LIGGGHTS_CONTACT_WHITELIST_FROM_OPTIONS:BOOL=OFF: builds the whitelist from the ENABLE_MODEL_* options (the cross product) instead of the whitelist file. This is the legacy behaviour.
 LIGGGHTS_NO_CONTACT_MODEL_FALLBACK:BOOL=OFF: strict mode. It defines LIGGGHTS_NO_CONTACT_MODEL_FALLBACK, which turns off the runtime fallback, so a combination that is not whitelisted is an error.
-LIGGGHTS_ENABLE_GPU_DEM:BOOL=OFF: also configures the experimental src/GPU_DEM subproject. Subdirectories are no longer added automatically.
 LIGGGHTS_FAST_MATH:BOOL=OFF: adds -ffast-math. This changes floating-point results, so they are no longer bitwise reproducible with the default build.
 LIGGGHTS_NATIVE_ARCH:BOOL=OFF: adds -march=native. The binary then runs only on CPUs like the build host.
 LIGGGHTS_MATH_ERRNO:BOOL=ON: keeps errno semantics for libm calls. OFF adds -fno-math-errno. It gave no measured speed-up, and some contact models (hooke/hysteresis) no longer match the default build bitwise.
