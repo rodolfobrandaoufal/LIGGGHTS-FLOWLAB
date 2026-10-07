@@ -405,6 +405,12 @@ public:
   // instantiates all contact models) and hence the serial kernel's code
   // generation stay unchanged. Returns false if the serial kernel must run.
   bool compute_force_thr(PairGran * pg, int eflag, int vflag, int addflag);
+  // the kernel template (pair_gran_omp_kernel.h): SYNC = 0 default,
+  // SYNC = 1 'synchronized_verlet on' (finding S-17), instantiated in
+  // pair_gran_omp_sync.cpp through compute_force_thr_sync()
+  template<int SYNC>
+  bool compute_force_thr_t(PairGran * pg, int eflag, int vflag, int addflag);
+  bool compute_force_thr_sync(PairGran * pg, int eflag, int vflag, int addflag);
 #endif
 
   // finding S-17, 'synchronized_verlet on': compute_force_serial_t<3>,

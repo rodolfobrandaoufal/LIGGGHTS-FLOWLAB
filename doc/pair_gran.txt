@@ -174,7 +174,8 @@ cohesion {off}, {sjkr} or {sjkr2}, and rolling_friction {off}, {cdt} or
 "fix nve/sphere"_fix_nve_sphere.html. It is not applied in the setup
 of a run or for "compute pair/gran/local"_compute_pair_gran_local.html,
 where positions and velocities are both at the full step. With
-"package omp"_package.html the serial pair kernel is used.
+"package omp"_package.html it runs in the threaded pair kernel, with
+results byte-identical to the unthreaded run (deterministic mode).
 
 The keywords {history_clear_legacy}, {multicontact_radius_legacy} and
 {synchronized_verlet} are not stored

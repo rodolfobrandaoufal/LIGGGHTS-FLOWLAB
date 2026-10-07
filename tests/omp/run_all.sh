@@ -14,6 +14,9 @@
 #      KE within 1e-9 relative of the deterministic run
 #   4. chute deck (mesh wall/gran with contact history, mesh stress + wear):
 #      np 1 x 4 threads and np 2 x 2 threads vs unthreaded np 1 / np 2 -> identical
+#   5. box deck with synchronized_verlet on: the threaded kernel runs (no serial
+#      fallback warning) and package omp 1/4 deterministic, chunk 16 and 2 ranks x 2
+#      threads are byte-identical to the unthreaded run; differs from sync off
 # exit 0 pass, 1 fail, 2 run failure, 77 skip
 here=$(cd "$(dirname "$0")" && pwd)
 BIN=$(readlink -f "${1:?usage: run_all.sh <bin> [ref_bin] [workdir]}")
@@ -68,6 +71,19 @@ run chute_np2 in.chute 2 1 "$BIN"
 run chute_np2_t2 in.chute 2 1 "$BIN" -var nt 2
 same chute_np2 chute_np2_t2 "chute (mesh wall): 2 ranks x 2 threads == 2 ranks serial"
 [ -n "$REF" ] && { run chute_ref in.chute 1 1 "$REF"; same chute_ref chute_np1 "chute: unthreaded path of <bin> == ref_bin"; }
+
+# 5. synchronized_verlet (finding S-17): threaded kernel
+run sbox_base in.box 1 1 "$BIN" -var sync 1
+for nt in 1 4; do run sbox_d$nt in.box 1 1 "$BIN" -var sync 1 -var nt $nt -var det yes; same sbox_base sbox_d$nt "box, synchronized_verlet: deterministic $nt thread(s) == serial"; done
+run sbox_chunk in.box 1 1 "$BIN" -var sync 1 -var nt 4 -var chunk 16; same sbox_base sbox_chunk "box, synchronized_verlet: 4 threads, chunk 16 == serial"
+run sbox_np2 in.box 2 1 "$BIN" -var sync 1
+run sbox_np2_t2 in.box 2 1 "$BIN" -var sync 1 -var nt 2; same sbox_np2 sbox_np2_t2 "box, synchronized_verlet: 2 ranks x 2 threads == 2 ranks serial"
+if grep -q "running the serial kernel: synchronized_verlet" "$W/sbox_d4/run.out"
+then echo "FAIL box, synchronized_verlet: serial fallback warning with 4 threads"; [ $rc = 0 ] && rc=1
+else echo "PASS box, synchronized_verlet: no serial fallback with 4 threads"; fi
+if diff -q <(thermo "$W/sbox_base/run.out") <(thermo "$W/box_base/run.out") > /dev/null
+then echo "FAIL box: synchronized_verlet on gives the same thermo as off"; [ $rc = 0 ] && rc=1
+else echo "PASS box: synchronized_verlet on differs from off"; fi
 
 [ $rc = 0 ] && echo "OMP: PASS" || echo "OMP: FAIL (rc=$rc)"
 exit $rc

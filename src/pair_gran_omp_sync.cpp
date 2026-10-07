@@ -35,17 +35,10 @@
     Contributing author and copyright for this file:
     LIGGGHTS modernization branch
 
-    OpenMP threaded kernel of pair gran (roadmap C2) with deterministic
-    (thread-count independent) force summation (roadmap B8). Per-thread
-    accumulation mode after the LAMMPS OPENMP package
-    (pair_gran_hooke_history_omp.cpp, thr_omp.cpp; Axel Kohlmeyer).
-
-    The kernel (pair_gran_omp_kernel.h) is a member of
-    PairStyles::Granular<> but is explicitly instantiated in this translation
-    unit only (its synchronized_verlet variant in pair_gran_omp_sync.cpp). lammps.cpp, which
-    instantiates all contact models, therefore compiles the serial kernel
-    exactly as without OpenMP (GCC's unit-wide inlining budget, and with it
-    FMA contraction, would otherwise change).
+    OpenMP pair gran kernel with 'synchronized_verlet on' (finding S-17;
+    Vyas et al., Comput. Phys. Commun. 2025, 109524): the instantiation
+    compute_force_thr_t<1> of the kernel in pair_gran_omp_kernel.h, made in
+    this translation unit only (see pair_gran_sync.cpp for the serial one).
 ------------------------------------------------------------------------- */
 
 #ifdef LIGGGHTS_OMP
@@ -80,46 +73,29 @@
 #include "pair_gran_omp_kernel.h"
 
 namespace LIGGGHTS {
-
-namespace ThrGranular {
-
-void pair_state_free(PairState *state)
-{
-  delete state;
-}
-
-}
-
 namespace PairStyles {
 
 using namespace ContactModels;
 using namespace LAMMPS_NS;
 
 template<typename ContactModel>
-bool Granular<ContactModel>::compute_force_thr(PairGran * pg, int eflag, int vflag, int addflag)
+bool Granular<ContactModel>::compute_force_thr_sync(PairGran * pg, int eflag, int vflag, int addflag)
 {
-  // finding S-17: 'synchronized_verlet on' has its own instantiation of the
-  // kernel (pair_gran_omp_sync.cpp); setup and compute pair/gran/local
-  // passes use the default kernel, as in compute_force_serial()
-  if (synchronized_verlet_ && !addflag && !update->setupflag)
-    return compute_force_thr_sync(pg, eflag, vflag, addflag);
-  return compute_force_thr_t<0>(pg, eflag, vflag, addflag);
+  return compute_force_thr_t<1>(pg, eflag, vflag, addflag);
 }
 
-/* ----------------------------------------------------------------------
-   explicit instantiation for every contact model of the pair factory
-   (the same list as granular_styles.h)
-------------------------------------------------------------------------- */
+/* explicit instantiation for every contact model of the pair factory
+   (the same list as granular_styles.h) */
 
 #define GRAN_MODEL(MODEL,TANGENTIAL,COHESION,ROLLING,SURFACE) \
   template bool Granular<ContactModel<GranStyle<MODEL, TANGENTIAL, COHESION, ROLLING, SURFACE> > >:: \
-    compute_force_thr(PairGran *, int, int, int);
+    compute_force_thr_sync(PairGran *, int, int, int);
 #include "style_contact_model.h"
 #undef GRAN_MODEL
 
 #ifndef LIGGGHTS_NO_CONTACT_MODEL_FALLBACK
 template bool Granular<ContactModel<GranStyle<NORMAL_OFF, TANGENTIAL_OFF, COHESION_OFF, ROLLING_OFF, SURFACE_DEFAULT> > >::
-  compute_force_thr(PairGran *, int, int, int);
+  compute_force_thr_sync(PairGran *, int, int, int);
 #endif
 
 }

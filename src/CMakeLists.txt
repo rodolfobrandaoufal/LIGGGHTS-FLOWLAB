@@ -279,7 +279,7 @@ IF(LIGGGHTS_ENABLE_OPENMP)
   # link order); inlining would change FMA contraction and break the bitwise
   # equality of the deterministic mode with the serial kernel
   IF(LIGGGHTS_OPENMP_SERIAL_BITWISE)
-    SET_SOURCE_FILES_PROPERTIES(pair_gran_omp.cpp PROPERTIES COMPILE_OPTIONS "-fno-inline")
+    SET_SOURCE_FILES_PROPERTIES(pair_gran_omp.cpp pair_gran_omp_sync.cpp PROPERTIES COMPILE_OPTIONS "-fno-inline")
   ELSE()
     SET(ENABLED_OPTIONS "${ENABLED_OPTIONS} OPENMP_NOT_SERIAL_BITWISE")
   ENDIF()
