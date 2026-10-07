@@ -59,6 +59,18 @@ cases:
       - pair_time
       - neigh_time
       - rotational_energy_trend
+  - id: silo_fill_discharge
+    evidence_class: load-balance benchmark (roadmap B-1); see benchmarks/cases/silo/README.md
+    input: benchmarks/cases/silo/in.silo
+    run_from: benchmarks/cases/silo (mesh paths are relative; mkdir post)
+    ranks: [8, 16, 32]
+    variables: {dumpevery: 25000}
+    metrics:
+      - loop_time
+      - pair_time
+      - comm_time
+      - load_imbalance
+      - particle_count_trend
 validation_gates:
   atom_count: exact for deterministic smoke cases
   restart_round_trip: required before optimization claims

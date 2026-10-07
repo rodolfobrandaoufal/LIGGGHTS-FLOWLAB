@@ -1,0 +1,84 @@
+# Silo fill + discharge benchmark (roadmap B-1; design study before RCB work,
+# audit/fixes/phaseG/design/REPORT.md). Bidisperse spheres (r 1.5 / 2.0 mm) are
+# poured into a cylinder (R 50 mm, H 200 mm) on a 30-degree hopper whose
+# outlet (R0 20 mm) is closed by a plug; after settling the plug is removed
+# and the silo discharges. Geometry: make_meshes.py.
+#
+# Phases (each dumps positions for audit/fixes/phaseG/design/scripts/partition.py):
+#   fill      ninsert insertions of insert/pack, every nfill steps
+#   settle    nsettle steps
+#   discharge ndis steps without the plug
+#
+# vars: grid ("* * *"), bal (fix balance command or "print nobal"),
+#       ninsert (3), nfill (15000), nsettle (30000), ndis (100000),
+#       dumpevery (0 = no dumps), seed (32452867)
+atom_style    granular
+atom_modify   map array
+boundary      f f f
+newton        off
+communicate   single vel yes
+units         si
+
+variable grid      index "* * *"
+variable bal       index "print nobal"
+variable ninsert   index 3
+variable nfill     index 15000
+variable nsettle   index 30000
+variable ndis      index 100000
+variable dumpevery index 0
+variable seed      index 32452867
+
+processors ${grid}
+region        domain block -0.06 0.06 -0.06 0.06 -0.25 0.21 units box
+create_box    2 domain
+neighbor      0.001 bin
+neigh_modify  delay 0
+
+fix  m1 all property/global youngsModulus peratomtype 5.e6 5.e6
+fix  m2 all property/global poissonsRatio peratomtype 0.45 0.45
+fix  m3 all property/global coefficientRestitution peratomtypepair 2 0.4 0.4 0.4 0.4
+fix  m4 all property/global coefficientFriction peratomtypepair 2 0.5 0.5 0.5 0.5
+fix  m5 all property/global coefficientRollingFriction peratomtypepair 2 0.05 0.05 0.05 0.05
+
+pair_style  gran model hertz tangential history rolling_friction epsd2
+pair_coeff  * *
+timestep    0.00001
+fix  gravi all gravity 9.81 vector 0.0 0.0 -1.0
+
+fix  silo all mesh/surface file meshes/silo.stl type 1
+fix  plug all mesh/surface file meshes/plug.stl type 1
+fix  walls all wall/gran model hertz tangential history rolling_friction epsd2 mesh n_meshes 2 meshes silo plug
+
+fix  pts1 all particletemplate/sphere 15485863 atom_type 1 density constant 2500 radius constant 0.0015
+fix  pts2 all particletemplate/sphere 15485867 atom_type 2 density constant 2500 radius constant 0.0020
+fix  pdd1 all particledistribution/discrete 32452843 2 pts1 0.5 pts2 0.5
+
+region fill cylinder z 0.0 0.0 0.045 0.10 0.19 units box
+fix  ins all insert/pack seed ${seed} distributiontemplate pdd1 maxattempt 200 &
+     insert_every ${nfill} overlapcheck yes all_in yes vel constant 0.0 0.0 -0.5 &
+     region fill volumefraction_region 0.30
+fix  integr all nve/sphere
+
+compute rke all erotate/sphere
+thermo_style  custom step atoms ke c_rke
+thermo        5000
+thermo_modify lost ignore norm no
+modify_timing on
+
+if "${dumpevery} > 0" then "dump d all custom ${dumpevery} post/silo_*.txt id x y z radius"
+
+# fill
+run 1
+${bal}
+variable nf equal ${ninsert}*${nfill}-1
+run ${nf}
+unfix ins
+
+# settle
+run ${nsettle}
+
+# discharge: remove the plug (particles leave through the bottom of the box)
+unfix walls
+unfix plug
+fix  walls2 all wall/gran model hertz tangential history rolling_friction epsd2 mesh n_meshes 1 meshes silo
+run ${ndis}
