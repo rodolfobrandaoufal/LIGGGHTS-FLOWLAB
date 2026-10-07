@@ -1,0 +1,24 @@
+# atom order after Irregular migration (misc suite, section 7): displace_atoms
+# moves atoms across several sub-domains; the unsorted dump records the local
+# order of the atoms on every rank
+atom_style granular
+atom_modify map array sort 0 0.0
+boundary p p p
+newton off
+communicate single vel yes
+units si
+region dom block 0 0.04 0 0.04 0 0.04 units box
+create_box 1 dom
+lattice sc 0.002
+create_atoms 1 box
+set group all diameter 0.001 density 2500
+displace_atoms all random 0.015 0.015 0.015 49979687 units box
+neighbor 0.0005 bin
+fix m1 all property/global youngsModulus peratomtype 5.e6
+fix m2 all property/global poissonsRatio peratomtype 0.45
+fix m3 all property/global coefficientRestitution peratomtypepair 1 0.3
+fix m4 all property/global coefficientFriction peratomtypepair 1 0.5
+pair_style gran model hertz tangential history
+pair_coeff * *
+dump d all custom 1 order.txt id
+run 0

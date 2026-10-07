@@ -98,7 +98,7 @@ Atom::Atom(LAMMPS *lmp) : Pointers(lmp)
   sortfreq = 1000;
   nextsort = 0;
   userbinsize = 0.0;
-  sortbinfactor = 0.5;
+  sortbinfactor = 1.0;            // 0.5 before the phase-I rebaseline (design study item 2)
   maxbin = maxnext = 0;
   binhead = NULL;
   next = permute = NULL;
@@ -1422,7 +1422,7 @@ void Atom::setup_sort_bins()
 {
   // binsize:
   // user setting if explicitly set
-  // sortbinfactor (default 1/2) of neighbor cutoff for non-CUDA
+  // sortbinfactor (default 1) of neighbor cutoff for non-CUDA
   // CUDA_CHUNK atoms/proc for CUDA
   // check if neighbor cutoff = 0.0
 

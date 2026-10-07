@@ -71,7 +71,9 @@ void Replicate::command(int narg, char **arg)
 {
     if (domain->box_exist == 0)
         error->all(FLERR,"Replicate command before simulation box is defined");
-    if (narg <= 7)
+    // nx ny nz offset ox oy oz [shift sx sy sz]: 7 or 11 arguments (the
+    // documented form without shift was rejected before)
+    if (narg != 7 && narg != 11)
         error->all(FLERR,"Illegal replicate command");
 
     int me = comm->me;
@@ -89,10 +91,10 @@ void Replicate::command(int narg, char **arg)
     double shift_x = 0;
     double shift_y = 0;
     double shift_z = 0;
-    if (narg >= 8 && strcmp(arg[7], "shift") == 0)
+    if (narg == 11)
     {
-        if (narg != 11)
-            error->all(FLERR, "Invalid replicate command");
+        if (strcmp(arg[7], "shift") != 0)
+            error->all(FLERR, "Invalid replicate command: expected keyword shift");
         shift_x = force->numeric(FLERR,arg[8]);
         shift_y = force->numeric(FLERR,arg[9]);
         shift_z = force->numeric(FLERR,arg[10]);
@@ -141,13 +143,25 @@ void Replicate::command(int narg, char **arg)
     domain->set_local_box();
     domain->print_box("  fin: ");
 
+    // atom IDs of copy c are tag + c*maxtag with the global maximum ID, so
+    // that they are unique on any number of ranks (the local atom count was
+    // used before, which gave duplicate IDs with more than one rank)
     const int initial_natoms = atom->nlocal;
+    int maxtag_local = 0;
+    for (int l = 0; l < initial_natoms; l++)
+        if (atom->tag[l] > maxtag_local) maxtag_local = atom->tag[l];
+    int maxtag = 0;
+    MPI_Allreduce(&maxtag_local, &maxtag, 1, MPI_INT, MPI_MAX, world);
+    const bigint ncopies = (bigint)nx * ny * nz;
+    if (ncopies * maxtag > MAXTAGINT)
+        error->all(FLERR, "Replicated system atom IDs are too big");
     for (int i=0; i<nx; i++)
     {
         for (int j=0; j<ny; j++)
         {
             for (int k=0; k<nz; k++)
             {
+                const int copy = (i*ny + j)*nz + k;
                 int offset = i+j+k==0 ? 0 : atom->nlocal;
                 for (int l=0; l < initial_natoms; l++)
                 {
@@ -159,7 +173,7 @@ void Replicate::command(int narg, char **arg)
                         atom->x[l+offset][0] += i*size_x;
                         atom->x[l+offset][1] += j*size_y;
                         atom->x[l+offset][2] += k*size_z;
-                        atom->tag[l+offset] += offset;
+                        atom->tag[l+offset] = atom->tag[l] + copy*maxtag;
                     }
                     else
                     {
@@ -171,6 +185,7 @@ void Replicate::command(int narg, char **arg)
             }
         }
     }
+    atom->natoms *= ncopies;
     if (atom->map_style)
     {
         atom->nghost = 0;

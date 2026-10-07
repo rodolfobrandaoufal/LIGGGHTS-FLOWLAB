@@ -19,6 +19,17 @@
 #     back (its title line, which carries the version string, can exceed
 #     read_data's line buffer) and writes the same data again; a title of
 #     1000 characters is skipped as well.
+#  5. atom_modify sort_bin_factor default 1.0 (phase-I rebaseline): with
+#     ref_bin, <bin> by default == ref_bin with sort_bin_factor 1.0, and
+#     <bin> with 0.5 == ref_bin with 0.5 (box deck of tests/omp, 3000 steps,
+#     sorted every 1000); 0.5 and 1.0 differ.
+#  6. replicate: the documented form without shift (7 arguments) works, the
+#     form with shift (11) as before, other argument counts are an error; the
+#     atom count is updated at once, and atom IDs are unique on 1 and 4 ranks.
+#  7. Irregular migration (displace_atoms, balance, insertion, read_restart)
+#     unpacks in rank order: three identical 8-rank runs give the same local
+#     atom order (unsorted dump); before, the arrival order of MPI_ANY_SOURCE
+#     messages made the order, and the results, change from run to run.
 # Usage: run_all.sh <bin> [ref_bin] [workdir]
 # Env:   MISC_CPUS (taskset list, default 14-27), MISC_SQ_BIN, MISC_SQ_REF,
 #        MISC_NP (max ranks, default 4)
@@ -174,6 +185,51 @@ if lmp $d 1 $BIN $HERE/in.datatrip -var mode 0; then
     else fail "read_data $f ($(head -1 $d/$f | wc -c)-character title): does not read back identically (see $d/out)"; fi
   done
 else fail "write_data of the small system did not run"; fi
+
+echo "== 5. atom_modify sort_bin_factor default"
+if [ -n "$REF" ]; then
+  OMPD=$ROOT/tests/omp/decks
+  # sortrun <dir> <bin> <factor or "">: box deck, optional sort_bin_factor line, %.17g dumps
+  sortrun() { local d=$W/$1; rm -rf $d; mkdir -p $d/post
+    if [ -n "$3" ]; then sed "s/^atom_modify   map array$/atom_modify   map array sort_bin_factor $3/" $OMPD/in.box > $d/in.box
+    else cp $OMPD/in.box $d/in.box; fi
+    lmp $d 1 $2 in.box; }
+  dsame() { diff -rq $W/$1/post $W/$2/post > /dev/null; }
+  if grep -q "sort_bin_factor 0.5" <(sed "s/^atom_modify   map array$/atom_modify   map array sort_bin_factor 0.5/" $OMPD/in.box) \
+     && sortrun sb_def $BIN "" && sortrun sb_ref10 $REF 1.0 && sortrun sb_05 $BIN 0.5 && sortrun sb_ref05 $REF 0.5; then
+    dsame sb_def sb_ref10 && pass "default == ref_bin with sort_bin_factor 1.0 (bitwise)" || fail "default differs from ref_bin with sort_bin_factor 1.0"
+    dsame sb_05 sb_ref05 && pass "sort_bin_factor 0.5 == ref_bin with 0.5 (bitwise)" || fail "sort_bin_factor 0.5 differs from ref_bin with 0.5"
+    dsame sb_def sb_05 && fail "sort_bin_factor 0.5 and 1.0 give identical results (check is vacuous)" || pass "sort_bin_factor 0.5 and 1.0 differ"
+  else fail "sort_bin_factor runs did not run (see $W/sb_*/out)"; fi
+else skip "sort_bin_factor default: no ref_bin"; fi
+
+echo "== 6. replicate"
+for cfg in "7 1" "11 1" "8 1" "7 4"; do set -- $cfg; form=$1; np=$2
+  d=$W/repl_${form}_np$np; rm -rf $d; mkdir -p $d
+  if [ $np = 1 ]; then (cd $d && taskset -c $CPUS "$BIN" -in $HERE/in.replicate -var form $form -log log > out 2>&1)
+  else (cd $d && taskset -c $CPUS mpirun --oversubscribe -np $np "$BIN" -in $HERE/in.replicate -var form $form -log log > out 2>&1); fi
+  n=$(awk '/^NATOMS/{print $2}' $d/out)
+  if [ $form = 8 ]; then
+    grep -q "ERROR.*replicate" $d/out && pass "replicate with 8 arguments: error" || fail "replicate with 8 arguments accepted"
+  else
+    nid=$(awk 'p&&NF{print $1} /^ITEM: ATOMS/{p=1}' $d/ids.txt 2>/dev/null | sort -n | uniq | wc -l)
+    [ "$n" = 250 ] && [ "$nid" = 250 ] && pass "replicate, $form arguments, np $np: 125 -> $n atoms, $nid unique IDs" \
+      || fail "replicate, $form arguments, np $np: atoms '$n', unique IDs '$nid' (see $d/out)"
+  fi
+done
+
+echo "== 7. atom order after Irregular migration"
+if [ $NP -ge 4 ]; then
+  ok=1
+  for r in 1 2 3; do d=$W/irr_$r; rm -rf $d; mkdir -p $d
+    (cd $d && taskset -c $CPUS mpirun --oversubscribe -np 8 "$BIN" -in $HERE/in.irregular -log log > out 2>&1) || ok=0
+    [ -s $d/order.txt ] || ok=0
+  done
+  if [ $ok = 1 ]; then
+    cmp -s $W/irr_1/order.txt $W/irr_2/order.txt && cmp -s $W/irr_1/order.txt $W/irr_3/order.txt \
+      && pass "Irregular migration, 8 ranks: atom order identical in 3 runs" || fail "Irregular migration: atom order differs between identical runs"
+  else fail "Irregular migration runs did not run (see $W/irr_*/out)"; fi
+else skip "Irregular migration: needs MISC_NP >= 4"; fi
 
 echo "misc: $([ $rc = 0 ] && echo PASS || echo FAIL) ($nrun checks, work dir $W)"
 [ $nrun = 0 ] && exit 77

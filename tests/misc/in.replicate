@@ -1,0 +1,28 @@
+# replicate argument forms (misc suite, section 6); var form = 7 | 11 | 8
+atom_style granular
+atom_modify map array
+boundary p p f
+newton off
+communicate single vel yes
+units si
+variable form index 7
+region dom block 0 0.02 0 0.02 0 0.02 units box
+create_box 1 dom
+lattice sc 0.004
+create_atoms 1 box
+set group all diameter 0.003 density 2500
+if "${form} == 7" then "replicate 2 1 1 offset 0.02 0.02 0.02"
+if "${form} == 11" then "replicate 2 1 1 offset 0.02 0.02 0.02 shift 0.0 0.0 0.001"
+if "${form} == 8" then "replicate 2 1 1 offset 0.02 0.02 0.02 junk"
+variable n equal atoms
+print "NATOMS ${n}"
+# IDs after the atoms have moved to their new sub-domains
+neighbor 0.0005 bin
+fix m1 all property/global youngsModulus peratomtype 5.e6
+fix m2 all property/global poissonsRatio peratomtype 0.45
+fix m3 all property/global coefficientRestitution peratomtypepair 1 0.3
+fix m4 all property/global coefficientFriction peratomtypepair 1 0.5
+pair_style gran model hertz tangential history
+pair_coeff * *
+dump ids all custom 1 ids.txt id
+run 0

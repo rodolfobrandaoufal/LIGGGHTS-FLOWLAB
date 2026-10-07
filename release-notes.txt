@@ -1,3 +1,29 @@
+===============================================================
+Modernization branch (LIGGGHTS-FLOWLAB): changed defaults
+
+ Changes of default behaviour on this branch. Each one changes results;
+ the option that restores the earlier behaviour is given.
+
+ 2026-10-06 (phase I)  atom_modify sort_bin_factor default 1.0 (was 0.5):
+   sort bins of one neighbor cutoff instead of half a cutoff. 14 % faster
+   with 200k atoms per processor, about 1 % with 25k. The atom order, and
+   with it the force summation order, changes, so results differ from
+   earlier versions at round-off level. Earlier behaviour:
+   "atom_modify sort_bin_factor 0.5".
+
+ 2026-10-06 (phase I)  atoms moved between processors by Irregular
+   (displace_atoms, balance, fix balance, insertion, read_restart, ...)
+   are unpacked in processor order instead of message arrival order.
+   Multi-processor runs that use these commands are now reproducible from
+   run to run; their results differ from earlier versions (which varied
+   between identical runs). No option restores the old behaviour.
+
+ New features of the branch are opt-in. Bug fixes of earlier phases
+ that change results (for example X-05, contact history cleared when a
+ pair separates, earlier behaviour "history_clear_legacy on"; the
+ multicontact radius, "multicontact_radius_legacy on") are listed in
+ audit/fixes/INTEGRATION*.md and in the doc pages of the commands.
+
 
 ===============================================================
 Release notes for LIGGGHTS-PUBLIC, version 3.8.0 

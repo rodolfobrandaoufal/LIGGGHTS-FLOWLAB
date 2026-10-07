@@ -60,6 +60,26 @@ using namespace LAMMPS_NS;
 #define BUFMIN 1000
 #define BUFEXTRA 1000
 
+/* ----------------------------------------------------------------------
+   sort the receive list (sending procs and message sizes) by rank
+   (insertion sort; n is the number of procs that send to this one)
+------------------------------------------------------------------------- */
+
+static void sort_by_proc(int n, int *proc, int *len)
+{
+  for (int i = 1; i < n; i++) {
+    const int p = proc[i], l = len[i];
+    int j = i - 1;
+    while (j >= 0 && proc[j] > p) {
+      proc[j+1] = proc[j];
+      len[j+1] = len[j];
+      j--;
+    }
+    proc[j+1] = p;
+    len[j+1] = l;
+  }
+}
+
 /* ---------------------------------------------------------------------- */
 
 Irregular::Irregular(LAMMPS *lmp) : Pointers(lmp)
@@ -395,6 +415,11 @@ int Irregular::create_atom(int n, int *sizes, int *proclist)
     nrecvsize += length_recv[i];
   }
 
+  // receive (and unpack) in rank order, not in the arrival order of the
+  // MPI_ANY_SOURCE messages: otherwise the order of the migrated atoms, and
+  // with it the force summation order, changes from run to run
+  sort_by_proc(nrecv,proc_recv,length_recv);
+
   // barrier to insure all MPI_ANY_SOURCE messages are received
   // else another proc could proceed to exchange_atom() and send to me
 
@@ -615,6 +640,7 @@ int Irregular::create_data(int n, int *proclist)
     proc_recv[i] = status->MPI_SOURCE;
     nrecvsize += num_recv[i];
   }
+  sort_by_proc(nrecv,proc_recv,num_recv);   // rank order, as in create_atom()
   nrecvsize += num_self;
 
   // barrier to insure all MPI_ANY_SOURCE messages are received

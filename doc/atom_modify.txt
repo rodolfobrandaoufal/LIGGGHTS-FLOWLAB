@@ -82,7 +82,7 @@ occurs at the first reneighboring that occurs after the target
 timestep.  The reordering is performed locally by each processor,
 using bins of the specified {binsize}.  If {binsize} is set to 0.0,
 then a binsize equal to {f} times the "neighbor"_neighbor.html cutoff
-distance (force cutoff plus skin distance) is used, with {f} = 0.5
+distance (force cutoff plus skin distance) is used, with {f} = 1.0
 unless set by the {sort_bin_factor} keyword.  Unlike an absolute
 {binsize}, this follows the cutoff when it changes, for example when
 particles grow.  After the atoms have been binned, they are
@@ -97,14 +97,15 @@ bins are too small, there will be few atoms/bin.  Likewise if bins are
 too large, there will be many atoms/bin.  In both cases, the goal of
 cache locality will be undermined.
 
-For granular simulations with many atoms per processor, {sort_bin_factor}
-1.0 is usually faster than the default 0.5. Measured on an idle
-machine (paired runs, settled bed, hertz with history): with 200k atoms
-per processor the loop was 13-15 % faster, at 25k atoms 1.5-3 % faster,
-and on a 10k-atom chute there was no measurable change.  It changes the atom order, and therefore the
-summation order, so results differ from the default at round-off level
-(see the note below).  The default stays 0.5 so that existing results
-remain bitwise reproducible.
+The default {sort_bin_factor} is 1.0 (it was 0.5, as in LAMMPS, up to
+the phase-I rebaseline of the modernization branch).  Measured on an
+idle machine (paired runs, settled bed, hertz with history), 1.0 instead
+of 0.5 made the loop 14 % faster with 200k atoms per processor and about
+1 % faster with 25k atoms; on a 10k-atom chute there was no measurable
+change.  Because the atom order, and therefore the summation order,
+changes, results differ from earlier versions at round-off level (see
+the note below).  Use "atom_modify sort_bin_factor 0.5" to reproduce
+results of earlier versions bitwise.
 
 IMPORTANT NOTE: Running a simulation with sorting on versus off should
 not change the simulation results in a statistical sense.  However, a
@@ -134,7 +135,7 @@ By default, non-molecular problems do not allocate maps.  For
 molecular problems, the option default is map = array.  By default, a
 "first" group is not defined.  By default, sorting is enabled with a
 frequency of 1000 and a binsize of 0.0, which means the neighbor
-cutoff will be used to set the bin size, with sort_bin_factor = 0.5.
+cutoff will be used to set the bin size, with sort_bin_factor = 1.0.
 
 :line
 
