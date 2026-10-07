@@ -51,7 +51,7 @@ known limits.
    re-checked (§5.1).
 2. **The fix waves:**
    - rules: `audit/fixes/FIX_RULES*.md`;
-   - integration reports: `audit/fixes/INTEGRATION*.md` (phases A to H);
+   - integration reports: `audit/fixes/INTEGRATION*.md` (phases A to I);
    - agent reports: `audit/fixes/*/REPORT.md` and `audit/fixes/phase*/*/REPORT.md`.
 
    Each claims results and lists what is "still open". Treat every claim as
@@ -65,8 +65,13 @@ known limits.
    `audit/cases/`, `audit/scripts/`, `benchmarks/`.
 6. **Baselines:**
    - pristine upstream: `git show 3d5c00f2:<path>`;
-   - latest reference binaries: `build_audit/bin/lmp_integI*` (phase G);
-   - phase-H work: newer, if committed.
+   - latest reference binaries: `build_audit/bin/lmp_integK*` (phase I;
+     `lmp_integJ*` = phase H, `lmp_integI*` = phase G);
+   - newer work, if committed.
+7. **Scope decisions by the project owner:** S-22 (calibration workflow) is
+   dropped, and the GPU_DEM module was removed from this version
+   (2026-10-06). Do not propose reintroducing GPU_DEM; a GPU or Kokkos
+   strategy may still be discussed in the state-of-the-art comparison.
 
 ## 3. Rules of evidence
 

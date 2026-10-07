@@ -83,9 +83,9 @@ B-01 per component (mean seconds of the 20k measured steps, A → B):
 | no balance (control) | 0.031 → 0.031 | 0.249 → 0.248 | 0.169 → 0.164 | 0.311 → 0.314 |
 
 - B-01 removes the idle-balance cost of the insertion fraction completely (0.031 s, the same as without `fix balance`) and lowers Other [M].
-- On the 8×1×1 slab the mesh neighbour list gets **slower** (0.211 → 0.259 s), back to the no-balance value: on this deck the cached mesh bins that B-01 restores are slower than the uncached path that `box_change` forced before [M]. Together with the higher Comm (which also absorbs load-imbalance wait, so it cannot be attributed from these numbers) the loop gain cancels on the slab grid.
+- On the 8×1×1 slab the mesh neighbour list time rises from 0.211 to 0.259 s between I and J. **Correction (same day): this is not a cost of the cached bins.** With an idle `fix balance` the I and J runs follow different trajectories (B-01 changes the insertion random numbers), so they hold different particle counts (9 690 vs 9 799 at step 120 000; 9 819 without balance) and their component times are not comparable. On one trajectory the cached path is faster (see the next point) [M].
 - On the automatic grid the loop is about 10 % faster if the disturbed repetition is excluded; with it, the interval is too wide to conclude. The design estimate of 7-8 % is therefore plausible on 2×2×2 but **not** confirmed on the slab grid that the grid advisor recommends.
-- Follow-up: the cached mesh-bin path costs more than the uncached one on the chute ([H]: the cached bins cover the whole mesh bounding box, the uncached path only the local subdomain; test with a per-rank count of visited bins).
+- Cached vs uncached mesh bins on the same trajectory (instrumented build of `d64d0d86` with a switch that forces the uncached path; no `fix balance`, identical atom counts): the cached path visits 26 % fewer bins (0.905e9 vs 1.231e9) and checks 20 % fewer atoms (54.9e6 vs 68.5e6). Paired, n = 6, uncached/cached mesh neighbour-list time **1.238 ± 0.058** (8×1×1) and **1.230 ± 0.034** (2×2×2); loop 1.004 ± 0.062 and 0.994 ± 0.037, below the resolution (the list is about 6 % of the loop) [M]. B-01 therefore works as designed; its loop gain on this deck is about 1-2 %, which n = 6 cannot resolve.
 
 ## Follow-up fix: `write_data` files read back (2026-10-06)
 
@@ -96,7 +96,7 @@ Found while rebuilding the benchmark beds: since the branch extended the version
 
 ## Still open
 
-- B-01: the cached mesh-bin path is slower than the uncached path on the np 8 chute slab grid (see "Idle-machine repeat"); repeat the 2×2×2 case with more repetitions.
+- B-01: the loop gain (about 1-2 % on the np 8 chute) needs n ≥ 20 paired runs or a deck where the mesh list dominates; the component effect is confirmed (see "Idle-machine repeat").
 - Make `sort_bin_factor 1.0` the default at the next accepted rebaseline (changes summation order).
 - `synchronized_verlet` in the threaded kernel (it uses the serial kernel with `package omp`); wall contacts are not synchronized (as in LAMMPS).
 - Superquadric i/j asymmetry (phase F).
