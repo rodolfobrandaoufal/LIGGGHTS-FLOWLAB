@@ -1,0 +1,47 @@
+total samples 25387
+== categories
+ 29.96%  mesh (neighlist/tri/mesh)
+ 23.61%  pair kernel (Granular<>::compute_force*)
+ 22.17%  contact models (surfacesIntersect etc.)
+  9.44%  other (main binary)
+  7.77%  wall kernel (fix wall/gran)
+  3.79%  integration (nve/sphere)
+  2.11%  neighbor build
+  0.79%  lib:libc.so.6
+  0.18%  contact history
+  0.06%  lib:[vdso]
+  0.04%  lib:libmpi.so.40.30.2
+  0.02%  lib:ld-linux-x86-64.so.2
+  0.02%  lib:libstdc++.so.6.0.35
+  0.02%  comm
+  0.01%  lib:libopen-pal.so.40.30.2
+  0.01%  sort
+  0.01%  lib:?
+  0.00%  lib:libnvidia-opencl.so.595.99.02
+  0.00%  lib:libm.so.6
+== top functions
+ 23.61%  void LIGGGHTS::PairStyles::Granular<LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 2, 0, 0, 0> > >::compute_force_serial_t<0>(LAMMP
+ 16.34%  LIGGGHTS::ContactModels::NormalModel<3>::surfacesIntersect(LIGGGHTS::ContactModels::SurfacesIntersectData&, LIGGGHTS::ContactModels::ForceData&, LIGGGHTS::Conta
+ 12.62%  LAMMPS_NS::FixNeighlistMesh::checkBin(LAMMPS_NS::AtomVecEllipsoid::Bonus*, std::vector<int, std::allocator<int> >&, int&, double*, double, int*, int, int, int, 
+  7.77%  LAMMPS_NS::FixWallGran::post_force_mesh(int)
+  6.63%  LAMMPS_NS::GeneralContainer<double, 3, 3>::rotate(double const*)
+  4.76%  LIGGGHTS::ContactModels::TangentialModel<2>::surfacesIntersect(LIGGGHTS::ContactModels::SurfacesIntersectData const&, LIGGGHTS::ContactModels::ForceData&, LIGGG
+  4.05%  LAMMPS_NS::MultiNodeMesh<3>::rotate(double const*, double const*)
+  4.04%  LAMMPS_NS::FixNeighlistMesh::handleTriangle(int)
+  2.36%  LAMMPS_NS::FixNVESphere::initial_integrate(int)
+  2.06%  LAMMPS_NS::MultiNodeMesh<3>::updateGlobalBoundingBox()
+  1.89%  LAMMPS_NS::FixContactHistoryMesh::markAllContacts()
+  1.55%  LAMMPS_NS::FixGravity::post_force(int)
+  1.51%  LAMMPS_NS::Neighbor::granular_bin_no_newton(LAMMPS_NS::NeighList*)
+  1.49%  LAMMPS_NS::MeshMoverRotate::initial_integrate(double, double, double)
+  1.43%  LAMMPS_NS::FixNVESphere::final_integrate()
+  1.09%  LAMMPS_NS::MultiNodeMesh<3>::decideRebuild()
+  1.09%  LAMMPS_NS::GeneralContainer<double, 1, 3>::rotate(double const*)
+  1.01%  LAMMPS_NS::FixContactHistoryMesh::cleanUpContacts(int, int)
+  0.71%  void LIGGGHTS::Walls::Granular<LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 2, 0, 0, 0> > >::compute_force_t<0>(LAMMPS_NS::FixWal
+  0.52%  LAMMPS_NS::FixMoveMesh::initial_integrate(int)
+  0.45%  LAMMPS_NS::Neighbor::check_distance_local()
+  0.32%  LIGGGHTS::ContactModels::SurfaceModel<0>::surfacesIntersect(LIGGGHTS::ContactModels::SurfacesIntersectData&, LIGGGHTS::ContactModels::ForceData&, LIGGGHTS::Cont
+  0.21%  LAMMPS_NS::SurfaceMesh<3, 5>::checkNodeRecursive(int, double*, int&, int*, int&, int*, double**, double**, bool&)
+  0.21%  LAMMPS_NS::TriMesh::resolveCornerContactBary(int, int, bool, double*, double*, double*, bool)
+  0.18%  LAMMPS_NS::FixContactHistory::pre_exchange()

@@ -1,0 +1,44 @@
+total samples 7936
+== categories
+ 47.49%  pair kernel (Granular<>::compute_force*)
+ 40.83%  contact models (surfacesIntersect etc.)
+  4.85%  integration (nve/sphere)
+  2.61%  neighbor build
+  2.04%  other (main binary)
+  0.92%  lib:libc.so.6
+  0.74%  comm
+  0.26%  contact history
+  0.11%  lib:ld-linux-x86-64.so.2
+  0.05%  lib:?
+  0.03%  wall kernel (fix wall/gran)
+  0.01%  lib:libopen-rte.so.40.30.2
+  0.01%  lib:libnvidia-opencl.so.595.99.02
+  0.01%  lib:libopen-pal.so.40.30.2
+  0.01%  lib:libstdc++.so.6.0.35
+  0.01%  lib:libz.so.1.2.11
+== top functions
+ 47.48%  void LIGGGHTS::PairStyles::Granular<LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 2, 0, 0, 0> > >::compute_force_serial_t<0>(LAMMP
+ 30.08%  LIGGGHTS::ContactModels::NormalModel<3>::surfacesIntersect(LIGGGHTS::ContactModels::SurfacesIntersectData&, LIGGGHTS::ContactModels::ForceData&, LIGGGHTS::Conta
+ 10.57%  LIGGGHTS::ContactModels::TangentialModel<2>::surfacesIntersect(LIGGGHTS::ContactModels::SurfacesIntersectData const&, LIGGGHTS::ContactModels::ForceData&, LIGGG
+  2.92%  LAMMPS_NS::FixNVESphere::initial_integrate(int)
+  2.17%  LAMMPS_NS::Neighbor::granular_bin_no_newton(LAMMPS_NS::NeighList*)
+  1.94%  LAMMPS_NS::FixGravity::post_force(int)
+  1.93%  LAMMPS_NS::FixNVESphere::final_integrate()
+  0.43%  LAMMPS_NS::AtomVecSphere::pack_comm_vel(int, int*, double*, int, int*)
+  0.40%  LAMMPS_NS::Neighbor::check_distance_local()
+  0.26%  LAMMPS_NS::FixContactHistory::pre_exchange()
+  0.23%  LAMMPS_NS::AtomVecSphere::unpack_comm_vel(int, int, double*)
+  0.09%  void LIGGGHTS::Walls::Granular<LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 2, 0, 0, 0> > >::compute_force_t<0>(LAMMPS_NS::FixWal
+  0.06%  LIGGGHTS::ContactModels::SurfaceModel<0>::surfacesIntersect(LIGGGHTS::ContactModels::SurfacesIntersectData&, LIGGGHTS::ContactModels::ForceData&, LIGGGHTS::Cont
+  0.04%  LAMMPS_NS::Comm::borders()
+  0.03%  LAMMPS_NS::Comm::forward_comm(int)
+  0.03%  LAMMPS_NS::AtomVecSphere::pack_border_vel(int, int*, double*, int, int*)
+  0.03%  LAMMPS_NS::FixWallGran::post_force_primitive(int)
+  0.03%  LAMMPS_NS::FixPropertyAtom::copy_arrays(int, int, int)
+  0.03%  LAMMPS_NS::Modify::pre_force(int)
+  0.01%  LAMMPS_NS::Domain::pbc()
+  0.01%  LIGGGHTS::PairStyles::IGranularPairStyle* LAMMPS_NS::RegisterGranularStyles::create_pair_style_instance<LIGGGHTS::PairStyles::Granular<LIGGGHTS::ContactModels::
+  0.01%  LAMMPS_NS::Verlet::force_clear()
+  0.01%  non-virtual thunk to LIGGGHTS::PairStyles::Granular<LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 2, 0, 0, 0> > >::compute_force(L
+  0.01%  LAMMPS_NS::Neighbor::build(int)
+  0.01%  non-virtual thunk to LIGGGHTS::Walls::Granular<LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 2, 0, 0, 0> > >::compute_force(LAMMPS

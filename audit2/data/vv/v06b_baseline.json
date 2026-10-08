@@ -1,0 +1,12 @@
+{
+ "cdt_upstream": {
+  "orbital_over_Omega": 1.1110078008335484,
+  "spin_over_Omega": 2.119847073063617e-06,
+  "ke_end_over_ke0": 1.2339458516721225
+ },
+ "off_upstream": {
+  "orbital_over_Omega": 0.999958844299088,
+  "spin_over_Omega": 1.0003008749586386,
+  "ke_end_over_ke0": 0.9997179226009082
+ }
+}

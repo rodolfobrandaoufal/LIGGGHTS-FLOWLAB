@@ -1,0 +1,12 @@
+g++ (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0
+cmake version 3.22.1
+mpirun (Open MPI) 4.1.2
+                   HDF5 Version: 1.10.7
+                   Parallel HDF5: yes
+libhdf5-openmpi-dev 1.10.7+repack-4ubuntu2
+CPU(s):                                  32
+Model name:                              AMD Ryzen 9 7950X 16-Core Processor
+Thread(s) per core:                      2
+Core(s) per socket:                      16
+Socket(s):                               1
+L3 cache:                                64 MiB (2 instances)

@@ -1,0 +1,11 @@
+1x1 newton=off atoms=12544 lmp_mem_MB=11.6669 maxrss_kB=45036 neighbors=62415
+1x1 newton=on atoms=12544 lmp_mem_MB=11.6669 maxrss_kB=45008 neighbors=59086
+2x1 newton=off atoms=25088 lmp_mem_MB=19.689 maxrss_kB=52432 neighbors=123845
+2x1 newton=on atoms=25088 lmp_mem_MB=19.689 maxrss_kB=52196 neighbors=118948
+2x2 newton=off atoms=50176 lmp_mem_MB=31.9639 maxrss_kB=66032 neighbors=244076
+2x2 newton=on atoms=50176 lmp_mem_MB=31.9639 maxrss_kB=65240 neighbors=237464
+4x2 newton=off atoms=100352 lmp_mem_MB=59.4931 maxrss_kB=92808 neighbors=484426
+4x2 newton=on atoms=100352 lmp_mem_MB=59.4931 maxrss_kB=92580 neighbors=474414
+4x4 newton=off atoms=200704 lmp_mem_MB=111.416 maxrss_kB=145796 neighbors=962235
+4x4 newton=on atoms=200704 lmp_mem_MB=111.416 maxrss_kB=145664 neighbors=948881
+LAMMPS 4x4 	Maximum resident set size (kbytes): 177400

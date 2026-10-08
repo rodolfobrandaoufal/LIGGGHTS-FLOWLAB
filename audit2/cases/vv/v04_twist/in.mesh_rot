@@ -1,0 +1,33 @@
+atom_style granular
+atom_modify map array
+boundary f f f
+newton off
+communicate single vel yes
+units si
+region dom block -0.009 0.009 -0.009 0.009 -0.001 0.004 units box
+create_box 1 dom
+neighbor 0.0002 bin
+neigh_modify delay 0
+fix p1 all property/global youngsModulus peratomtype 100000000.0
+fix p2 all property/global poissonsRatio peratomtype 0.3
+fix p3 all property/global coefficientRestitution peratomtypepair 1 0.5
+fix p4 all property/global coefficientFriction peratomtypepair 1 0.5
+pair_style gran model hertz tangential history twisting_marshall on
+pair_coeff * *
+fix plate all mesh/surface file plate.stl type 1
+fix mv all move/mesh mesh plate rotate origin 0 0 0 axis 0 0 1 period 0.3141592653589793
+fix w all wall/gran model hertz tangential history mesh n_meshes 1 meshes plate twisting_marshall on
+create_atoms 1 single 0 0 0.00099999000000000008 units box
+set atom * diameter 0.002 density 2500.0
+fix gravi all gravity 9.81 vector 0 0 -1
+timestep 1e-6
+fix integr all nve/sphere
+compute om all property/atom omegaz
+compute oms all reduce sum c_om
+variable z1 equal z[1]
+thermo_style custom step v_z1 c_oms
+thermo_modify format float %.17g norm no
+thermo 200
+run 20000
+set atom 1 omegaz 0.0
+run 300000

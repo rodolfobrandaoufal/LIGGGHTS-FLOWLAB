@@ -1,0 +1,1 @@
+threads 16 triad 33.5 GB/s (a[1]=7)

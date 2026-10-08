@@ -1,0 +1,24 @@
+atom_style granular
+atom_modify map array
+boundary p p f
+newton off
+communicate single vel yes
+units si
+read_restart ../p1_lastforce_np1/bed.restart
+neighbor 0.0005 bin
+neigh_modify delay 0
+timestep 1e-05
+fix m1 all property/global youngsModulus peratomtype 5000000.0 5000000.0
+fix m2 all property/global poissonsRatio peratomtype 0.45 0.45
+fix m3 all property/global coefficientRestitution peratomtypepair 2 0.3 0.3 0.3 0.3
+fix m4 all property/global coefficientFriction peratomtypepair 2 0.5 0.5 0.5 0.5
+pair_style gran model hertz tangential history
+pair_coeff * *
+fix zwall1 all wall/gran model hertz tangential history primitive type 1 zplane 0.0
+fix gravi all gravity 9.81 vector 0.0 0.0 -1.0
+fix integr all nve/sphere
+fix lf all store/lastforce
+dump d all custom 1000 dump.final id x y z vx vy vz fx fy fz omegax omegay omegaz
+dump_modify d sort id format "%d %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g"
+thermo 500
+run 1000

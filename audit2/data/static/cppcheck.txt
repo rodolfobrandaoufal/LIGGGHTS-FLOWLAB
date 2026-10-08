@@ -1,0 +1,891 @@
+dump_hdf5.h:64:0: error: #error "dump hdf5 / dump mesh/hdf5 (-DLIGGGHTS_HDF5) require an MPI-parallel HDF5 build (H5_HAVE_PARALLEL is not defined). Point the include/library paths to the parallel HDF5 (e.g. /usr/include/hdf5/openmpi, or use h5pcc) or build without -DLIGGGHTS_HDF5." [preprocessorErrorDirective]
+#error "dump hdf5 / dump mesh/hdf5 (-DLIGGGHTS_HDF5) require an MPI-parallel HDF5 build (H5_HAVE_PARALLEL is not defined). Point the include/library paths to the parallel HDF5 (e.g. /usr/include/hdf5/openmpi, or use h5pcc) or build without -DLIGGGHTS_HDF5."
+^
+1/28 files checked 6% done
+2/28 files checked 9% done
+
+^
+
+^
+
+^
+property_registry.h:115:8: warning: The class 'VectorProperty' defines member function with name 'print_value' also defined in its parent class 'Property < double * >'. [duplInheritedMember]
+  void print_value(FILE* out) {
+       ^
+property_registry.h:90:8: note: Parent function 'Property < double * >::print_value'
+  void print_value(FILE* out) {
+       ^
+property_registry.h:115:8: note: Derived function 'VectorProperty::print_value'
+  void print_value(FILE* out) {
+       ^
+property_registry.h:152:8: warning: The class 'MatrixProperty' defines member function with name 'print_value' also defined in its parent class 'Property < double * * >'. [duplInheritedMember]
+  void print_value(FILE* out) {
+       ^
+property_registry.h:90:8: note: Parent function 'Property < double * * >::print_value'
+  void print_value(FILE* out) {
+       ^
+property_registry.h:152:8: note: Derived function 'MatrixProperty::print_value'
+  void print_value(FILE* out) {
+       ^
+force.h:222:15: performance: Function 'get_custom_surface_model()' should return member 'custom_surface_model' by const reference. [returnByReference]
+  std::string get_custom_surface_model()
+              ^
+force.h:227:15: performance: Function 'get_custom_normal_model()' should return member 'custom_normal_model' by const reference. [returnByReference]
+  std::string get_custom_normal_model()
+              ^
+force.h:232:15: performance: Function 'get_custom_tangential_model()' should return member 'custom_tangential_model' by const reference. [returnByReference]
+  std::string get_custom_tangential_model()
+              ^
+force.h:237:15: performance: Function 'get_custom_cohesion_model()' should return member 'custom_cohesion_model' by const reference. [returnByReference]
+  std::string get_custom_cohesion_model()
+              ^
+force.h:242:15: performance: Function 'get_custom_rolling_model()' should return member 'custom_rolling_model' by const reference. [returnByReference]
+  std::string get_custom_rolling_model()
+              ^
+force.h:184:9: warning: %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_sint]
+        printf("Force: type-specific coarsegrainingfactor(%d): %g.\n", it,coarsegrainingTypeBased_[it]);
+        ^
+math_extra_liggghts.h:158:23: portability: Casting from double * to unsigned int * is not portable due to different binary data representations on different platforms. [invalidPointerCast]
+   unsigned int* pt = (unsigned int*) &t;
+                      ^
+math_extra_liggghts.h:159:23: portability: Casting from double * to unsigned int * is not portable due to different binary data representations on different platforms. [invalidPointerCast]
+   unsigned int* px = (unsigned int*) &d;
+                      ^
+force.h:220:45: performance: Function parameter 'param' should be passed by const reference. [passedByValue]
+  void set_custom_surface_model(std::string param)
+                                            ^
+force.h:225:44: performance: Function parameter 'param' should be passed by const reference. [passedByValue]
+  void set_custom_normal_model(std::string param)
+                                           ^
+force.h:230:48: performance: Function parameter 'param' should be passed by const reference. [passedByValue]
+  void set_custom_tangential_model(std::string param)
+                                               ^
+force.h:235:46: performance: Function parameter 'param' should be passed by const reference. [passedByValue]
+  void set_custom_cohesion_model(std::string param)
+                                             ^
+force.h:240:45: performance: Function parameter 'param' should be passed by const reference. [passedByValue]
+  void set_custom_rolling_model(std::string param)
+                                            ^
+3/28 files checked 10% done
+fix_balance.cpp:105:3: warning: Class 'FixBalance' does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s). [noCopyConstructor]
+  balance = new Balance(lmp);
+  ^
+fix_balance.cpp:105:3: warning: Class 'FixBalance' does not have a operator= which is recommended since it has dynamic memory/resource allocation(s). [noOperatorEq]
+  balance = new Balance(lmp);
+  ^
+4/28 files checked 12% done
+
+^
+
+^
+
+^
+5/28 files checked 13% done
+6/28 files checked 14% done
+fix_adapt_liggghts.cpp:151:3: warning: Class 'FixAdaptLiggghts' does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s). [noCopyConstructor]
+  adapt = new Adapt[nadapt];
+  ^
+fix_adapt_liggghts.cpp:151:3: warning: Class 'FixAdaptLiggghts' does not have a operator= which is recommended since it has dynamic memory/resource allocation(s). [noOperatorEq]
+  adapt = new Adapt[nadapt];
+  ^
+
+^
+7/28 files checked 17% done
+
+^
+thr_granular.cpp:54:0: error: #error "LIGGGHTS_OMP requires compiling with OpenMP (-fopenmp)" [preprocessorErrorDirective]
+#error "LIGGGHTS_OMP requires compiling with OpenMP (-fopenmp)"
+^
+8/28 files checked 18% done
+9/28 files checked 21% done
+fix_store_lastforce.cpp:236:37: portability: Casting between signed char * and double * which have an incompatible binary data representation. [invalidPointerCast]
+  step_saved_ = static_cast<bigint>(reinterpret_cast<double *>(buf)[0]);
+                                    ^
+10/28 files checked 22% done
+
+^
+
+^
+
+^
+balance.cpp:381:9: warning: Either the condition 'd<0' is redundant or the array 'used[3]' is accessed at index -1, which is out of bounds. [negativeIndex]
+    used[d] = 1;
+        ^
+balance.cpp:378:11: note: Assuming that condition 'd<0' is not redundant
+    if (d < 0 || used[d]) error->all(FLERR,"Illegal balance shift dimension string");
+          ^
+balance.cpp:381:9: note: Negative array index
+    used[d] = 1;
+        ^
+balance.cpp:102:10: warning: Member variable 'Balance::last_choice' is not initialized in the constructor. [uninitMemberVar]
+Balance::Balance(LAMMPS *lmp) : Pointers(lmp)
+         ^
+general_container_I.h:53:38: warning: Member variable 'GeneralContainer::arr_' is not initialized in the constructor. [uninitMemberVar]
+GeneralContainer<T,NUM_VEC,LEN_VEC>::GeneralContainer(const char *_id)
+                                     ^
+general_container_I.h:63:38: warning: Member variable 'GeneralContainer::arr_' is not initialized in the constructor. [uninitMemberVar]
+GeneralContainer<T,NUM_VEC,LEN_VEC>::GeneralContainer(const char *_id, const char *_comm, const char *_ref, const char *_restart, int _scalePower)
+                                     ^
+my_page.h:92:3: warning: Member variable 'MyPage < int >::page' is not initialized in the constructor. [uninitMemberVar]
+  MyPage() {
+  ^
+my_page.h:92:3: warning: Member variable 'MyPage < int >::ipage' is not initialized in the constructor. [uninitMemberVar]
+  MyPage() {
+  ^
+my_page.h:92:3: warning: Member variable 'MyPage < int >::index' is not initialized in the constructor. [uninitMemberVar]
+  MyPage() {
+  ^
+my_page.h:92:3: warning: Member variable 'MyPage < int >::maxchunk' is not initialized in the constructor. [uninitMemberVar]
+  MyPage() {
+  ^
+my_page.h:92:3: warning: Member variable 'MyPage < int >::pagesize' is not initialized in the constructor. [uninitMemberVar]
+  MyPage() {
+  ^
+my_page.h:92:3: warning: Member variable 'MyPage < int >::pagedelta' is not initialized in the constructor. [uninitMemberVar]
+  MyPage() {
+  ^
+my_page.h:92:3: warning: Member variable 'MyPage < double >::page' is not initialized in the constructor. [uninitMemberVar]
+  MyPage() {
+  ^
+my_page.h:92:3: warning: Member variable 'MyPage < double >::ipage' is not initialized in the constructor. [uninitMemberVar]
+  MyPage() {
+  ^
+my_page.h:92:3: warning: Member variable 'MyPage < double >::index' is not initialized in the constructor. [uninitMemberVar]
+  MyPage() {
+  ^
+my_page.h:92:3: warning: Member variable 'MyPage < double >::maxchunk' is not initialized in the constructor. [uninitMemberVar]
+  MyPage() {
+  ^
+my_page.h:92:3: warning: Member variable 'MyPage < double >::pagesize' is not initialized in the constructor. [uninitMemberVar]
+  MyPage() {
+  ^
+my_page.h:92:3: warning: Member variable 'MyPage < double >::pagedelta' is not initialized in the constructor. [uninitMemberVar]
+  MyPage() {
+  ^
+scalar_container.h:166:28: warning: The class 'ScalarContainer' defines member function with name 'setAll' also defined in its parent class 'GeneralContainer'. [duplInheritedMember]
+  void ScalarContainer<T>::setAll(T def)
+                           ^
+general_container_I.h:527:43: note: Parent function 'GeneralContainer::setAll'
+void GeneralContainer<T,NUM_VEC,LEN_VEC>::setAll(T def)
+                                          ^
+scalar_container.h:166:28: note: Derived function 'ScalarContainer::setAll'
+  void ScalarContainer<T>::setAll(T def)
+                           ^
+scalar_container.h:174:26: warning: The class 'ScalarContainer' defines member function with name 'begin' also defined in its parent class 'GeneralContainer'. [duplInheritedMember]
+  T* ScalarContainer<T>::begin()
+                         ^
+general_container_I.h:547:43: note: Parent function 'GeneralContainer::begin'
+T*** GeneralContainer<T,NUM_VEC,LEN_VEC>::begin()
+                                          ^
+scalar_container.h:174:26: note: Derived function 'ScalarContainer::begin'
+  T* ScalarContainer<T>::begin()
+                         ^
+scalar_container.h:142:26: warning: The class 'ScalarContainer' defines member function with name 'operator()' also defined in its parent class 'GeneralContainer'. [duplInheritedMember]
+  T& ScalarContainer<T>::operator() (int n)
+                         ^
+general_container_I.h:312:43: note: Parent function 'GeneralContainer::operator()'
+T**& GeneralContainer<T,NUM_VEC,LEN_VEC>::operator() (int n)
+                                          ^
+scalar_container.h:142:26: note: Derived function 'ScalarContainer::operator()'
+  T& ScalarContainer<T>::operator() (int n)
+                         ^
+scalar_container.h:148:32: warning: The class 'ScalarContainer' defines member function with name 'operator()' also defined in its parent class 'GeneralContainer'. [duplInheritedMember]
+  T const& ScalarContainer<T>::operator() (int n) const
+                               ^
+general_container_I.h:318:49: note: Parent function 'GeneralContainer::operator()'
+T** const& GeneralContainer<T,NUM_VEC,LEN_VEC>::operator() (int n) const
+                                                ^
+scalar_container.h:148:32: note: Derived function 'ScalarContainer::operator()'
+  T const& ScalarContainer<T>::operator() (int n) const
+                               ^
+vector_container.h:147:35: warning: The class 'VectorContainer' defines member function with name 'operator()' also defined in its parent class 'GeneralContainer'. [duplInheritedMember]
+  T*& VectorContainer<T,LEN_VEC>::operator() (int n)
+                                  ^
+general_container_I.h:312:43: note: Parent function 'GeneralContainer::operator()'
+T**& GeneralContainer<T,NUM_VEC,LEN_VEC>::operator() (int n)
+                                          ^
+vector_container.h:147:35: note: Derived function 'VectorContainer::operator()'
+  T*& VectorContainer<T,LEN_VEC>::operator() (int n)
+                                  ^
+vector_container.h:153:41: warning: The class 'VectorContainer' defines member function with name 'operator()' also defined in its parent class 'GeneralContainer'. [duplInheritedMember]
+  T* const& VectorContainer<T,LEN_VEC>::operator() (int n) const
+                                        ^
+general_container_I.h:318:49: note: Parent function 'GeneralContainer::operator()'
+T** const& GeneralContainer<T,NUM_VEC,LEN_VEC>::operator() (int n) const
+                                                ^
+vector_container.h:153:41: note: Derived function 'VectorContainer::operator()'
+  T* const& VectorContainer<T,LEN_VEC>::operator() (int n) const
+                                        ^
+vector_container.h:206:35: warning: The class 'VectorContainer' defines member function with name 'begin' also defined in its parent class 'GeneralContainer'. [duplInheritedMember]
+  T** VectorContainer<T,LEN_VEC>::begin()
+                                  ^
+general_container_I.h:547:43: note: Parent function 'GeneralContainer::begin'
+T*** GeneralContainer<T,NUM_VEC,LEN_VEC>::begin()
+                                          ^
+vector_container.h:206:35: note: Derived function 'VectorContainer::begin'
+  T** VectorContainer<T,LEN_VEC>::begin()
+                                  ^
+my_page.h:261:5: error: Common realloc mistake: 'pages' nulled but not freed upon failure [memleakOnRealloc]
+    pages = (T **) realloc(pages,npage*sizeof(T *));
+    ^
+memory_ns.h:112:11: warning: If memory allocation fails, then there is a possible null pointer dereference: array [nullPointerOutOfMemory]
+          array[i] = &data[n];
+          ^
+memory_ns.h:108:33: note: Assuming allocation function fails
+        array = (TYPE **) malloc(nbytes);
+                                ^
+memory_ns.h:108:17: note: Assignment 'array=(TYPE**)malloc(nbytes)', assigned value is 0
+        array = (TYPE **) malloc(nbytes);
+                ^
+memory_ns.h:112:11: note: Null pointer dereference
+          array[i] = &data[n];
+          ^
+memory_ns.h:172:13: warning: If memory allocation fails, then there is a possible null pointer dereference: array [nullPointerOutOfMemory]
+            array[i] = &plane[m];
+            ^
+memory_ns.h:165:36: note: Assuming allocation function fails
+          array = (TYPE ***) malloc(nbytes);
+                                   ^
+memory_ns.h:165:19: note: Assignment 'array=(TYPE***)malloc(nbytes)', assigned value is 0
+          array = (TYPE ***) malloc(nbytes);
+                  ^
+memory_ns.h:172:13: note: Null pointer dereference
+            array[i] = &plane[m];
+            ^
+memory_ns.h:174:15: warning: If memory allocation fails, then there is a possible null pointer dereference: plane [nullPointerOutOfMemory]
+              plane[m+j] = &data[n];
+              ^
+memory_ns.h:163:42: note: Assuming allocation function fails
+          TYPE **plane = (TYPE **) malloc(nbytes);
+                                         ^
+memory_ns.h:163:26: note: Assignment 'plane=(TYPE**)malloc(nbytes)', assigned value is 0
+          TYPE **plane = (TYPE **) malloc(nbytes);
+                         ^
+memory_ns.h:174:15: note: Null pointer dereference
+              plane[m+j] = &data[n];
+              ^
+irregular.cpp:85:12: warning: Member variable 'Irregular::uniform' is not initialized in the constructor. [uninitMemberVar]
+Irregular::Irregular(LAMMPS *lmp) : Pointers(lmp)
+           ^
+irregular.cpp:85:12: warning: Member variable 'Irregular::xsplit' is not initialized in the constructor. [uninitMemberVar]
+Irregular::Irregular(LAMMPS *lmp) : Pointers(lmp)
+           ^
+irregular.cpp:85:12: warning: Member variable 'Irregular::ysplit' is not initialized in the constructor. [uninitMemberVar]
+Irregular::Irregular(LAMMPS *lmp) : Pointers(lmp)
+           ^
+irregular.cpp:85:12: warning: Member variable 'Irregular::zsplit' is not initialized in the constructor. [uninitMemberVar]
+Irregular::Irregular(LAMMPS *lmp) : Pointers(lmp)
+           ^
+irregular.cpp:85:12: warning: Member variable 'Irregular::boxlo' is not initialized in the constructor. [uninitMemberVar]
+Irregular::Irregular(LAMMPS *lmp) : Pointers(lmp)
+           ^
+irregular.cpp:85:12: warning: Member variable 'Irregular::prd' is not initialized in the constructor. [uninitMemberVar]
+Irregular::Irregular(LAMMPS *lmp) : Pointers(lmp)
+           ^
+container_base_I.h:197:51: performance: Prefer prefix ++/-- operators for non-primitive types. [postfixOperator]
+      for (_id = ids->begin(); _id != ids->end(); _id++)
+                                                  ^
+fix_mesh.h:113:75: performance: Prefer prefix ++/-- operators for non-primitive types. [postfixOperator]
+            for (it = fixMoveMeshes_.begin(); it != fixMoveMeshes_.end(); it++)
+                                                                          ^
+contact_interface.h:103:3: warning: Member variable 'SurfacesCloseData::delta' is not initialized in the constructor. [uninitMemberVar]
+  SurfacesCloseData() :
+  ^
+contact_interface.h:178:3: warning: Member variable 'SurfacesIntersectData::r' is not initialized in the constructor. [uninitMemberVar]
+  SurfacesIntersectData() : Fn(0.0), Ft(0.0), vtr_pred_shift(NULL), en_full(NULL) {}
+  ^
+contact_interface.h:178:3: warning: Member variable 'SurfacesIntersectData::rinv' is not initialized in the constructor. [uninitMemberVar]
+  SurfacesIntersectData() : Fn(0.0), Ft(0.0), vtr_pred_shift(NULL), en_full(NULL) {}
+  ^
+contact_interface.h:178:3: warning: Member variable 'SurfacesIntersectData::en' is not initialized in the constructor. [uninitMemberVar]
+  SurfacesIntersectData() : Fn(0.0), Ft(0.0), vtr_pred_shift(NULL), en_full(NULL) {}
+  ^
+contact_interface.h:178:3: warning: Member variable 'SurfacesIntersectData::kt' is not initialized in the constructor. [uninitMemberVar]
+  SurfacesIntersectData() : Fn(0.0), Ft(0.0), vtr_pred_shift(NULL), en_full(NULL) {}
+  ^
+contact_interface.h:178:3: warning: Member variable 'SurfacesIntersectData::kn' is not initialized in the constructor. [uninitMemberVar]
+  SurfacesIntersectData() : Fn(0.0), Ft(0.0), vtr_pred_shift(NULL), en_full(NULL) {}
+  ^
+contact_interface.h:178:3: warning: Member variable 'SurfacesIntersectData::gammat' is not initialized in the constructor. [uninitMemberVar]
+  SurfacesIntersectData() : Fn(0.0), Ft(0.0), vtr_pred_shift(NULL), en_full(NULL) {}
+  ^
+contact_interface.h:178:3: warning: Member variable 'SurfacesIntersectData::gamman' is not initialized in the constructor. [uninitMemberVar]
+  SurfacesIntersectData() : Fn(0.0), Ft(0.0), vtr_pred_shift(NULL), en_full(NULL) {}
+  ^
+contact_interface.h:178:3: warning: Member variable 'SurfacesIntersectData::vn' is not initialized in the constructor. [uninitMemberVar]
+  SurfacesIntersectData() : Fn(0.0), Ft(0.0), vtr_pred_shift(NULL), en_full(NULL) {}
+  ^
+contact_interface.h:178:3: warning: Member variable 'SurfacesIntersectData::deltan' is not initialized in the constructor. [uninitMemberVar]
+  SurfacesIntersectData() : Fn(0.0), Ft(0.0), vtr_pred_shift(NULL), en_full(NULL) {}
+  ^
+contact_interface.h:178:3: warning: Member variable 'SurfacesIntersectData::cri' is not initialized in the constructor. [uninitMemberVar]
+  SurfacesIntersectData() : Fn(0.0), Ft(0.0), vtr_pred_shift(NULL), en_full(NULL) {}
+  ^
+contact_interface.h:178:3: warning: Member variable 'SurfacesIntersectData::crj' is not initialized in the constructor. [uninitMemberVar]
+  SurfacesIntersectData() : Fn(0.0), Ft(0.0), vtr_pred_shift(NULL), en_full(NULL) {}
+  ^
+contact_interface.h:178:3: warning: Member variable 'SurfacesIntersectData::wr1' is not initialized in the constructor. [uninitMemberVar]
+  SurfacesIntersectData() : Fn(0.0), Ft(0.0), vtr_pred_shift(NULL), en_full(NULL) {}
+  ^
+contact_interface.h:178:3: warning: Member variable 'SurfacesIntersectData::wr2' is not initialized in the constructor. [uninitMemberVar]
+  SurfacesIntersectData() : Fn(0.0), Ft(0.0), vtr_pred_shift(NULL), en_full(NULL) {}
+  ^
+contact_interface.h:178:3: warning: Member variable 'SurfacesIntersectData::wr3' is not initialized in the constructor. [uninitMemberVar]
+  SurfacesIntersectData() : Fn(0.0), Ft(0.0), vtr_pred_shift(NULL), en_full(NULL) {}
+  ^
+contact_interface.h:178:3: warning: Member variable 'SurfacesIntersectData::vtr1' is not initialized in the constructor. [uninitMemberVar]
+  SurfacesIntersectData() : Fn(0.0), Ft(0.0), vtr_pred_shift(NULL), en_full(NULL) {}
+  ^
+contact_interface.h:178:3: warning: Member variable 'SurfacesIntersectData::vtr2' is not initialized in the constructor. [uninitMemberVar]
+  SurfacesIntersectData() : Fn(0.0), Ft(0.0), vtr_pred_shift(NULL), en_full(NULL) {}
+  ^
+contact_interface.h:178:3: warning: Member variable 'SurfacesIntersectData::vtr3' is not initialized in the constructor. [uninitMemberVar]
+  SurfacesIntersectData() : Fn(0.0), Ft(0.0), vtr_pred_shift(NULL), en_full(NULL) {}
+  ^
+contact_interface.h:178:3: warning: Member variable 'SurfacesIntersectData::mi' is not initialized in the constructor. [uninitMemberVar]
+  SurfacesIntersectData() : Fn(0.0), Ft(0.0), vtr_pred_shift(NULL), en_full(NULL) {}
+  ^
+contact_interface.h:178:3: warning: Member variable 'SurfacesIntersectData::mj' is not initialized in the constructor. [uninitMemberVar]
+  SurfacesIntersectData() : Fn(0.0), Ft(0.0), vtr_pred_shift(NULL), en_full(NULL) {}
+  ^
+contact_interface.h:178:3: warning: Member variable 'SurfacesIntersectData::meff' is not initialized in the constructor. [uninitMemberVar]
+  SurfacesIntersectData() : Fn(0.0), Ft(0.0), vtr_pred_shift(NULL), en_full(NULL) {}
+  ^
+contact_interface.h:178:3: warning: Member variable 'SurfacesIntersectData::P_diss' is not initialized in the constructor. [uninitMemberVar]
+  SurfacesIntersectData() : Fn(0.0), Ft(0.0), vtr_pred_shift(NULL), en_full(NULL) {}
+  ^
+11/28 files checked 30% done
+fix_contact_history.cpp:128:5: warning: Class 'FixContactHistory' does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s). [noCopyConstructor]
+    variablename_ = new char[n];
+    ^
+fix_contact_history.cpp:128:5: warning: Class 'FixContactHistory' does not have a operator= which is recommended since it has dynamic memory/resource allocation(s). [noOperatorEq]
+    variablename_ = new char[n];
+    ^
+compute_pair_gran_local.h:194:11: warning: The class 'ComputePairGranLocal' defines member variable with name 'vector' also defined in its parent class 'Compute'. [duplInheritedMember]
+  double *vector;
+          ^
+compute.h:65:11: note: Parent variable 'Compute::vector'
+  double *vector;           // computed global vector
+          ^
+compute_pair_gran_local.h:194:11: note: Derived variable 'ComputePairGranLocal::vector'
+  double *vector;
+          ^
+compute_pair_gran_local.h:195:12: warning: The class 'ComputePairGranLocal' defines member variable with name 'array' also defined in its parent class 'Compute'. [duplInheritedMember]
+  double **array;
+           ^
+compute.h:66:12: note: Parent variable 'Compute::array'
+  double **array;           // computed global array
+           ^
+compute_pair_gran_local.h:195:12: note: Derived variable 'ComputePairGranLocal::array'
+  double **array;
+           ^
+fix_contact_history.cpp:233:45: warning: Either the condition '!pair_gran_' is redundant or there is possible null pointer dereference: static_cast<PairGran*>(pair_gran_). [nullPointerRedundantCheck]
+          if(dnum_ != static_cast<PairGran*>(pair_gran_)->dnum_pair())
+                                            ^
+fix_contact_history.cpp:230:14: note: Assuming that condition '!pair_gran_' is not redundant
+          if(!pair_gran_)
+             ^
+fix_contact_history.cpp:233:45: note: Null pointer dereference
+          if(dnum_ != static_cast<PairGran*>(pair_gran_)->dnum_pair())
+                                            ^
+12/28 files checked 34% done
+fix_contact_history.cpp:792:18: portability: Casting between signed char * and double * which have an incompatible binary data representation. [invalidPointerCast]
+  double *list = (double *) buf;
+                 ^
+pair_gran.h:91:48: performance: Function parameter 'mtype' should be passed by const reference. [passedByValue]
+  virtual bool contact_match(const std::string mtype, const std::string model) = 0;
+                                               ^
+pair_gran.h:91:73: performance: Function parameter 'model' should be passed by const reference. [passedByValue]
+  virtual bool contact_match(const std::string mtype, const std::string model) = 0;
+                                                                        ^
+pair_gran.h:211:46: performance: Function parameter 'newtonflag' should be passed by const reference. [passedByValue]
+    HistoryArg(std::string name, std::string newtonflag) : name(name), newtonflag(newtonflag) {}
+                                             ^
+13/28 files checked 38% done
+
+^
+14/28 files checked 41% done
+
+^
+
+^
+
+^
+fix_property_global.cpp:85:5: warning: Class 'FixPropertyGlobal' does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s). [noCopyConstructor]
+    variablename = new char[n];
+    ^
+fix_property_global.cpp:85:5: warning: Class 'FixPropertyGlobal' does not have a operator= which is recommended since it has dynamic memory/resource allocation(s). [noOperatorEq]
+    variablename = new char[n];
+    ^
+fix_property_global.cpp:686:13: warning: If resource allocation fails, then there is a possible null pointer dereference: file [nullPointerOutOfResources]
+    fprintf(file,"fix %s %s %s %s ",id,grpname,style,variablename);
+            ^
+fix_property_global.cpp:680:23: note: Assuming allocation function fails
+    FILE *file = fopen(filename,"w");
+                      ^
+fix_property_global.cpp:680:23: note: Assignment 'file=fopen(filename,"w")', assigned value is 0
+    FILE *file = fopen(filename,"w");
+                      ^
+fix_property_global.cpp:686:13: note: Null pointer dereference
+    fprintf(file,"fix %s %s %s %s ",id,grpname,style,variablename);
+            ^
+fix_property_global.cpp:694:13: warning: If resource allocation fails, then there is a possible null pointer dereference: file [nullPointerOutOfResources]
+    fprintf(file,"%s ",datatyp);
+            ^
+fix_property_global.cpp:680:23: note: Assuming allocation function fails
+    FILE *file = fopen(filename,"w");
+                      ^
+fix_property_global.cpp:680:23: note: Assignment 'file=fopen(filename,"w")', assigned value is 0
+    FILE *file = fopen(filename,"w");
+                      ^
+fix_property_global.cpp:694:13: note: Null pointer dereference
+    fprintf(file,"%s ",datatyp);
+            ^
+15/28 files checked 45% done
+neigh_gran.cpp:980:18: style: Array index 'j' is used before limits check. [arrayIndexThenCheck]
+            if (x[j][0] == xtmp && j <= i) continue;
+                 ^
+16/28 files checked 51% done
+
+^
+17/28 files checked 52% done
+read_data.cpp:93:11: warning: Member variable 'ReadData::fp' is not initialized in the constructor. [uninitMemberVar]
+ReadData::ReadData(LAMMPS *lmp) : Pointers(lmp)
+          ^
+read_data.cpp:93:11: warning: Member variable 'ReadData::compressed' is not initialized in the constructor. [uninitMemberVar]
+ReadData::ReadData(LAMMPS *lmp) : Pointers(lmp)
+          ^
+read_data.cpp:93:11: warning: Member variable 'ReadData::nfix' is not initialized in the constructor. [uninitMemberVar]
+ReadData::ReadData(LAMMPS *lmp) : Pointers(lmp)
+          ^
+read_data.cpp:93:11: warning: Member variable 'ReadData::fix_index' is not initialized in the constructor. [uninitMemberVar]
+ReadData::ReadData(LAMMPS *lmp) : Pointers(lmp)
+          ^
+read_data.cpp:93:11: warning: Member variable 'ReadData::fix_header' is not initialized in the constructor. [uninitMemberVar]
+ReadData::ReadData(LAMMPS *lmp) : Pointers(lmp)
+          ^
+read_data.cpp:93:11: warning: Member variable 'ReadData::fix_section' is not initialized in the constructor. [uninitMemberVar]
+ReadData::ReadData(LAMMPS *lmp) : Pointers(lmp)
+          ^
+read_data.cpp:93:11: warning: Member variable 'ReadData::natoms_add' is not initialized in the constructor. [uninitMemberVar]
+ReadData::ReadData(LAMMPS *lmp) : Pointers(lmp)
+          ^
+read_data.cpp:96:3: warning: Class 'ReadData' does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s). [noCopyConstructor]
+  line = new char[MAXLINE];
+  ^
+read_data.cpp:96:3: warning: Class 'ReadData' does not have a operator= which is recommended since it has dynamic memory/resource allocation(s). [noOperatorEq]
+  line = new char[MAXLINE];
+  ^
+read_data.cpp:1212:21: warning: Either the condition 'atom->natoms>2147483647' is redundant or there is signed integer overflow for expression 'natoms+1'. [integerOverflowCond]
+  int cmax = natoms + 1;
+                    ^
+read_data.cpp:1197:20: note: Assuming that condition 'atom->natoms>2147483647' is not redundant
+  if (atom->natoms > MAXSMALLINT)
+                   ^
+read_data.cpp:1202:14: note: natoms is assigned 'static_cast<int>(atom->natoms)' here.
+  int natoms = static_cast<int> (atom->natoms);
+             ^
+read_data.cpp:1212:21: note: Integer overflow
+  int cmax = natoms + 1;
+                    ^
+18/28 files checked 61% done
+domain.cpp:115:9: warning: Member variable 'Domain::small' is not initialized in the constructor. [uninitMemberVar]
+Domain::Domain(LAMMPS *lmp) :
+        ^
+19/28 files checked 70% done
+
+^
+
+^
+
+^
+delete_atoms.cpp:80:14: warning: Member variable 'DeleteAtoms::dlist' is not initialized in the constructor. [uninitMemberVar]
+DeleteAtoms::DeleteAtoms(LAMMPS *lmp) : Pointers(lmp) {}
+             ^
+delete_atoms.cpp:80:14: warning: Member variable 'DeleteAtoms::compress_flag' is not initialized in the constructor. [uninitMemberVar]
+DeleteAtoms::DeleteAtoms(LAMMPS *lmp) : Pointers(lmp) {}
+             ^
+delete_atoms.cpp:80:14: warning: Member variable 'DeleteAtoms::mol_flag' is not initialized in the constructor. [uninitMemberVar]
+DeleteAtoms::DeleteAtoms(LAMMPS *lmp) : Pointers(lmp) {}
+             ^
+delete_atoms.cpp:80:14: warning: Member variable 'DeleteAtoms::hash' is not initialized in the constructor. [uninitMemberVar]
+DeleteAtoms::DeleteAtoms(LAMMPS *lmp) : Pointers(lmp) {}
+             ^
+20/28 files checked 73% done
+
+^
+probability_distribution.h:58:7: warning: Member variable 'PDF::rand_style_' is not initialized in the constructor. [uninitMemberVar]
+      PDF(LAMMPS_NS::Error *error)
+      ^
+region_neighbor_list_I.h:57:34: warning: Member variable 'RegionNeighborList < true >::bboxlo' is not initialized in the constructor. [uninitMemberVar]
+RegionNeighborList<INTERPOLATE>::RegionNeighborList(LAMMPS *lmp) :
+                                 ^
+region_neighbor_list_I.h:57:34: warning: Member variable 'RegionNeighborList < true >::bboxhi' is not initialized in the constructor. [uninitMemberVar]
+RegionNeighborList<INTERPOLATE>::RegionNeighborList(LAMMPS *lmp) :
+                                 ^
+region_neighbor_list_I.h:57:34: warning: Member variable 'RegionNeighborList < true >::nbinx' is not initialized in the constructor. [uninitMemberVar]
+RegionNeighborList<INTERPOLATE>::RegionNeighborList(LAMMPS *lmp) :
+                                 ^
+region_neighbor_list_I.h:57:34: warning: Member variable 'RegionNeighborList < true >::nbiny' is not initialized in the constructor. [uninitMemberVar]
+RegionNeighborList<INTERPOLATE>::RegionNeighborList(LAMMPS *lmp) :
+                                 ^
+region_neighbor_list_I.h:57:34: warning: Member variable 'RegionNeighborList < true >::nbinz' is not initialized in the constructor. [uninitMemberVar]
+RegionNeighborList<INTERPOLATE>::RegionNeighborList(LAMMPS *lmp) :
+                                 ^
+region_neighbor_list_I.h:57:34: warning: Member variable 'RegionNeighborList < true >::mbinx' is not initialized in the constructor. [uninitMemberVar]
+RegionNeighborList<INTERPOLATE>::RegionNeighborList(LAMMPS *lmp) :
+                                 ^
+region_neighbor_list_I.h:57:34: warning: Member variable 'RegionNeighborList < true >::mbiny' is not initialized in the constructor. [uninitMemberVar]
+RegionNeighborList<INTERPOLATE>::RegionNeighborList(LAMMPS *lmp) :
+                                 ^
+region_neighbor_list_I.h:57:34: warning: Member variable 'RegionNeighborList < true >::mbinz' is not initialized in the constructor. [uninitMemberVar]
+RegionNeighborList<INTERPOLATE>::RegionNeighborList(LAMMPS *lmp) :
+                                 ^
+region_neighbor_list_I.h:57:34: warning: Member variable 'RegionNeighborList < true >::mbinxlo' is not initialized in the constructor. [uninitMemberVar]
+RegionNeighborList<INTERPOLATE>::RegionNeighborList(LAMMPS *lmp) :
+                                 ^
+region_neighbor_list_I.h:57:34: warning: Member variable 'RegionNeighborList < true >::mbinylo' is not initialized in the constructor. [uninitMemberVar]
+RegionNeighborList<INTERPOLATE>::RegionNeighborList(LAMMPS *lmp) :
+                                 ^
+region_neighbor_list_I.h:57:34: warning: Member variable 'RegionNeighborList < true >::mbinzlo' is not initialized in the constructor. [uninitMemberVar]
+RegionNeighborList<INTERPOLATE>::RegionNeighborList(LAMMPS *lmp) :
+                                 ^
+region_neighbor_list_I.h:57:34: warning: Member variable 'RegionNeighborList < true >::binsizex' is not initialized in the constructor. [uninitMemberVar]
+RegionNeighborList<INTERPOLATE>::RegionNeighborList(LAMMPS *lmp) :
+                                 ^
+region_neighbor_list_I.h:57:34: warning: Member variable 'RegionNeighborList < true >::binsizey' is not initialized in the constructor. [uninitMemberVar]
+RegionNeighborList<INTERPOLATE>::RegionNeighborList(LAMMPS *lmp) :
+                                 ^
+region_neighbor_list_I.h:57:34: warning: Member variable 'RegionNeighborList < true >::binsizez' is not initialized in the constructor. [uninitMemberVar]
+RegionNeighborList<INTERPOLATE>::RegionNeighborList(LAMMPS *lmp) :
+                                 ^
+region_neighbor_list_I.h:57:34: warning: Member variable 'RegionNeighborList < true >::bininvx' is not initialized in the constructor. [uninitMemberVar]
+RegionNeighborList<INTERPOLATE>::RegionNeighborList(LAMMPS *lmp) :
+                                 ^
+region_neighbor_list_I.h:57:34: warning: Member variable 'RegionNeighborList < true >::bininvy' is not initialized in the constructor. [uninitMemberVar]
+RegionNeighborList<INTERPOLATE>::RegionNeighborList(LAMMPS *lmp) :
+                                 ^
+region_neighbor_list_I.h:57:34: warning: Member variable 'RegionNeighborList < true >::bininvz' is not initialized in the constructor. [uninitMemberVar]
+RegionNeighborList<INTERPOLATE>::RegionNeighborList(LAMMPS *lmp) :
+                                 ^
+fix_insert.cpp:103:3: warning: Class 'FixInsert' does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s). [noCopyConstructor]
+  random = new RanPark(lmp, arg[iarg++], true);
+  ^
+fix_insert.cpp:103:3: warning: Class 'FixInsert' does not have a operator= which is recommended since it has dynamic memory/resource allocation(s). [noOperatorEq]
+  random = new RanPark(lmp, arg[iarg++], true);
+  ^
+associative_pointer_array_I.h:57:5: warning: Class 'AssociativePointerArray < ContainerBase >' does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s). [noCopyConstructor]
+    content_ = new T*[1];
+    ^
+associative_pointer_array_I.h:57:5: warning: Class 'AssociativePointerArray < ContainerBase >' does not have a operator= which is recommended since it has dynamic memory/resource allocation(s). [noOperatorEq]
+    content_ = new T*[1];
+    ^
+region_neighbor_list.h:123:47: performance: Function 'getBins()' should return member 'bins' by const reference. [returnByReference]
+    std::vector<LAMMPS_NS::Bin<INTERPOLATE> > getBins() const
+                                              ^
+fix_insert.cpp:1054:18: portability: Casting between signed char * and double * which have an incompatible binary data representation. [invalidPointerCast]
+  double *list = (double *) buf;
+                 ^
+fix_insert.cpp:923:14: error: Memory is allocated but not initialized: remainder [uninitdata]
+    delete []remainder;
+             ^
+fix_template_sphere.h:136:38: performance: Prefer prefix ++/-- operators for non-primitive types. [postfixOperator]
+        for (; it != fpa_list.end(); it++)
+                                     ^
+21/28 files checked 79% done
+utils.h:204:56: error: Found an exit path from function with non-void return type that has missing return statement [missingReturn]
+    AbstractFactory& operator=(const AbstractFactory&){}
+                                                       ^
+fix_neighlist_mesh.h:78:3: warning: Member variable 'TriangleNeighlist::boundary' is not initialized in the constructor. [uninitMemberVar]
+  TriangleNeighlist() : nchecked(0) {}
+  ^
+
+^
+
+^
+tracking_mesh.h:83:36: warning: The class 'TrackingMesh' defines member function with name 'prop' also defined in its parent class 'AbstractMesh'. [duplInheritedMember]
+        inline CustomValueTracker& prop()
+                                   ^
+abstract_mesh.h:121:43: note: Parent function 'AbstractMesh::prop'
+        virtual class CustomValueTracker& prop() = 0;
+                                          ^
+tracking_mesh.h:83:36: note: Derived function 'TrackingMesh::prop'
+        inline CustomValueTracker& prop()
+                                   ^
+fix_contact_property_atom_wall.h:68:21: warning: The class 'FixContactPropertyAtomWall' defines member function with name 'getMesh' also defined in its parent class 'FixContactPropertyAtom'. [duplInheritedMember]
+    FixMeshSurface *getMesh() const;
+                    ^
+fix_contact_property_atom.h:96:33: note: Parent function 'FixContactPropertyAtom::getMesh'
+  virtual class FixMeshSurface* getMesh() const
+                                ^
+fix_contact_property_atom_wall.h:68:21: note: Derived function 'FixContactPropertyAtomWall::getMesh'
+    FixMeshSurface *getMesh() const;
+                    ^
+granular_wall.h:69:50: performance: Function parameter 'mtype' should be passed by const reference. [passedByValue]
+    virtual bool contact_match(const std::string mtype, const std::string model) = 0;
+                                                 ^
+granular_wall.h:69:75: performance: Function parameter 'model' should be passed by const reference. [passedByValue]
+    virtual bool contact_match(const std::string mtype, const std::string model) = 0;
+                                                                          ^
+fix_wall_gran.h:106:44: performance: Function parameter 'hname' should be passed by const reference. [passedByValue]
+  int get_history_offset(const std::string hname)
+                                           ^
+fix_wall_gran.h:109:40: performance: Function parameter 'mtype' should be passed by const reference. [passedByValue]
+  bool contact_match(const std::string mtype, const std::string model)
+                                       ^
+fix_wall_gran.h:109:65: performance: Function parameter 'model' should be passed by const reference. [passedByValue]
+  bool contact_match(const std::string mtype, const std::string model)
+                                                                ^
+fix_gravity.h:81:7: warning: The class 'FixGravity' defines member variable with name 'style' also defined in its parent class 'Fix'. [duplInheritedMember]
+  int style;
+      ^
+fix.h:61:13: note: Parent variable 'Fix::style'
+  char *id,*style;
+            ^
+fix_gravity.h:81:7: note: Derived variable 'FixGravity::style'
+  int style;
+      ^
+atom.cpp:87:7: warning: Member variable 'Atom::molecular' is not initialized in the constructor. [uninitMemberVar]
+Atom::Atom(LAMMPS *lmp) : Pointers(lmp)
+      ^
+atom.cpp:87:7: warning: Member variable 'Atom::firstgroup' is not initialized in the constructor. [uninitMemberVar]
+Atom::Atom(LAMMPS *lmp) : Pointers(lmp)
+      ^
+atom.cpp:87:7: warning: Member variable 'Atom::nfirst' is not initialized in the constructor. [uninitMemberVar]
+Atom::Atom(LAMMPS *lmp) : Pointers(lmp)
+      ^
+atom.cpp:87:7: warning: Member variable 'Atom::darray' is not initialized in the constructor. [uninitMemberVar]
+Atom::Atom(LAMMPS *lmp) : Pointers(lmp)
+      ^
+atom.cpp:87:7: warning: Member variable 'Atom::daname' is not initialized in the constructor. [uninitMemberVar]
+Atom::Atom(LAMMPS *lmp) : Pointers(lmp)
+      ^
+atom.cpp:87:7: warning: Member variable 'Atom::ndarray' is not initialized in the constructor. [uninitMemberVar]
+Atom::Atom(LAMMPS *lmp) : Pointers(lmp)
+      ^
+atom.cpp:87:7: warning: Member variable 'Atom::ecp_flag' is not initialized in the constructor. [uninitMemberVar]
+Atom::Atom(LAMMPS *lmp) : Pointers(lmp)
+      ^
+atom.cpp:87:7: warning: Member variable 'Atom::map_nused' is not initialized in the constructor. [uninitMemberVar]
+Atom::Atom(LAMMPS *lmp) : Pointers(lmp)
+      ^
+atom.cpp:87:7: warning: Member variable 'Atom::map_free' is not initialized in the constructor. [uninitMemberVar]
+Atom::Atom(LAMMPS *lmp) : Pointers(lmp)
+      ^
+atom.cpp:87:7: warning: Member variable 'Atom::map_nbucket' is not initialized in the constructor. [uninitMemberVar]
+Atom::Atom(LAMMPS *lmp) : Pointers(lmp)
+      ^
+atom.cpp:87:7: warning: Member variable 'Atom::nbins' is not initialized in the constructor. [uninitMemberVar]
+Atom::Atom(LAMMPS *lmp) : Pointers(lmp)
+      ^
+atom.cpp:87:7: warning: Member variable 'Atom::nbinx' is not initialized in the constructor. [uninitMemberVar]
+Atom::Atom(LAMMPS *lmp) : Pointers(lmp)
+      ^
+atom.cpp:87:7: warning: Member variable 'Atom::nbiny' is not initialized in the constructor. [uninitMemberVar]
+Atom::Atom(LAMMPS *lmp) : Pointers(lmp)
+      ^
+atom.cpp:87:7: warning: Member variable 'Atom::nbinz' is not initialized in the constructor. [uninitMemberVar]
+Atom::Atom(LAMMPS *lmp) : Pointers(lmp)
+      ^
+atom.cpp:87:7: warning: Member variable 'Atom::bininvx' is not initialized in the constructor. [uninitMemberVar]
+Atom::Atom(LAMMPS *lmp) : Pointers(lmp)
+      ^
+atom.cpp:87:7: warning: Member variable 'Atom::bininvy' is not initialized in the constructor. [uninitMemberVar]
+Atom::Atom(LAMMPS *lmp) : Pointers(lmp)
+      ^
+atom.cpp:87:7: warning: Member variable 'Atom::bininvz' is not initialized in the constructor. [uninitMemberVar]
+Atom::Atom(LAMMPS *lmp) : Pointers(lmp)
+      ^
+atom.cpp:87:7: warning: Member variable 'Atom::bboxlo' is not initialized in the constructor. [uninitMemberVar]
+Atom::Atom(LAMMPS *lmp) : Pointers(lmp)
+      ^
+atom.cpp:87:7: warning: Member variable 'Atom::bboxhi' is not initialized in the constructor. [uninitMemberVar]
+Atom::Atom(LAMMPS *lmp) : Pointers(lmp)
+      ^
+atom.cpp:87:7: warning: Member variable 'Atom::memlength' is not initialized in the constructor. [uninitMemberVar]
+Atom::Atom(LAMMPS *lmp) : Pointers(lmp)
+      ^
+atom.cpp:87:7: warning: Member variable 'Atom::memstr' is not initialized in the constructor. [uninitMemberVar]
+Atom::Atom(LAMMPS *lmp) : Pointers(lmp)
+      ^
+accelerator_cuda.h:77:3: warning: Member variable 'Cuda::oncpu' is not initialized in the constructor. [uninitMemberVar]
+  Cuda(class LAMMPS *) {cuda_exists = 0;}
+  ^
+atom.cpp:239:3: warning: Class 'Atom' does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s). [noCopyConstructor]
+  properties = new Properties(lmp);
+  ^
+atom.cpp:239:3: warning: Class 'Atom' does not have a operator= which is recommended since it has dynamic memory/resource allocation(s). [noOperatorEq]
+  properties = new Properties(lmp);
+  ^
+contact_model_constants.h:69:52: error: Shifting signed 32-bit value by 31 bits is undefined behaviour [shiftTooManyBitsSigned]
+    static const int CONTACT_FIX               = 1 << 31;
+                                                   ^
+atom.cpp:407:3: error: Null pointer dereference: avec [nullPointer]
+  avec->settings(narg,arg);
+  ^
+atom.cpp:406:18: note: Calling function 'new_avec' returns 0
+  avec = new_avec(style,suffix,sflag);
+                 ^
+atom.cpp:406:18: note: Assignment 'avec=new_avec(style,suffix,sflag)', assigned value is 0
+  avec = new_avec(style,suffix,sflag);
+                 ^
+atom.cpp:407:3: note: Null pointer dereference
+  avec->settings(narg,arg);
+  ^
+atom.cpp:408:3: error: Null pointer dereference: avec [nullPointer]
+  avec->grow(1);
+  ^
+atom.cpp:406:18: note: Calling function 'new_avec' returns 0
+  avec = new_avec(style,suffix,sflag);
+                 ^
+atom.cpp:406:18: note: Assignment 'avec=new_avec(style,suffix,sflag)', assigned value is 0
+  avec = new_avec(style,suffix,sflag);
+                 ^
+atom.cpp:408:3: note: Null pointer dereference
+  avec->grow(1);
+  ^
+atom.cpp:424:15: error: Null pointer dereference: avec [nullPointer]
+  molecular = avec->molecular;
+              ^
+atom.cpp:406:18: note: Calling function 'new_avec' returns 0
+  avec = new_avec(style,suffix,sflag);
+                 ^
+atom.cpp:406:18: note: Assignment 'avec=new_avec(style,suffix,sflag)', assigned value is 0
+  avec = new_avec(style,suffix,sflag);
+                 ^
+atom.cpp:424:15: note: Null pointer dereference
+  molecular = avec->molecular;
+              ^
+22/28 files checked 87% done
+23/28 files checked 90% done
+24/28 files checked 93% done
+
+^
+
+^
+compute_pair_gran_local.cpp:211:11: warning: Either the condition 'pairgran==NULL' is redundant or there is possible null pointer dereference: pairgran. [nullPointerRedundantCheck]
+      if (pairgran->cplenable() == 0)
+          ^
+compute_pair_gran_local.cpp:208:20: note: Assuming that condition 'pairgran==NULL' is not redundant
+      if (pairgran == NULL)
+                   ^
+compute_pair_gran_local.cpp:211:11: note: Null pointer dereference
+      if (pairgran->cplenable() == 0)
+          ^
+compute_pair_gran_local.cpp:244:26: warning: Either the condition '!fixheat' is redundant or there is possible null pointer dereference: fixheat. [nullPointerRedundantCheck]
+          if(groupbit != fixheat->groupbit) error->all(FLERR,"Compute pair/gran/local group and fix heat/gran/conduction group cannot be different");
+                         ^
+compute_pair_gran_local.cpp:241:14: note: Assuming that condition '!fixheat' is not redundant
+          if(!fixheat) error->all(FLERR,"Compute pair/gran/local can not calculate heat flux values since no fix heat/gran/conduction not compute them");
+             ^
+compute_pair_gran_local.cpp:244:26: note: Null pointer dereference
+          if(groupbit != fixheat->groupbit) error->all(FLERR,"Compute pair/gran/local group and fix heat/gran/conduction group cannot be different");
+                         ^
+compute_pair_gran_local.cpp:270:7: warning: Possible null pointer dereference: fixwall [nullPointer]
+      fixwall->register_compute_wall_local(this,dnum);
+      ^
+compute_pair_gran_local.cpp:196:13: note: Assignment 'fixwall=NULL', assigned value is 0
+  fixwall = NULL;
+            ^
+compute_pair_gran_local.cpp:257:26: note: Assuming condition is false
+      for(ifix = 0; ifix < n_wall_fixes; ifix++)
+                         ^
+compute_pair_gran_local.cpp:270:7: note: Null pointer dereference
+      fixwall->register_compute_wall_local(this,dnum);
+      ^
+compute_pair_gran_local.cpp:337:7: warning: Either the condition 'pairgran==NULL' is redundant or there is possible null pointer dereference: pairgran. [nullPointerRedundantCheck]
+      pairgran->compute_pgl(0,0);
+      ^
+compute_pair_gran_local.cpp:321:19: note: Assuming that condition 'pairgran==NULL' is not redundant
+      if(pairgran == NULL) error->one(FLERR,"null");
+                  ^
+compute_pair_gran_local.cpp:337:7: note: Null pointer dereference
+      pairgran->compute_pgl(0,0);
+      ^
+granular_pair_style.h:68:54: performance: Function parameter 'hname' should be passed by const reference. [passedByValue]
+    virtual int get_history_offset(const std::string hname) = 0;
+                                                     ^
+granular_pair_style.h:71:50: performance: Function parameter 'mtype' should be passed by const reference. [passedByValue]
+    virtual bool contact_match(const std::string mtype, const std::string model) = 0;
+                                                 ^
+granular_pair_style.h:71:75: performance: Function parameter 'model' should be passed by const reference. [passedByValue]
+    virtual bool contact_match(const std::string mtype, const std::string model) = 0;
+                                                                          ^
+pair_gran_proxy.h:76:52: performance: Function parameter 'hname' should be passed by const reference. [passedByValue]
+  virtual int get_history_offset(const std::string hname);
+                                                   ^
+pair_gran_proxy.h:78:48: performance: Function parameter 'mtype' should be passed by const reference. [passedByValue]
+  virtual bool contact_match(const std::string mtype, const std::string model);
+                                               ^
+pair_gran_proxy.h:78:73: performance: Function parameter 'model' should be passed by const reference. [passedByValue]
+  virtual bool contact_match(const std::string mtype, const std::string model);
+                                                                        ^
+25/28 files checked 97% done
+
+^
+pair_gran_base.h:139:3: warning: Member variable 'Granular < ContactModels :: ContactModel < ContactModels :: GranStyle < NORMAL_OFF , TANGENTIAL_OFF , COHESION_OFF , ROLLING_OFF , SURFACE_DEFAULT > > >::sync_en_full_' is not initialized in the constructor. [uninitMemberVar]
+  Granular(class LAMMPS * lmp, PairGran* parent, const int64_t hash) : Pointers(lmp),
+  ^
+settings.h:104:3: warning: Member variable 'EnumSetting < bool >::current' is not initialized in the constructor. [uninitMemberVar]
+  EnumSetting(std::string name) : Setting(name, 1)
+  ^
+settings.h:159:29: performance: Function parameter 'name' should be passed by const reference. [passedByValue]
+  DoubleSetting(std::string name, double default_value) : Setting(name, 1)
+                            ^
+settings.h:190:28: performance: Function parameter 'name' should be passed by const reference. [passedByValue]
+  OnOffSetting(std::string name, bool default_value) : EnumSetting<bool>(name)
+                           ^
+settings.h:203:28: performance: Function parameter 'name' should be passed by const reference. [passedByValue]
+  YesNoSetting(std::string name, bool default_value) : EnumSetting<bool>(name)
+                           ^
+settings.h:237:34: performance: Function parameter 'name' should be passed by const reference. [passedByValue]
+  void registerOnOff(std::string name, bool & variable, bool default_value = false)
+                                 ^
+settings.h:242:34: performance: Function parameter 'name' should be passed by const reference. [passedByValue]
+  void registerYesNo(std::string name, bool & variable, bool default_value = false) {
+                                 ^
+settings.h:246:42: performance: Function parameter 'name' should be passed by const reference. [passedByValue]
+  void registerDoubleSetting(std::string name, double & variable, double default_value = 0.0)
+                                         ^
+contact_model_base.h:59:46: performance: Function parameter 'hname' should be passed by const reference. [passedByValue]
+    int get_history_offset(const std::string hname);
+                                             ^
+contact_model_base.h:61:47: performance: Function parameter 'hname' should be passed by const reference. [passedByValue]
+    void add_history_offset(const std::string hname, const int offset, const bool overwrite = false);
+                                              ^
+contact_models.h:506:42: performance: Function parameter 'mtype' should be passed by const reference. [passedByValue]
+    bool contact_match(const std::string mtype, const std::string model)
+                                         ^
+contact_models.h:506:67: performance: Function parameter 'model' should be passed by const reference. [passedByValue]
+    bool contact_match(const std::string mtype, const std::string model)
+                                                                  ^
+pair_gran_base.h:254:47: performance: Function parameter 'mtype' should be passed by const reference. [passedByValue]
+  inline bool contact_match(const std::string mtype, const std::string model) {
+                                              ^
+pair_gran_base.h:254:72: performance: Function parameter 'model' should be passed by const reference. [passedByValue]
+  inline bool contact_match(const std::string mtype, const std::string model) {
+                                                                       ^
+pair_gran_base.h:258:44: performance: Function parameter 'hname' should be passed by const reference. [passedByValue]
+  int get_history_offset(const std::string hname)
+                                           ^
+settings.h:104:27: performance: Function parameter 'name' should be passed by const reference. [passedByValue]
+  EnumSetting(std::string name) : Setting(name, 1)
+                          ^
+settings.h:110:30: performance: Function parameter 'option' should be passed by const reference. [passedByValue]
+  void addOption(std::string option, T value)
+                             ^
+settings.h:115:31: performance: Function parameter 'option' should be passed by const reference. [passedByValue]
+  void setDefault(std::string option){
+                              ^
+contact_models.h:260:42: performance: Function parameter 'mtype' should be passed by const reference. [passedByValue]
+    bool contact_match(const std::string mtype, const std::string model)
+                                         ^
+contact_models.h:260:67: performance: Function parameter 'model' should be passed by const reference. [passedByValue]
+    bool contact_match(const std::string mtype, const std::string model)
+                                                                  ^
+pair_gran_base.h:596:44: performance: Prefer prefix ++/-- operators for non-primitive types. [postfixOperator]
+            for (; it != fix_insert.end(); it++)
+                                           ^
+26/28 files checked 98% done
+27/28 files checked 99% done
+28/28 files checked 100% done

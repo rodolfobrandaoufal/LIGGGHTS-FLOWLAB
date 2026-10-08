@@ -1,0 +1,37 @@
+atom_style granular
+atom_modify map array
+boundary p p p
+newton on
+communicate single vel yes
+units si
+region dom block 0 0.04 0 0.04 0 0.04 units box
+create_box 1 dom
+neighbor 0.0005 bin
+neigh_modify delay 0
+fix p1 all property/global youngsModulus peratomtype 100000000.0
+fix p2 all property/global poissonsRatio peratomtype 0.3
+fix p3 all property/global coefficientRestitution peratomtypepair 1 1.0
+fix p4 all property/global coefficientFriction peratomtypepair 1 0.5
+pair_style gran model hertz tangential history 
+pair_coeff * *
+lattice sc 0.005
+create_atoms 1 box
+set atom * diameter 0.002 density 2500.0
+variable vx atom normal(0,0.57735,4928461)
+variable vy atom normal(0,0.57735,1928467)
+variable vz atom normal(0,0.57735,8828467)
+velocity all set v_vx v_vy v_vz
+velocity all zero linear
+timestep 1.6236162085305598e-06
+fix integr all nve/sphere
+compute rke all erotate/sphere
+compute pg all pair/gran/local id
+compute nc all reduce sum c_pg[1]
+variable px equal vcm(all,x)*mass(all)
+variable py equal vcm(all,y)*mass(all)
+variable pz equal vcm(all,z)*mass(all)
+variable nct equal count(all)
+thermo_style custom step ke c_rke v_px v_py v_pz
+thermo_modify format float %.17g norm no
+thermo 200
+run 200000

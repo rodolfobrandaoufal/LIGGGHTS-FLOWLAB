@@ -1,0 +1,41 @@
+coarsegraining 4
+atom_style granular
+atom_modify map array
+boundary f f f
+newton off
+communicate single vel yes
+units si
+region dom block -0.026 0.026 -0.026 0.026 -0.002 0.30 units box
+create_box 1 dom
+neighbor 0.002 bin
+neigh_modify delay 0
+fix m1 all property/global youngsModulus peratomtype 5.e6
+fix m2 all property/global poissonsRatio peratomtype 0.45
+fix m3 all property/global coefficientRestitution peratomtypepair 1 0.3
+fix m4 all property/global coefficientFriction peratomtypepair 1 0.5
+pair_style gran model hertz tangential history
+pair_coeff * *
+fix floor all mesh/surface file floor50.stl type 1
+fix walls all wall/gran model hertz tangential history mesh n_meshes 1 meshes floor store_force yes
+fix side all wall/gran model hertz tangential history primitive type 1 zcylinder 0.02 0 0
+fix gravi all gravity 9.81 vector 0 0 -1
+fix pts all particletemplate/sphere 15485863 atom_type 1 density constant 2500 radius constant 0.001
+fix pdd all particledistribution/discrete 32452843 1 pts 1.0
+region ins cylinder z 0 0 0.0155 0.005 0.29 units box
+fix ins all insert/pack seed 32452867 distributiontemplate pdd insert_every once overlapcheck yes all_in yes mass_in_region 0.2 region ins ntry_mc 20000
+fix integr all nve/sphere
+timestep 1e-5
+compute ffl all reduce sum f_force_walls[3]
+variable mtot equal mass(all)
+variable zc equal xcm(all,z)
+variable zmax equal bound(all,zmax)
+thermo_style custom step atoms ke v_mtot v_zc v_zmax c_ffl
+thermo_modify format float %.10g norm no lost ignore
+thermo 1000
+run 1
+unfix ins
+run 60000
+fix lower all move/mesh mesh floor linear 0 0 -0.01
+run 5000
+unfix lower
+run 10000

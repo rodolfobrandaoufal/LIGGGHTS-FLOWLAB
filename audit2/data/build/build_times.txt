@@ -1,0 +1,12 @@
+rel preset=release-native-hdf5 extra=[] cfg_s=1 build_s=102 rc=0
+omp preset=release-native-hdf5-omp extra=[] cfg_s=1 build_s=105 rc=0
+nofma preset=release-native-hdf5-nofma extra=[] cfg_s=1 build_s=102 rc=0
+sq preset=release-native-hdf5 extra=[-DENABLE_SQ=ON] cfg_s=1 build_s=104 rc=0
+asan preset=debug-asan-hdf5 extra=[] cfg_s=1 build_s=1050 rc=0
+tsan preset=release-native-hdf5-omp extra=[-DLIGGGHTS_SANITIZE=thread -DCMAKE_BUILD_TYPE=RelWithDebInfo] cfg_s=1 build_s=175 rc=0
+cov preset=relwithdebinfo-hdf5 extra=[-DCMAKE_CXX_FLAGS=--coverage -O0 -DCMAKE_EXE_LINKER_FLAGS=--coverage] cfg_s=1 build_s=162 rc=0
+werr preset=release-native-hdf5 extra=[-DCMAKE_CXX_FLAGS=-Wall -Wextra] cfg_s=1 build_s=109 rc=0
+ALLDONE
+make preset=MAKE/Makefile.hdf5mpi extra=[] build_s=113 rc=0
+ci preset=release-hdf5 extra=[] build_s=110 rc=0
+ALLDONE2

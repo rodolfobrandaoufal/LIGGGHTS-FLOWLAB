@@ -1,0 +1,23 @@
+{
+ "A_head_sbf05_vs_J_np1_identical": true,
+ "B_head_default_vs_J_np1_identical": false,
+ "C_head_vs_K_np1_identical": true,
+ "C_head_vs_K_np4_identical": true,
+ "D_head_np4_repeat_identical": true,
+ "E_J_np4_repeat_ab_identical": true,
+ "E_J_np4_repeat_ac_identical": true,
+ "F_head_sbf05_np4_vs_J_np4a_identical": true,
+ "rcs": {
+  "head_sbf05_np1": 0,
+  "J_np1": 0,
+  "head_np1": 0,
+  "K_np1": 0,
+  "head_np4_a": 0,
+  "head_np4_b": 0,
+  "K_np4": 0,
+  "J_np4_a": 0,
+  "J_np4_b": 0,
+  "J_np4_c": 0,
+  "head_sbf05_np4": 0
+ }
+}

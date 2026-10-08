@@ -1,0 +1,38 @@
+total samples 18282
+== categories
+ 45.72%  pair kernel (Granular<>::compute_force*)
+ 35.50%  contact models (surfacesIntersect etc.)
+ 11.36%  neighbor build
+  3.80%  integration (nve/sphere)
+  1.44%  other (main binary)
+  1.10%  comm
+  0.67%  lib:libc.so.6
+  0.25%  wall kernel (fix wall/gran)
+  0.12%  contact history
+  0.04%  lib:ld-linux-x86-64.so.2
+  0.01%  lib:libnvidia-opencl.so.595.99.02
+== top functions
+ 45.72%  void LIGGGHTS::PairStyles::Granular<LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 2, 0, 0, 0> > >::compute_force_serial_t<0>(LAMMP
+ 25.44%  LIGGGHTS::ContactModels::NormalModel<3>::surfacesIntersect(LIGGGHTS::ContactModels::SurfacesIntersectData&, LIGGGHTS::ContactModels::ForceData&, LIGGGHTS::Conta
+ 10.91%  LAMMPS_NS::Neighbor::granular_bin_no_newton(LAMMPS_NS::NeighList*)
+  8.35%  LIGGGHTS::ContactModels::TangentialModel<2>::surfacesIntersect(LIGGGHTS::ContactModels::SurfacesIntersectData const&, LIGGGHTS::ContactModels::ForceData&, LIGGG
+  2.38%  LAMMPS_NS::FixNVESphere::initial_integrate(int)
+  1.42%  LAMMPS_NS::FixGravity::post_force(int)
+  1.41%  LAMMPS_NS::FixNVESphere::final_integrate()
+  1.04%  void LIGGGHTS::Walls::Granular<LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 2, 0, 0, 0> > >::compute_force_t<0>(LAMMPS_NS::FixWal
+  0.63%  LIGGGHTS::ContactModels::SurfaceModel<0>::surfacesIntersect(LIGGGHTS::ContactModels::SurfacesIntersectData&, LIGGGHTS::ContactModels::ForceData&, LIGGGHTS::Cont
+  0.62%  LAMMPS_NS::AtomVecSphere::pack_comm_vel(int, int*, double*, int, int*)
+  0.45%  LAMMPS_NS::AtomVecSphere::unpack_comm_vel(int, int, double*)
+  0.41%  LAMMPS_NS::Neighbor::check_distance_local()
+  0.25%  LAMMPS_NS::FixWallGran::post_force_primitive(int)
+  0.12%  LAMMPS_NS::FixContactHistory::pre_exchange()
+  0.04%  non-virtual thunk to LIGGGHTS::Walls::Granular<LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 2, 0, 0, 0> > >::compute_force(LAMMPS
+  0.03%  LAMMPS_NS::Neighbor::coord2bin(double*)
+  0.01%  LAMMPS_NS::Atom::map_set()
+  0.01%  LAMMPS_NS::AtomVecSphere::unpack_border_vel(int, int, double*)
+  0.01%  LAMMPS_NS::AtomVecSphere::pack_border_vel(int, int*, double*, int, int*)
+  0.01%  LAMMPS_NS::Verlet::run(int)
+  0.01%  LAMMPS_NS::Neighbor::decide()
+  0.01%  LAMMPS_NS::FixWallGran::pre_force(int)
+  0.01%  LAMMPS_NS::Atom::map_clear()
+  0.01%  LAMMPS_NS::Comm::forward_comm(int)

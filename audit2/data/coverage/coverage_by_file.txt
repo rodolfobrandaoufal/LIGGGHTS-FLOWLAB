@@ -1,0 +1,693 @@
+variable.cpp                                       lines   2466   36.9%  branches   2293   29.1%
+dump_custom.cpp                                    lines   1732   33.6%  branches   1175   28.0%  [changed]
+fix_rigid.cpp                                      lines   1495    0.0%  branches   1102    0.0%
+neighbor.cpp                                       lines   1339   63.8%  branches   1404   41.7%  [changed]
+atom_vec_tri.cpp                                   lines   1190    0.0%  branches    328    0.0%
+comm.cpp                                           lines   1100   53.4%  branches    782   39.4%  [changed]
+pair.cpp                                           lines   1019    6.3%  branches    496    3.0%
+domain.cpp                                         lines    995   51.8%  branches    896   35.3%  [changed]
+atom.cpp                                           lines    979   54.8%  branches    628   33.8%  [changed]
+read_data.cpp                                      lines    977   22.9%  branches    960   16.8%  [changed]
+input.cpp                                          lines    969   61.7%  branches    841   51.2%
+group.cpp                                          lines    938   24.7%  branches    652   21.3%
+atom_vec_ellipsoid.cpp                             lines    915    0.0%  branches    304    0.0%
+fix_ave_spatial.cpp                                lines    903    0.0%  branches    952    0.0%
+compute_property_atom.cpp                          lines    860   19.6%  branches    612   16.8%  [changed]
+set.cpp                                            lines    827   32.2%  branches    830   26.3%
+atom_vec_sphere.cpp                                lines    825   61.6%  branches    264   52.6%
+thermo.cpp                                         lines    814   51.8%  branches    642   44.5%
+atom_vec_line.cpp                                  lines    790    0.0%  branches    304    0.0%
+image.cpp                                          lines    782    0.0%  branches    479    0.0%
+fix_store_state.cpp                                lines    767   18.5%  branches    578   14.7%
+fix_multisphere.cpp                                lines    745   66.6%  branches    378   32.8%
+modify.cpp                                         lines    743   74.4%  branches    564   63.5%  [changed]
+neigh_gran.cpp                                     lines    735   66.0%  branches    348   45.4%  [changed]
+balance.cpp                                        lines    735   95.4%  branches    926   72.5%  [changed]
+atom_vec_full.cpp                                  lines    734    0.0%  branches    246    0.0%
+atom_vec_sph_var.cpp                               lines    727    0.0%  branches    216    0.0%
+fix_wall_gran.cpp                                  lines    716   59.8%  branches    616   39.9%  [changed]
+atom_vec_molecular.cpp                             lines    713    0.0%  branches    244    0.0%
+dump_image.cpp                                     lines    711    0.0%  branches    766    0.0%
+read_dump.cpp                                      lines    707    0.0%  branches    486    0.0%
+fix_ave_histo.cpp                                  lines    671    0.0%  branches    850    0.0%
+dump_hdf5.cpp                                      lines    659   88.3%  branches   1076   52.6%  [changed]
+fix_deform.cpp                                     lines    639    0.0%  branches    663    0.0%
+fix_mesh_surface.cpp                               lines    628   48.6%  branches    420   32.6%  [changed]
+fix_move.cpp                                       lines    624   35.6%  branches    550   14.9%
+atom_vec_sph.cpp                                   lines    623   12.4%  branches    160   11.9%
+atom_vec_hybrid.cpp                                lines    609    0.0%  branches    268    0.0%
+fix_box_relax.cpp                                  lines    587    0.0%  branches    668    0.0%
+fix_ave_time.cpp                                   lines    571   40.5%  branches    732   22.4%
+surface_mesh_I.h                                   lines    569   70.0%  branches    548   49.8%  [changed]
+neigh_respa.cpp                                    lines    566    0.0%  branches    418    0.0%
+fix_insert.cpp                                     lines    555   74.0%  branches    567   47.4%  [changed]
+compute_property_local.cpp                         lines    544    0.0%  branches    380    0.0%
+finish.cpp                                         lines    541   49.2%  branches    410   42.4%  [changed]
+input_mesh_tri.cpp                                 lines    527   20.3%  branches    450   16.4%
+special.cpp                                        lines    518    0.0%  branches    348    0.0%
+output.cpp                                         lines    491   45.6%  branches    324   34.6%
+read_restart.cpp                                   lines    490   58.8%  branches    357   53.2%
+fix_insert_stream.cpp                              lines    483   70.0%  branches    354   42.9%  [changed]
+fix_continuum_weighted.cpp                         lines    482    0.0%  branches    252    0.0%
+pair_gran.cpp                                      lines    477   58.5%  branches    238   52.9%  [changed]
+procmap.cpp                                        lines    475   20.0%  branches    328   14.3%
+atom_vec_charge.cpp                                lines    473    0.0%  branches    160    0.0%
+multi_node_mesh_parallel_I.h                       lines    472   86.0%  branches    294   75.8%  [changed]
+lammps.cpp                                         lines    470   59.6%  branches    412   37.1%
+compute_pair_gran_local.cpp                        lines    458   53.3%  branches    292   48.3%  [changed]
+velocity.cpp                                       lines    444   35.4%  branches    444   26.8%
+global_properties.cpp                              lines    442   47.7%  branches    296   36.1%  [changed]
+compute_reduce.cpp                                 lines    438   49.3%  branches    510   33.9%
+fix_mesh.cpp                                       lines    437   54.9%  branches    559   24.0%
+fix_contact_history.cpp                            lines    433   92.4%  branches    266   74.1%  [changed]
+atom_vec_atomic.cpp                                lines    431    6.0%  branches    154    1.9%
+fix_wall_sph_general_gap.cpp                       lines    431    0.0%  branches    188    0.0%
+respa.cpp                                          lines    415    0.0%  branches    600    0.0%
+force.cpp                                          lines    414   34.1%  branches    320   21.9%  [changed]
+region_mesh_tet.cpp                                lines    412   65.3%  branches    310   48.4%
+min.cpp                                            lines    399    7.0%  branches    308    0.0%
+neigh_bond.cpp                                     lines    398    0.0%  branches    222    0.0%
+irregular.cpp                                      lines    392   95.9%  branches    274   78.5%  [changed]
+min_linesearch.cpp                                 lines    377    3.2%  branches    314    0.0%
+mesh_module_stress_servo.cpp                       lines    376    0.0%  branches    349    0.0%
+multi_node_mesh_I.h                                lines    375   64.8%  branches    252   53.2%
+fix_nve_asphere_base.cpp                           lines    369    0.0%  branches    148    0.0%  [changed]
+write_data.cpp                                     lines    367   33.8%  branches    210   26.7%
+fix_ave_correlate.cpp                              lines    363    0.0%  branches    484    0.0%
+dump_mesh_hdf5.cpp                                 lines    362   79.8%  branches    660   46.8%  [changed]
+fix_massflow_mesh.cpp                              lines    362    0.0%  branches    301    0.0%
+pair_hybrid.cpp                                    lines    359   31.8%  branches    348   21.8%
+region_cone.cpp                                    lines    357    0.0%  branches    266    0.0%
+tangential_model_history.h                         lines    356   75.3%  branches    280   60.4%  [changed]
+fix_property_global.cpp                            lines    355   79.2%  branches    366   57.6%  [changed]
+region.cpp                                         lines    353   46.2%  branches    264   32.6%
+delete_bonds.cpp                                   lines    353    0.0%  branches    486    0.0%
+math_extra.cpp                                     lines    350   41.7%  branches    136   33.1%
+fix_particledistribution_discrete.cpp              lines    350   65.1%  branches    316   54.4%  [changed]
+dump.cpp                                           lines    350   66.0%  branches    250   50.8%
+fix_multisphere_comm.cpp                           lines    349    2.3%  branches    162    0.0%
+info.cpp                                           lines    347    0.0%  branches    288    0.0%
+cohesion_model_easo_capillary_viscous.h            lines    346   96.5%  branches    178   73.0%  [changed]
+fix_template_multiplespheres.cpp                   lines    345   52.8%  branches    338   32.5%
+pair_gran_base.h                                   lines    339   87.6%  branches   1924    3.5%  [changed]
+fix_template_multisphere.cpp                       lines    339   61.6%  branches    208   38.9%
+lattice.cpp                                        lines    338   65.7%  branches    210   38.1%  [changed]
+neigh_stencil.cpp                                  lines    325   10.2%  branches    172   13.9%
+fix_contact_history_mesh.cpp                       lines    321   86.6%  branches    210   65.2%  [changed]
+neigh_full.cpp                                     lines    316    0.0%  branches    176    0.0%
+kspace.cpp                                         lines    313    0.0%  branches    192    0.0%
+fix_ave_euler.cpp                                  lines    311    0.0%  branches    214    0.0%
+fix_heat_gran_conduction.cpp                       lines    305   43.0%  branches    164   26.8%
+general_container_I.h                              lines    302   61.6%  branches    290   31.0%
+multisphere.cpp                                    lines    302   65.9%  branches    156   50.0%
+fix_scalar_transport_equation.cpp                  lines    302   58.3%  branches    146   37.0%
+cohesion_model_washino_capillary_viscous.h         lines    300   59.7%  branches    172   27.3%  [changed]
+write_restart.cpp                                  lines    300   63.0%  branches    182   36.3%  [changed]
+dump_local.cpp                                     lines    291   62.2%  branches    216   42.1%  [changed]
+change_box.cpp                                     lines    291    0.0%  branches    227    0.0%
+fix_template_sphere.cpp                            lines    291   55.0%  branches    222   29.7%
+region_wedge.cpp                                   lines    290    0.0%  branches    242    0.0%
+update.cpp                                         lines    284   42.2%  branches     86   30.2%
+neigh_derive.cpp                                   lines    282    3.9%  branches    112    0.0%
+pair_line_lj.cpp                                   lines    280    0.0%  branches     90    0.0%
+fix_cfd_coupling_force.cpp                         lines    279    0.0%  branches    190    0.0%
+fix_adapt_liggghts.cpp                             lines    279   72.8%  branches    298   52.4%  [changed]
+pair_sph_morris_tenscorr.cpp                       lines    273    0.0%  branches     74    0.0%
+create_atoms.cpp                                   lines    273   60.1%  branches    280   46.8%
+region_prism.cpp                                   lines    271   41.3%  branches    224   22.3%
+neigh_half_bin.cpp                                 lines    269   18.6%  branches    174    8.6%
+neigh_multi_level_grid.cpp                         lines    260   98.5%  branches    248   68.2%  [changed]
+fix_wall_sph_general_base.cpp                      lines    258    0.0%  branches    120    0.0%
+region_cylinder.cpp                                lines    257   38.9%  branches    274   22.3%
+fix_adapt.cpp                                      lines    254   52.4%  branches    262   23.3%
+fix_property_atom.cpp                              lines    253   71.2%  branches    196   60.2%
+sort_buffer.cpp                                    lines    250   72.0%  branches    136   58.1%
+fix_insert_pack.cpp                                lines    246   69.1%  branches    230   41.7%  [changed]
+fix_multicontact_halfspace.cpp                     lines    244   92.6%  branches    170   71.8%  [changed]
+fix_ave_atom.cpp                                   lines    244    0.0%  branches    268    0.0%
+library.cpp                                        lines    243    0.0%  branches    238    0.0%
+fix_neighlist_mesh.cpp                             lines    242   86.8%  branches    176   71.0%  [changed]
+normal_model_hooke.h                               lines    241   57.3%  branches    214   32.2%  [changed]
+normal_model_thornton_ning.h                       lines    240   70.4%  branches    150   49.3%  [changed]
+fix_gravity.cpp                                    lines    239   51.9%  branches    182   28.0%
+mesh_module_stress.cpp                             lines    237   81.4%  branches    188   53.7%  [changed]
+mesh_mover_rotation.cpp                            lines    232   17.7%  branches     76   11.8%
+pair_sph_artvisc_tenscorr.cpp                      lines    225   80.4%  branches     68   48.5%
+verlet.cpp                                         lines    223   59.2%  branches    190   44.7%
+delete_atoms.cpp                                   lines    220   32.3%  branches    180   30.0%  [changed]
+normal_model_edinburgh.h                           lines    218   82.1%  branches    170   51.2%  [changed]
+normal_model_hertz.h                               lines    217   62.7%  branches    186   46.2%  [changed]
+compute_group_group.cpp                            lines    215    0.0%  branches    146    0.0%
+property_registry.cpp                              lines    214   80.8%  branches    178   61.8%  [changed]
+neigh_half_multi.cpp                               lines    213    0.0%  branches    128    0.0%
+fix_sph_density_corr.cpp                           lines    213   36.1%  branches     58   19.0%
+fix_wall.cpp                                       lines    208    0.0%  branches    232    0.0%
+normal_model_edinburgh_stiffness.h                 lines    208   81.2%  branches    146   54.1%  [changed]
+fix_multisphere_break.cpp                          lines    206    0.0%  branches    168    0.0%
+fix_addforce.cpp                                   lines    204    0.0%  branches    182    0.0%
+fix_check_timestep_gran.cpp                        lines    202   77.2%  branches    184   48.4%  [changed]
+fix_spring.cpp                                     lines    201    0.0%  branches    132    0.0%
+compute_stress_atom.cpp                            lines    199    0.0%  branches    138    0.0%
+compute_atom_molecule.cpp                          lines    199    0.0%  branches    192    0.0%
+fix_wall_region.cpp                                lines    197    0.0%  branches     84    0.0%
+compute_cna_atom.cpp                               lines    196    0.0%  branches    128    0.0%
+cfd_datacoupling_file.cpp                          lines    194    0.0%  branches    248    0.0%
+modify_liggghts.cpp                                lines    193   49.7%  branches    214   40.6%
+atom_vec.cpp                                       lines    192    8.8%  branches     82    2.4%
+mesh_mover_linear.cpp                              lines    191   14.7%  branches     66    9.1%
+fix_setforce.cpp                                   lines    191    0.0%  branches    188    0.0%
+cohesion_model_jkr.h                               lines    190   87.9%  branches    114   69.3%  [changed]
+fix_wall_sph_general.cpp                           lines    190    0.0%  branches     86    0.0%
+angle_hybrid.cpp                                   lines    188    0.0%  branches    160    0.0%
+compute_slice.cpp                                  lines    188    0.0%  branches    234    0.0%
+fix_sph_velgrad.cpp                                lines    188    0.0%  branches     56    0.0%
+rolling_model_luding.h                             lines    187   87.2%  branches     84   59.5%  [changed]
+fix_contact_property_atom.cpp                      lines    186   78.0%  branches     82   57.3%
+neigh_list.cpp                                     lines    185   54.0%  branches     68   48.5%
+math_extra_liggghts_nonspherical.cpp               lines    185    0.0%  branches     54    0.0%
+fix_cfd_coupling_force_implicit.cpp                lines    184    0.0%  branches     72    0.0%
+neigh_half_nsq.cpp                                 lines    184    0.0%  branches    118    0.0%
+contact_models.h                                   lines    183   84.2%  branches    182   17.6%  [changed]
+normal_model_hooke_stiffness.h                     lines    183    0.6%  branches      4   50.0%
+fix_nve_sphere.cpp                                 lines    183   83.6%  branches    122   53.3%  [changed]
+multi_node_mesh_parallel_buffer_I.h                lines    182   86.3%  branches    142   50.7%  [changed]
+bond_hybrid.cpp                                    lines    182    0.0%  branches    156    0.0%
+dihedral_hybrid.cpp                                lines    181    0.0%  branches    156    0.0%
+compute_centro_atom.cpp                            lines    181    0.0%  branches     92    0.0%
+fix_nve_limit.cpp                                  lines    174    0.0%  branches     74    0.0%
+fix_aveforce.cpp                                   lines    174    0.0%  branches    138    0.0%
+improper_hybrid.cpp                                lines    174    0.0%  branches    146    0.0%
+compute_gyration_molecule.cpp                      lines    172    0.0%  branches     94    0.0%
+compute_rdf.cpp                                    lines    172    0.0%  branches    142    0.0%
+fix_fiber_spring_simple.cpp                        lines    172    0.0%  branches     78    0.0%
+dump_mesh_stl.cpp                                  lines    172   54.6%  branches    132   32.6%
+displace_atoms.cpp                                 lines    171   36.8%  branches    110   31.8%
+reader_native.cpp                                  lines    169    0.0%  branches    135    0.0%
+pair_soft.cpp                                      lines    164    0.0%  branches     84    0.0%
+pair_sph.cpp                                       lines    162   56.8%  branches     92   37.0%
+fix_nve_asphere.cpp                                lines    160    0.0%  branches     56    0.0%
+compute_pressure.cpp                               lines    159    0.0%  branches    166    0.0%
+region_neighbor_list_I.h                           lines    157   86.0%  branches    106   62.3%
+volume_mesh_I.h                                    lines    154    0.0%  branches     94    0.0%
+dihedral.cpp                                       lines    149    0.0%  branches     82    0.0%
+normal_model_luding.h                              lines    149   87.9%  branches    128   58.6%  [changed]
+improper.cpp                                       lines    149    0.0%  branches     82    0.0%
+fix_wall_gran_base.h                               lines    148   87.2%  branches      0    0.0%  [changed]
+fix_sph_integrity.cpp                              lines    148    0.0%  branches     52    0.0%
+error.cpp                                          lines    148   51.4%  branches    164   33.5%  [changed]
+compute_coord_atom.cpp                             lines    147    0.0%  branches     50    0.0%
+compute.cpp                                        lines    145   39.3%  branches    112   20.5%
+fix_property_atom_tracer_stream.cpp                lines    145    0.0%  branches    160    0.0%
+run.cpp                                            lines    145   44.8%  branches    104   26.0%
+fix_cfd_coupling_convection_impl.cpp               lines    145    0.0%  branches     76    0.0%
+tracking_mesh_I.h                                  lines    144   75.7%  branches     40   47.5%
+compute_reduce_region.cpp                          lines    143    0.0%  branches    136    0.0%
+properties.cpp                                     lines    141   23.4%  branches    128   14.8%
+fix_spring_self.cpp                                lines    141    0.0%  branches     60    0.0%
+fix_move_mesh.cpp                                  lines    141   63.8%  branches     84   40.5%
+fix_massflow_mesh_sieve.cpp                        lines    140    0.0%  branches     86    0.0%
+atom_map.cpp                                       lines    138   75.4%  branches     78   62.8%
+input_mesh_tet.cpp                                 lines    137   93.4%  branches    106   74.5%
+compute_nparticles_tracer_region.cpp               lines    135    0.0%  branches     80    0.0%
+angle.cpp                                          lines    134    0.0%  branches     74    0.0%
+cfd_datacoupling.cpp                               lines    134    0.0%  branches    106    0.0%
+fix_cfd_coupling_convection_species.cpp            lines    133    0.0%  branches     50    0.0%
+fix_buoyancy.cpp                                   lines    133    0.0%  branches    102    0.0%
+comm_I.h                                           lines    131   10.7%  branches    130   15.4%
+region_intersect.cpp                               lines    130   53.1%  branches    112   42.9%
+string_liggghts.h                                  lines    129   51.2%  branches      4    0.0%
+fix_wall_region_sph.cpp                            lines    127   72.4%  branches     32   31.2%
+fix_sph_mixidx.cpp                                 lines    126    0.0%  branches     76    0.0%
+fix_property_atom_region_tracer.cpp                lines    125    0.0%  branches    104    0.0%
+bond.cpp                                           lines    123    0.0%  branches     66    0.0%
+region_block.cpp                                   lines    123   82.1%  branches    172   57.6%
+fix_heat_gran.cpp                                  lines    122   79.5%  branches     46   45.6%
+region_union.cpp                                   lines    122   50.0%  branches    106   44.3%
+container_base.cpp                                 lines    119   53.8%  branches     46   54.4%
+associative_pointer_array_I.h                      lines    117   79.5%  branches     80   47.5%
+fix.cpp                                            lines    116   55.2%  branches     42   26.2%
+fix_efield.cpp                                     lines    116    0.0%  branches    102    0.0%
+multisphere_parallel.cpp                           lines    115   33.0%  branches     46   32.6%
+fix_store_lastforce.cpp                            lines    114   98.2%  branches     72   73.6%  [changed]
+fix_property_atom_tracer.cpp                       lines    114    0.0%  branches     94    0.0%
+rolling_model_epsd3.h                              lines    111   77.5%  branches     58   48.3%
+fix_wall_sph.cpp                                   lines    111   55.9%  branches    114   20.2%
+fix_sph_density_summation.cpp                      lines    111    0.0%  branches     40    0.0%
+compute_msd.cpp                                    lines    111    0.0%  branches     66    0.0%
+compute_inertia_molecule.cpp                       lines    110    0.0%  branches     62    0.0%
+fix_balance.cpp                                    lines    109   98.2%  branches     90   62.2%  [changed]
+fix_minimize.cpp                                   lines    109    0.0%  branches     28    0.0%
+rolling_model_epsd.h                               lines    109   74.3%  branches     58   44.8%  [changed]
+fix_nve_sph.cpp                                    lines    109   65.1%  branches     36   41.7%
+custom_value_tracker_I.h                           lines    108   51.9%  branches    104   20.2%
+dump_decomposition_vtk.cpp                         lines    108    0.0%  branches    104    0.0%
+cfd_datacoupling_mpi.h                             lines    108    0.0%  branches      4    0.0%
+compute_rigid.cpp                                  lines    107    0.0%  branches    104    0.0%
+normal_model_hooke_hysteresis.h                    lines    106   68.9%  branches    106   23.6%
+tangential_model_luding_tn.h                       lines    106   92.5%  branches     64   54.7%  [changed]
+fix.h                                              lines    105   11.4%  branches      6   66.7%
+compute_bond_local.cpp                             lines    105    0.0%  branches     68    0.0%
+particleToInsert_multisphere.cpp                   lines    105   57.1%  branches     46   43.5%
+compute_cluster_atom.cpp                           lines    105    0.0%  branches     50    0.0%
+dump_xyz.cpp                                       lines    104    0.0%  branches     70    0.0%
+fix_check_timestep_sph.cpp                         lines    104    0.0%  branches     42    0.0%
+universe.cpp                                       lines    104   41.4%  branches     66   15.2%
+neigh_request.cpp                                  lines    104   64.4%  branches    106   25.5%
+compute_msd_molecule.cpp                           lines    103    0.0%  branches     58    0.0%
+particleToInsert.cpp                               lines    103   51.5%  branches     50   36.0%
+tri_mesh_I.h                                       lines    102   92.2%  branches     76   77.6%
+surface_model_default.h                            lines    101   86.1%  branches     96   20.8%
+surface_model_multicontact.h                       lines    101   90.1%  branches     66   59.1%  [changed]
+compute_contact_atom.cpp                           lines    101   78.2%  branches     48   43.8%
+tangential_model_no_history.h                      lines    100   66.0%  branches    278    7.9%  [changed]
+contact_models.cpp                                 lines    100   82.0%  branches    124   50.8%
+dump_euler_vtk.cpp                                 lines    100    0.0%  branches     36    0.0%
+compute_contact_atom_gran.cpp                      lines     99    0.0%  branches     54    0.0%
+modified_andrew.cpp                                lines     98    0.0%  branches     86    0.0%
+restitution_mapping.h                              lines     98   95.9%  branches     96   77.1%  [changed]
+settings.h                                         lines     95   67.4%  branches     80   38.8%
+fix_sph_density_continuity.cpp                     lines     95   77.9%  branches     38   21.1%
+fix_external.cpp                                   lines     94    0.0%  branches     54    0.0%
+fix_cfd_coupling.cpp                               lines     94    0.0%  branches     84    0.0%
+fix_base_liggghts.cpp                              lines     93   31.2%  branches     54   14.8%
+fix_dt_reset.cpp                                   lines     92    0.0%  branches    104    0.0%
+bond_harmonic.cpp                                  lines     92    0.0%  branches     36    0.0%
+replicate.cpp                                      lines     92   83.7%  branches     62   58.1%  [changed]
+compute_pe_atom.cpp                                lines     90    0.0%  branches     86    0.0%
+compute_displace_atom.cpp                          lines     90    0.0%  branches     34    0.0%
+vector_liggghts.h                                  lines     89   58.4%  branches     58   58.6%
+fix_cfd_coupling_convection.cpp                    lines     89    0.0%  branches     42    0.0%
+min_cg.cpp                                         lines     89    1.1%  branches     80    0.0%
+fix_nve.cpp                                        lines     88   19.3%  branches     34    5.9%
+rolling_model_epsd2.h                              lines     88   97.7%  branches     44   63.6%
+compute_property_molecule.cpp                      lines     84    0.0%  branches     70    0.0%
+thr_granular.cpp                                   lines     84    2.4%  branches     86    0.0%  [changed]
+region_sphere.cpp                                  lines     83   43.4%  branches     48   25.0%
+compute_com_molecule.cpp                           lines     83    0.0%  branches     46    0.0%
+compute_erotate_asphere.cpp                        lines     82    0.0%  branches     50    0.0%
+tet_mesh_I.h                                       lines     81    0.0%  branches     22    0.0%
+fix_nve_line.cpp                                   lines     80    0.0%  branches     30    0.0%
+cfd_datacoupling_mpi.cpp                           lines     80    0.0%  branches     52    0.0%
+reader_xyz.cpp                                     lines     77    0.0%  branches     36    0.0%
+integrate.cpp                                      lines     77   89.6%  branches     84   42.9%
+cohesion_model_generalized_adhesion.h              lines     76   84.2%  branches     64   46.9%  [changed]
+probability_distribution.h                         lines     76   38.2%  branches     36   13.9%
+mesh_module_liquidtransfer.cpp                     lines     76    0.0%  branches     42    0.0%
+fix_region_variable.cpp                            lines     76    0.0%  branches     68    0.0%
+fix_drag.cpp                                       lines     75    0.0%  branches     42    0.0%
+fix_package_omp.cpp                                lines     75    8.0%  branches    108    1.9%  [changed]
+fix_contact_history_mesh_I.h                       lines     71   83.1%  branches     70   72.9%  [changed]
+compute_temp.cpp                                   lines     71   36.6%  branches     32   18.8%
+memory.h                                           lines     70   94.3%  branches     12   91.7%
+fix_print.cpp                                      lines     70   91.4%  branches     98   48.0%
+fix_momentum.cpp                                   lines     70    0.0%  branches     70    0.0%
+my_page.h                                          lines     69   82.6%  branches    112   33.9%
+math_extra.h                                       lines     69   33.3%  branches      2    0.0%
+fix_store.cpp                                      lines     69    0.0%  branches     50    0.0%
+fix_sph_density_drift_corr.cpp                     lines     69    0.0%  branches     60    0.0%
+rolling_model_cdt.h                                lines     68   42.6%  branches     40   27.5%  [changed]
+fix_freeze.cpp                                     lines     67   73.1%  branches     32   43.8%
+fix_sph_pressure.cpp                               lines     66   60.6%  branches     72   23.6%
+pair_gran_proxy.cpp                                lines     65   66.2%  branches     54   27.8%  [changed]
+compute_erotate.cpp                                lines     65    0.0%  branches     48    0.0%
+create_box.cpp                                     lines     64   71.9%  branches     30   46.7%
+fix_viscous.cpp                                    lines     62    0.0%  branches     44    0.0%
+random_mars.cpp                                    lines     62    0.0%  branches     26    0.0%
+fix_enforce2d.cpp                                  lines     61   50.8%  branches     34   29.4%
+fix_spring_rg.cpp                                  lines     61    0.0%  branches     24    0.0%
+fix_store_force.cpp                                lines     61    0.0%  branches     20    0.0%
+fix_nve_sphere_omp.cpp                             lines     59    0.0%  branches     24    0.0%  [changed]
+library_cfd_coupling.cpp                           lines     59    0.0%  branches     12    0.0%
+custom_value_tracker.cpp                           lines     59   57.6%  branches     16   31.2%
+input_multisphere.cpp                              lines     58   79.3%  branches     56   53.6%
+random_park.cpp                                    lines     56   69.6%  branches     22   50.0%
+fix_sph.cpp                                        lines     54   77.8%  branches     30   60.0%
+pair_hybrid_overlay.cpp                            lines     54    0.0%  branches     50    0.0%
+compute_gyration.cpp                               lines     53    0.0%  branches     16    0.0%
+cohesion_model_sjkr.h                              lines     52   71.2%  branches    124    8.9%  [changed]
+fix_wall_gran.h                                    lines     50   46.0%  branches  13920    1.6%
+compute_ke_atom.cpp                                lines     49   85.7%  branches     28   46.4%
+memory_ns.h                                        lines     49   69.4%  branches     16   50.0%
+utils.h                                            lines     49   93.9%  branches     74   59.5%  [changed]
+velocity_predictor.h                               lines     49  100.0%  branches     10  100.0%  [changed]
+fix_insert_rate_region.cpp                         lines     49   63.3%  branches     52   30.8%
+error_special.h                                    lines     49  100.0%  branches     76   52.6%  [changed]
+fix_contact_property_atom_wall.cpp                 lines     48   87.5%  branches     38   57.9%
+fix_lineforce.cpp                                  lines     48    0.0%  branches     22    0.0%
+fix_planeforce.cpp                                 lines     48    0.0%  branches     22    0.0%
+mesh_mover.h                                       lines     47   38.3%  branches     14   35.7%
+tri_mesh_planar.cpp                                lines     47    0.0%  branches     26    0.0%
+compute_pe.cpp                                     lines     46    0.0%  branches     64    0.0%
+compute_erotate_sphere_atom.cpp                    lines     46    0.0%  branches     26    0.0%
+cfd_regionmodel_none.cpp                           lines     46    0.0%  branches      4    0.0%
+fix_nve_asphere_noforce.cpp                        lines     46    0.0%  branches     20    0.0%
+fix_lb_coupling_onetoone.cpp                       lines     45    0.0%  branches     16    0.0%
+fix_read_restart.cpp                               lines     44    0.0%  branches     20    0.0%
+fix_nve_sph_stationary.cpp                         lines     44   86.4%  branches     20   60.0%
+compute_ke.cpp                                     lines     43   93.0%  branches     30   56.7%
+bounding_box.h                                     lines     42   69.0%  branches     26  100.0%
+region_plane.cpp                                   lines     41    0.0%  branches     30    0.0%
+math_extra_liggghts.h                              lines     40   75.0%  branches     34   73.5%
+pair_gran.h                                        lines     40   55.0%  branches  15258    2.7%  [changed]
+scalar_container.h                                 lines     40   55.0%  branches     96   56.2%
+container_base_I.h                                 lines     39   87.2%  branches    104   56.7%
+compute_erotate_sphere.cpp                         lines     39   87.2%  branches     28   42.9%
+fix_respa.cpp                                      lines     39    0.0%  branches     12    0.0%
+dump_movie.cpp                                     lines     38    0.0%  branches     30    0.0%
+math_extra_liggghts_nonspherical.h                 lines     38    0.0%  branches      0    0.0%
+domain_I.h                                         lines     35   60.0%  branches     48   66.7%
+fix_nve_noforce.cpp                                lines     34    0.0%  branches     16    0.0%
+cohesion_model_dmt.h                               lines     34   76.5%  branches     54   22.2%  [changed]
+signal_handling.cpp                                lines     31    0.0%  branches     36    0.0%
+bounding_box.cpp                                   lines     31  100.0%  branches     12   50.0%
+timer.cpp                                          lines     31  100.0%  branches      6  100.0%
+multi_node_mesh.h                                  lines     29   79.3%  branches     36   25.0%  [changed]
+minimize.cpp                                       lines     29    0.0%  branches     10    0.0%
+accelerator_omp.h                                  lines     27    0.0%  branches      0    0.0%
+primitive_wall_definitions.h                       lines     27   85.2%  branches     13   76.9%
+primitive_wall.h                                   lines     27   85.2%  branches     16   56.2%
+memory.cpp                                         lines     27   44.4%  branches     12   58.3%
+region_mesh_tet_I.h                                lines     26    0.0%  branches      8    0.0%
+contact_interface.h                                lines     26  100.0%  branches   1704    4.8%  [changed]
+coarsegraining.cpp                                 lines     26   88.5%  branches     26   65.4%  [changed]
+property_registry.h                                lines     25   68.0%  branches     22   63.6%  [changed]
+tri_mesh_planar_I.h                                lines     25    0.0%  branches     18    0.0%
+neigh_multi_level_grid.h                           lines     25   92.0%  branches     26   46.1%  [changed]
+vector_container.h                                 lines     24   83.3%  branches     54   53.7%
+fix_diam_max.cpp                                   lines     24    0.0%  branches     12    0.0%
+citeme.cpp                                         lines     24  100.0%  branches      8   62.5%
+random.cpp                                         lines     23   47.8%  branches     18   50.0%
+pointers.h                                         lines     22  100.0%  branches      0    0.0%
+multisphere_parallel_I.h                           lines     22    0.0%  branches      0    0.0%
+write_dump.cpp                                     lines     22    0.0%  branches     14    0.0%
+tracking_mesh.h                                    lines     21   76.2%  branches     98   35.7%
+mpi_liggghts.h                                     lines     21  100.0%  branches     10   70.0%
+compute.h                                          lines     21   14.3%  branches      2   50.0%
+granular_styles.h                                  lines     21  100.0%  branches    572   50.0%  [changed]
+pair_gran_sync.cpp                                 lines     20   95.0%  branches     10   90.0%  [changed]
+reader.cpp                                         lines     20    0.0%  branches     14    0.0%
+region_neighbor_list.h                             lines     19   26.3%  branches      2   50.0%
+mesh_module_stress.h                               lines     19   89.5%  branches     18   72.2%  [changed]
+compute_com.cpp                                    lines     18    0.0%  branches      6    0.0%
+mesh_module.h                                      lines     17    5.9%  branches      0    0.0%  [changed]
+fix_deform_check.cpp                               lines     17    0.0%  branches      8    0.0%
+surface_mesh.h                                     lines     17   94.1%  branches     56   60.7%
+compute_ke_multisphere.cpp                         lines     17    0.0%  branches      6    0.0%
+dump_hdf5.h                                        lines     16   81.2%  branches    238   44.5%  [changed]
+main.cpp                                           lines     16  100.0%  branches      2   50.0%
+run_time.cpp                                       lines     16    0.0%  branches     12    0.0%
+multisphere_I.h                                    lines     15  100.0%  branches      8  100.0%
+fix_mesh_surface.h                                 lines     14   71.4%  branches      6   66.7%  [changed]
+general_container.h                                lines     14   57.1%  branches      2   50.0%
+multi_node_mesh_parallel.h                         lines     14   92.9%  branches      6   50.0%  [changed]
+fix_insert.h                                       lines     13   61.5%  branches      2    0.0%  [changed]
+cohesion_model_base.h                              lines     13   84.6%  branches     76   15.8%
+rolling_model_base.h                               lines     12   91.7%  branches      0    0.0%
+normal_model_base.h                                lines     12   25.0%  branches      0    0.0%
+fix_mesh.h                                         lines     11   81.8%  branches      8   62.5%
+sph_kernels.h                                      lines     11  100.0%  branches     12   66.7%
+tangential_model_base.h                            lines     11   27.3%  branches      0    0.0%
+compute_erotate_multisphere.cpp                    lines     11    0.0%  branches      2    0.0%
+fix_contact_history.h                              lines     10  100.0%  branches      6   66.7%  [changed]
+accelerator_cuda.h                                 lines     10   20.0%  branches      8    0.0%
+volume_mesh.h                                      lines     10    0.0%  branches     22    0.0%
+multisphere.h                                      lines      9   88.9%  branches     14   50.0%
+sph_kernel_cubicspline.h                           lines      9  100.0%  branches     18   44.4%
+sph_kernel_cubicspline2D.h                         lines      9  100.0%  branches      4  100.0%
+fix_particledistribution_discrete.h                lines      8  100.0%  branches      6   66.7%
+properties.h                                       lines      8   50.0%  branches      4  100.0%
+mesh_mover_linear.h                                lines      8   50.0%  branches     24   29.2%
+neigh_dummy.h                                      lines      8    0.0%  branches      0    0.0%
+mesh_mover_rotation.h                              lines      8   12.5%  branches     24   12.5%
+fix_multisphere.h                                  lines      7  100.0%  branches     24   25.0%
+fix_contact_property_atom.h                        lines      7  100.0%  branches      4  100.0%
+sph_kernel_spiky.h                                 lines      7   14.3%  branches      2    0.0%
+atom_vec.h                                         lines      7   42.9%  branches     16   56.2%
+fix_neighlist_mesh.h                               lines      6  100.0%  branches      2   50.0%  [changed]
+container_base.h                                   lines      6   66.7%  branches      8   37.5%
+multi_vector_container.h                           lines      6   66.7%  branches     12   41.7%
+abstract_mesh.h                                    lines      6   66.7%  branches      0    0.0%
+mesh_module.cpp                                    lines      6  100.0%  branches      0    0.0%
+os_specific.h                                      lines      6  100.0%  branches      0    0.0%
+fix_base_liggghts.h                                lines      6  100.0%  branches      6   50.0%
+force.h                                            lines      5  100.0%  branches     64   42.2%
+region_neighbor_list_definitions.h                 lines      5  100.0%  branches      0    0.0%
+dump.h                                             lines      5    0.0%  branches      0    0.0%
+pair_sph.h                                         lines      5   20.0%  branches      4    0.0%
+granular_pair_style.cpp                            lines      5  100.0%  branches      4   75.0%
+granular_wall.cpp                                  lines      5  100.0%  branches      4   75.0%
+contact_model_base.h                               lines      5  100.0%  branches     90   17.8%
+neigh_modify.h                                     lines      5  100.0%  branches      2   50.0%
+fix_multicontact_halfspace.h                       lines      4  100.0%  branches      2   50.0%
+fix_property_global.h                              lines      4  100.0%  branches      8   50.0%  [changed]
+cfd_regionmodel.h                                  lines      4    0.0%  branches      0    0.0%
+tet_mesh.cpp                                       lines      4    0.0%  branches      0    0.0%
+sort_buffer.h                                      lines      4  100.0%  branches      6   50.0%
+image.h                                            lines      4    0.0%  branches     36    0.0%
+tri_mesh.cpp                                       lines      4  100.0%  branches      0    0.0%
+atom_vec_sphere_w.cpp                              lines      4    0.0%  branches      0    0.0%
+pair_gran_proxy.h                                  lines      3  100.0%  branches     14   50.0%
+fix_template_sphere.h                              lines      3   66.7%  branches      2   50.0%
+pair.h                                             lines      3    0.0%  branches      2    0.0%
+atom.h                                             lines      3   66.7%  branches      4  100.0%  [changed]
+domain.h                                           lines      3   66.7%  branches      2  100.0%  [changed]
+mesh_module_stress_servo.h                         lines      3   33.3%  branches      6   50.0%
+fix_move_mesh.h                                    lines      3  100.0%  branches      6   50.0%
+atom_vec_sphere.h                                  lines      3   66.7%  branches     16   31.2%
+surface_model_base.h                               lines      3  100.0%  branches      0    0.0%
+compute_rigid.h                                    lines      3  100.0%  branches      6   50.0%
+coarsegraining.h                                   lines      3  100.0%  branches      2   50.0%  [changed]
+set.h                                              lines      3  100.0%  branches      2   50.0%
+fix_contact_history_mesh.h                         lines      2  100.0%  branches      2   50.0%  [changed]
+random.h                                           lines      2  100.0%  branches      2   50.0%
+region_neighbor_list_base.h                        lines      2  100.0%  branches      0    0.0%
+input.h                                            lines      2    0.0%  branches      2    0.0%
+fix_minimize.h                                     lines      2   50.0%  branches      2   50.0%
+modified_andrew.h                                  lines      2    0.0%  branches     72    0.0%
+reader.h                                           lines      2    0.0%  branches      0    0.0%
+fix_sph.h                                          lines      2  100.0%  branches      2   50.0%
+atom_vec_atomic.h                                  lines      2   50.0%  branches      8   37.5%
+neighbor.h                                         lines      2  100.0%  branches     16   50.0%  [changed]
+delete_atoms.h                                     lines      2  100.0%  branches      2   50.0%
+verlet.h                                           lines      2  100.0%  branches      8   25.0%
+min.h                                              lines      2    0.0%  branches      0    0.0%
+fix_dt_reset.h                                     lines      2   50.0%  branches      2   50.0%
+dump_mesh_hdf5.h                                   lines      2  100.0%  branches      8   50.0%  [changed]
+compute_pe_atom.h                                  lines      2   50.0%  branches      2   50.0%
+fix_nve.h                                          lines      2   50.0%  branches      2   50.0%
+tri_mesh.h                                         lines      2  100.0%  branches      4  100.0%
+atom_vec_charge.h                                  lines      2   50.0%  branches      8   12.5%
+atom_vec_full.h                                    lines      2   50.0%  branches      8   12.5%
+atom_vec_sph.h                                     lines      2   50.0%  branches      8   37.5%
+atom_vec_sph_var.h                                 lines      2   50.0%  branches      8   12.5%
+fix_ave_euler.h                                    lines      2  100.0%  branches      4   50.0%
+fix_cfd_coupling_convection.h                      lines      2  100.0%  branches      4   50.0%
+fix_cfd_coupling_force.h                           lines      2  100.0%  branches      4   50.0%
+fix_heat_gran_conduction.h                         lines      2  100.0%  branches      4   50.0%
+fix_nve_line.h                                     lines      2   50.0%  branches      2   50.0%
+fix_nve_sph.h                                      lines      2   50.0%  branches      2   50.0%
+fix_nve_sph_stationary.h                           lines      2   50.0%  branches      2   50.0%
+fix_nve_sphere.h                                   lines      2   50.0%  branches      2   50.0%  [changed]
+fix_nve_sphere_omp.h                               lines      2   50.0%  branches      4   25.0%  [changed]
+fix_property_atom.h                                lines      2  100.0%  branches      2   50.0%
+fix_property_atom_region_tracer.h                  lines      2  100.0%  branches      4   50.0%
+fix_respa.h                                        lines      2   50.0%  branches      2   50.0%
+fix_store_lastforce.h                              lines      2  100.0%  branches      2   50.0%  [changed]
+compute_erotate.h                                  lines      2   50.0%  branches      2   50.0%
+compute_erotate_sphere.h                           lines      2   50.0%  branches      2   50.0%
+compute_pair_gran_local.h                          lines      2  100.0%  branches      4   50.0%
+compute_reduce.h                                   lines      2  100.0%  branches      4   50.0%
+compute_reduce_region.h                            lines      2   50.0%  branches      2   50.0%
+compute_stress_atom.h                              lines      2   50.0%  branches      2   50.0%
+compute_temp.h                                     lines      2   50.0%  branches      2   50.0%
+dump_mesh_stl.h                                    lines      2  100.0%  branches      8   25.0%
+change_box.h                                       lines      2   50.0%  branches      2   50.0%
+create_atoms.h                                     lines      2  100.0%  branches      2   50.0%
+create_box.h                                       lines      2  100.0%  branches      2   50.0%
+delete_bonds.h                                     lines      2   50.0%  branches      2   50.0%
+displace_atoms.h                                   lines      2  100.0%  branches      2   50.0%
+minimize.h                                         lines      2   50.0%  branches      2   50.0%
+read_restart.h                                     lines      2  100.0%  branches      2   50.0%
+replicate.h                                        lines      2  100.0%  branches      2   50.0%
+rotate.h                                           lines      2   50.0%  branches      2   50.0%
+run.h                                              lines      2  100.0%  branches      2   50.0%
+velocity.h                                         lines      2  100.0%  branches      2   50.0%
+write_data.h                                       lines      2  100.0%  branches      2   50.0%
+write_restart.h                                    lines      2  100.0%  branches      2   50.0%
+update.h                                           lines      2  100.0%  branches      0    0.0%
+particleToInsert.h                                 lines      2  100.0%  branches      0    0.0%
+improper_hybrid.h                                  lines      1    0.0%  branches      8    0.0%
+dihedral_hybrid.h                                  lines      1    0.0%  branches      8    0.0%
+angle_hybrid.h                                     lines      1    0.0%  branches      8    0.0%
+bond_harmonic.h                                    lines      1    0.0%  branches      8    0.0%
+bond_hybrid.h                                      lines      1    0.0%  branches      8    0.0%
+pair_hybrid.h                                      lines      1  100.0%  branches      8   50.0%
+pair_hybrid_overlay.h                              lines      1  100.0%  branches      6   50.0%
+pair_line_lj.h                                     lines      1  100.0%  branches      6   50.0%
+pair_soft.h                                        lines      1  100.0%  branches      4   50.0%
+pair_sph_artvisc_tenscorr.h                        lines      1  100.0%  branches      6   50.0%
+pair_sph_morris_tenscorr.h                         lines      1  100.0%  branches      4   50.0%
+kspace.h                                           lines      1    0.0%  branches      8    0.0%
+angle.h                                            lines      1    0.0%  branches      0    0.0%
+sph_kernel_spiky2D.h                               lines      1    0.0%  branches      2    0.0%
+sph_kernel_wendland.h                              lines      1    0.0%  branches      2    0.0%
+sph_kernel_wendland2D.h                            lines      1  100.0%  branches      2    0.0%
+rotate.cpp                                         lines      1    0.0%  branches      0    0.0%
+granular_pair_style.h                              lines      1  100.0%  branches      0    0.0%
+compute_pe.h                                       lines      1  100.0%  branches      2   50.0%
+region.h                                           lines      1  100.0%  branches      0    0.0%  [changed]
+region_block.h                                     lines      1  100.0%  branches      8   37.5%
+region_cone.h                                      lines      1  100.0%  branches      4   25.0%
+region_cylinder.h                                  lines      1  100.0%  branches      8   37.5%
+region_intersect.h                                 lines      1  100.0%  branches      8   37.5%
+region_mesh_tet.h                                  lines      1  100.0%  branches      4   75.0%
+region_plane.h                                     lines      1  100.0%  branches      4   25.0%
+region_prism.h                                     lines      1  100.0%  branches      4   75.0%
+region_sphere.h                                    lines      1  100.0%  branches      8   37.5%
+region_union.h                                     lines      1  100.0%  branches      8   25.0%
+region_wedge.h                                     lines      1  100.0%  branches      4    0.0%
+min_cg.h                                           lines      1  100.0%  branches      4   50.0%
+respa.h                                            lines      1  100.0%  branches      8   12.5%
+integrate.h                                        lines      1  100.0%  branches      0    0.0%
+surface_mesh_feature_remove.h                      lines      1    0.0%  branches      2    0.0%
+fix_rigid.h                                        lines      1  100.0%  branches      2   50.0%
+mesh_module_liquidtransfer.h                       lines      1  100.0%  branches      6   50.0%  [changed]
+fix_heat_gran.h                                    lines      1  100.0%  branches      0    0.0%
+granular_wall.h                                    lines      1  100.0%  branches    284    4.9%
+dihedral.h                                         lines      1    0.0%  branches      0    0.0%
+cohesion_model_sjkr2.h                             lines      1  100.0%  branches      4   50.0%
+normal_model_hertz_stiffness.h                     lines      1  100.0%  branches      6   50.0%
+surface_model_superquadric.h                       lines      1  100.0%  branches      6   50.0%  [changed]
+domain_wedge_dummy.h                               lines      1    0.0%  branches      2    0.0%
+atom_vec_ellipsoid.h                               lines      1  100.0%  branches      8   12.5%
+atom_vec_hybrid.h                                  lines      1  100.0%  branches      8   12.5%
+atom_vec_line.h                                    lines      1  100.0%  branches      8   12.5%
+atom_vec_molecular.h                               lines      1  100.0%  branches      8   12.5%
+atom_vec_tri.h                                     lines      1  100.0%  branches      8    0.0%
+fix_adapt.h                                        lines      1  100.0%  branches      2   50.0%
+fix_adapt_liggghts.h                               lines      1  100.0%  branches      2   50.0%  [changed]
+fix_addforce.h                                     lines      1  100.0%  branches      2   50.0%
+fix_ave_atom.h                                     lines      1  100.0%  branches      2   50.0%
+fix_ave_correlate.h                                lines      1  100.0%  branches      2   50.0%
+fix_ave_histo.h                                    lines      1  100.0%  branches      2   50.0%
+fix_ave_spatial.h                                  lines      1  100.0%  branches      2   50.0%
+fix_ave_time.h                                     lines      1  100.0%  branches      2   50.0%
+fix_aveforce.h                                     lines      1  100.0%  branches      2   50.0%
+fix_balance.h                                      lines      1  100.0%  branches      2   50.0%  [changed]
+fix_box_relax.h                                    lines      1  100.0%  branches      2   50.0%
+fix_buoyancy.h                                     lines      1  100.0%  branches      2   50.0%
+fix_cfd_coupling.h                                 lines      1  100.0%  branches      2   50.0%
+fix_cfd_coupling_convection_impl.h                 lines      1  100.0%  branches      2   50.0%
+fix_cfd_coupling_convection_species.h              lines      1  100.0%  branches      2   50.0%
+fix_cfd_coupling_force_implicit.h                  lines      1  100.0%  branches      2   50.0%
+fix_check_timestep_gran.h                          lines      1  100.0%  branches      2   50.0%  [changed]
+fix_check_timestep_sph.h                           lines      1  100.0%  branches      2   50.0%
+fix_contact_property_atom_wall.h                   lines      1  100.0%  branches      2   50.0%
+fix_continuum_weighted.h                           lines      1  100.0%  branches      2   50.0%
+fix_deform.h                                       lines      1  100.0%  branches      2   50.0%
+fix_deform_check.h                                 lines      1  100.0%  branches      2   50.0%
+fix_diam_max.h                                     lines      1  100.0%  branches      2   50.0%
+fix_drag.h                                         lines      1  100.0%  branches      2   50.0%
+fix_efield.h                                       lines      1  100.0%  branches      2   50.0%
+fix_enforce2d.h                                    lines      1  100.0%  branches      2   50.0%
+fix_external.h                                     lines      1  100.0%  branches      2   50.0%
+fix_fiber_spring_simple.h                          lines      1  100.0%  branches      2   50.0%
+fix_freeze.h                                       lines      1  100.0%  branches      2   50.0%
+fix_gravity.h                                      lines      1  100.0%  branches      2   50.0%
+fix_insert_pack.h                                  lines      1  100.0%  branches      2   50.0%  [changed]
+fix_insert_rate_region.h                           lines      1  100.0%  branches      2   50.0%
+fix_insert_stream.h                                lines      1  100.0%  branches      2   50.0%  [changed]
+fix_lb_coupling_onetoone.h                         lines      1  100.0%  branches      2   50.0%
+fix_lineforce.h                                    lines      1  100.0%  branches      2   50.0%
+fix_massflow_mesh.h                                lines      1  100.0%  branches      2   50.0%
+fix_massflow_mesh_sieve.h                          lines      1  100.0%  branches      2   50.0%
+fix_momentum.h                                     lines      1  100.0%  branches      2   50.0%
+fix_move.h                                         lines      1  100.0%  branches      2   50.0%
+fix_multisphere_break.h                            lines      1  100.0%  branches      2   50.0%
+fix_nve_asphere.h                                  lines      1  100.0%  branches      2   50.0%
+fix_nve_asphere_noforce.h                          lines      1  100.0%  branches      2   50.0%
+fix_nve_limit.h                                    lines      1  100.0%  branches      2   50.0%
+fix_nve_noforce.h                                  lines      1  100.0%  branches      2   50.0%
+fix_package_omp.h                                  lines      1  100.0%  branches      2   50.0%  [changed]
+fix_planeforce.h                                   lines      1  100.0%  branches      2   50.0%
+fix_print.h                                        lines      1  100.0%  branches      2   50.0%
+fix_property_atom_tracer.h                         lines      1  100.0%  branches      2   50.0%
+fix_property_atom_tracer_stream.h                  lines      1  100.0%  branches      2   50.0%
+fix_read_restart.h                                 lines      1  100.0%  branches      2   50.0%
+fix_region_variable.h                              lines      1  100.0%  branches      2   50.0%
+fix_scalar_transport_equation.h                    lines      1  100.0%  branches      2   50.0%
+fix_setforce.h                                     lines      1  100.0%  branches      2   50.0%
+fix_sph_density_continuity.h                       lines      1  100.0%  branches      2   50.0%
+fix_sph_density_corr.h                             lines      1  100.0%  branches      2   50.0%
+fix_sph_density_drift_corr.h                       lines      1  100.0%  branches      2   50.0%
+fix_sph_density_summation.h                        lines      1  100.0%  branches      2   50.0%
+fix_sph_integrity.h                                lines      1  100.0%  branches      2   50.0%
+fix_sph_mixidx.h                                   lines      1  100.0%  branches      2   50.0%
+fix_sph_pressure.h                                 lines      1  100.0%  branches      2   50.0%
+fix_sph_velgrad.h                                  lines      1  100.0%  branches      2   50.0%
+fix_spring.h                                       lines      1  100.0%  branches      2   50.0%
+fix_spring_rg.h                                    lines      1  100.0%  branches      2   50.0%
+fix_spring_self.h                                  lines      1  100.0%  branches      2   50.0%
+fix_store.h                                        lines      1  100.0%  branches      2   50.0%
+fix_store_force.h                                  lines      1  100.0%  branches      2   50.0%
+fix_store_state.h                                  lines      1  100.0%  branches      2   50.0%
+fix_template_multiplespheres.h                     lines      1  100.0%  branches      2   50.0%
+fix_template_multisphere.h                         lines      1  100.0%  branches      2   50.0%
+fix_viscous.h                                      lines      1  100.0%  branches      2   50.0%
+fix_wall_region.h                                  lines      1  100.0%  branches      2   50.0%
+fix_wall_region_sph.h                              lines      1  100.0%  branches      2   50.0%
+fix_wall_sph.h                                     lines      1  100.0%  branches      2   50.0%
+fix_wall_sph_general.h                             lines      1  100.0%  branches      2   50.0%
+fix_wall_sph_general_gap.h                         lines      1  100.0%  branches      2   50.0%
+compute_atom_molecule.h                            lines      1  100.0%  branches      2   50.0%
+compute_bond_local.h                               lines      1  100.0%  branches      2   50.0%
+compute_centro_atom.h                              lines      1  100.0%  branches      2   50.0%
+compute_cluster_atom.h                             lines      1  100.0%  branches      2   50.0%
+compute_cna_atom.h                                 lines      1  100.0%  branches      2   50.0%
+compute_com.h                                      lines      1  100.0%  branches      2   50.0%
+compute_com_molecule.h                             lines      1  100.0%  branches      2   50.0%
+compute_contact_atom.h                             lines      1  100.0%  branches      2   50.0%
+compute_contact_atom_gran.h                        lines      1  100.0%  branches      2   50.0%
+compute_coord_atom.h                               lines      1  100.0%  branches      2   50.0%
+compute_displace_atom.h                            lines      1  100.0%  branches      2   50.0%
+compute_erotate_asphere.h                          lines      1  100.0%  branches      2   50.0%
+compute_erotate_multisphere.h                      lines      1  100.0%  branches      2   50.0%
+compute_erotate_sphere_atom.h                      lines      1  100.0%  branches      2   50.0%
+compute_group_group.h                              lines      1  100.0%  branches      2   50.0%
+compute_gyration.h                                 lines      1  100.0%  branches      2   50.0%
+compute_gyration_molecule.h                        lines      1  100.0%  branches      2   50.0%
+compute_inertia_molecule.h                         lines      1  100.0%  branches      2   50.0%
+compute_ke.h                                       lines      1  100.0%  branches      2   50.0%
+compute_ke_atom.h                                  lines      1  100.0%  branches      2   50.0%
+compute_ke_multisphere.h                           lines      1  100.0%  branches      2   50.0%
+compute_msd.h                                      lines      1  100.0%  branches      2   50.0%
+compute_msd_molecule.h                             lines      1  100.0%  branches      2   50.0%
+compute_nparticles_tracer_region.h                 lines      1  100.0%  branches      2   50.0%
+compute_pressure.h                                 lines      1  100.0%  branches      2   50.0%
+compute_property_atom.h                            lines      1  100.0%  branches      2   50.0%  [changed]
+compute_property_local.h                           lines      1  100.0%  branches      2   50.0%
+compute_property_molecule.h                        lines      1  100.0%  branches      2   50.0%
+compute_rdf.h                                      lines      1  100.0%  branches      2   50.0%
+compute_slice.h                                    lines      1  100.0%  branches      2   50.0%
+dump_custom.h                                      lines      1  100.0%  branches      4   75.0%  [changed]
+dump_decomposition_vtk.h                           lines      1  100.0%  branches      4   25.0%
+dump_euler_vtk.h                                   lines      1  100.0%  branches      4   25.0%
+dump_image.h                                       lines      1  100.0%  branches      4   25.0%
+dump_local.h                                       lines      1  100.0%  branches      4   75.0%
+dump_movie.h                                       lines      1  100.0%  branches      4    0.0%
+dump_xyz.h                                         lines      1  100.0%  branches      4    0.0%
+balance.h                                          lines      1  100.0%  branches      2   50.0%  [changed]
+info.h                                             lines      1  100.0%  branches      2   50.0%
+read_data.h                                        lines      1  100.0%  branches      2   50.0%
+read_dump.h                                        lines      1  100.0%  branches      2   50.0%
+run_time.h                                         lines      1  100.0%  branches      2   50.0%
+write_dump.h                                       lines      1  100.0%  branches      2   50.0%
+cfd_datacoupling.h                                 lines      1    0.0%  branches      0    0.0%
+improper.h                                         lines      1    0.0%  branches      0    0.0%
+bond.h                                             lines      1    0.0%  branches      0    0.0%
+procmap.h                                          lines      1  100.0%  branches      0    0.0%
+finish.h                                           lines      1  100.0%  branches      0    0.0%
+cfd_datacoupling_file.h                            lines      1    0.0%  branches      6    0.0%
+fix_nve_asphere_base.h                             lines      1    0.0%  branches      0    0.0%
+reader_native.h                                    lines      1    0.0%  branches      4    0.0%
+reader_xyz.h                                       lines      1    0.0%  branches      4    0.0%

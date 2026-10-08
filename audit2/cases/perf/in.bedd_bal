@@ -1,0 +1,39 @@
+# Round-2 benchmark (balance variant, var bal = one-shot balance command): settled bidisperse bed (audit/cases/perf/bed, written with write_data),
+# hertz/history, primitive floor, gravity. vars (defaults = default code path):
+# data nsteps | nve popt newton sbf lastforce dump(0 none,1 hdf5,2 custom) pkg
+variable nve index ""
+variable popt index ""
+variable newton index off
+variable sbf index 1.0
+variable lastforce index 0
+variable dump index 0
+variable pkg index "print nopkg"
+${pkg}
+atom_style granular
+atom_modify map array
+atom_modify sort_bin_factor ${sbf}
+boundary p p f
+newton ${newton}
+communicate single vel yes
+units si
+read_data ${data}
+neighbor 0.0005 bin
+neigh_modify delay 0
+timestep 1e-5
+fix m1 all property/global youngsModulus peratomtype 5.e6 5.e6
+fix m2 all property/global poissonsRatio peratomtype 0.45 0.45
+fix m3 all property/global coefficientRestitution peratomtypepair 2 0.3 0.3 0.3 0.3
+fix m4 all property/global coefficientFriction peratomtypepair 2 0.5 0.5 0.5 0.5
+pair_style gran model hertz tangential history ${popt}
+pair_coeff * *
+fix zwall1 all wall/gran model hertz tangential history primitive type 1 zplane 0.0
+fix gravi all gravity 9.81 vector 0.0 0.0 -1.0
+fix integr all nve/sphere ${nve}
+if "${lastforce} > 0" then "fix lf all store/lastforce"
+if "${dump} == 1" then "compute pe all property/atom omegax" "dump d all hdf5 50 post/bed*.h5 c_pe" "dump_modify d compress 4"
+if "${dump} == 2" then "dump d all custom 50 post/bed*.txt id type x y z vx vy vz omegax"
+variable bal index "print nobal"
+${bal}
+thermo_style custom step atoms ke
+thermo 1000
+run ${nsteps}

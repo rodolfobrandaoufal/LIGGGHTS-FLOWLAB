@@ -1,0 +1,39 @@
+atom_style granular
+atom_modify map array
+boundary f f f
+newton off
+communicate single vel yes
+units si
+region dom block -0.004 0.004 -0.004 0.004 -0.004 0.004 units box
+create_box 1 dom
+neighbor 0.0005 bin
+neigh_modify delay 0
+fix p1 all property/global youngsModulus peratomtype 100000000.0
+fix p2 all property/global poissonsRatio peratomtype 0.3
+fix p3 all property/global coefficientRestitution peratomtypepair 1 0.5
+fix p4 all property/global coefficientFriction peratomtypepair 1 0.5
+fix p5 all property/global surfaceLiquidContentInitial scalar 0.01
+fix p6 all property/global minSeparationDistanceRatio scalar 1.001
+fix p7 all property/global maxSeparationDistanceRatio scalar 1.5
+fix p8 all property/global fluidViscosity scalar 1e-12
+fix p9 all property/global contactAngle peratomtype 0.0
+fix p10 all property/global liquidSurfaceTension scalar 0.072
+pair_style gran model hertz tangential history cohesion easo/capillary/viscous easo_capillary_willett on
+pair_coeff * *
+create_atoms 1 single 0 0 0 units box
+create_atoms 1 single 0.0019999000000000002 0 0 units box
+set atom * diameter 0.002 density 2500.0
+group a2 id 2
+timestep 1e-07
+fix f1 all move linear 0 0 0
+run 2
+unfix f1
+group a1 id 1
+fix f1 a1 move linear 0 0 0
+fix f2 a2 move linear 0.01 0 0
+variable D equal x[2]-x[1]-0.002
+variable fx1 equal fx[1]
+thermo_style custom step v_D v_fx1
+thermo_modify format float %.17g norm no
+thermo 200
+run 250000

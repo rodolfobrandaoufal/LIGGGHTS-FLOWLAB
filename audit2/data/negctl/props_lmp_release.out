@@ -1,0 +1,20 @@
+FAIL e_switch
+     t=0.1354 e_measured=0.899997 e_requested=0.500 FAIL
+FAIL adhesion_switch
+     fx before=-0.0155804077412  runA step50=-0.0155804077412  runB=-0.0242497724275
+FAIL friction_ramp_np1
+     rows=142 worst relative error=1.500e+00
+FAIL friction_ramp_np2
+     rows=142 worst relative error=1.500e+00
+FAIL friction_ramp_preno
+     rows=144 worst relative error=1.500e+00
+FAIL stiffness_switch
+     delta_switch=6.928236e-05 dU_pred=2.617996e-06 dE_meas=-6.989855e-14 ratio=-0.000000 e_out=1.000000
+FAIL timestep_consistency
+     rows=40 fr 0.2796 -> 1.5000  fh 0.0591 -> 0.0597  spread(fh/fr^0.8)=3.7970
+FAIL validation_np1
+     FAIL write() lost binding
+FAIL validation_np2
+     FAIL write() lost binding
+SOME FAILED (/media/storage/LIGGGHTS-PUBLIC-v6/build_audit/bin/lmp_release)
+rc=1

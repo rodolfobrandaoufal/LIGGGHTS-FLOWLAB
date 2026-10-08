@@ -1,0 +1,26 @@
+# LAMMPS (stable_30Sep2026, GRANULAR) equivalent of in.bedd: same data, dt, skin,
+# Hertz normal with material E, nu; Mindlin tangential (stiffness from material,
+# no-slip -> Coulomb mu), Tsuji damping from e (LIGGGHTS uses its own beta mapping),
+# primitive floor. Differences: damping law details, LAMMPS sort bin = 0.5 cutoff (default).
+variable px index *
+variable py index *
+variable pz index *
+processors ${px} ${py} ${pz}
+units si
+atom_style sphere
+atom_modify map array
+boundary p p f
+newton off
+comm_modify vel yes
+read_data ${data}
+neighbor 0.0005 bin
+neigh_modify delay 0
+timestep 1e-5
+pair_style granular
+pair_coeff * * hertz/material 5e6 0.3 0.45 tangential mindlin NULL 1.0 0.5 damping tsuji
+fix zwall all wall/gran granular hertz/material 5e6 0.3 0.45 tangential mindlin NULL 1.0 0.5 damping tsuji zplane 0.0 NULL
+fix gravi all gravity 9.81 vector 0.0 0.0 -1.0
+fix integr all nve/sphere
+thermo_style custom step atoms ke
+thermo 1000
+run ${nsteps}

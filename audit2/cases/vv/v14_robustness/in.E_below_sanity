@@ -1,0 +1,21 @@
+atom_style granular
+atom_modify map array
+boundary p p f
+newton off
+communicate single vel yes
+units si
+read_data /tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/perf/beds/bed_2x1.data
+neighbor 0.0005 bin
+neigh_modify delay 0
+timestep 1e-05
+fix m1 all property/global youngsModulus peratomtype 5000.0 5000.0
+fix m2 all property/global poissonsRatio peratomtype 0.45 0.45
+fix m3 all property/global coefficientRestitution peratomtypepair 2 0.3 0.3 0.3 0.3
+fix m4 all property/global coefficientFriction peratomtypepair 2 0.5 0.5 0.5 0.5
+pair_style gran model hertz tangential history
+pair_coeff * *
+fix zwall1 all wall/gran model hertz tangential history primitive type 1 zplane 0.0
+fix gravi all gravity 9.81 vector 0.0 0.0 -1.0
+fix integr all nve/sphere
+
+run 10

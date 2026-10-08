@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/pylib/gcovr/__main__.py", line 28, in <module>
+    from .configuration import (
+  File "/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/pylib/gcovr/configuration.py", line 33, in <module>
+    from . import formats
+  File "/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/pylib/gcovr/formats/__init__.py", line 22, in <module>
+    from ..data_model.coverage import FileCoverage
+  File "/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/pylib/gcovr/data_model/coverage.py", line 78, in <module>
+    from ..filter import is_file_excluded
+  File "/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/pylib/gcovr/filter.py", line 26, in <module>
+    from .utils import force_unix_separator, is_fs_case_insensitive
+  File "/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/pylib/gcovr/utils.py", line 30, in <module>
+    from lxml import etree  # nosec # We only write XML files
+ImportError: cannot import name 'etree' from 'lxml' (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/pylib/lxml/__init__.py)

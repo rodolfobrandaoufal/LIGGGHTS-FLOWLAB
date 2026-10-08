@@ -1,0 +1,117 @@
+{
+ "restart": {
+  "none_np1": {
+   "rc": [
+    0,
+    0,
+    0
+   ],
+   "warn": [
+    "WARNING: pair gran: in the previous run a pair touched again within one neighbor interval after separating; its contact history was reset at the separation (finding X-05), up to now it was kept until the next neighbor build, so results can differ from earlier versions. Use 'history_clear_legacy on' for the old behaviour (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/pair_gran_base.h:357)"
+   ],
+   "err": [],
+   "bitwise_identical": false,
+   "max_rel_diff_per_col": [
+    1.2945316552032427e-05,
+    3.2997544225327024e-05,
+    2.3956896850086525e-05,
+    0.010100346084095244,
+    0.015977979826698643,
+    0.014994701264934024,
+    0.081160145855772,
+    0.18396739359699307,
+    0.1628855817577662,
+    0.015787799173259693,
+    0.011337228992719816,
+    0.01615281163168784
+   ],
+   "max_rel_diff_force": 0.14062515541692144,
+   "max_rel_diff_pos": 0.0017058217259141584
+  },
+  "none_np4": {
+   "rc": [
+    0,
+    0,
+    0
+   ],
+   "warn": [
+    "WARNING: pair gran: in the previous run a pair touched again within one neighbor interval after separating; its contact history was reset at the separation (finding X-05), up to now it was kept until the next neighbor build, so results can differ from earlier versions. Use 'history_clear_legacy on' for the old behaviour (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/pair_gran_base.h:357)"
+   ],
+   "err": [],
+   "bitwise_identical": false,
+   "max_rel_diff_per_col": [
+    1.2945315359899702e-05,
+    3.299753562255349e-05,
+    2.3956893955385305e-05,
+    0.01010034842519663,
+    0.015977979722156175,
+    0.014994698444894337,
+    0.0811601390155071,
+    0.1839673574183276,
+    0.16288566494922596,
+    0.01578779242521749,
+    0.011337229036525705,
+    0.016152811617048582
+   ],
+   "max_rel_diff_force": 0.14062522230030441,
+   "max_rel_diff_pos": 0.0017058215198012538
+  },
+  "lastforce_np1": {
+   "rc": [
+    0,
+    0,
+    0
+   ],
+   "warn": [
+    "WARNING: pair gran: in the previous run a pair touched again within one neighbor interval after separating; its contact history was reset at the separation (finding X-05), up to now it was kept until the next neighbor build, so results can differ from earlier versions. Use 'history_clear_legacy on' for the old behaviour (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/pair_gran_base.h:357)"
+   ],
+   "err": [],
+   "bitwise_identical": false,
+   "max_rel_diff_per_col": [
+    9.599446491407788e-13,
+    6.728843166553419e-13,
+    1.025089119355884e-12,
+    3.8702576668117026e-10,
+    1.057760787028565e-10,
+    1.9745586798415737e-10,
+    4.2392257339597314e-10,
+    5.882045180230133e-10,
+    5.354744563450922e-10,
+    3.199816771652775e-10,
+    3.9869574484380917e-10,
+    2.475247848970233e-10
+   ],
+   "max_rel_diff_force": 4.622949301756097e-10,
+   "max_rel_diff_pos": 7.98666688339722e-11
+  },
+  "lastforce_np4": {
+   "rc": [
+    0,
+    0,
+    0
+   ],
+   "warn": [
+    "WARNING: pair gran: in the previous run a pair touched again within one neighbor interval after separating; its contact history was reset at the separation (finding X-05), up to now it was kept until the next neighbor build, so results can differ from earlier versions. Use 'history_clear_legacy on' for the old behaviour (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/pair_gran_base.h:357)"
+   ],
+   "err": [],
+   "bitwise_identical": false,
+   "max_rel_diff_per_col": [
+    2.075849028419997e-13,
+    2.80187761750572e-13,
+    2.796849294182e-13,
+    1.5995902762075557e-10,
+    1.4583106988335754e-10,
+    8.711490713344028e-11,
+    5.99584687785496e-10,
+    1.2612766899387257e-09,
+    5.192893857526865e-10,
+    1.8805427167002077e-10,
+    2.5357494927269334e-10,
+    2.032892052775265e-10
+   ],
+   "max_rel_diff_force": 6.550237481753243e-10,
+   "max_rel_diff_pos": 1.9914625504213745e-11
+  }
+ },
+ "extreme": {}
+}

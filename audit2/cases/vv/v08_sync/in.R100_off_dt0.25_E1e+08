@@ -1,0 +1,35 @@
+atom_style granular
+atom_modify map array
+boundary f f f
+newton off
+communicate single vel yes
+units si
+hard_particles yes
+region box block -0.008 0.008 -0.008 0.008 -0.008 0.008 units box
+create_box 2 box
+neighbor 4.000000000000001e-06 bin
+neigh_modify delay 0
+fix m1 all property/global youngsModulus peratomtype 100000000.0 100000000.0
+fix m2 all property/global poissonsRatio peratomtype 0.3 0.3
+fix m3 all property/global coefficientRestitution peratomtypepair 2 0.8 0.8 0.8 0.8
+fix m4 all property/global coefficientFriction peratomtypepair 2 10.0 10.0 10.0 10.0
+pair_style gran model hertz tangential history synchronized_verlet off
+pair_coeff * *
+create_atoms 1 single -0.002 0 0 units box
+create_atoms 1 single 0.002 0 0 units box
+create_atoms 2 single 0 9.697944826929669e-05 0.00026644884427106036 units box
+set type 1 diameter 0.004 density 2500
+set type 2 diameter 4e-05 density 2500
+group fine type 2
+group big type 1
+fix fr big freeze
+fix grav all gravity 9.81 vector 0 0 -1
+fix integr fine nve/sphere
+timestep 3.5001750087504375e-09
+variable th equal atan2(xcm(fine,y),xcm(fine,z))*180/PI
+variable d1 equal sqrt((xcm(fine,x)+0.002)^2+xcm(fine,y)^2+xcm(fine,z)^2)
+variable d2 equal sqrt((xcm(fine,x)-0.002)^2+xcm(fine,y)^2+xcm(fine,z)^2)
+thermo_style custom step v_th v_d1 v_d2
+thermo_modify format float %.12g norm no
+thermo 285
+run 28570000

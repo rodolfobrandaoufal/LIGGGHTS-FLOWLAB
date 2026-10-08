@@ -1,0 +1,44 @@
+{
+ "off": {
+  "rc": 0,
+  "orbital_over_Omega": 0.999958844299088,
+  "spin_over_Omega": 1.0003008749586386,
+  "ke_end_over_ke0": 0.9997179226009082,
+  "t_end": 0.3,
+  "warn": []
+ },
+ "cdt": {
+  "rc": 0,
+  "orbital_over_Omega": 1.1110078008335484,
+  "spin_over_Omega": 2.119847073063617e-06,
+  "ke_end_over_ke0": 1.2339458516721225,
+  "t_end": 0.3,
+  "warn": []
+ },
+ "epsd2": {
+  "rc": 0,
+  "orbital_over_Omega": 1.1109007260824586,
+  "spin_over_Omega": 0.0016714770685265887,
+  "ke_end_over_ke0": 1.2338710394640087,
+  "t_end": 0.3,
+  "warn": []
+ },
+ "epsd": {
+  "rc": 0,
+  "orbital_over_Omega": 1.1112538518762656,
+  "spin_over_Omega": -0.0013455283604202814,
+  "ke_end_over_ke0": 1.2338593256142083,
+  "t_end": 0.3,
+  "warn": [
+   "WARNING: "
+  ]
+ },
+ "twist": {
+  "rc": 0,
+  "orbital_over_Omega": 0.999958844299088,
+  "spin_over_Omega": 1.0003008749586386,
+  "ke_end_over_ke0": 0.9997179226009082,
+  "t_end": 0.3,
+  "warn": []
+ }
+}

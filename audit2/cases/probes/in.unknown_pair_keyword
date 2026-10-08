@@ -1,0 +1,22 @@
+atom_style granular
+atom_modify map array
+boundary f f f
+newton off
+communicate single vel yes
+units si
+region dom block -0.01 0.01 -0.01 0.01 0 0.02 units box
+create_box 2 dom
+neighbor 0.0005 bin
+neigh_modify delay 0
+fix p1 all property/global youngsModulus peratomtype 5e6 5e6
+fix p2 all property/global poissonsRatio peratomtype 0.3 0.3
+fix p3 all property/global coefficientRestitution peratomtypepair 2 0.5 0.5 0.5 0.5
+fix p4 all property/global coefficientFriction peratomtypepair 2 0.5 0.5 0.5 0.5
+pair_style gran model hertz tangential history tangential_rescal on
+pair_coeff * *
+create_atoms 1 single 0 0 0.005 units box
+create_atoms 1 single 0 0 0.0075 units box
+set atom * diameter 0.002 density 2500
+fix integr all nve/sphere
+timestep 1e-6
+run 1

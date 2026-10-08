@@ -1,0 +1,47 @@
+total samples 37344
+== categories
+ 21.83%  wall kernel (fix wall/gran)
+ 20.33%  pair kernel (Granular<>::compute_force*)
+ 18.01%  mesh (neighlist/tri/mesh)
+ 13.87%  contact models (surfacesIntersect etc.)
+ 12.33%  neighbor build
+  7.02%  integration (nve/sphere)
+  3.48%  other (main binary)
+  1.21%  lib:libc.so.6
+  1.12%  insertion
+  0.48%  contact history
+  0.09%  lib:libmpi.so.40.30.2
+  0.08%  lib:[vdso]
+  0.06%  sort
+  0.03%  comm
+  0.03%  lib:ld-linux-x86-64.so.2
+  0.01%  lib:?
+  0.00%  output
+  0.00%  lib:libnvidia-opencl.so.595.99.02
+  0.00%  lib:sprof.so
+== top functions
+ 21.83%  LAMMPS_NS::FixWallGran::post_force_mesh(int)
+ 20.32%  void LIGGGHTS::PairStyles::Granular<LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 2, 0, 0, 0> > >::compute_force_serial_t<0>(LAMMP
+  8.29%  LAMMPS_NS::Neighbor::granular_bin_no_newton(LAMMPS_NS::NeighList*)
+  5.82%  LIGGGHTS::ContactModels::NormalModel<3>::surfacesIntersect(LIGGGHTS::ContactModels::SurfacesIntersectData&, LIGGGHTS::ContactModels::ForceData&, LIGGGHTS::Conta
+  5.13%  LAMMPS_NS::FixNeighlistMesh::checkBin(LAMMPS_NS::AtomVecEllipsoid::Bonus*, std::vector<int, std::allocator<int> >&, int&, double*, double, int*, int, int, int, 
+  4.28%  LAMMPS_NS::FixNVESphere::initial_integrate(int)
+  3.58%  LIGGGHTS::ContactModels::TangentialModel<2>::surfacesIntersect(LIGGGHTS::ContactModels::SurfacesIntersectData const&, LIGGGHTS::ContactModels::ForceData&, LIGGG
+  3.11%  LAMMPS_NS::FixContactHistoryMesh::markAllContacts()
+  3.02%  LAMMPS_NS::Neighbor::bin_atoms()
+  2.97%  void LIGGGHTS::Walls::Granular<LIGGGHTS::ContactModels::ContactModel<LIGGGHTS::ContactModels::GranStyle<3, 2, 0, 0, 0> > >::compute_force_t<0>(LAMMPS_NS::FixWal
+  2.89%  LAMMPS_NS::MeshModuleStress::add_particle_contribution(int, double*, double*, int, double*)
+  2.73%  LAMMPS_NS::FixNVESphere::final_integrate()
+  2.70%  LAMMPS_NS::FixGravity::post_force(int)
+  2.45%  LAMMPS_NS::FixContactHistoryMesh::cleanUpContacts(int, int)
+  1.61%  LAMMPS_NS::MeshModuleStress::calc_total_force()
+  1.43%  LIGGGHTS::ContactModels::SurfaceModel<0>::surfacesIntersect(LIGGGHTS::ContactModels::SurfacesIntersectData&, LIGGGHTS::ContactModels::ForceData&, LIGGGHTS::Cont
+  1.11%  LAMMPS_NS::FixInsertStream::end_of_step()
+  0.85%  LAMMPS_NS::FixNeighlistMesh::handleTriangle(int)
+  0.78%  LAMMPS_NS::Neighbor::check_distance_local()
+  0.66%  LAMMPS_NS::TriMesh::resolveCornerContactBary(int, int, bool, double*, double*, double*, bool)
+  0.48%  LAMMPS_NS::FixContactHistory::pre_exchange()
+  0.37%  LAMMPS_NS::FixContactHistoryMesh::cleanUpContactJumps()
+  0.32%  LAMMPS_NS::GeneralContainer<double, 1, 1>::clearReverse(bool, bool, bool)
+  0.29%  LAMMPS_NS::FixMeshSurface::add_particle_contribution(int, double*, double*, int, double*)
+  0.28%  LAMMPS_NS::SurfaceMesh<3, 5>::areCoplanarNodeNeighs(int, int)

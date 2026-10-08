@@ -1,0 +1,106 @@
+{
+ "F-31_matrix_no_values": {
+  "expect": "error expected (no values)",
+  "rc": 1,
+  "lines": [
+   "ERROR: Fix property/global (id bad): per-atomtype property matrix must be symmetric, i.e. N atom types require you to define N columns and N rows with N*N total values (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/fix_proper",
+   "ERROR: Fix property/global (id bad): per-atomtype property matrix must be symmetric, i.e. N atom types require you to define N columns and N rows with N*N total values (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/fix_proper"
+  ]
+ },
+ "F-32_thermo_property_global_element": {
+  "expect": "no crash; prints 0.5",
+  "rc": -8,
+  "lines": [
+   "[n011:1015508] *** Process received signal ***",
+   "[n011:1015508] Signal: Floating point exception (8)",
+   "[n011:1015508] Signal code: Integer divide-by-zero (1)"
+  ]
+ },
+ "V-10_bad_atom_keyword_message": {
+  "expect": "clear error message on screen",
+  "rc": 1,
+  "lines": [
+   "ERROR on proc 0: Invalid atom vector in variable formula (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/variable.cpp:3467)",
+   "ERROR on proc 0: Invalid atom vector in variable formula (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/variable.cpp:3467)"
+  ]
+ },
+ "F-10_every_without_v": {
+  "expect": "warning 'every has no effect'",
+  "rc": 0,
+  "lines": [
+   "WARNING: fix property/global bar: 'every 5' has no effect because no value is given as v_name (equal-style variable) (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/fix_property_global.cpp:165)",
+   "WARNING: fix property/global bar: 'every 5' has no effect because no value is given as v_name (equal-style variable) (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/fix_property_global.cpp:165)"
+  ]
+ },
+ "PF-08_screen_none_mesh": {
+  "expect": "no segfault with -screen none",
+  "rc": -11,
+  "lines": [
+   "[n011:1015607] *** Process received signal ***",
+   "[n011:1015607] Signal: Segmentation fault (11)",
+   "[n011:1015607] Signal code: Address not mapped (1)"
+  ]
+ },
+ "C-09_old_easo_surfaceTension": {
+  "expect": "old deck runs with deprecation warning",
+  "rc": 0,
+  "lines": [
+   "WARNING: ",
+   "WARNING: cohesion model easo/capillary/viscous: property 'surfaceTension' is deprecated, use 'liquidSurfaceTension' (same meaning and units, N/m; scalar or peratomtypepair) (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/cohes",
+   "WARNING: cohesion model easo/capillary/viscous: minSeparationDistanceRatio = 1.01 (>= 1) is read as S_min = (ratio-1)*R* = 0.01*R* (floor of the lubrication gap). Earlier versions used S_min = ratio*R*, which switched lubrication off; use 'easo_lubrication_legacy on' for the old results (/tmp/claude",
+   "WARNING: ",
+   "WARNING: cohesion model easo/capillary/viscous: property 'surfaceTension' is deprecated, use 'liquidSurfaceTension' (same meaning and units, N/m; scalar or peratomtypepair) (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/cohes",
+   "WARNING: cohesion model easo/capillary/viscous: minSeparationDistanceRatio = 1.01 (>= 1) is read as S_min = (ratio-1)*R* = 0.01*R* (floor of the lubrication gap). Earlier versions used S_min = ratio*R*, which switched lubrication off; use 'easo_lubrication_legacy on' for the old results (/tmp/claude"
+  ]
+ },
+ "B4_timestep_too_large_errors": {
+  "expect": "error: dt above Rayleigh/Hertz time",
+  "rc": 1,
+  "lines": [
+   "ERROR: Fix check/timestep/gran (id ts): time-step is 817.088224 % of the rayleigh time and 0.000000 % of the hertz time at the start of the run (step 0), above the hard limit error_fraction = 100 %; the simulation is unstable. Reduce the time-step or use 'error_fraction none' to only warn (/tmp/clau",
+   "ERROR: Fix check/timestep/gran (id ts): time-step is 817.088224 % of the rayleigh time and 0.000000 % of the hertz time at the start of the run (step 0), above the hard limit error_fraction = 100 %; the simulation is unstable. Reduce the time-step or use 'error_fraction none' to only warn (/tmp/clau"
+  ]
+ },
+ "F-09_literal_e_out_of_range": {
+  "expect": "error for e>1",
+  "rc": 1,
+  "lines": [
+   "ERROR: Fix property/global (id p3): value 1.5 of coefficientRestitution is out of range: 0 < value <= 1 required (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/fix_property_global.cpp:503)",
+   "ERROR: Fix property/global (id p3): value 1.5 of coefficientRestitution is out of range: 0 < value <= 1 required (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/fix_property_global.cpp:503)"
+  ]
+ },
+ "unknown_pair_keyword": {
+  "expect": "error naming the unknown keyword",
+  "rc": 1,
+  "lines": [
+   "ERROR: Unknown argument or wrong keyword order: 'tangential_rescal' (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/pair_gran_base.h:197)",
+   "ERROR: Unknown argument or wrong keyword order: 'tangential_rescal' (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/pair_gran_base.h:197)"
+  ]
+ },
+ "sync_with_unsupported_model": {
+  "expect": "clean error or supported",
+  "rc": 1,
+  "lines": [
+   "ERROR: Could not locate a fix/property storing value(s) for characteristicVelocity as requested by model hooke. (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/modify_liggghts.cpp:413)",
+   "ERROR: Could not locate a fix/property storing value(s) for characteristicVelocity as requested by model hooke. (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/modify_liggghts.cpp:413)"
+  ]
+ },
+ "newton_on_easo_error": {
+  "expect": "clean error (EASO not supported with newton on)",
+  "rc": 1,
+  "lines": [
+   "WARNING: ",
+   "ERROR: Pair granular with 'newton pair on': contact history value 'contflag' (newtonflag 0) is not supported with newton on (its per-atom side effects or its i<->j symmetry have not been verified). Use 'newton off' for this contact model (see doc/pair_gran.txt) (/tmp/claude-1000/-media-storage-LIGGG",
+   "WARNING: ",
+   "ERROR: Pair granular with 'newton pair on': contact history value 'contflag' (newtonflag 0) is not supported with newton on (its per-atom side effects or its i<->j symmetry have not been verified). Use 'newton off' for this contact model (see doc/pair_gran.txt) (/tmp/claude-1000/-media-storage-LIGGG"
+  ]
+ },
+ "coarsegraining_after_box": {
+  "expect": "error: must precede box",
+  "rc": 1,
+  "lines": [
+   "ERROR: coarsegraining must be used before the simulation box is defined (before create_box, read_data or read_restart) (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/coarsegraining.cpp:64)",
+   "ERROR: coarsegraining must be used before the simulation box is defined (before create_box, read_data or read_restart) (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/coarsegraining.cpp:64)"
+  ]
+ }
+}

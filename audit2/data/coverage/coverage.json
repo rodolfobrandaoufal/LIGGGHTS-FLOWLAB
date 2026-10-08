@@ -1,0 +1,4096 @@
+{
+ "summary": {
+  "files": 693,
+  "lines": 96590,
+  "lines_covered": 32975,
+  "line_pct": 34.13895517134278,
+  "branches": 105039,
+  "branch_pct": 18.192226601548004,
+  "changed_files_line_pct": 63.3081454117143,
+  "changed_files_lines": 28017
+ },
+ "files": {
+  "neigh_derive.cpp": {
+   "lcov": 3.9,
+   "lines": 282,
+   "bcov": 0.0,
+   "branches": 112
+  },
+  "my_page.h": {
+   "lcov": 82.61,
+   "lines": 69,
+   "bcov": 33.93,
+   "branches": 112
+  },
+  "fix_balance.cpp": {
+   "lcov": 98.17,
+   "lines": 109,
+   "bcov": 62.22,
+   "branches": 90
+  },
+  "fix.h": {
+   "lcov": 11.43,
+   "lines": 105,
+   "bcov": 66.67,
+   "branches": 6
+  },
+  "fix_multisphere_comm.cpp": {
+   "lcov": 2.29,
+   "lines": 349,
+   "bcov": 0.0,
+   "branches": 162
+  },
+  "multisphere.h": {
+   "lcov": 88.89,
+   "lines": 9,
+   "bcov": 50.0,
+   "branches": 14
+  },
+  "vector_liggghts.h": {
+   "lcov": 58.43,
+   "lines": 89,
+   "bcov": 58.62,
+   "branches": 58
+  },
+  "fix_lb_coupling_onetoone.cpp": {
+   "lcov": 0.0,
+   "lines": 45,
+   "bcov": 0.0,
+   "branches": 16
+  },
+  "signal_handling.cpp": {
+   "lcov": 0.0,
+   "lines": 31,
+   "bcov": 0.0,
+   "branches": 36
+  },
+  "force.cpp": {
+   "lcov": 34.06,
+   "lines": 414,
+   "bcov": 21.88,
+   "branches": 320
+  },
+  "improper_hybrid.h": {
+   "lcov": 0.0,
+   "lines": 1,
+   "bcov": 0.0,
+   "branches": 8
+  },
+  "dihedral_hybrid.h": {
+   "lcov": 0.0,
+   "lines": 1,
+   "bcov": 0.0,
+   "branches": 8
+  },
+  "angle_hybrid.h": {
+   "lcov": 0.0,
+   "lines": 1,
+   "bcov": 0.0,
+   "branches": 8
+  },
+  "bond_harmonic.h": {
+   "lcov": 0.0,
+   "lines": 1,
+   "bcov": 0.0,
+   "branches": 8
+  },
+  "bond_hybrid.h": {
+   "lcov": 0.0,
+   "lines": 1,
+   "bcov": 0.0,
+   "branches": 8
+  },
+  "force.h": {
+   "lcov": 100.0,
+   "lines": 5,
+   "bcov": 42.19,
+   "branches": 64
+  },
+  "pointers.h": {
+   "lcov": 100.0,
+   "lines": 22
+  },
+  "pair_gran_proxy.h": {
+   "lcov": 100.0,
+   "lines": 3,
+   "bcov": 50.0,
+   "branches": 14
+  },
+  "pair_hybrid.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 8
+  },
+  "pair_hybrid_overlay.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 6
+  },
+  "pair_line_lj.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 6
+  },
+  "pair_soft.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 4
+  },
+  "pair_sph_artvisc_tenscorr.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 6
+  },
+  "pair_sph_morris_tenscorr.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 4
+  },
+  "kspace.h": {
+   "lcov": 0.0,
+   "lines": 1,
+   "bcov": 0.0,
+   "branches": 8
+  },
+  "group.cpp": {
+   "lcov": 24.73,
+   "lines": 938,
+   "bcov": 21.32,
+   "branches": 652
+  },
+  "fix_multisphere.h": {
+   "lcov": 100.0,
+   "lines": 7,
+   "bcov": 25.0,
+   "branches": 24
+  },
+  "memory.h": {
+   "lcov": 94.29,
+   "lines": 70,
+   "bcov": 91.67,
+   "branches": 12
+  },
+  "fix_contact_history_mesh.cpp": {
+   "lcov": 86.6,
+   "lines": 321,
+   "bcov": 65.24,
+   "branches": 210
+  },
+  "tracking_mesh.h": {
+   "lcov": 76.19,
+   "lines": 21,
+   "bcov": 35.71,
+   "branches": 98
+  },
+  "mpi_liggghts.h": {
+   "lcov": 100.0,
+   "lines": 21,
+   "bcov": 70.0,
+   "branches": 10
+  },
+  "fix_contact_history_mesh.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "multi_node_mesh.h": {
+   "lcov": 79.31,
+   "lines": 29,
+   "bcov": 25.0,
+   "branches": 36
+  },
+  "fix_mesh_surface.h": {
+   "lcov": 71.43,
+   "lines": 14,
+   "bcov": 66.67,
+   "branches": 6
+  },
+  "fix_mesh.h": {
+   "lcov": 81.82,
+   "lines": 11,
+   "bcov": 62.5,
+   "branches": 8
+  },
+  "fix_neighlist_mesh.h": {
+   "lcov": 100.0,
+   "lines": 6,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_contact_history_mesh_I.h": {
+   "lcov": 83.1,
+   "lines": 71,
+   "bcov": 72.86,
+   "branches": 70
+  },
+  "fix_contact_history.h": {
+   "lcov": 100.0,
+   "lines": 10,
+   "bcov": 66.67,
+   "branches": 6
+  },
+  "fix_nve_noforce.cpp": {
+   "lcov": 0.0,
+   "lines": 34,
+   "bcov": 0.0,
+   "branches": 16
+  },
+  "fix_insert.cpp": {
+   "lcov": 74.05,
+   "lines": 555,
+   "bcov": 47.44,
+   "branches": 567
+  },
+  "region_neighbor_list_I.h": {
+   "lcov": 85.99,
+   "lines": 157,
+   "bcov": 62.26,
+   "branches": 106
+  },
+  "region_neighbor_list.h": {
+   "lcov": 26.32,
+   "lines": 19,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "random.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "region_neighbor_list_definitions.h": {
+   "lcov": 100.0,
+   "lines": 5
+  },
+  "bounding_box.h": {
+   "lcov": 69.05,
+   "lines": 42,
+   "bcov": 100.0,
+   "branches": 26
+  },
+  "region_neighbor_list_base.h": {
+   "lcov": 100.0,
+   "lines": 2
+  },
+  "fix_particledistribution_discrete.h": {
+   "lcov": 100.0,
+   "lines": 8,
+   "bcov": 66.67,
+   "branches": 6
+  },
+  "math_extra_liggghts.h": {
+   "lcov": 75.0,
+   "lines": 40,
+   "bcov": 73.53,
+   "branches": 34
+  },
+  "fix_template_sphere.h": {
+   "lcov": 66.67,
+   "lines": 3,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "input.h": {
+   "lcov": 0.0,
+   "lines": 2,
+   "bcov": 0.0,
+   "branches": 2
+  },
+  "fix_insert.h": {
+   "lcov": 61.54,
+   "lines": 13,
+   "bcov": 0.0,
+   "branches": 2
+  },
+  "domain_I.h": {
+   "lcov": 60.0,
+   "lines": 35,
+   "bcov": 66.67,
+   "branches": 48
+  },
+  "fix_adapt.cpp": {
+   "lcov": 52.36,
+   "lines": 254,
+   "bcov": 23.28,
+   "branches": 262
+  },
+  "pair.h": {
+   "lcov": 0.0,
+   "lines": 3,
+   "bcov": 0.0,
+   "branches": 2
+  },
+  "fix_multicontact_halfspace.cpp": {
+   "lcov": 92.62,
+   "lines": 244,
+   "bcov": 71.76,
+   "branches": 170
+  },
+  "fix_contact_property_atom.h": {
+   "lcov": 100.0,
+   "lines": 7,
+   "bcov": 100.0,
+   "branches": 4
+  },
+  "fix_multicontact_halfspace.h": {
+   "lcov": 100.0,
+   "lines": 4,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_wall_gran.h": {
+   "lcov": 46.0,
+   "lines": 50,
+   "bcov": 1.62,
+   "branches": 13920
+  },
+  "pair_gran.h": {
+   "lcov": 55.0,
+   "lines": 40,
+   "bcov": 2.69,
+   "branches": 15258
+  },
+  "atom.h": {
+   "lcov": 66.67,
+   "lines": 3,
+   "bcov": 100.0,
+   "branches": 4
+  },
+  "fix_property_global.h": {
+   "lcov": 100.0,
+   "lines": 4,
+   "bcov": 50.0,
+   "branches": 8
+  },
+  "global_properties.cpp": {
+   "lcov": 47.74,
+   "lines": 442,
+   "bcov": 36.15,
+   "branches": 296
+  },
+  "property_registry.h": {
+   "lcov": 68.0,
+   "lines": 25,
+   "bcov": 63.64,
+   "branches": 22
+  },
+  "properties.h": {
+   "lcov": 50.0,
+   "lines": 8,
+   "bcov": 100.0,
+   "branches": 4
+  },
+  "sort_buffer.cpp": {
+   "lcov": 72.0,
+   "lines": 250,
+   "bcov": 58.09,
+   "branches": 136
+  },
+  "fix_enforce2d.cpp": {
+   "lcov": 50.82,
+   "lines": 61,
+   "bcov": 29.41,
+   "branches": 34
+  },
+  "fix_ave_histo.cpp": {
+   "lcov": 0.0,
+   "lines": 671,
+   "bcov": 0.0,
+   "branches": 850
+  },
+  "compute.h": {
+   "lcov": 14.29,
+   "lines": 21,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_minimize.cpp": {
+   "lcov": 0.0,
+   "lines": 109,
+   "bcov": 0.0,
+   "branches": 28
+  },
+  "fix_minimize.h": {
+   "lcov": 50.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "multisphere_parallel.cpp": {
+   "lcov": 33.04,
+   "lines": 115,
+   "bcov": 32.61,
+   "branches": 46
+  },
+  "general_container.h": {
+   "lcov": 57.14,
+   "lines": 14,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "general_container_I.h": {
+   "lcov": 61.59,
+   "lines": 302,
+   "bcov": 31.03,
+   "branches": 290
+  },
+  "associative_pointer_array_I.h": {
+   "lcov": 79.49,
+   "lines": 117,
+   "bcov": 47.5,
+   "branches": 80
+  },
+  "custom_value_tracker_I.h": {
+   "lcov": 51.85,
+   "lines": 108,
+   "bcov": 20.19,
+   "branches": 104
+  },
+  "vector_container.h": {
+   "lcov": 83.33,
+   "lines": 24,
+   "bcov": 53.7,
+   "branches": 54
+  },
+  "multisphere_parallel_I.h": {
+   "lcov": 0.0,
+   "lines": 22
+  },
+  "multisphere_I.h": {
+   "lcov": 100.0,
+   "lines": 15,
+   "bcov": 100.0,
+   "branches": 8
+  },
+  "scalar_container.h": {
+   "lcov": 55.0,
+   "lines": 40,
+   "bcov": 56.25,
+   "branches": 96
+  },
+  "domain.h": {
+   "lcov": 66.67,
+   "lines": 3,
+   "bcov": 100.0,
+   "branches": 2
+  },
+  "container_base_I.h": {
+   "lcov": 87.18,
+   "lines": 39,
+   "bcov": 56.73,
+   "branches": 104
+  },
+  "angle_hybrid.cpp": {
+   "lcov": 0.0,
+   "lines": 188,
+   "bcov": 0.0,
+   "branches": 160
+  },
+  "angle.h": {
+   "lcov": 0.0,
+   "lines": 1
+  },
+  "bounding_box.cpp": {
+   "lcov": 100.0,
+   "lines": 31,
+   "bcov": 50.0,
+   "branches": 12
+  },
+  "compute.cpp": {
+   "lcov": 39.31,
+   "lines": 145,
+   "bcov": 20.54,
+   "branches": 112
+  },
+  "compute_ke_atom.cpp": {
+   "lcov": 85.71,
+   "lines": 49,
+   "bcov": 46.43,
+   "branches": 28
+  },
+  "dump_decomposition_vtk.cpp": {
+   "lcov": 0.0,
+   "lines": 108,
+   "bcov": 0.0,
+   "branches": 104
+  },
+  "dump.h": {
+   "lcov": 0.0,
+   "lines": 5
+  },
+  "fix_contact_property_atom.cpp": {
+   "lcov": 77.96,
+   "lines": 186,
+   "bcov": 57.32,
+   "branches": 82
+  },
+  "mesh_module_stress_servo.cpp": {
+   "lcov": 0.0,
+   "lines": 376,
+   "bcov": 0.0,
+   "branches": 349
+  },
+  "memory_ns.h": {
+   "lcov": 69.39,
+   "lines": 49,
+   "bcov": 50.0,
+   "branches": 16
+  },
+  "container_base.h": {
+   "lcov": 66.67,
+   "lines": 6,
+   "bcov": 37.5,
+   "branches": 8
+  },
+  "multi_vector_container.h": {
+   "lcov": 66.67,
+   "lines": 6,
+   "bcov": 41.67,
+   "branches": 12
+  },
+  "multi_node_mesh_I.h": {
+   "lcov": 64.8,
+   "lines": 375,
+   "bcov": 53.17,
+   "branches": 252
+  },
+  "tracking_mesh_I.h": {
+   "lcov": 75.69,
+   "lines": 144,
+   "bcov": 47.5,
+   "branches": 40
+  },
+  "surface_mesh_I.h": {
+   "lcov": 69.95,
+   "lines": 569,
+   "bcov": 49.82,
+   "branches": 548
+  },
+  "multi_node_mesh_parallel.h": {
+   "lcov": 92.86,
+   "lines": 14,
+   "bcov": 50.0,
+   "branches": 6
+  },
+  "mesh_module_stress_servo.h": {
+   "lcov": 33.33,
+   "lines": 3,
+   "bcov": 50.0,
+   "branches": 6
+  },
+  "mesh_module_stress.h": {
+   "lcov": 89.47,
+   "lines": 19,
+   "bcov": 72.22,
+   "branches": 18
+  },
+  "modified_andrew.h": {
+   "lcov": 0.0,
+   "lines": 2,
+   "bcov": 0.0,
+   "branches": 72
+  },
+  "mesh_module.h": {
+   "lcov": 5.88,
+   "lines": 17
+  },
+  "math_extra.h": {
+   "lcov": 33.33,
+   "lines": 69,
+   "bcov": 0.0,
+   "branches": 2
+  },
+  "abstract_mesh.h": {
+   "lcov": 66.67,
+   "lines": 6
+  },
+  "library.cpp": {
+   "lcov": 0.0,
+   "lines": 243,
+   "bcov": 0.0,
+   "branches": 238
+  },
+  "fix_ave_atom.cpp": {
+   "lcov": 0.0,
+   "lines": 244,
+   "bcov": 0.0,
+   "branches": 268
+  },
+  "fix_nve_limit.cpp": {
+   "lcov": 0.0,
+   "lines": 174,
+   "bcov": 0.0,
+   "branches": 74
+  },
+  "dump_xyz.cpp": {
+   "lcov": 0.0,
+   "lines": 104,
+   "bcov": 0.0,
+   "branches": 70
+  },
+  "compute_nparticles_tracer_region.cpp": {
+   "lcov": 0.0,
+   "lines": 135,
+   "bcov": 0.0,
+   "branches": 80
+  },
+  "reader_xyz.cpp": {
+   "lcov": 0.0,
+   "lines": 77,
+   "bcov": 0.0,
+   "branches": 36
+  },
+  "reader.h": {
+   "lcov": 0.0,
+   "lines": 2
+  },
+  "pair_sph_morris_tenscorr.cpp": {
+   "lcov": 0.0,
+   "lines": 273,
+   "bcov": 0.0,
+   "branches": 74
+  },
+  "pair_sph.h": {
+   "lcov": 20.0,
+   "lines": 5,
+   "bcov": 0.0,
+   "branches": 4
+  },
+  "sph_kernels.h": {
+   "lcov": 100.0,
+   "lines": 11,
+   "bcov": 66.67,
+   "branches": 12
+  },
+  "sph_kernel_cubicspline.h": {
+   "lcov": 100.0,
+   "lines": 9,
+   "bcov": 44.44,
+   "branches": 18
+  },
+  "sph_kernel_cubicspline2D.h": {
+   "lcov": 100.0,
+   "lines": 9,
+   "bcov": 100.0,
+   "branches": 4
+  },
+  "sph_kernel_spiky.h": {
+   "lcov": 14.29,
+   "lines": 7,
+   "bcov": 0.0,
+   "branches": 2
+  },
+  "sph_kernel_spiky2D.h": {
+   "lcov": 0.0,
+   "lines": 1,
+   "bcov": 0.0,
+   "branches": 2
+  },
+  "sph_kernel_wendland.h": {
+   "lcov": 0.0,
+   "lines": 1,
+   "bcov": 0.0,
+   "branches": 2
+  },
+  "sph_kernel_wendland2D.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 0.0,
+   "branches": 2
+  },
+  "atom_vec_ellipsoid.cpp": {
+   "lcov": 0.0,
+   "lines": 915,
+   "bcov": 0.0,
+   "branches": 304
+  },
+  "atom_vec.h": {
+   "lcov": 42.86,
+   "lines": 7,
+   "bcov": 56.25,
+   "branches": 16
+  },
+  "mesh_mover_linear.cpp": {
+   "lcov": 14.66,
+   "lines": 191,
+   "bcov": 9.09,
+   "branches": 66
+  },
+  "fix_move_mesh.h": {
+   "lcov": 100.0,
+   "lines": 3,
+   "bcov": 50.0,
+   "branches": 6
+  },
+  "mesh_mover.h": {
+   "lcov": 38.3,
+   "lines": 47,
+   "bcov": 35.71,
+   "branches": 14
+  },
+  "mesh_mover_linear.h": {
+   "lcov": 50.0,
+   "lines": 8,
+   "bcov": 29.17,
+   "branches": 24
+  },
+  "fix_gravity.cpp": {
+   "lcov": 51.88,
+   "lines": 239,
+   "bcov": 28.02,
+   "branches": 182
+  },
+  "rotate.cpp": {
+   "lcov": 0.0,
+   "lines": 1
+  },
+  "granular_pair_style.cpp": {
+   "lcov": 100.0,
+   "lines": 5,
+   "bcov": 75.0,
+   "branches": 4
+  },
+  "granular_pair_style.h": {
+   "lcov": 100.0,
+   "lines": 1
+  },
+  "utils.h": {
+   "lcov": 93.88,
+   "lines": 49,
+   "bcov": 59.46,
+   "branches": 74
+  },
+  "input_mesh_tet.cpp": {
+   "lcov": 93.43,
+   "lines": 137,
+   "bcov": 74.53,
+   "branches": 106
+  },
+  "fix_contact_history.cpp": {
+   "lcov": 92.38,
+   "lines": 433,
+   "bcov": 74.06,
+   "branches": 266
+  },
+  "compute_pe.cpp": {
+   "lcov": 0.0,
+   "lines": 46,
+   "bcov": 0.0,
+   "branches": 64
+  },
+  "compute_pe.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_check_timestep_sph.cpp": {
+   "lcov": 0.0,
+   "lines": 104,
+   "bcov": 0.0,
+   "branches": 42
+  },
+  "fix_sph.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "kspace.cpp": {
+   "lcov": 0.0,
+   "lines": 313,
+   "bcov": 0.0,
+   "branches": 192
+  },
+  "atom_vec_atomic.cpp": {
+   "lcov": 6.03,
+   "lines": 431,
+   "bcov": 1.95,
+   "branches": 154
+  },
+  "atom_vec_atomic.h": {
+   "lcov": 50.0,
+   "lines": 2,
+   "bcov": 37.5,
+   "branches": 8
+  },
+  "neigh_half_multi.cpp": {
+   "lcov": 0.0,
+   "lines": 213,
+   "bcov": 0.0,
+   "branches": 128
+  },
+  "neighbor.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 16
+  },
+  "multisphere.cpp": {
+   "lcov": 65.89,
+   "lines": 302,
+   "bcov": 50.0,
+   "branches": 156
+  },
+  "compute_property_local.cpp": {
+   "lcov": 0.0,
+   "lines": 544,
+   "bcov": 0.0,
+   "branches": 380
+  },
+  "irregular.cpp": {
+   "lcov": 95.92,
+   "lines": 392,
+   "bcov": 78.47,
+   "branches": 274
+  },
+  "region_cone.cpp": {
+   "lcov": 0.0,
+   "lines": 357,
+   "bcov": 0.0,
+   "branches": 266
+  },
+  "region.h": {
+   "lcov": 100.0,
+   "lines": 1
+  },
+  "fix_sph_pressure.cpp": {
+   "lcov": 60.61,
+   "lines": 66,
+   "bcov": 23.61,
+   "branches": 72
+  },
+  "neigh_full.cpp": {
+   "lcov": 0.0,
+   "lines": 316,
+   "bcov": 0.0,
+   "branches": 176
+  },
+  "fix_wall.cpp": {
+   "lcov": 0.0,
+   "lines": 208,
+   "bcov": 0.0,
+   "branches": 232
+  },
+  "fix_sph.cpp": {
+   "lcov": 77.78,
+   "lines": 54,
+   "bcov": 60.0,
+   "branches": 30
+  },
+  "neighbor.cpp": {
+   "lcov": 63.78,
+   "lines": 1339,
+   "bcov": 41.67,
+   "branches": 1404
+  },
+  "accelerator_omp.h": {
+   "lcov": 0.0,
+   "lines": 27
+  },
+  "fix_deform_check.cpp": {
+   "lcov": 0.0,
+   "lines": 17,
+   "bcov": 0.0,
+   "branches": 8
+  },
+  "domain.cpp": {
+   "lcov": 51.76,
+   "lines": 995,
+   "bcov": 35.27,
+   "branches": 896
+  },
+  "region_block.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 37.5,
+   "branches": 8
+  },
+  "region_cone.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 25.0,
+   "branches": 4
+  },
+  "region_cylinder.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 37.5,
+   "branches": 8
+  },
+  "region_intersect.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 37.5,
+   "branches": 8
+  },
+  "region_mesh_tet.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 75.0,
+   "branches": 4
+  },
+  "region_plane.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 25.0,
+   "branches": 4
+  },
+  "region_prism.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 75.0,
+   "branches": 4
+  },
+  "region_sphere.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 37.5,
+   "branches": 8
+  },
+  "region_union.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 25.0,
+   "branches": 8
+  },
+  "region_wedge.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 0.0,
+   "branches": 4
+  },
+  "atom_vec_sphere.cpp": {
+   "lcov": 61.58,
+   "lines": 825,
+   "bcov": 52.65,
+   "branches": 264
+  },
+  "atom_vec_sphere.h": {
+   "lcov": 66.67,
+   "lines": 3,
+   "bcov": 31.25,
+   "branches": 16
+  },
+  "modified_andrew.cpp": {
+   "lcov": 0.0,
+   "lines": 98,
+   "bcov": 0.0,
+   "branches": 86
+  },
+  "delete_atoms.cpp": {
+   "lcov": 32.27,
+   "lines": 220,
+   "bcov": 30.0,
+   "branches": 180
+  },
+  "delete_atoms.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "update.cpp": {
+   "lcov": 42.25,
+   "lines": 284,
+   "bcov": 30.23,
+   "branches": 86
+  },
+  "min_cg.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 4
+  },
+  "respa.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 12.5,
+   "branches": 8
+  },
+  "verlet.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 25.0,
+   "branches": 8
+  },
+  "min.h": {
+   "lcov": 0.0,
+   "lines": 2
+  },
+  "integrate.h": {
+   "lcov": 100.0,
+   "lines": 1
+  },
+  "compute_msd_molecule.cpp": {
+   "lcov": 0.0,
+   "lines": 103,
+   "bcov": 0.0,
+   "branches": 58
+  },
+  "compute_coord_atom.cpp": {
+   "lcov": 0.0,
+   "lines": 147,
+   "bcov": 0.0,
+   "branches": 50
+  },
+  "compute_erotate_asphere.cpp": {
+   "lcov": 0.0,
+   "lines": 82,
+   "bcov": 0.0,
+   "branches": 50
+  },
+  "finish.cpp": {
+   "lcov": 49.17,
+   "lines": 541,
+   "bcov": 42.44,
+   "branches": 410
+  },
+  "fix_dt_reset.cpp": {
+   "lcov": 0.0,
+   "lines": 92,
+   "bcov": 0.0,
+   "branches": 104
+  },
+  "fix_dt_reset.h": {
+   "lcov": 50.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_scalar_transport_equation.cpp": {
+   "lcov": 58.28,
+   "lines": 302,
+   "bcov": 36.99,
+   "branches": 146
+  },
+  "fix_cfd_coupling_force.cpp": {
+   "lcov": 0.0,
+   "lines": 279,
+   "bcov": 0.0,
+   "branches": 190
+  },
+  "tri_mesh_planar.cpp": {
+   "lcov": 0.0,
+   "lines": 47,
+   "bcov": 0.0,
+   "branches": 26
+  },
+  "multi_node_mesh_parallel_I.h": {
+   "lcov": 86.02,
+   "lines": 472,
+   "bcov": 75.85,
+   "branches": 294
+  },
+  "surface_mesh.h": {
+   "lcov": 94.12,
+   "lines": 17,
+   "bcov": 60.71,
+   "branches": 56
+  },
+  "multi_node_mesh_parallel_buffer_I.h": {
+   "lcov": 86.26,
+   "lines": 182,
+   "bcov": 50.7,
+   "branches": 142
+  },
+  "surface_mesh_feature_remove.h": {
+   "lcov": 0.0,
+   "lines": 1,
+   "bcov": 0.0,
+   "branches": 2
+  },
+  "tri_mesh_planar_I.h": {
+   "lcov": 0.0,
+   "lines": 25,
+   "bcov": 0.0,
+   "branches": 18
+  },
+  "tri_mesh_I.h": {
+   "lcov": 92.16,
+   "lines": 102,
+   "bcov": 77.63,
+   "branches": 76
+  },
+  "atom_vec_molecular.cpp": {
+   "lcov": 0.0,
+   "lines": 713,
+   "bcov": 0.0,
+   "branches": 244
+  },
+  "pair.cpp": {
+   "lcov": 6.28,
+   "lines": 1019,
+   "bcov": 3.02,
+   "branches": 496
+  },
+  "fix_external.cpp": {
+   "lcov": 0.0,
+   "lines": 94,
+   "bcov": 0.0,
+   "branches": 54
+  },
+  "math_extra.cpp": {
+   "lcov": 41.71,
+   "lines": 350,
+   "bcov": 33.09,
+   "branches": 136
+  },
+  "min.cpp": {
+   "lcov": 7.02,
+   "lines": 399,
+   "bcov": 0.0,
+   "branches": 308
+  },
+  "region_prism.cpp": {
+   "lcov": 41.33,
+   "lines": 271,
+   "bcov": 22.32,
+   "branches": 224
+  },
+  "fix_rigid.cpp": {
+   "lcov": 0.0,
+   "lines": 1495,
+   "bcov": 0.0,
+   "branches": 1102
+  },
+  "fix_rigid.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "dump_mesh_hdf5.cpp": {
+   "lcov": 79.83,
+   "lines": 362,
+   "bcov": 46.82,
+   "branches": 660
+  },
+  "dump_hdf5.h": {
+   "lcov": 81.25,
+   "lines": 16,
+   "bcov": 44.54,
+   "branches": 238
+  },
+  "dump_mesh_hdf5.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 8
+  },
+  "atom_map.cpp": {
+   "lcov": 75.36,
+   "lines": 138,
+   "bcov": 62.82,
+   "branches": 78
+  },
+  "compute_pe_atom.cpp": {
+   "lcov": 0.0,
+   "lines": 90,
+   "bcov": 0.0,
+   "branches": 86
+  },
+  "compute_pe_atom.h": {
+   "lcov": 50.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_mesh_surface.cpp": {
+   "lcov": 48.57,
+   "lines": 628,
+   "bcov": 32.62,
+   "branches": 420
+  },
+  "mesh_module_liquidtransfer.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 6
+  },
+  "compute_slice.cpp": {
+   "lcov": 0.0,
+   "lines": 188,
+   "bcov": 0.0,
+   "branches": 234
+  },
+  "atom_vec_line.cpp": {
+   "lcov": 0.0,
+   "lines": 790,
+   "bcov": 0.0,
+   "branches": 304
+  },
+  "fix_nve.cpp": {
+   "lcov": 19.32,
+   "lines": 88,
+   "bcov": 5.88,
+   "branches": 34
+  },
+  "fix_nve.h": {
+   "lcov": 50.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "region_mesh_tet.cpp": {
+   "lcov": 65.29,
+   "lines": 412,
+   "bcov": 48.39,
+   "branches": 310
+  },
+  "tri_mesh.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 100.0,
+   "branches": 4
+  },
+  "region_mesh_tet_I.h": {
+   "lcov": 0.0,
+   "lines": 26,
+   "bcov": 0.0,
+   "branches": 8
+  },
+  "region_plane.cpp": {
+   "lcov": 0.0,
+   "lines": 41,
+   "bcov": 0.0,
+   "branches": 30
+  },
+  "input_mesh_tri.cpp": {
+   "lcov": 20.3,
+   "lines": 527,
+   "bcov": 16.44,
+   "branches": 450
+  },
+  "neigh_respa.cpp": {
+   "lcov": 0.0,
+   "lines": 566,
+   "bcov": 0.0,
+   "branches": 418
+  },
+  "fix_heat_gran.cpp": {
+   "lcov": 79.51,
+   "lines": 122,
+   "bcov": 45.65,
+   "branches": 46
+  },
+  "fix_heat_gran.h": {
+   "lcov": 100.0,
+   "lines": 1
+  },
+  "fix_spring_rg.cpp": {
+   "lcov": 0.0,
+   "lines": 61,
+   "bcov": 0.0,
+   "branches": 24
+  },
+  "mesh_module.cpp": {
+   "lcov": 100.0,
+   "lines": 6
+  },
+  "compute_ke.cpp": {
+   "lcov": 93.02,
+   "lines": 43,
+   "bcov": 56.67,
+   "branches": 30
+  },
+  "fix_contact_property_atom_wall.cpp": {
+   "lcov": 87.5,
+   "lines": 48,
+   "bcov": 57.89,
+   "branches": 38
+  },
+  "primitive_wall_definitions.h": {
+   "lcov": 85.19,
+   "lines": 27,
+   "bcov": 76.92,
+   "branches": 13
+  },
+  "primitive_wall.h": {
+   "lcov": 85.19,
+   "lines": 27,
+   "bcov": 56.25,
+   "branches": 16
+  },
+  "granular_wall.cpp": {
+   "lcov": 100.0,
+   "lines": 5,
+   "bcov": 75.0,
+   "branches": 4
+  },
+  "granular_wall.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 4.93,
+   "branches": 284
+  },
+  "dihedral.cpp": {
+   "lcov": 0.0,
+   "lines": 149,
+   "bcov": 0.0,
+   "branches": 82
+  },
+  "dihedral.h": {
+   "lcov": 0.0,
+   "lines": 1
+  },
+  "lammps.cpp": {
+   "lcov": 59.57,
+   "lines": 470,
+   "bcov": 37.14,
+   "branches": 412
+  },
+  "pair_gran_base.h": {
+   "lcov": 87.61,
+   "lines": 339,
+   "bcov": 3.53,
+   "branches": 1924
+  },
+  "contact_interface.h": {
+   "lcov": 100.0,
+   "lines": 26,
+   "bcov": 4.81,
+   "branches": 1704
+  },
+  "fix_wall_gran_base.h": {
+   "lcov": 87.16,
+   "lines": 148
+  },
+  "contact_models.h": {
+   "lcov": 84.15,
+   "lines": 183,
+   "bcov": 17.58,
+   "branches": 182
+  },
+  "normal_model_edinburgh.h": {
+   "lcov": 82.11,
+   "lines": 218,
+   "bcov": 51.18,
+   "branches": 170
+  },
+  "tangential_model_no_history.h": {
+   "lcov": 66.0,
+   "lines": 100,
+   "bcov": 7.91,
+   "branches": 278
+  },
+  "normal_model_edinburgh_stiffness.h": {
+   "lcov": 81.25,
+   "lines": 208,
+   "bcov": 54.11,
+   "branches": 146
+  },
+  "cohesion_model_generalized_adhesion.h": {
+   "lcov": 84.21,
+   "lines": 76,
+   "bcov": 46.88,
+   "branches": 64
+  },
+  "cohesion_model_sjkr.h": {
+   "lcov": 71.15,
+   "lines": 52,
+   "bcov": 8.87,
+   "branches": 124
+  },
+  "cohesion_model_sjkr2.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 4
+  },
+  "normal_model_hooke_hysteresis.h": {
+   "lcov": 68.87,
+   "lines": 106,
+   "bcov": 23.58,
+   "branches": 106
+  },
+  "cohesion_model_dmt.h": {
+   "lcov": 76.47,
+   "lines": 34,
+   "bcov": 22.22,
+   "branches": 54
+  },
+  "settings.h": {
+   "lcov": 67.37,
+   "lines": 95,
+   "bcov": 38.75,
+   "branches": 80
+  },
+  "os_specific.h": {
+   "lcov": 100.0,
+   "lines": 6
+  },
+  "rolling_model_base.h": {
+   "lcov": 91.67,
+   "lines": 12
+  },
+  "tangential_model_base.h": {
+   "lcov": 27.27,
+   "lines": 11
+  },
+  "cohesion_model_base.h": {
+   "lcov": 84.62,
+   "lines": 13,
+   "bcov": 15.79,
+   "branches": 76
+  },
+  "normal_model_base.h": {
+   "lcov": 25.0,
+   "lines": 12
+  },
+  "surface_model_default.h": {
+   "lcov": 86.14,
+   "lines": 101,
+   "bcov": 20.83,
+   "branches": 96
+  },
+  "surface_model_base.h": {
+   "lcov": 100.0,
+   "lines": 3
+  },
+  "contact_model_base.h": {
+   "lcov": 100.0,
+   "lines": 5,
+   "bcov": 17.78,
+   "branches": 90
+  },
+  "tangential_model_history.h": {
+   "lcov": 75.28,
+   "lines": 356,
+   "bcov": 60.36,
+   "branches": 280
+  },
+  "normal_model_hertz_stiffness.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 6
+  },
+  "tangential_model_luding_tn.h": {
+   "lcov": 92.45,
+   "lines": 106,
+   "bcov": 54.69,
+   "branches": 64
+  },
+  "rolling_model_cdt.h": {
+   "lcov": 42.65,
+   "lines": 68,
+   "bcov": 27.5,
+   "branches": 40
+  },
+  "normal_model_hooke_stiffness.h": {
+   "lcov": 0.55,
+   "lines": 183,
+   "bcov": 50.0,
+   "branches": 4
+  },
+  "rolling_model_epsd.h": {
+   "lcov": 74.31,
+   "lines": 109,
+   "bcov": 44.83,
+   "branches": 58
+  },
+  "rolling_model_epsd2.h": {
+   "lcov": 97.73,
+   "lines": 88,
+   "bcov": 63.64,
+   "branches": 44
+  },
+  "rolling_model_epsd3.h": {
+   "lcov": 77.48,
+   "lines": 111,
+   "bcov": 48.28,
+   "branches": 58
+  },
+  "rolling_model_luding.h": {
+   "lcov": 87.17,
+   "lines": 187,
+   "bcov": 59.52,
+   "branches": 84
+  },
+  "normal_model_thornton_ning.h": {
+   "lcov": 70.42,
+   "lines": 240,
+   "bcov": 49.33,
+   "branches": 150
+  },
+  "surface_model_multicontact.h": {
+   "lcov": 90.1,
+   "lines": 101,
+   "bcov": 59.09,
+   "branches": 66
+  },
+  "surface_model_superquadric.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 6
+  },
+  "domain_wedge_dummy.h": {
+   "lcov": 0.0,
+   "lines": 1,
+   "bcov": 0.0,
+   "branches": 2
+  },
+  "restitution_mapping.h": {
+   "lcov": 95.92,
+   "lines": 98,
+   "bcov": 77.08,
+   "branches": 96
+  },
+  "cohesion_model_jkr.h": {
+   "lcov": 87.89,
+   "lines": 190,
+   "bcov": 69.3,
+   "branches": 114
+  },
+  "normal_model_luding.h": {
+   "lcov": 87.92,
+   "lines": 149,
+   "bcov": 58.59,
+   "branches": 128
+  },
+  "cohesion_model_washino_capillary_viscous.h": {
+   "lcov": 59.67,
+   "lines": 300,
+   "bcov": 27.33,
+   "branches": 172
+  },
+  "cohesion_model_easo_capillary_viscous.h": {
+   "lcov": 96.53,
+   "lines": 346,
+   "bcov": 73.03,
+   "branches": 178
+  },
+  "normal_model_hertz.h": {
+   "lcov": 62.67,
+   "lines": 217,
+   "bcov": 46.24,
+   "branches": 186
+  },
+  "granular_styles.h": {
+   "lcov": 100.0,
+   "lines": 21,
+   "bcov": 50.0,
+   "branches": 572
+  },
+  "atom_vec_charge.h": {
+   "lcov": 50.0,
+   "lines": 2,
+   "bcov": 12.5,
+   "branches": 8
+  },
+  "atom_vec_ellipsoid.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 12.5,
+   "branches": 8
+  },
+  "atom_vec_full.h": {
+   "lcov": 50.0,
+   "lines": 2,
+   "bcov": 12.5,
+   "branches": 8
+  },
+  "atom_vec_hybrid.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 12.5,
+   "branches": 8
+  },
+  "atom_vec_line.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 12.5,
+   "branches": 8
+  },
+  "atom_vec_molecular.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 12.5,
+   "branches": 8
+  },
+  "atom_vec_sph.h": {
+   "lcov": 50.0,
+   "lines": 2,
+   "bcov": 37.5,
+   "branches": 8
+  },
+  "atom_vec_sph_var.h": {
+   "lcov": 50.0,
+   "lines": 2,
+   "bcov": 12.5,
+   "branches": 8
+  },
+  "atom_vec_tri.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 0.0,
+   "branches": 8
+  },
+  "normal_model_hooke.h": {
+   "lcov": 57.26,
+   "lines": 241,
+   "bcov": 32.24,
+   "branches": 214
+  },
+  "fix_adapt.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_adapt_liggghts.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_addforce.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_ave_atom.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_ave_correlate.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_ave_euler.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 4
+  },
+  "fix_ave_histo.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_ave_spatial.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_ave_time.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_aveforce.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_balance.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_box_relax.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_buoyancy.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_cfd_coupling.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_cfd_coupling_convection.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 4
+  },
+  "fix_cfd_coupling_convection_impl.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_cfd_coupling_convection_species.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_cfd_coupling_force.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 4
+  },
+  "fix_cfd_coupling_force_implicit.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_check_timestep_gran.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_check_timestep_sph.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_contact_property_atom_wall.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_continuum_weighted.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_deform.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_deform_check.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_diam_max.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_drag.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_efield.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_enforce2d.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_external.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_fiber_spring_simple.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_freeze.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_gravity.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_heat_gran_conduction.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 4
+  },
+  "fix_insert_pack.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_insert_rate_region.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_insert_stream.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_lb_coupling_onetoone.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_lineforce.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_massflow_mesh.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_massflow_mesh_sieve.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_momentum.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_move.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_multisphere_break.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_nve_asphere.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_nve_asphere_noforce.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_nve_limit.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_nve_line.h": {
+   "lcov": 50.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_nve_noforce.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_nve_sph.h": {
+   "lcov": 50.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_nve_sph_stationary.h": {
+   "lcov": 50.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_nve_sphere.h": {
+   "lcov": 50.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_nve_sphere_omp.h": {
+   "lcov": 50.0,
+   "lines": 2,
+   "bcov": 25.0,
+   "branches": 4
+  },
+  "fix_package_omp.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_planeforce.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_print.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_property_atom.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_property_atom_region_tracer.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 4
+  },
+  "fix_property_atom_tracer.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_property_atom_tracer_stream.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_read_restart.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_region_variable.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_respa.h": {
+   "lcov": 50.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_scalar_transport_equation.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_setforce.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_sph_density_continuity.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_sph_density_corr.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_sph_density_drift_corr.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_sph_density_summation.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_sph_integrity.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_sph_mixidx.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_sph_pressure.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_sph_velgrad.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_spring.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_spring_rg.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_spring_self.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_store.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_store_force.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_store_lastforce.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_store_state.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_template_multiplespheres.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_template_multisphere.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_viscous.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_wall_region.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_wall_region_sph.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_wall_sph.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_wall_sph_general.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_wall_sph_general_gap.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_atom_molecule.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_bond_local.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_centro_atom.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_cluster_atom.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_cna_atom.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_com.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_com_molecule.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_contact_atom.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_contact_atom_gran.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_coord_atom.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_displace_atom.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_erotate.h": {
+   "lcov": 50.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_erotate_asphere.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_erotate_multisphere.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_erotate_sphere.h": {
+   "lcov": 50.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_erotate_sphere_atom.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_group_group.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_gyration.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_gyration_molecule.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_inertia_molecule.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_ke.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_ke_atom.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_ke_multisphere.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_msd.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_msd_molecule.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_nparticles_tracer_region.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_pair_gran_local.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 4
+  },
+  "compute_pressure.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_property_atom.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_property_local.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_property_molecule.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_rdf.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_reduce.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 4
+  },
+  "compute_reduce_region.h": {
+   "lcov": 50.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_rigid.h": {
+   "lcov": 100.0,
+   "lines": 3,
+   "bcov": 50.0,
+   "branches": 6
+  },
+  "compute_slice.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_stress_atom.h": {
+   "lcov": 50.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "compute_temp.h": {
+   "lcov": 50.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "dump_custom.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 75.0,
+   "branches": 4
+  },
+  "dump_decomposition_vtk.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 25.0,
+   "branches": 4
+  },
+  "dump_euler_vtk.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 25.0,
+   "branches": 4
+  },
+  "dump_image.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 25.0,
+   "branches": 4
+  },
+  "dump_local.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 75.0,
+   "branches": 4
+  },
+  "dump_mesh_stl.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 25.0,
+   "branches": 8
+  },
+  "dump_movie.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 0.0,
+   "branches": 4
+  },
+  "dump_xyz.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 0.0,
+   "branches": 4
+  },
+  "balance.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "change_box.h": {
+   "lcov": 50.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "coarsegraining.h": {
+   "lcov": 100.0,
+   "lines": 3,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "create_atoms.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "create_box.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "delete_bonds.h": {
+   "lcov": 50.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "displace_atoms.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "info.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "minimize.h": {
+   "lcov": 50.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "neigh_modify.h": {
+   "lcov": 100.0,
+   "lines": 5,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "read_data.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "read_dump.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "read_restart.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "replicate.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "rotate.h": {
+   "lcov": 50.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "run.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "run_time.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "set.h": {
+   "lcov": 100.0,
+   "lines": 3,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "velocity.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "write_data.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "write_dump.h": {
+   "lcov": 100.0,
+   "lines": 1,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "write_restart.h": {
+   "lcov": 100.0,
+   "lines": 2,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "accelerator_cuda.h": {
+   "lcov": 20.0,
+   "lines": 10,
+   "bcov": 0.0,
+   "branches": 8
+  },
+  "velocity_predictor.h": {
+   "lcov": 100.0,
+   "lines": 49,
+   "bcov": 100.0,
+   "branches": 10
+  },
+  "fix_adapt_liggghts.cpp": {
+   "lcov": 72.76,
+   "lines": 279,
+   "bcov": 52.35,
+   "branches": 298
+  },
+  "fix_cfd_coupling_force_implicit.cpp": {
+   "lcov": 0.0,
+   "lines": 184,
+   "bcov": 0.0,
+   "branches": 72
+  },
+  "compute_erotate_sphere_atom.cpp": {
+   "lcov": 0.0,
+   "lines": 46,
+   "bcov": 0.0,
+   "branches": 26
+  },
+  "pair_gran_sync.cpp": {
+   "lcov": 95.0,
+   "lines": 20,
+   "bcov": 90.0,
+   "branches": 10
+  },
+  "dump_movie.cpp": {
+   "lcov": 0.0,
+   "lines": 38,
+   "bcov": 0.0,
+   "branches": 30
+  },
+  "output.cpp": {
+   "lcov": 45.62,
+   "lines": 491,
+   "bcov": 34.57,
+   "branches": 324
+  },
+  "fix_heat_gran_conduction.cpp": {
+   "lcov": 42.95,
+   "lines": 305,
+   "bcov": 26.83,
+   "branches": 164
+  },
+  "compute_gyration_molecule.cpp": {
+   "lcov": 0.0,
+   "lines": 172,
+   "bcov": 0.0,
+   "branches": 94
+  },
+  "fix_cfd_coupling_convection_species.cpp": {
+   "lcov": 0.0,
+   "lines": 133,
+   "bcov": 0.0,
+   "branches": 50
+  },
+  "fix_mesh.cpp": {
+   "lcov": 54.92,
+   "lines": 437,
+   "bcov": 23.97,
+   "branches": 559
+  },
+  "fix_base_liggghts.h": {
+   "lcov": 100.0,
+   "lines": 6,
+   "bcov": 50.0,
+   "branches": 6
+  },
+  "string_liggghts.h": {
+   "lcov": 51.16,
+   "lines": 129,
+   "bcov": 0.0,
+   "branches": 4
+  },
+  "cfd_datacoupling_file.cpp": {
+   "lcov": 0.0,
+   "lines": 194,
+   "bcov": 0.0,
+   "branches": 248
+  },
+  "cfd_datacoupling.h": {
+   "lcov": 0.0,
+   "lines": 1
+  },
+  "main.cpp": {
+   "lcov": 100.0,
+   "lines": 16,
+   "bcov": 50.0,
+   "branches": 2
+  },
+  "fix_wall_region.cpp": {
+   "lcov": 0.0,
+   "lines": 197,
+   "bcov": 0.0,
+   "branches": 84
+  },
+  "region_wedge.cpp": {
+   "lcov": 0.0,
+   "lines": 290,
+   "bcov": 0.0,
+   "branches": 242
+  },
+  "fix_sph_integrity.cpp": {
+   "lcov": 0.0,
+   "lines": 148,
+   "bcov": 0.0,
+   "branches": 52
+  },
+  "fix_store_lastforce.cpp": {
+   "lcov": 98.25,
+   "lines": 114,
+   "bcov": 73.61,
+   "branches": 72
+  },
+  "special.cpp": {
+   "lcov": 0.0,
+   "lines": 518,
+   "bcov": 0.0,
+   "branches": 348
+  },
+  "integrate.cpp": {
+   "lcov": 89.61,
+   "lines": 77,
+   "bcov": 42.86,
+   "branches": 84
+  },
+  "reader.cpp": {
+   "lcov": 0.0,
+   "lines": 20,
+   "bcov": 0.0,
+   "branches": 14
+  },
+  "fix_read_restart.cpp": {
+   "lcov": 0.0,
+   "lines": 44,
+   "bcov": 0.0,
+   "branches": 20
+  },
+  "compute_pair_gran_local.cpp": {
+   "lcov": 53.28,
+   "lines": 458,
+   "bcov": 48.29,
+   "branches": 292
+  },
+  "compute_bond_local.cpp": {
+   "lcov": 0.0,
+   "lines": 105,
+   "bcov": 0.0,
+   "branches": 68
+  },
+  "fix_viscous.cpp": {
+   "lcov": 0.0,
+   "lines": 62,
+   "bcov": 0.0,
+   "branches": 44
+  },
+  "fix_ave_spatial.cpp": {
+   "lcov": 0.0,
+   "lines": 903,
+   "bcov": 0.0,
+   "branches": 952
+  },
+  "fix_template_multisphere.cpp": {
+   "lcov": 61.65,
+   "lines": 339,
+   "bcov": 38.94,
+   "branches": 208
+  },
+  "probability_distribution.h": {
+   "lcov": 38.16,
+   "lines": 76,
+   "bcov": 13.89,
+   "branches": 36
+  },
+  "compute_temp.cpp": {
+   "lcov": 36.62,
+   "lines": 71,
+   "bcov": 18.75,
+   "branches": 32
+  },
+  "fix_cfd_coupling_convection.cpp": {
+   "lcov": 0.0,
+   "lines": 89,
+   "bcov": 0.0,
+   "branches": 42
+  },
+  "input.cpp": {
+   "lcov": 61.71,
+   "lines": 969,
+   "bcov": 51.25,
+   "branches": 841
+  },
+  "update.h": {
+   "lcov": 100.0,
+   "lines": 2
+  },
+  "improper.h": {
+   "lcov": 0.0,
+   "lines": 1
+  },
+  "bond.h": {
+   "lcov": 0.0,
+   "lines": 1
+  },
+  "container_base.cpp": {
+   "lcov": 53.78,
+   "lines": 119,
+   "bcov": 54.35,
+   "branches": 46
+  },
+  "fix_print.cpp": {
+   "lcov": 91.43,
+   "lines": 70,
+   "bcov": 47.96,
+   "branches": 98
+  },
+  "atom_vec_hybrid.cpp": {
+   "lcov": 0.0,
+   "lines": 609,
+   "bcov": 0.0,
+   "branches": 268
+  },
+  "procmap.cpp": {
+   "lcov": 20.0,
+   "lines": 475,
+   "bcov": 14.33,
+   "branches": 328
+  },
+  "procmap.h": {
+   "lcov": 100.0,
+   "lines": 1
+  },
+  "compute_ke_multisphere.cpp": {
+   "lcov": 0.0,
+   "lines": 17,
+   "bcov": 0.0,
+   "branches": 6
+  },
+  "fix_nve_line.cpp": {
+   "lcov": 0.0,
+   "lines": 80,
+   "bcov": 0.0,
+   "branches": 30
+  },
+  "compute_rdf.cpp": {
+   "lcov": 0.0,
+   "lines": 172,
+   "bcov": 0.0,
+   "branches": 142
+  },
+  "neigh_dummy.h": {
+   "lcov": 0.0,
+   "lines": 8
+  },
+  "bond.cpp": {
+   "lcov": 0.0,
+   "lines": 123,
+   "bcov": 0.0,
+   "branches": 66
+  },
+  "fix_store.cpp": {
+   "lcov": 0.0,
+   "lines": 69,
+   "bcov": 0.0,
+   "branches": 50
+  },
+  "region_union.cpp": {
+   "lcov": 50.0,
+   "lines": 122,
+   "bcov": 44.34,
+   "branches": 106
+  },
+  "min_linesearch.cpp": {
+   "lcov": 3.18,
+   "lines": 377,
+   "bcov": 0.0,
+   "branches": 314
+  },
+  "fix_property_atom_region_tracer.cpp": {
+   "lcov": 0.0,
+   "lines": 125,
+   "bcov": 0.0,
+   "branches": 104
+  },
+  "universe.cpp": {
+   "lcov": 41.35,
+   "lines": 104,
+   "bcov": 15.15,
+   "branches": 66
+  },
+  "pair_hybrid.cpp": {
+   "lcov": 31.75,
+   "lines": 359,
+   "bcov": 21.84,
+   "branches": 348
+  },
+  "pair_sph.cpp": {
+   "lcov": 56.79,
+   "lines": 162,
+   "bcov": 36.96,
+   "branches": 92
+  },
+  "fix_property_atom_tracer.cpp": {
+   "lcov": 0.0,
+   "lines": 114,
+   "bcov": 0.0,
+   "branches": 94
+  },
+  "fix_property_atom_tracer_stream.cpp": {
+   "lcov": 0.0,
+   "lines": 145,
+   "bcov": 0.0,
+   "branches": 160
+  },
+  "cfd_regionmodel_none.cpp": {
+   "lcov": 0.0,
+   "lines": 46,
+   "bcov": 0.0,
+   "branches": 4
+  },
+  "cfd_regionmodel.h": {
+   "lcov": 0.0,
+   "lines": 4
+  },
+  "fix_nve_sph_stationary.cpp": {
+   "lcov": 86.36,
+   "lines": 44,
+   "bcov": 60.0,
+   "branches": 20
+  },
+  "neigh_request.cpp": {
+   "lcov": 64.42,
+   "lines": 104,
+   "bcov": 25.47,
+   "branches": 106
+  },
+  "neigh_bond.cpp": {
+   "lcov": 0.0,
+   "lines": 398,
+   "bcov": 0.0,
+   "branches": 222
+  },
+  "fix_momentum.cpp": {
+   "lcov": 0.0,
+   "lines": 70,
+   "bcov": 0.0,
+   "branches": 70
+  },
+  "fix_ave_time.cpp": {
+   "lcov": 40.46,
+   "lines": 571,
+   "bcov": 22.4,
+   "branches": 732
+  },
+  "fix_nve_asphere.cpp": {
+   "lcov": 0.0,
+   "lines": 160,
+   "bcov": 0.0,
+   "branches": 56
+  },
+  "compute_com.cpp": {
+   "lcov": 0.0,
+   "lines": 18,
+   "bcov": 0.0,
+   "branches": 6
+  },
+  "atom_vec_sph.cpp": {
+   "lcov": 12.36,
+   "lines": 623,
+   "bcov": 11.88,
+   "branches": 160
+  },
+  "fix_buoyancy.cpp": {
+   "lcov": 0.0,
+   "lines": 133,
+   "bcov": 0.0,
+   "branches": 102
+  },
+  "fix_nve_sph.cpp": {
+   "lcov": 65.14,
+   "lines": 109,
+   "bcov": 41.67,
+   "branches": 36
+  },
+  "compute_stress_atom.cpp": {
+   "lcov": 0.0,
+   "lines": 199,
+   "bcov": 0.0,
+   "branches": 138
+  },
+  "dump_custom.cpp": {
+   "lcov": 33.6,
+   "lines": 1732,
+   "bcov": 28.0,
+   "branches": 1175
+  },
+  "random.cpp": {
+   "lcov": 47.83,
+   "lines": 23,
+   "bcov": 50.0,
+   "branches": 18
+  },
+  "region_cylinder.cpp": {
+   "lcov": 38.91,
+   "lines": 257,
+   "bcov": 22.26,
+   "branches": 274
+  },
+  "pair_hybrid_overlay.cpp": {
+   "lcov": 0.0,
+   "lines": 54,
+   "bcov": 0.0,
+   "branches": 50
+  },
+  "fix_aveforce.cpp": {
+   "lcov": 0.0,
+   "lines": 174,
+   "bcov": 0.0,
+   "branches": 138
+  },
+  "pair_soft.cpp": {
+   "lcov": 0.0,
+   "lines": 164,
+   "bcov": 0.0,
+   "branches": 84
+  },
+  "dihedral_hybrid.cpp": {
+   "lcov": 0.0,
+   "lines": 181,
+   "bcov": 0.0,
+   "branches": 156
+  },
+  "random_park.cpp": {
+   "lcov": 69.64,
+   "lines": 56,
+   "bcov": 50.0,
+   "branches": 22
+  },
+  "compute_contact_atom.cpp": {
+   "lcov": 78.22,
+   "lines": 101,
+   "bcov": 43.75,
+   "branches": 48
+  },
+  "fix_drag.cpp": {
+   "lcov": 0.0,
+   "lines": 75,
+   "bcov": 0.0,
+   "branches": 42
+  },
+  "timer.cpp": {
+   "lcov": 100.0,
+   "lines": 31,
+   "bcov": 100.0,
+   "branches": 6
+  },
+  "bond_hybrid.cpp": {
+   "lcov": 0.0,
+   "lines": 182,
+   "bcov": 0.0,
+   "branches": 156
+  },
+  "random_mars.cpp": {
+   "lcov": 0.0,
+   "lines": 62,
+   "bcov": 0.0,
+   "branches": 26
+  },
+  "fix_sph_velgrad.cpp": {
+   "lcov": 0.0,
+   "lines": 188,
+   "bcov": 0.0,
+   "branches": 56
+  },
+  "fix_fiber_spring_simple.cpp": {
+   "lcov": 0.0,
+   "lines": 172,
+   "bcov": 0.0,
+   "branches": 78
+  },
+  "fix_move.cpp": {
+   "lcov": 35.58,
+   "lines": 624,
+   "bcov": 14.91,
+   "branches": 550
+  },
+  "particleToInsert_multisphere.cpp": {
+   "lcov": 57.14,
+   "lines": 105,
+   "bcov": 43.48,
+   "branches": 46
+  },
+  "fix_insert_pack.cpp": {
+   "lcov": 69.11,
+   "lines": 246,
+   "bcov": 41.74,
+   "branches": 230
+  },
+  "fix_nve_sphere_omp.cpp": {
+   "lcov": 0.0,
+   "lines": 59,
+   "bcov": 0.0,
+   "branches": 24
+  },
+  "fix_diam_max.cpp": {
+   "lcov": 0.0,
+   "lines": 24,
+   "bcov": 0.0,
+   "branches": 12
+  },
+  "minimize.cpp": {
+   "lcov": 0.0,
+   "lines": 29,
+   "bcov": 0.0,
+   "branches": 10
+  },
+  "finish.h": {
+   "lcov": 100.0,
+   "lines": 1
+  },
+  "fix_insert_stream.cpp": {
+   "lcov": 69.98,
+   "lines": 483,
+   "bcov": 42.94,
+   "branches": 354
+  },
+  "neigh_half_nsq.cpp": {
+   "lcov": 0.0,
+   "lines": 184,
+   "bcov": 0.0,
+   "branches": 118
+  },
+  "library_cfd_coupling.cpp": {
+   "lcov": 0.0,
+   "lines": 59,
+   "bcov": 0.0,
+   "branches": 12
+  },
+  "properties.cpp": {
+   "lcov": 23.4,
+   "lines": 141,
+   "bcov": 14.84,
+   "branches": 128
+  },
+  "mesh_module_stress.cpp": {
+   "lcov": 81.43,
+   "lines": 237,
+   "bcov": 53.72,
+   "branches": 188
+  },
+  "fix_wall_sph.cpp": {
+   "lcov": 55.86,
+   "lines": 111,
+   "bcov": 20.18,
+   "branches": 114
+  },
+  "create_box.cpp": {
+   "lcov": 71.88,
+   "lines": 64,
+   "bcov": 46.67,
+   "branches": 30
+  },
+  "compute_reduce_region.cpp": {
+   "lcov": 0.0,
+   "lines": 143,
+   "bcov": 0.0,
+   "branches": 136
+  },
+  "input_multisphere.cpp": {
+   "lcov": 79.31,
+   "lines": 58,
+   "bcov": 53.57,
+   "branches": 56
+  },
+  "custom_value_tracker.cpp": {
+   "lcov": 57.63,
+   "lines": 59,
+   "bcov": 31.25,
+   "branches": 16
+  },
+  "fix_base_liggghts.cpp": {
+   "lcov": 31.18,
+   "lines": 93,
+   "bcov": 14.81,
+   "branches": 54
+  },
+  "fix_property_atom.cpp": {
+   "lcov": 71.15,
+   "lines": 253,
+   "bcov": 60.2,
+   "branches": 196
+  },
+  "tet_mesh.cpp": {
+   "lcov": 0.0,
+   "lines": 4
+  },
+  "volume_mesh_I.h": {
+   "lcov": 0.0,
+   "lines": 154,
+   "bcov": 0.0,
+   "branches": 94
+  },
+  "volume_mesh.h": {
+   "lcov": 0.0,
+   "lines": 10,
+   "bcov": 0.0,
+   "branches": 22
+  },
+  "tet_mesh_I.h": {
+   "lcov": 0.0,
+   "lines": 81,
+   "bcov": 0.0,
+   "branches": 22
+  },
+  "compute_erotate_sphere.cpp": {
+   "lcov": 87.18,
+   "lines": 39,
+   "bcov": 42.86,
+   "branches": 28
+  },
+  "pair_gran_proxy.cpp": {
+   "lcov": 66.15,
+   "lines": 65,
+   "bcov": 27.78,
+   "branches": 54
+  },
+  "fix_wall_sph_general_gap.cpp": {
+   "lcov": 0.0,
+   "lines": 431,
+   "bcov": 0.0,
+   "branches": 188
+  },
+  "fix_property_global.cpp": {
+   "lcov": 79.15,
+   "lines": 355,
+   "bcov": 57.65,
+   "branches": 366
+  },
+  "dump_local.cpp": {
+   "lcov": 62.2,
+   "lines": 291,
+   "bcov": 42.13,
+   "branches": 216
+  },
+  "sort_buffer.h": {
+   "lcov": 100.0,
+   "lines": 4,
+   "bcov": 50.0,
+   "branches": 6
+  },
+  "region_block.cpp": {
+   "lcov": 82.11,
+   "lines": 123,
+   "bcov": 57.56,
+   "branches": 172
+  },
+  "angle.cpp": {
+   "lcov": 0.0,
+   "lines": 134,
+   "bcov": 0.0,
+   "branches": 74
+  },
+  "pair_sph_artvisc_tenscorr.cpp": {
+   "lcov": 80.44,
+   "lines": 225,
+   "bcov": 48.53,
+   "branches": 68
+  },
+  "comm.cpp": {
+   "lcov": 53.36,
+   "lines": 1100,
+   "bcov": 39.39,
+   "branches": 782
+  },
+  "comm_I.h": {
+   "lcov": 10.69,
+   "lines": 131,
+   "bcov": 15.38,
+   "branches": 130
+  },
+  "compute_pressure.cpp": {
+   "lcov": 0.0,
+   "lines": 159,
+   "bcov": 0.0,
+   "branches": 166
+  },
+  "fix_store_state.cpp": {
+   "lcov": 18.51,
+   "lines": 767,
+   "bcov": 14.71,
+   "branches": 578
+  },
+  "fix_spring_self.cpp": {
+   "lcov": 0.0,
+   "lines": 141,
+   "bcov": 0.0,
+   "branches": 60
+  },
+  "fix.cpp": {
+   "lcov": 55.17,
+   "lines": 116,
+   "bcov": 26.19,
+   "branches": 42
+  },
+  "fix_nve_sphere.cpp": {
+   "lcov": 83.61,
+   "lines": 183,
+   "bcov": 53.28,
+   "branches": 122
+  },
+  "variable.cpp": {
+   "lcov": 36.94,
+   "lines": 2466,
+   "bcov": 29.13,
+   "branches": 2293
+  },
+  "run.cpp": {
+   "lcov": 44.83,
+   "lines": 145,
+   "bcov": 25.96,
+   "branches": 104
+  },
+  "read_data.cpp": {
+   "lcov": 22.93,
+   "lines": 977,
+   "bcov": 16.77,
+   "branches": 960
+  },
+  "fix_particledistribution_discrete.cpp": {
+   "lcov": 65.14,
+   "lines": 350,
+   "bcov": 54.43,
+   "branches": 316
+  },
+  "particleToInsert.h": {
+   "lcov": 100.0,
+   "lines": 2
+  },
+  "fix_neighlist_mesh.cpp": {
+   "lcov": 86.78,
+   "lines": 242,
+   "bcov": 71.02,
+   "branches": 176
+  },
+  "fix_lineforce.cpp": {
+   "lcov": 0.0,
+   "lines": 48,
+   "bcov": 0.0,
+   "branches": 22
+  },
+  "fix_box_relax.cpp": {
+   "lcov": 0.0,
+   "lines": 587,
+   "bcov": 0.0,
+   "branches": 668
+  },
+  "fix_template_multiplespheres.cpp": {
+   "lcov": 52.75,
+   "lines": 345,
+   "bcov": 32.54,
+   "branches": 338
+  },
+  "fix_insert_rate_region.cpp": {
+   "lcov": 63.27,
+   "lines": 49,
+   "bcov": 30.77,
+   "branches": 52
+  },
+  "fix_ave_correlate.cpp": {
+   "lcov": 0.0,
+   "lines": 363,
+   "bcov": 0.0,
+   "branches": 484
+  },
+  "fix_sph_density_summation.cpp": {
+   "lcov": 0.0,
+   "lines": 111,
+   "bcov": 0.0,
+   "branches": 40
+  },
+  "neigh_list.cpp": {
+   "lcov": 54.05,
+   "lines": 185,
+   "bcov": 48.53,
+   "branches": 68
+  },
+  "fix_continuum_weighted.cpp": {
+   "lcov": 0.0,
+   "lines": 482,
+   "bcov": 0.0,
+   "branches": 252
+  },
+  "mesh_module_liquidtransfer.cpp": {
+   "lcov": 0.0,
+   "lines": 76,
+   "bcov": 0.0,
+   "branches": 42
+  },
+  "displace_atoms.cpp": {
+   "lcov": 36.84,
+   "lines": 171,
+   "bcov": 31.82,
+   "branches": 110
+  },
+  "dump_mesh_stl.cpp": {
+   "lcov": 54.65,
+   "lines": 172,
+   "bcov": 32.58,
+   "branches": 132
+  },
+  "velocity.cpp": {
+   "lcov": 35.36,
+   "lines": 444,
+   "bcov": 26.8,
+   "branches": 444
+  },
+  "read_restart.cpp": {
+   "lcov": 58.78,
+   "lines": 490,
+   "bcov": 53.22,
+   "branches": 357
+  },
+  "fix_wall_gran.cpp": {
+   "lcov": 59.78,
+   "lines": 716,
+   "bcov": 39.94,
+   "branches": 616
+  },
+  "compute_atom_molecule.cpp": {
+   "lcov": 0.0,
+   "lines": 199,
+   "bcov": 0.0,
+   "branches": 192
+  },
+  "neigh_gran.cpp": {
+   "lcov": 65.99,
+   "lines": 735,
+   "bcov": 45.4,
+   "branches": 348
+  },
+  "neigh_multi_level_grid.h": {
+   "lcov": 92.0,
+   "lines": 25,
+   "bcov": 46.15,
+   "branches": 26
+  },
+  "neigh_half_bin.cpp": {
+   "lcov": 18.59,
+   "lines": 269,
+   "bcov": 8.62,
+   "branches": 174
+  },
+  "improper_hybrid.cpp": {
+   "lcov": 0.0,
+   "lines": 174,
+   "bcov": 0.0,
+   "branches": 146
+  },
+  "atom_vec_sph_var.cpp": {
+   "lcov": 0.0,
+   "lines": 727,
+   "bcov": 0.0,
+   "branches": 216
+  },
+  "fix_sph_density_continuity.cpp": {
+   "lcov": 77.89,
+   "lines": 95,
+   "bcov": 21.05,
+   "branches": 38
+  },
+  "thermo.cpp": {
+   "lcov": 51.84,
+   "lines": 814,
+   "bcov": 44.55,
+   "branches": 642
+  },
+  "region.cpp": {
+   "lcov": 46.18,
+   "lines": 353,
+   "bcov": 32.58,
+   "branches": 264
+  },
+  "change_box.cpp": {
+   "lcov": 0.0,
+   "lines": 291,
+   "bcov": 0.0,
+   "branches": 227
+  },
+  "fix_region_variable.cpp": {
+   "lcov": 0.0,
+   "lines": 76,
+   "bcov": 0.0,
+   "branches": 68
+  },
+  "delete_bonds.cpp": {
+   "lcov": 0.0,
+   "lines": 353,
+   "bcov": 0.0,
+   "branches": 486
+  },
+  "atom.cpp": {
+   "lcov": 54.75,
+   "lines": 979,
+   "bcov": 33.76,
+   "branches": 628
+  },
+  "fix_massflow_mesh_sieve.cpp": {
+   "lcov": 0.0,
+   "lines": 140,
+   "bcov": 0.0,
+   "branches": 86
+  },
+  "write_restart.cpp": {
+   "lcov": 63.0,
+   "lines": 300,
+   "bcov": 36.26,
+   "branches": 182
+  },
+  "fix_deform.cpp": {
+   "lcov": 0.0,
+   "lines": 639,
+   "bcov": 0.0,
+   "branches": 663
+  },
+  "image.cpp": {
+   "lcov": 0.0,
+   "lines": 782,
+   "bcov": 0.0,
+   "branches": 479
+  },
+  "image.h": {
+   "lcov": 0.0,
+   "lines": 4,
+   "bcov": 0.0,
+   "branches": 36
+  },
+  "fix_multisphere.cpp": {
+   "lcov": 66.58,
+   "lines": 745,
+   "bcov": 32.8,
+   "branches": 378
+  },
+  "fix_planeforce.cpp": {
+   "lcov": 0.0,
+   "lines": 48,
+   "bcov": 0.0,
+   "branches": 22
+  },
+  "compute_property_molecule.cpp": {
+   "lcov": 0.0,
+   "lines": 84,
+   "bcov": 0.0,
+   "branches": 70
+  },
+  "fix_efield.cpp": {
+   "lcov": 0.0,
+   "lines": 116,
+   "bcov": 0.0,
+   "branches": 102
+  },
+  "contact_models.cpp": {
+   "lcov": 82.0,
+   "lines": 100,
+   "bcov": 50.81,
+   "branches": 124
+  },
+  "compute_erotate.cpp": {
+   "lcov": 0.0,
+   "lines": 65,
+   "bcov": 0.0,
+   "branches": 48
+  },
+  "fix_setforce.cpp": {
+   "lcov": 0.0,
+   "lines": 191,
+   "bcov": 0.0,
+   "branches": 188
+  },
+  "atom_vec.cpp": {
+   "lcov": 8.85,
+   "lines": 192,
+   "bcov": 2.44,
+   "branches": 82
+  },
+  "neigh_stencil.cpp": {
+   "lcov": 10.15,
+   "lines": 325,
+   "bcov": 13.95,
+   "branches": 172
+  },
+  "property_registry.cpp": {
+   "lcov": 80.84,
+   "lines": 214,
+   "bcov": 61.8,
+   "branches": 178
+  },
+  "fix_wall_sph_general.cpp": {
+   "lcov": 0.0,
+   "lines": 190,
+   "bcov": 0.0,
+   "branches": 86
+  },
+  "compute_inertia_molecule.cpp": {
+   "lcov": 0.0,
+   "lines": 110,
+   "bcov": 0.0,
+   "branches": 62
+  },
+  "atom_vec_full.cpp": {
+   "lcov": 0.0,
+   "lines": 734,
+   "bcov": 0.0,
+   "branches": 246
+  },
+  "fix_cfd_coupling.cpp": {
+   "lcov": 0.0,
+   "lines": 94,
+   "bcov": 0.0,
+   "branches": 84
+  },
+  "cfd_datacoupling_file.h": {
+   "lcov": 0.0,
+   "lines": 1,
+   "bcov": 0.0,
+   "branches": 6
+  },
+  "cfd_datacoupling_mpi.h": {
+   "lcov": 0.0,
+   "lines": 108,
+   "bcov": 0.0,
+   "branches": 4
+  },
+  "bond_harmonic.cpp": {
+   "lcov": 0.0,
+   "lines": 92,
+   "bcov": 0.0,
+   "branches": 36
+  },
+  "fix_nve_asphere_noforce.cpp": {
+   "lcov": 0.0,
+   "lines": 46,
+   "bcov": 0.0,
+   "branches": 20
+  },
+  "create_atoms.cpp": {
+   "lcov": 60.07,
+   "lines": 273,
+   "bcov": 46.79,
+   "branches": 280
+  },
+  "improper.cpp": {
+   "lcov": 0.0,
+   "lines": 149,
+   "bcov": 0.0,
+   "branches": 82
+  },
+  "modify.cpp": {
+   "lcov": 74.43,
+   "lines": 743,
+   "bcov": 63.48,
+   "branches": 564
+  },
+  "fix_nve_asphere_base.h": {
+   "lcov": 0.0,
+   "lines": 1
+  },
+  "fix_addforce.cpp": {
+   "lcov": 0.0,
+   "lines": 204,
+   "bcov": 0.0,
+   "branches": 182
+  },
+  "region_intersect.cpp": {
+   "lcov": 53.08,
+   "lines": 130,
+   "bcov": 42.86,
+   "branches": 112
+  },
+  "info.cpp": {
+   "lcov": 0.0,
+   "lines": 347,
+   "bcov": 0.0,
+   "branches": 288
+  },
+  "write_dump.cpp": {
+   "lcov": 0.0,
+   "lines": 22,
+   "bcov": 0.0,
+   "branches": 14
+  },
+  "citeme.cpp": {
+   "lcov": 100.0,
+   "lines": 24,
+   "bcov": 62.5,
+   "branches": 8
+  },
+  "fix_respa.cpp": {
+   "lcov": 0.0,
+   "lines": 39,
+   "bcov": 0.0,
+   "branches": 12
+  },
+  "memory.cpp": {
+   "lcov": 44.44,
+   "lines": 27,
+   "bcov": 58.33,
+   "branches": 12
+  },
+  "dump_image.cpp": {
+   "lcov": 0.0,
+   "lines": 711,
+   "bcov": 0.0,
+   "branches": 766
+  },
+  "tri_mesh.cpp": {
+   "lcov": 100.0,
+   "lines": 4
+  },
+  "fix_massflow_mesh.cpp": {
+   "lcov": 0.0,
+   "lines": 362,
+   "bcov": 0.0,
+   "branches": 301
+  },
+  "mesh_mover_rotation.cpp": {
+   "lcov": 17.67,
+   "lines": 232,
+   "bcov": 11.84,
+   "branches": 76
+  },
+  "mesh_mover_rotation.h": {
+   "lcov": 12.5,
+   "lines": 8,
+   "bcov": 12.5,
+   "branches": 24
+  },
+  "cfd_datacoupling.cpp": {
+   "lcov": 0.0,
+   "lines": 134,
+   "bcov": 0.0,
+   "branches": 106
+  },
+  "fix_ave_euler.cpp": {
+   "lcov": 0.0,
+   "lines": 311,
+   "bcov": 0.0,
+   "branches": 214
+  },
+  "pair_gran.cpp": {
+   "lcov": 58.49,
+   "lines": 477,
+   "bcov": 52.94,
+   "branches": 238
+  },
+  "fix_move_mesh.cpp": {
+   "lcov": 63.83,
+   "lines": 141,
+   "bcov": 40.48,
+   "branches": 84
+  },
+  "region_sphere.cpp": {
+   "lcov": 43.37,
+   "lines": 83,
+   "bcov": 25.0,
+   "branches": 48
+  },
+  "atom_vec_sphere_w.cpp": {
+   "lcov": 0.0,
+   "lines": 4
+  },
+  "fix_store_force.cpp": {
+   "lcov": 0.0,
+   "lines": 61,
+   "bcov": 0.0,
+   "branches": 20
+  },
+  "math_extra_liggghts_nonspherical.cpp": {
+   "lcov": 0.0,
+   "lines": 185,
+   "bcov": 0.0,
+   "branches": 54
+  },
+  "math_extra_liggghts_nonspherical.h": {
+   "lcov": 0.0,
+   "lines": 38
+  },
+  "fix_template_sphere.cpp": {
+   "lcov": 54.98,
+   "lines": 291,
+   "bcov": 29.73,
+   "branches": 222
+  },
+  "compute_erotate_multisphere.cpp": {
+   "lcov": 0.0,
+   "lines": 11,
+   "bcov": 0.0,
+   "branches": 2
+  },
+  "fix_cfd_coupling_convection_impl.cpp": {
+   "lcov": 0.0,
+   "lines": 145,
+   "bcov": 0.0,
+   "branches": 76
+  },
+  "error.cpp": {
+   "lcov": 51.35,
+   "lines": 148,
+   "bcov": 33.54,
+   "branches": 164
+  },
+  "error_special.h": {
+   "lcov": 100.0,
+   "lines": 49,
+   "bcov": 52.63,
+   "branches": 76
+  },
+  "fix_check_timestep_gran.cpp": {
+   "lcov": 77.23,
+   "lines": 202,
+   "bcov": 48.37,
+   "branches": 184
+  },
+  "compute_rigid.cpp": {
+   "lcov": 0.0,
+   "lines": 107,
+   "bcov": 0.0,
+   "branches": 104
+  },
+  "atom_vec_tri.cpp": {
+   "lcov": 0.0,
+   "lines": 1190,
+   "bcov": 0.0,
+   "branches": 328
+  },
+  "compute_cna_atom.cpp": {
+   "lcov": 0.0,
+   "lines": 196,
+   "bcov": 0.0,
+   "branches": 128
+  },
+  "fix_sph_density_drift_corr.cpp": {
+   "lcov": 0.0,
+   "lines": 69,
+   "bcov": 0.0,
+   "branches": 60
+  },
+  "fix_spring.cpp": {
+   "lcov": 0.0,
+   "lines": 201,
+   "bcov": 0.0,
+   "branches": 132
+  },
+  "read_dump.cpp": {
+   "lcov": 0.0,
+   "lines": 707,
+   "bcov": 0.0,
+   "branches": 486
+  },
+  "reader_native.h": {
+   "lcov": 0.0,
+   "lines": 1,
+   "bcov": 0.0,
+   "branches": 4
+  },
+  "reader_xyz.h": {
+   "lcov": 0.0,
+   "lines": 1,
+   "bcov": 0.0,
+   "branches": 4
+  },
+  "compute_com_molecule.cpp": {
+   "lcov": 0.0,
+   "lines": 83,
+   "bcov": 0.0,
+   "branches": 46
+  },
+  "fix_nve_asphere_base.cpp": {
+   "lcov": 0.0,
+   "lines": 369,
+   "bcov": 0.0,
+   "branches": 148
+  },
+  "compute_cluster_atom.cpp": {
+   "lcov": 0.0,
+   "lines": 105,
+   "bcov": 0.0,
+   "branches": 50
+  },
+  "set.cpp": {
+   "lcov": 32.16,
+   "lines": 827,
+   "bcov": 26.27,
+   "branches": 830
+  },
+  "dump.cpp": {
+   "lcov": 66.0,
+   "lines": 350,
+   "bcov": 50.8,
+   "branches": 250
+  },
+  "neigh_multi_level_grid.cpp": {
+   "lcov": 98.46,
+   "lines": 260,
+   "bcov": 68.15,
+   "branches": 248
+  },
+  "fix_multisphere_break.cpp": {
+   "lcov": 0.0,
+   "lines": 206,
+   "bcov": 0.0,
+   "branches": 168
+  },
+  "coarsegraining.cpp": {
+   "lcov": 88.46,
+   "lines": 26,
+   "bcov": 65.38,
+   "branches": 26
+  },
+  "pair_line_lj.cpp": {
+   "lcov": 0.0,
+   "lines": 280,
+   "bcov": 0.0,
+   "branches": 90
+  },
+  "fix_freeze.cpp": {
+   "lcov": 73.13,
+   "lines": 67,
+   "bcov": 43.75,
+   "branches": 32
+  },
+  "fix_wall_region_sph.cpp": {
+   "lcov": 72.44,
+   "lines": 127,
+   "bcov": 31.25,
+   "branches": 32
+  },
+  "cfd_datacoupling_mpi.cpp": {
+   "lcov": 0.0,
+   "lines": 80,
+   "bcov": 0.0,
+   "branches": 52
+  },
+  "dump_euler_vtk.cpp": {
+   "lcov": 0.0,
+   "lines": 100,
+   "bcov": 0.0,
+   "branches": 36
+  },
+  "compute_reduce.cpp": {
+   "lcov": 49.32,
+   "lines": 438,
+   "bcov": 33.92,
+   "branches": 510
+  },
+  "atom_vec_charge.cpp": {
+   "lcov": 0.0,
+   "lines": 473,
+   "bcov": 0.0,
+   "branches": 160
+  },
+  "balance.cpp": {
+   "lcov": 95.37,
+   "lines": 735,
+   "bcov": 72.46,
+   "branches": 926
+  },
+  "fix_package_omp.cpp": {
+   "lcov": 8.0,
+   "lines": 75,
+   "bcov": 1.85,
+   "branches": 108
+  },
+  "respa.cpp": {
+   "lcov": 0.0,
+   "lines": 415,
+   "bcov": 0.0,
+   "branches": 600
+  },
+  "fix_sph_density_corr.cpp": {
+   "lcov": 36.15,
+   "lines": 213,
+   "bcov": 18.97,
+   "branches": 58
+  },
+  "fix_wall_sph_general_base.cpp": {
+   "lcov": 0.0,
+   "lines": 258,
+   "bcov": 0.0,
+   "branches": 120
+  },
+  "compute_centro_atom.cpp": {
+   "lcov": 0.0,
+   "lines": 181,
+   "bcov": 0.0,
+   "branches": 92
+  },
+  "compute_gyration.cpp": {
+   "lcov": 0.0,
+   "lines": 53,
+   "bcov": 0.0,
+   "branches": 16
+  },
+  "write_data.cpp": {
+   "lcov": 33.79,
+   "lines": 367,
+   "bcov": 26.67,
+   "branches": 210
+  },
+  "compute_contact_atom_gran.cpp": {
+   "lcov": 0.0,
+   "lines": 99,
+   "bcov": 0.0,
+   "branches": 54
+  },
+  "min_cg.cpp": {
+   "lcov": 1.12,
+   "lines": 89,
+   "bcov": 0.0,
+   "branches": 80
+  },
+  "compute_group_group.cpp": {
+   "lcov": 0.0,
+   "lines": 215,
+   "bcov": 0.0,
+   "branches": 146
+  },
+  "fix_sph_mixidx.cpp": {
+   "lcov": 0.0,
+   "lines": 126,
+   "bcov": 0.0,
+   "branches": 76
+  },
+  "thr_granular.cpp": {
+   "lcov": 2.38,
+   "lines": 84,
+   "bcov": 0.0,
+   "branches": 86
+  },
+  "compute_displace_atom.cpp": {
+   "lcov": 0.0,
+   "lines": 90,
+   "bcov": 0.0,
+   "branches": 34
+  },
+  "run_time.cpp": {
+   "lcov": 0.0,
+   "lines": 16,
+   "bcov": 0.0,
+   "branches": 12
+  },
+  "particleToInsert.cpp": {
+   "lcov": 51.46,
+   "lines": 103,
+   "bcov": 36.0,
+   "branches": 50
+  },
+  "compute_msd.cpp": {
+   "lcov": 0.0,
+   "lines": 111,
+   "bcov": 0.0,
+   "branches": 66
+  },
+  "dump_hdf5.cpp": {
+   "lcov": 88.32,
+   "lines": 659,
+   "bcov": 52.6,
+   "branches": 1076
+  },
+  "modify_liggghts.cpp": {
+   "lcov": 49.74,
+   "lines": 193,
+   "bcov": 40.65,
+   "branches": 214
+  },
+  "verlet.cpp": {
+   "lcov": 59.19,
+   "lines": 223,
+   "bcov": 44.74,
+   "branches": 190
+  },
+  "replicate.cpp": {
+   "lcov": 83.7,
+   "lines": 92,
+   "bcov": 58.06,
+   "branches": 62
+  },
+  "compute_property_atom.cpp": {
+   "lcov": 19.65,
+   "lines": 860,
+   "bcov": 16.83,
+   "branches": 612
+  },
+  "lattice.cpp": {
+   "lcov": 65.68,
+   "lines": 338,
+   "bcov": 38.1,
+   "branches": 210
+  },
+  "reader_native.cpp": {
+   "lcov": 0.0,
+   "lines": 169,
+   "bcov": 0.0,
+   "branches": 135
+  }
+ }
+}

@@ -1,0 +1,4 @@
+cmd: run_matrix.sh maketree/src/lmp_hdf5mpi (make hdf5mpi of HEAD) vs builds/rel/liggghts (CMake release-native-hdf5), cpus 16-23
+SKIP thornton_ning_tangential_history_cohesion_off_rolling_off: reference run failed (rc=1; ERROR on proc 0: model thornton_ning: non-finite normal force at step 1739 (particle-particle contact of atom 30): the s)
+model matrix: 110 combinations compared, 1 skipped (332 dump files per binary)
+MATRIX: PASS (byte-identical)

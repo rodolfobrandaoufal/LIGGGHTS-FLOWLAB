@@ -1,0 +1,17 @@
+FAIL F-02 empty rank rc=1
+FAIL F-03 no-keyword error path rc=124
+FAIL F-03 np1 |vx1|=none
+FAIL F-03 np2 |vx1|=none
+FAIL V-13 every 10 check yes
+FAIL V-13 every 10 check no
+FAIL V-14 np1 |P|/(M vrms)=none
+FAIL V-14 np2 |P|/(M vrms)=none
+FAIL V-14 np4 |P|/(M vrms)=none
+FAIL V-14 np8 |P|/(M vrms)=none
+FAIL F-07 warning count=0 rc=1
+FAIL F-07 rayleigh_error rc=1
+FAIL F-07 growth energy KE=none
+SKIP superquadric tests (no sq binary)
+work dir: /tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/negctl/adapt
+13 failed check(s)
+rc=13

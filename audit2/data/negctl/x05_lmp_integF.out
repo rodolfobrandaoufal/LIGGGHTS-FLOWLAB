@@ -1,0 +1,38 @@
+== 1. bounce: reset at separation == every-step neighbor build
+RUN FAILED: -var ERROR: Unknown argument or wrong keyword order: 'history_clear_legacy' (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/1a65bfbd-9e1c-4ff4-86d2-4b846b033fd6/scratchpad/integF_tree/src/pair_gran_base.h:140)
+RUN FAILED: -var ERROR: Unknown argument or wrong keyword order: 'history_clear_legacy' (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/1a65bfbd-9e1c-4ff4-86d2-4b846b033fd6/scratchpad/integF_tree/src/pair_gran_base.h:140)
+RUN FAILED: -var ERROR: Unknown argument or wrong keyword order: 'history_clear_legacy' (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/1a65bfbd-9e1c-4ff4-86d2-4b846b033fd6/scratchpad/integF_tree/src/pair_gran_base.h:140)
+RUN FAILED: -var ERROR: Unknown argument or wrong keyword order: 'history_clear_legacy' (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/1a65bfbd-9e1c-4ff4-86d2-4b846b033fd6/scratchpad/integF_tree/src/pair_gran_base.h:140)
+== 2. liquid bridges (easo/capillary/viscous) are not reset inside the contact distance
+RUN FAILED: -var ERROR: Unknown argument or wrong keyword order: 'history_clear_legacy' (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/1a65bfbd-9e1c-4ff4-86d2-4b846b033fd6/scratchpad/integF_tree/src/pair_gran_base.h:140)
+== 3. newton on / 2 ranks
+FAIL newton on np 1: MISMATCH step 4145: contact/atom sets differ ([(5, 6)] vs [(1, 2), (5, 6)])
+FAIL newton off np 2: MISMATCH step 4145: contact/atom sets differ ([(5, 6)] vs [(1, 2), (5, 6)])
+FAIL newton on np 2: MISMATCH step 4145: contact/atom sets differ ([(5, 6)] vs [(1, 2), (5, 6)])
+== 4. OpenMP
+SKIP OpenMP checks (set X05_OMP_BIN)
+== 5. multicontact: expanded radius of atom i
+FAIL hertz_multicontact [newton off, sort 1, np 1]            flips=4 max_rel_dF=0.29 max_rel_dT=0.197 steps_without_contact=0 first_diff_step=933
+FAIL hertz_multicontact [newton off, sort 1, np 2]            flips=3 max_rel_dF=0.401 max_rel_dT=0.217 steps_without_contact=0 first_diff_step=2
+FAIL multicontact pairflip did not run
+FAIL multicontact: legacy keywords differ from the reference binary
+PASS multicontact: default differs from the reference (radius fix active)
+== 6. restart bed (tests/restart/in.chain)
+INFO candidate: uninterrupted run N+M vs 'run N; write_restart; run M': contacts 391, force dev 1.32e-01, history dev 2.73e-02, position dev/d 7.56e-04, velocity dev 4.73e-02 
+RUN FAILED -var
+RUN FAILED -var
+Traceback (most recent call last):
+  File "/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/tests/x05/../newton/compare.py", line 66, in <module>
+    sys.exit(main())
+  File "/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/tests/x05/../newton/compare.py", line 38, in main
+    pa, pb = load_pairs(os.path.join(A, pf)), load_pairs(os.path.join(B, pf))
+  File "/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/tests/x05/../newton/compare.py", line 15, in load_pairs
+    with open(path) as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/negctl/x05/rs_ref/pairs.txt'
+INFO candidate vs reference (default bed, effect of X-05): 
+== 7. kernel model matrix with the legacy keyword == reference (and list of changed combinations)
+matrix: 0 combinations, legacy keyword bitwise == reference for all that passed, 0 changed by the default, 111 skipped (reference failed)
+MATRIX_LEGACY: PASS
+(changed / unchanged combinations: /tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/negctl/x05/matrix.txt)
+X05: FAIL
+rc=1

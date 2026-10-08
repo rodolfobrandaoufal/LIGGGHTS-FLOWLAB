@@ -1,0 +1,69 @@
+== job 112529782656
+warning Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+failure Process completed with exit code 8.
+== job 112529783004
+warning Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+failure Process completed with exit code 8.
+37561087224 modernization/audit-phaseH 085445fe in_progress None 2026-10-07T02:15:10Z 2026-10-07T02:15:20Z
+37539816317 modernization/audit-phaseH d64d0d86 completed failure 2026-10-06T22:19:11Z 2026-10-06T23:00:30Z
+37529688593 modernization/audit-phaseH 10641043 completed failure 2026-10-06T20:52:08Z 2026-10-06T21:34:14Z
+release-hdf5 (ENABLE_SQ=OFF) failure
+    Set up job success
+    Run actions/checkout@v4 success
+    Install dependencies success
+    Configure (preset release-hdf5) success
+    Build success
+    Test (regression, physics, mpi) failure
+    Upload test work directories on failure success
+    Post Run actions/checkout@v4 success
+    Complete job success
+debug-asan (ASan + UBSan, test subset) success
+    Set up job success
+    Run actions/checkout@v4 success
+    Install dependencies success
+    Configure (preset debug-asan) success
+    Build success
+    Test (subset under the sanitizers) success
+    Upload test work directories on failure skipped
+    Post Run actions/checkout@v4 success
+    Complete job success
+release-hdf5 (ENABLE_SQ=ON) failure
+    Set up job success
+    Run actions/checkout@v4 success
+    Install dependencies success
+    Configure (preset release-hdf5) success
+    Build success
+    Test (regression, physics, mpi) failure
+    Upload test work directories on failure success
+    Post Run actions/checkout@v4 success
+    Complete job success
+debug-asan (ASan + UBSan, test subset) success
+    Set up job success
+    Run actions/checkout@v4 success
+    Install dependencies success
+    Configure (preset debug-asan) success
+    Build success
+    Test (subset under the sanitizers) success
+    Upload test work directories on failure skipped
+    Post Run actions/checkout@v4 success
+    Complete job success
+release-hdf5 (ENABLE_SQ=OFF) failure
+    Set up job success
+    Run actions/checkout@v4 success
+    Install dependencies success
+    Configure (preset release-hdf5) success
+    Build success
+    Test (regression, physics, mpi) failure
+    Upload test work directories on failure success
+    Post Run actions/checkout@v4 success
+    Complete job success
+release-hdf5 (ENABLE_SQ=ON) failure
+    Set up job success
+    Run actions/checkout@v4 success
+    Install dependencies success
+    Configure (preset release-hdf5) success
+    Build success
+    Test (regression, physics, mpi) failure
+    Upload test work directories on failure success
+    Post Run actions/checkout@v4 success
+    Complete job success

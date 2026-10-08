@@ -1,0 +1,58 @@
+{
+ "cross_edge_primitive_np1": {
+  "rc": 0,
+  "max_abs_total_fz_over_mg": 1.4912983477855522e-11,
+  "x_end": 0.006982777173951232,
+  "y_end": 0.002,
+  "n": 30000
+ },
+ "cross_edge_mesh_np1": {
+  "rc": 0,
+  "max_abs_total_fz_over_mg": 1.4912983477855522e-11,
+  "x_end": 0.006982777173951232,
+  "y_end": 0.002,
+  "n": 30000
+ },
+ "cross_edge_mesh_np2": {
+  "rc": 0,
+  "max_abs_total_fz_over_mg": 1.4912983477855522e-11,
+  "x_end": 0.006982777173951232,
+  "y_end": 0.002,
+  "n": 30000
+ },
+ "cross_edge_mesh_np4": {
+  "rc": 0,
+  "max_abs_total_fz_over_mg": 1.4912983477855522e-11,
+  "x_end": 0.006982777173951232,
+  "y_end": 0.002,
+  "n": 30000
+ },
+ "along_edge_primitive_np1": {
+  "rc": 0,
+  "max_abs_total_fz_over_mg": 1.4912983477855522e-11,
+  "x_end": 0.002594423340717678,
+  "y_end": 0.002594423340717678,
+  "n": 30000
+ },
+ "along_edge_mesh_np1": {
+  "rc": 0,
+  "max_abs_total_fz_over_mg": 1.4912983477855522e-11,
+  "x_end": 0.002594423340717678,
+  "y_end": 0.002594423340717678,
+  "n": 30000
+ },
+ "along_edge_mesh_np2": {
+  "rc": 0,
+  "max_abs_total_fz_over_mg": 1.4912983477855522e-11,
+  "x_end": 0.002594423340717678,
+  "y_end": 0.002594423340717678,
+  "n": 30000
+ },
+ "along_edge_mesh_np4": {
+  "rc": 0,
+  "max_abs_total_fz_over_mg": 1.4912983477855522e-11,
+  "x_end": 0.002594423340717678,
+  "y_end": 0.002594423340717678,
+  "n": 30000
+ }
+}

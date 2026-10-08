@@ -1,0 +1,158 @@
+{
+ "restart": {
+  "none_np1": {
+   "rc": [
+    0,
+    0,
+    0
+   ],
+   "warn": [
+    "WARNING: pair gran: in the previous run a pair touched again within one neighbor interval after separating; its contact history was reset at the separation (finding X-05), up to now it was kept until the next neighbor build, so results can differ from earlier versions. Use 'history_clear_legacy on' for the old behaviour (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/pair_gran_base.h:357)"
+   ],
+   "err": [],
+   "bitwise_identical": true,
+   "max_rel_diff_per_col": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "max_rel_diff_force": 0.0,
+   "max_rel_diff_pos": 0.0
+  },
+  "none_np4": {
+   "rc": [
+    0,
+    0,
+    0
+   ],
+   "warn": [
+    "WARNING: pair gran: in the previous run a pair touched again within one neighbor interval after separating; its contact history was reset at the separation (finding X-05), up to now it was kept until the next neighbor build, so results can differ from earlier versions. Use 'history_clear_legacy on' for the old behaviour (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/pair_gran_base.h:357)"
+   ],
+   "err": [],
+   "bitwise_identical": true,
+   "max_rel_diff_per_col": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "max_rel_diff_force": 0.0,
+   "max_rel_diff_pos": 0.0
+  },
+  "lastforce_np1": {
+   "rc": [
+    0,
+    0,
+    0
+   ],
+   "warn": [
+    "WARNING: pair gran: in the previous run a pair touched again within one neighbor interval after separating; its contact history was reset at the separation (finding X-05), up to now it was kept until the next neighbor build, so results can differ from earlier versions. Use 'history_clear_legacy on' for the old behaviour (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/pair_gran_base.h:357)"
+   ],
+   "err": [],
+   "bitwise_identical": true,
+   "max_rel_diff_per_col": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "max_rel_diff_force": 0.0,
+   "max_rel_diff_pos": 0.0
+  },
+  "lastforce_np4": {
+   "rc": [
+    0,
+    0,
+    0
+   ],
+   "warn": [
+    "WARNING: pair gran: in the previous run a pair touched again within one neighbor interval after separating; its contact history was reset at the separation (finding X-05), up to now it was kept until the next neighbor build, so results can differ from earlier versions. Use 'history_clear_legacy on' for the old behaviour (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/pair_gran_base.h:357)"
+   ],
+   "err": [],
+   "bitwise_identical": true,
+   "max_rel_diff_per_col": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "max_rel_diff_force": 0.0,
+   "max_rel_diff_pos": 0.0
+  }
+ },
+ "extreme": {
+  "dt_20x_rayleigh_no_check": {
+   "rc": 0,
+   "err": [],
+   "warn": [],
+   "last_thermo": {
+    "Step": 400.0,
+    "Atoms": 0.0,
+    "KinEng": 0.0,
+    "CPU": 0.13425807
+   }
+  },
+  "dt_20x_rayleigh_with_check": {
+   "rc": 1,
+   "err": [
+    "ERROR: Fix check/timestep/gran (id ts): time-step is 1588.244797 % of the rayleigh time and 486.320282 % of the hertz time at the start of the run (step 0), above the hard limit error_fraction = 100 %; the simulation is unstable. Reduce the time-step or use 'error_fraction none' to only warn (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/fix_check_timestep_gran.cpp:231)"
+   ],
+   "warn": [],
+   "last_thermo": null
+  },
+  "E_below_sanity": {
+   "rc": 1,
+   "err": [
+    "ERROR: youngsModulus >= 5e6 required for SI units (use command 'soft_particles yes' to override) (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/global_properties.cpp:372)"
+   ],
+   "warn": [],
+   "last_thermo": null
+  },
+  "very_stiff_E1e12": {
+   "rc": 0,
+   "err": [],
+   "warn": [
+    "WARNING: pair gran: in the previous run a pair touched again within one neighbor interval after separating; its contact history was reset at the separation (finding X-05), up to now it was kept until the next neighbor build, so results can differ from earlier versions. Use 'history_clear_legacy on' for the old behaviour (/tmp/claude-1000/-media-storage-LIGGGHTS-PUBLIC-v6/0010f84b-565a-43d6-8523-c6e56b72c1bf/scratchpad/audit2_work/clone/src/pair_gran_base.h:357)"
+   ],
+   "last_thermo": {
+    "Step": 200.0,
+    "Atoms": 25088.0,
+    "KinEng": 18.035354,
+    "CPU": 1.2345252
+   }
+  }
+ }
+}
