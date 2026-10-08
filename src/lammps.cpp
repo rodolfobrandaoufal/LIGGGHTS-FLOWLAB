@@ -728,6 +728,9 @@ void LAMMPS::destroy()
 
 void LAMMPS::help()
 {
+  // PF-08: no output with '-screen none'
+  if (!screen) return;
+
   fprintf(screen,
           "\nCommand line options:\n\n"
           "-echo none/screen/log/both  : echoing of input script (-e)\n"

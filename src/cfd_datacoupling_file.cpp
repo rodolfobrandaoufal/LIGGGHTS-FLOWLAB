@@ -243,7 +243,7 @@ void CfdDatacouplingFile::readVectorData(const char *name, double ** field)
     // get output path
     char *file = getFilePath(name,true);
 
-    fprintf(screen,"Fix couple/cfd/file: waiting for file: %s\n",file);
+    if (screen) fprintf(screen,"Fix couple/cfd/file: waiting for file: %s\n",file);
     struct stat st;
     while (stat(file,&st)) sleep(10);
 
@@ -277,7 +277,7 @@ void CfdDatacouplingFile::readScalarData(const char* name, double *field)
     // get output path
     char *file = getFilePath(name,true);
 
-    fprintf(screen,"Fix couple/cfd/file: waiting for file: %s\n",file);
+    if (screen) fprintf(screen,"Fix couple/cfd/file: waiting for file: %s\n",file);
     struct stat st;
     while (stat(file,&st)) sleep(10);
 
@@ -312,7 +312,7 @@ void CfdDatacouplingFile::readGlobalArrayData(const char *name, double ** field,
     // get output path
     char *file = getFilePath(name,true);
 
-    fprintf(screen,"Fix couple/cfd/file: waiting for file: %s\n",file);
+    if (screen) fprintf(screen,"Fix couple/cfd/file: waiting for file: %s\n",file);
     struct stat st;
     while (stat(file,&st)) sleep(10);
 
@@ -353,7 +353,7 @@ void CfdDatacouplingFile::readGlobalVectorData(const char* name, double *field, 
     // get output path
     char *file = getFilePath(name,true);
 
-    fprintf(screen,"Fix couple/cfd/file: waiting for file: %s\n",file);
+    if (screen) fprintf(screen,"Fix couple/cfd/file: waiting for file: %s\n",file);
     struct stat st;
     while (stat(file,&st)) sleep(10);
 
@@ -388,7 +388,7 @@ void CfdDatacouplingFile::writeVectorData(const char *name,  double ** field)
 
     if(!firstexec)
     {
-      fprintf(screen,"Fix couple/cfd/file: waiting for file: %s\n",file);
+      if (screen) fprintf(screen,"Fix couple/cfd/file: waiting for file: %s\n",file);
        struct stat st;
        while (stat(file,&st)) sleep(10);
     }
@@ -419,7 +419,7 @@ void CfdDatacouplingFile::writeScalarData(const char* name, double * field)
 
     if(!firstexec)
     {
-      fprintf(screen,"Fix couple/cfd/file: waiting for file: %s\n",file);
+      if (screen) fprintf(screen,"Fix couple/cfd/file: waiting for file: %s\n",file);
        struct stat st;
        while (stat(file,&st)) sleep(10);
     }
@@ -451,7 +451,7 @@ void CfdDatacouplingFile::writeGlobalVectorData(const char *name,  double *field
 
     if(!firstexec)
     {
-      fprintf(screen,"Fix couple/cfd/file: waiting for file: %s\n",file);
+      if (screen) fprintf(screen,"Fix couple/cfd/file: waiting for file: %s\n",file);
        struct stat st;
        while (stat(file,&st)) sleep(10);
     }
@@ -483,7 +483,7 @@ void CfdDatacouplingFile::writeGlobalArrayData(const char* name, double **field,
 
     if(!firstexec)
     {
-      fprintf(screen,"Fix couple/cfd/file: waiting for file: %s\n",file);
+      if (screen) fprintf(screen,"Fix couple/cfd/file: waiting for file: %s\n",file);
        struct stat st;
        while (stat(file,&st)) sleep(10);
     }

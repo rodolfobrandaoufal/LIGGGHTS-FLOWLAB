@@ -115,9 +115,9 @@ namespace ContactModels
 #endif
 
       if(sidata.is_wall) {
-        const double wr1 = sidata.wr1;
-        const double wr2 = sidata.wr2;
-        const double wr3 = sidata.wr3;
+        // R2-P01: spin relative to a rotating wall
+        double wr1, wr2, wr3;
+        wallRollingSpin(sidata, wr1, wr2, wr3);
 
         double r_inertia = 0.0; //pre-initialize to prevent compiler "warning"
 #ifdef SUPERQUADRIC_ACTIVE_FLAG
@@ -159,6 +159,12 @@ namespace ContactModels
           const double * const * const omega = atom->omega;
           double const* const normal = sidata.en;
           double crossOmegaI;
+          if (sidata.omega_wall) {
+            // R2-P01: torsion relative to a rotating wall
+            double w_rel[3];
+            wallRelativeOmega(sidata, omega[i], w_rel);
+            crossOmegaI = vectorDot3D(normal,w_rel);
+          } else
           crossOmegaI = vectorDot3D(normal,omega[i]);
           double omega_normal[3];
           vectorZeroize3D(omega_normal);

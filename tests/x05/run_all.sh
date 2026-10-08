@@ -43,7 +43,8 @@ W=${3:-$(mktemp -d)}
 for t in python3 taskset cmp; do command -v $t >/dev/null || { echo "SKIP: $t missing"; exit 77; }; done
 BIN=$(readlink -f "$BIN"); [ -n "$REF" ] && REF=$(readlink -f "$REF")
 OBIN=${X05_OMP_BIN:+$(readlink -f "$X05_OMP_BIN")}; OREF=${X05_OMP_REF:+$(readlink -f "$X05_OMP_REF")}
-CPUS=${X05_CPUS:-${LIGGGHTS_TEST_CPUS:-0-7}}
+. "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../lib/cpus.sh"
+CPUS=${X05_CPUS:-${LIGGGHTS_TEST_CPUS:-$(liggghts_cpus 0-7)}}
 MPI=${X05_MPI:-1}; command -v mpirun >/dev/null || MPI=0
 export OMP_NUM_THREADS=1 OMP_WAIT_POLICY=PASSIVE
 mkdir -p "$W"; W=$(readlink -f "$W"); rc=0

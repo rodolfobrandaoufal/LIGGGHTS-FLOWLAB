@@ -88,7 +88,7 @@ FixCfdCouplingForceImplicit::FixCfdCouplingForceImplicit(LAMMPS *lmp, int narg, 
             if(CNalpha_<0 || CNalpha_>1)
                 error->fix_error(FLERR,this,"incorrect choice for 'CrankNicholson': setting CNalpha_<0 or CNalpha_>1 is not appropriate");
 
-            fprintf(screen,"cfd_coupling_foce_implicit will use Crank-Nicholson scheme with %f\n", CNalpha_);
+            if (screen) fprintf(screen,"cfd_coupling_foce_implicit will use Crank-Nicholson scheme with %f\n", CNalpha_);
             iarg++;
             hasargs = true;
         }
@@ -100,7 +100,7 @@ FixCfdCouplingForceImplicit::FixCfdCouplingForceImplicit(LAMMPS *lmp, int narg, 
             useAM_ = true;
             CAddRhoFluid_        = atof(arg[iarg]);
             onePlusCAddRhoFluid_ = 1.0 + CAddRhoFluid_;
-            fprintf(screen,"cfd_coupling_force_implicit will consider added mass with CAddRhoFluid = %f\n",
+            if (screen) fprintf(screen,"cfd_coupling_force_implicit will consider added mass with CAddRhoFluid = %f\n",
                     CAddRhoFluid_);
             iarg++;
         }

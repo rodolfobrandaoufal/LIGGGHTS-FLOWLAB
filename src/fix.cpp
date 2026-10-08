@@ -69,7 +69,10 @@ Fix::Fix(LAMMPS *lmp, int narg, char **arg) :
     size_vector(0),
     size_array_rows(0),
     size_array_cols(0),
-    global_freq(0),
+    // F-32: was 0, and fixes that never set it (e.g. property/global) made
+    // thermo/variable references f_ID[i] divide by zero (SIGFPE); 1 = the
+    // global values are available on any step
+    global_freq(1),
     can_create_mesh_(false)
 {
   // fix ID, group, and style

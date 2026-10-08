@@ -12,7 +12,8 @@ REF=${2:-}; [ -n "$REF" ] && REF=$(readlink -f "$REF")
 HERE=$(cd "$(dirname "$0")" && pwd)
 ROOT=$(cd "$HERE/../.." && pwd)
 W=${3:-$(mktemp -d /tmp/balance_tests.XXXX)}; mkdir -p "$W"
-CPUS=${LIGGGHTS_TEST_CPUS:-0-15}
+. "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../lib/cpus.sh"
+CPUS=${LIGGGHTS_TEST_CPUS:-$(liggghts_cpus 0-15)}
 command -v mpirun >/dev/null 2>&1 || { echo "SKIP: mpirun not found"; exit 77; }
 [ -x "$BIN" ] || { echo "binary $BIN not executable"; exit 1; }
 MESHDIR=$ROOT/examples/LIGGGHTS/Tutorials_public/chute_wear_hpc/meshes

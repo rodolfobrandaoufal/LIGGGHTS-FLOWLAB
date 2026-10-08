@@ -766,7 +766,7 @@ void ReadData::atoms()
           for(int i = nlocal_old; i < nlocal; i++)
             if(atom->tag[i] <= tag_max_old)
             {
-                fprintf(screen,"for i= %d\n",i);
+                if (screen) fprintf(screen,"for i= %d\n",i);
                 error->one(FLERR,"Atom from data file uses atom tag that is already used by atom in the simulation");
             }
           atom->tag_extend();

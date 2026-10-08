@@ -1487,7 +1487,7 @@ double Variable::evaluate(char *str, Tree **tree)
 
           int flag = output->thermo->evaluate_keyword(word,&value1);
           if (flag) {
-            fprintf(screen, "word = %s\n", word);
+            if (screen) fprintf(screen, "word = %s\n", word);
             error->all(FLERR,"Invalid thermo keyword in variable formula");
           }
           if (tree) {

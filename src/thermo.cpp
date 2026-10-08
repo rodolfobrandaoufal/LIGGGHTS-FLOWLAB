@@ -79,6 +79,8 @@
 #include "math_const.h"
 #include "memory.h"
 #include "error.h"
+#include "fix_property_global.h"
+#include <algorithm>
 
 using namespace LAMMPS_NS;
 using namespace MathConst;
@@ -125,6 +127,8 @@ Thermo::Thermo(LAMMPS *lmp, int narg, char **arg) : Pointers(lmp)
   flushflag = 0;
 
   last_natoms = 0; 
+  timestep_warned_dt = 0.;
+  lost_drop_warned = 0;
 
   // set style and corresponding lineflag
   // custom style builds its own line of keywords
@@ -304,6 +308,7 @@ void Thermo::init()
   if (index_erot >= 0) erot = computes[index_erot];
 
   last_natoms = 0; 
+  lost_drop_warned = 0;
 }
 
 /* ---------------------------------------------------------------------- */
@@ -344,6 +349,8 @@ void Thermo::compute(int flag)
   natoms = lost_check();
   if (natoms == 0) normflag = 0;
   else normflag = normvalue;
+
+  check_timestep_default();
 
   // invoke Compute methods needed for thermo keywords
 
@@ -404,6 +411,65 @@ void Thermo::compute(int flag)
 }
 
 /* ----------------------------------------------------------------------
+   R2-P02: without 'fix check/timestep/gran', an unstable time-step went
+   unreported. At every thermo output (including step 0 of each run),
+   compare dt with the smallest Rayleigh time of the particles (same
+   estimate as fix check/timestep/gran) and warn when dt exceeds it, the
+   default hard limit of that fix. Warned once per time-step value. Needs
+   atom radius and density and the youngsModulus/poissonsRatio properties;
+   skipped otherwise.
+------------------------------------------------------------------------- */
+
+void Thermo::check_timestep_default()
+{
+  const double dt = update->dt;
+  if (dt == timestep_warned_dt) return;
+  if (!atom->radius_flag || !atom->density_flag) return;
+  if (modify->n_fixes_style("check/timestep/gran") > 0) return;
+
+  FixPropertyGlobal *Y = static_cast<FixPropertyGlobal*>(modify->find_fix_property(
+      "youngsModulus","property/global","peratomtype",0,0,"thermo",false));
+  FixPropertyGlobal *nu = static_cast<FixPropertyGlobal*>(modify->find_fix_property(
+      "poissonsRatio","property/global","peratomtype",0,0,"thermo",false));
+  if (!Y || !nu) return;
+
+  const double * const radius = atom->radius;
+  const double * const density = atom->density;
+  const int * const type = atom->type;
+  const int nlocal = atom->nlocal;
+  const int ntypes = std::min(Y->size_vector, nu->size_vector);
+
+  const double BIG = 1.0e20;
+  double tr_min = BIG;
+  for (int i = 0; i < nlocal; i++) {
+    const int t = type[i] - 1;
+    if (t < 0 || t >= ntypes) continue;
+    double rad = radius[i];
+#ifdef SUPERQUADRIC_ACTIVE_FLAG
+    if (atom->superquadric_flag)
+      rad = std::min(std::min(atom->shape[i][0],atom->shape[i][1]),atom->shape[i][2]);
+#endif
+    const double Yi = Y->compute_vector(t);
+    const double nui = nu->compute_vector(t);
+    if (Yi <= 0. || rad <= 0. || density[i] <= 0.) continue;
+    const double G = Yi/(2.*(nui+1.));
+    const double tr = MY_PI*rad*sqrt(density[i]/G)/(0.1631*nui+0.8766);
+    if (tr < tr_min) tr_min = tr;
+  }
+  double tr_all;
+  MPI_Allreduce(&tr_min,&tr_all,1,MPI_DOUBLE,MPI_MIN,world);
+  if (tr_all >= BIG || dt <= tr_all) return;
+
+  char str[400];
+  sprintf(str,"Time-step %g is %.0f %% of the smallest Rayleigh time (%g); the simulation is "
+          "likely unstable (particles can be lost through non-periodic boundaries without "
+          "notice). Typical values are below 20-30 %%; use 'fix check/timestep/gran' for "
+          "continuous checks",dt,100.*dt/tr_all,tr_all);
+  if (me == 0) error->warning(FLERR,str);
+  timestep_warned_dt = dt;
+}
+
+/* ----------------------------------------------------------------------
    check for lost atoms, return current number of atoms
 ------------------------------------------------------------------------- */
 
@@ -421,6 +487,22 @@ bigint Thermo::lost_check()
   bool lost = false;
   if(ntotal < last_natoms)
     lost = true;
+
+  // R2-P02: with the default 'lost ignore', atoms that leave through
+  // non-periodic boundaries are deleted silently, also when an unstable
+  // time-step blows the system up. Report once per run when more than 10 %
+  // of the atoms disappear between two thermo outputs.
+  if (lost && lostflag == IGNORE && !lost_drop_warned &&
+      static_cast<double>(last_natoms - ntotal) > 0.1*static_cast<double>(last_natoms)) {
+    char str[300];
+    sprintf(str,"Number of atoms dropped from " BIGINT_FORMAT " to " BIGINT_FORMAT
+            " since the last thermo output (step " BIGINT_FORMAT "); with 'thermo_modify lost ignore' "
+            "atoms leaving through non-periodic boundaries are deleted. Check the time-step "
+            "('fix check/timestep/gran') if this is not intended. Reported once per run",
+            last_natoms,ntotal,update->ntimestep);
+    if (me == 0) error->warning(FLERR,str,0);
+    lost_drop_warned = 1;
+  }
   last_natoms = ntotal; 
 
   if (!lost) 

@@ -7,7 +7,8 @@
 set -u
 here=$(cd "$(dirname "$0")" && pwd)
 NEW=$(readlink -f "$1"); REF=$(readlink -f "$2")
-W=${3:-$(mktemp -d)}; CPUS=${4:-${LIGGGHTS_TEST_CPUS:-0-7}}
+. "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../../lib/cpus.sh"
+W=${3:-$(mktemp -d)}; CPUS=${4:-${LIGGGHTS_TEST_CPUS:-$(liggghts_cpus 0-7)}}
 rm -rf "$W"; mkdir -p "$W"
 python3 "$here/gen_decks.py" "$W" > "$W/tags" || exit 2
 ncpu=$(taskset -c $CPUS nproc)

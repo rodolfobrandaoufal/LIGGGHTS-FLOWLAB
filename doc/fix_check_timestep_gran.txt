@@ -99,6 +99,13 @@ unstable settings, not a replacement for the warning fractions.
 Unknown keywords are now an error (earlier versions could loop
 endlessly on an unknown keyword).
 
+Without this fix, LIGGGHTS(R)-PUBLIC still compares the time-step with the
+smallest Rayleigh time of the particles at every thermo output (the same
+estimate as this fix, with youngsModulus and poissonsRatio from fix
+property/global) and warns, once per time-step value, when the
+time-step exceeds it (modernization branch, R2-P02). With this fix
+defined, that default check is not made.
+
 [Restart, fix_modify, output, run start/stop, minimize info:]
 
 No information about this fix is written to "binary restart

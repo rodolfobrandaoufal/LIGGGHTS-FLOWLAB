@@ -155,7 +155,7 @@ FixMultisphere::FixMultisphere(LAMMPS *lmp, int narg, char **arg) :
                 ms_error(FLERR,"not enough arguments for 'CAddRhoFluid'. You must specify the added mass coefficient AND the fluid density");
             CAdd_         = atof(arg[iarg+1]);
             fluidDensity_ = atof(arg[iarg+2]);
-            fprintf(screen,"cfd_coupling_force_ms_implicit will consider added mass with CAdd = %g, fluidDensity: %g\n",
+            if (screen) fprintf(screen,"cfd_coupling_force_ms_implicit will consider added mass with CAdd = %g, fluidDensity: %g\n",
                     CAdd_, fluidDensity_);
             iarg += 3;
             hasargs = true;

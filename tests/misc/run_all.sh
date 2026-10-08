@@ -30,6 +30,14 @@
 #     unpacks in rank order: three identical 8-rank runs give the same local
 #     atom order (unsorted dump); before, the arrival order of MPI_ANY_SOURCE
 #     messages made the order, and the results, change from run to run.
+#  8. F-32: thermo output of an element of a property/global matrix
+#     (f_ID[i][j]) works (was an integer division by zero, SIGFPE).
+#  9. PF-08: a mesh wall run with '-screen none' completes (was SIGSEGV in
+#     the STL reader).
+# 10. R2-P02: with a time-step 16x the Rayleigh time and no fix
+#     check/timestep/gran, one time-step warning at the start and one
+#     warning when the atoms are lost; none with a stable time-step; with
+#     fix check/timestep/gran the default time-step warning is not issued.
 # Usage: run_all.sh <bin> [ref_bin] [workdir]
 # Env:   MISC_CPUS (taskset list, default 14-27), MISC_SQ_BIN, MISC_SQ_REF,
 #        MISC_NP (max ranks, default 4)
@@ -40,7 +48,8 @@ BIN=${1:-}; REF=${2:-}; W=${3:-$(mktemp -d)}
 [ -n "$BIN" ] && [ -x "$BIN" ] || { echo "SKIP: binary '$BIN' not found"; exit 77; }
 for t in python3 taskset cmp; do command -v $t >/dev/null || { echo "SKIP: $t missing"; exit 77; }; done
 BIN=$(readlink -f "$BIN"); [ -n "$REF" ] && REF=$(readlink -f "$REF")
-CPUS=${MISC_CPUS:-${LIGGGHTS_TEST_CPUS:-14-27}}; NP=${MISC_NP:-4}
+. "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../lib/cpus.sh"
+CPUS=${MISC_CPUS:-${LIGGGHTS_TEST_CPUS:-$(liggghts_cpus 14-27)}}; NP=${MISC_NP:-4}
 EX=$ROOT/examples/LIGGGHTS/Tutorials_public
 export OMP_NUM_THREADS=1
 mkdir -p "$W"; W=$(readlink -f "$W")
@@ -230,6 +239,32 @@ if [ $NP -ge 4 ]; then
       && pass "Irregular migration, 8 ranks: atom order identical in 3 runs" || fail "Irregular migration: atom order differs between identical runs"
   else fail "Irregular migration runs did not run (see $W/irr_*/out)"; fi
 else skip "Irregular migration: needs MISC_NP >= 4"; fi
+
+echo "== 8. thermo f_ID[i][j] of a property/global matrix"
+d=$W/thermo_pg; rm -rf $d; mkdir -p $d
+if lmp $d 1 $BIN $HERE/in.thermo_propglobal && awk '$1=="2"{v=$2" "$3} END{exit !(v=="0.5 0.5")}' $d/out; then
+  pass "thermo f_p3[1][1] f_p4[2][2]: 0.5 0.5"
+else fail "thermo f_ID[i][j] of property/global (see $d/out)"; fi
+
+echo "== 9. mesh wall with -screen none"
+d=$W/screen_none; rm -rf $d; mkdir -p $d; cp $HERE/plate.stl $d/
+(cd $d && taskset -c $CPUS "$BIN" -in $HERE/in.screen_none -screen none -log log > out 2>&1)
+if [ $? = 0 ] && grep -q "^Loop time" $d/log; then pass "fix mesh/surface + wall/gran with -screen none"
+else fail "mesh wall run with -screen none (see $d/out)"; fi
+
+echo "== 10. default time-step and lost-atom warnings"
+# dtrun <tag> <args>: prints '<Rayleigh warnings> <drop warnings>'
+dtrun() { local d=$W/dt_$1; shift; rm -rf $d; mkdir -p $d
+  (cd $d && taskset -c $CPUS "$BIN" -in $HERE/in.dtcheck "$@" -log log > out 2>&1)
+  echo "$(grep -c 'smallest Rayleigh time' $d/out) $(grep -c 'Number of atoms dropped' $d/out)"; }
+r=$(dtrun big -var dt 0.002)
+[ "$r" = "1 1" ] && pass "dt 16x Rayleigh: one time-step warning, one lost-atom warning" \
+  || fail "dt 16x Rayleigh: warnings (Rayleigh, drop) = '$r', expected '1 1' (see $W/dt_big/out)"
+r=$(dtrun small -var dt 1e-5)
+[ "$r" = "0 0" ] && pass "stable time-step: no warning" || fail "stable time-step: warnings '$r' (see $W/dt_small/out)"
+r=$(dtrun fix -var dt 0.002 -var check 1)
+[ "${r% *}" = 0 ] && pass "with fix check/timestep/gran: no default time-step warning" \
+  || fail "with fix check/timestep/gran: default warning issued (see $W/dt_fix/out)"
 
 echo "misc: $([ $rc = 0 ] && echo PASS || echo FAIL) ($nrun checks, work dir $W)"
 [ $nrun = 0 ] && exit 77

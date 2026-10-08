@@ -18,6 +18,25 @@ Modernization branch (LIGGGHTS-FLOWLAB): changed defaults
    run to run; their results differ from earlier versions (which varied
    between identical runs). No option restores the old behaviour.
 
+ 2026-10-08 (phase J, R2-P01)  rotating walls in the rolling and twisting
+   models: the rolling-resistance models (cdt, epsd, epsd2, epsd3, luding)
+   and twisting_marshall use the particle spin relative to the wall for
+   walls rotated by fix move/mesh (rotate, rotate/variable, riggle, vibrot,
+   servo rotation) and for primitive cylinders rotating through 'shear'.
+   Before, the wall spin was ignored: a sphere co-rotating with a drum was
+   braked and gained orbital speed, a sphere on a turntable never spun up.
+   The velocity of a rotating primitive cylinder is now taken at the
+   contact point instead of at the particle centre. Static and translating
+   walls are unchanged. Earlier behaviour: fix wall/gran ... "wall_spin_legacy on".
+   Not covered by the switch (plain bug fix): ycylinder walls rotating
+   through 'shear' had their radial vector components swapped.
+
+ 2026-10-08 (phase J, R2-P02)  new warnings, results unchanged: without fix
+   check/timestep/gran, a time-step above the smallest Rayleigh time of
+   the particles is reported at the next thermo output; with the default
+   'thermo_modify lost ignore', a drop of more than 10 % of the atoms
+   between two thermo outputs is reported once per run.
+
  New features of the branch are opt-in. Bug fixes of earlier phases
  that change results (for example X-05, contact history cleared when a
  pair separates, earlier behaviour "history_clear_legacy on"; the

@@ -278,8 +278,10 @@ namespace LAMMPS_NS
         dx=0.;
         return Cylinder<0>::calcRadialDistance(pos,param,dy,dz);
       case YCYLINDER:
+        // Dim<1>: local (y, z) are global (z, x); upstream passed (dx, dz),
+        // which swapped the components (rotating ycylinder walls)
         dy = 0.;
-        return Cylinder<1>::calcRadialDistance(pos,param,dx,dz);
+        return Cylinder<1>::calcRadialDistance(pos,param,dz,dx);
       case ZCYLINDER:
         dz = 0.;
         return Cylinder<2>::calcRadialDistance(pos,param,dx,dy);

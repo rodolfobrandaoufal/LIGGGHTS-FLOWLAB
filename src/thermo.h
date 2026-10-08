@@ -107,6 +107,11 @@ class Thermo : protected Pointers {
   bigint natoms;
   bigint last_natoms;   
 
+  // R2-P02: default checks without 'fix check/timestep/gran' or 'lost warn'
+  void check_timestep_default();
+  double timestep_warned_dt;  // dt of the last time-step warning (0 = none)
+  int lost_drop_warned;       // large drop of the atom count reported in this run
+
                          // data used by routines that compute single values
   int ivalue;            // integer value to print
   double dvalue;         // double value to print

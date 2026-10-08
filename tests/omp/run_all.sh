@@ -22,7 +22,8 @@ here=$(cd "$(dirname "$0")" && pwd)
 BIN=$(readlink -f "${1:?usage: run_all.sh <bin> [ref_bin] [workdir]}")
 REF=${2:+$(readlink -f "$2")}
 W=${3:-$(mktemp -d)}
-CPUS=${LIGGGHTS_TEST_CPUS:-0-15}
+. "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../lib/cpus.sh"
+CPUS=${LIGGGHTS_TEST_CPUS:-$(liggghts_cpus 0-15)}
 export OMP_WAIT_POLICY=PASSIVE
 for t in taskset mpirun cmp awk; do command -v $t >/dev/null || { echo "SKIP: $t missing"; exit 77; }; done
 rm -rf "$W"; mkdir -p "$W"

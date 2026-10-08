@@ -110,9 +110,9 @@ namespace ContactModels
       }
 #endif
       if(sidata.is_wall) {
-        const double wr1 = sidata.wr1;
-        const double wr2 = sidata.wr2;
-        const double wr3 = sidata.wr3;
+        // R2-P01: spin relative to a rotating wall
+        double wr1, wr2, wr3;
+        wallRollingSpin(sidata, wr1, wr2, wr3);
 
         double r_inertia = 0.0; //pre-initialize to prevent compiler "warning"
 

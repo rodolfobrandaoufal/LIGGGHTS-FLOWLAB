@@ -96,6 +96,40 @@ using namespace LIGGGHTS::ContactModels;
 
 const double SMALL = 1e-12;
 
+/* ----------------------------------------------------------------------
+   R2-P01: angular velocity w of mesh element iTri from the velocities of
+   its three nodes, exact for a rigid motion (rotation + translation):
+   with e_k = x_k - x_0, d_k = v_k - v_0 = w x e_k and N = e_1 x e_2,
+   the in-plane part is (N.d_2 e_1 - N.d_1 e_2)/|N|^2 and the normal part
+   N [(N x e_1).d_1 + (N x e_2).d_2] / (|N|^2 (|e_1|^2 + |e_2|^2)).
+   Only called for meshes moved by a rotating mover (isRotating()).
+------------------------------------------------------------------------- */
+
+static void meshElementSpin(TriMesh *mesh, const int iTri, double * const * const vel, double *w)
+{
+    double node[3][3], e1[3], e2[3], d1[3], d2[3], N[3], Ne1[3], Ne2[3];
+    for (int k = 0; k < 3; k++)
+        mesh->node(iTri,k,node[k]);
+    vectorSubtract3D(node[1],node[0],e1);
+    vectorSubtract3D(node[2],node[0],e2);
+    vectorSubtract3D(vel[1],vel[0],d1);
+    vectorSubtract3D(vel[2],vel[0],d2);
+    vectorCross3D(e1,e2,N);
+    const double NN = vectorDot3D(N,N);
+    const double ee = vectorDot3D(e1,e1) + vectorDot3D(e2,e2);
+    if (NN <= 0. || ee <= 0.) {
+        vectorZeroize3D(w);
+        return;
+    }
+    const double a = vectorDot3D(N,d2)/NN;
+    const double b = vectorDot3D(N,d1)/NN;
+    vectorCross3D(N,e1,Ne1);
+    vectorCross3D(N,e2,Ne2);
+    const double c = (vectorDot3D(Ne1,d1) + vectorDot3D(Ne2,d2))/(NN*ee);
+    for (int k = 0; k < 3; k++)
+        w[k] = a*e1[k] - b*e2[k] + c*N[k];
+}
+
   // modes for conduction contact area calaculation
   // same as in fix_heat_gran_conduction.cpp
 
@@ -139,6 +173,7 @@ FixWallGran::FixWallGran(LAMMPS *lmp, int narg, char **arg) :
     shear_ = 0;
     shearDim_ = shearAxis_ = -1;
     vectorZeroize3D(shearAxisVec_);
+    wall_spin_legacy_ = false;
 
     atom_type_wall_ = 1; // will be overwritten during execution, but other fixes require a value here
 
@@ -345,8 +380,9 @@ FixWallGran::FixWallGran(LAMMPS *lmp, int narg, char **arg) :
           vshear_ = force->numeric(FLERR,arg[iarg_+2]);
           shear_ = 1;
 
-          // update axis for cylinder etc if needed
-          if(shearDim_ != primitiveWall_->axis())
+          // update axis for cylinder etc if needed (rotation about the axis;
+          // planes have no axis, axis() == -1, and only translate)
+          if(primitiveWall_->axis() >= 0 && shearDim_ != primitiveWall_->axis())
           {
             shearAxis_ = primitiveWall_->axis();
             shearAxisVec_[shearAxis_] = vshear_;
@@ -354,6 +390,14 @@ FixWallGran::FixWallGran(LAMMPS *lmp, int narg, char **arg) :
 
           hasargs = true;
           iarg_ += 3;
+        } else if (strcmp(arg[iarg_],"wall_spin_legacy") == 0) {
+          if (iarg_+2 > narg)
+            error->fix_error(FLERR,this,"not enough arguments for 'wall_spin_legacy'");
+          if (strcmp(arg[iarg_+1],"on") == 0) wall_spin_legacy_ = true;
+          else if (strcmp(arg[iarg_+1],"off") == 0) wall_spin_legacy_ = false;
+          else error->fix_error(FLERR,this,"expecting 'on' or 'off' after keyword 'wall_spin_legacy'");
+          hasargs = true;
+          iarg_ += 2;
         } else if (strcmp(arg[iarg_],"temperature") == 0) {
             if (iarg_+1 >= narg)
               error->fix_error(FLERR,this,"not enough arguments for 'temperature'");
@@ -945,6 +989,7 @@ void FixWallGran::post_force_mesh(int vflag)
 
         MultiVectorContainer<double,3,3> *vMeshC = mesh->prop().getElementProperty<MultiVectorContainer<double,3,3> >("v");
         double ***vMesh = vMeshC ? vMeshC->begin() : 0;
+        const bool mesh_spin = mesh->isRotating() && !wall_spin_legacy_;
 
         atom_type_wall_ = fix_mesh->atomTypeWall();
 
@@ -987,7 +1032,7 @@ void FixWallGran::post_force_mesh(int vflag)
           sidata.is_wall = true;
           sidata.mesh = mesh;
           sidata.fix_mesh = fix_mesh;
-          double v_wall[3], bary[3], delta[3], deltan;
+          double v_wall[3], bary[3], delta[3], deltan, w_wall[3];
           int barysign = -1;
           vectorZeroize3D(v_wall);
 
@@ -1018,6 +1063,11 @@ void FixWallGran::post_force_mesh(int vflag)
                 {
                   for(int i = 0; i < 3; i++)
                     v_wall[i] = (bary[0]*vMesh[iTri][0][i] + bary[1]*vMesh[iTri][1][i] + bary[2]*vMesh[iTri][2][i]);
+                  if (mesh_spin)
+                  {
+                    meshElementSpin(mesh,iTri,vMesh[iTri],w_wall);
+                    sidata.omega_wall = w_wall;
+                  }
                 }
 
                 if(!sidata.is_non_spherical || atom->superquadric_flag)
@@ -1068,7 +1118,7 @@ void FixWallGran::post_force_mesh(int vflag)
 
     
     // contact properties
-    double v_wall[3],bary[3];
+    double v_wall[3],bary[3],w_wall[3];
     double delta[3],deltan;
     MultiVectorContainer<double,3,3> *vMeshC;
     double *radius = atom->radius;
@@ -1107,6 +1157,8 @@ void FixWallGran::post_force_mesh(int vflag)
       vMeshC = mesh->prop().getElementProperty<MultiVectorContainer<double,3,3> >("v");
       if(vMeshC)
         vMesh = vMeshC->begin();
+      const bool mesh_spin = mesh->isRotating() && !wall_spin_legacy_;
+      sidata.omega_wall = NULL;
 
       atom_type_wall_ = fix_mesh->atomTypeWall();
       const bool shapeType = atom->shapetype_flag;
@@ -1194,6 +1246,11 @@ void FixWallGran::post_force_mesh(int vflag)
                         v_wall[i] = (bary[0]*vMesh[iTri][0][i] +
                                      bary[1]*vMesh[iTri][1][i] +
                                      bary[2]*vMesh[iTri][2][i] );
+                    if (mesh_spin)
+                    {
+                        meshElementSpin(mesh,iTri,vMesh[iTri],w_wall);
+                        sidata.omega_wall = w_wall;
+                    }
                 }
                 sidata.v_i = atom->v[iPart];
                 sidata.omega_i = atom->omega[iPart];
@@ -1214,6 +1271,11 @@ void FixWallGran::post_force_mesh(int vflag)
               {
                 for(int i = 0; i < 3; i++)
                     v_wall[i] = (bary[0]*vMesh[iTri][0][i] + bary[1]*vMesh[iTri][1][i] + bary[2]*vMesh[iTri][2][i]);
+                if (mesh_spin)
+                {
+                    meshElementSpin(mesh,iTri,vMesh[iTri],w_wall);
+                    sidata.omega_wall = w_wall;
+                }
               }
 
               if(!sidata.is_non_spherical || atom->superquadric_flag)
@@ -1276,6 +1338,7 @@ void FixWallGran::post_force_primitive(int vflag)
       {
         SurfacesIntersectData sidata;
         sidata.is_wall = true;
+        sidata.omega_wall = primitiveWallSpin();
         double delta[3]={},deltan,rdist[3];
         double v_wall[] = {0.,0.,0.};
         if (shear_) v_wall[shearDim_] = vshear_;
@@ -1299,6 +1362,9 @@ void FixWallGran::post_force_primitive(int vflag)
             if(shear_ && shearAxis_ >= 0)
             {
                 primitiveWall_->calcRadialDistance(x_[iPart],rdist);
+                // R2-P01: wall velocity at the contact point, not at the
+                // particle centre (delta: centre -> wall surface)
+                if (!wall_spin_legacy_) vectorAdd3D(rdist,delta,rdist);
                 vectorCross3D(shearAxisVec_,rdist,v_wall);
             }
             sidata.i = iPart;
@@ -1328,6 +1394,7 @@ void FixWallGran::post_force_primitive(int vflag)
 
   SurfacesIntersectData sidata;
   sidata.is_wall = true;
+  sidata.omega_wall = primitiveWallSpin();
   double *radius = atom->radius;
   const double contactDistanceMultiplier = neighbor->contactDistanceFactor - 1.0;
   
@@ -1414,8 +1481,10 @@ void FixWallGran::post_force_primitive(int vflag)
       if(shear_ && shearAxis_ >= 0)
       {
           primitiveWall_->calcRadialDistance(x_[iPart],rdist);
+          // R2-P01: wall velocity at the contact point, not at the particle
+          // centre (delta: centre -> wall surface)
+          if (!wall_spin_legacy_) vectorAdd3D(rdist,delta,rdist);
           vectorCross3D(shearAxisVec_,rdist,v_wall);
-          
       }
       sidata.i = iPart;
       sidata.contact_history = c_history ? c_history[iPart] : NULL;

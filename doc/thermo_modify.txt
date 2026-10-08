@@ -48,7 +48,9 @@ length outside the simulation domain (or more than a processor
 sub-domain length) before reneighboring occurs.  The latter case is
 typically due to bad dynamics, e.g. too large a timestep or huge
 forces and velocities.  If the value is {ignore}, LIGGGHTS(R)-PUBLIC does not
-check for lost atoms.  If the value is {error} or {warn}, LIGGGHTS(R)-PUBLIC
+stop or warn for each lost atom; it only warns once per run when more
+than 10 % of the atoms disappear between two thermo outputs, which is
+typical of an unstable time-step (modernization branch, R2-P02).  If the value is {error} or {warn}, LIGGGHTS(R)-PUBLIC
 checks and either issues an error or warning.  The code will exit with
 an error and continue with a warning.  A warning will only be issued
 once, the first time an atom is lost.  This can be a useful debugging

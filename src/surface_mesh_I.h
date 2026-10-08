@@ -320,7 +320,7 @@ void SurfaceMesh<NUM_NODES,NUM_NEIGH_MAX>::calcSurfPropertiesOfNewElement()
     if(hasSmallAngleSoftLimit)
     {
         if(TrackingMesh<NUM_NODES>::verbose() && 0 == this->comm->me)
-            fprintf(this->screen,"Mesh %s: element %d (line %d) has high aspect ratio (soft limit: smallest angle must be > %f °) \n",
+            if (this->screen) fprintf(this->screen,"Mesh %s: element %d (line %d) has high aspect ratio (soft limit: smallest angle must be > %f °) \n",
                     this->mesh_id_,n,TrackingMesh<NUM_NODES>::lineNo(n),this->angleSoftLimit());
         nBelowAngle_softLimit_++;
     }
@@ -457,7 +457,7 @@ void SurfaceMesh<NUM_NODES,NUM_NEIGH_MAX>::buildNeighbours()
     int nall = this->sizeLocal()+this->sizeGhost();
 
     if (this->lmp->wb && this->comm->me == 0)
-        fprintf(this->screen,"\nBuilding mesh topology (mesh processing step 2/3) \n");
+        if (this->screen) fprintf(this->screen,"\nBuilding mesh topology (mesh processing step 2/3) \n");
 
     bool t[NUM_NODES], f[NUM_NODES];
     int neighs[NUM_NEIGH_MAX];
@@ -564,7 +564,7 @@ template<int NUM_NODES, int NUM_NEIGH_MAX>
 void SurfaceMesh<NUM_NODES,NUM_NEIGH_MAX>::qualityCheck()
 {
     if (this->lmp->wb && this->comm->me == 0)
-        fprintf(this->screen,"\nChecking quality of mesh (mesh processing step 3/3) \n");
+        if (this->screen) fprintf(this->screen,"\nChecking quality of mesh (mesh processing step 3/3) \n");
 
     // iterate over surfaces
     
@@ -609,7 +609,7 @@ void SurfaceMesh<NUM_NODES,NUM_NEIGH_MAX>::qualityCheck()
 
                 if(this->nSharedNodes(i,j) == NUM_NODES)
                 {
-                    fprintf(this->screen,"ERROR: Mesh %s: elements %d and %d (lines %d and %d) are duplicate\n",
+                    if (this->screen) fprintf(this->screen,"ERROR: Mesh %s: elements %d and %d (lines %d and %d) are duplicate\n",
                             this->mesh_id_,TrackingMesh<NUM_NODES>::id(i),TrackingMesh<NUM_NODES>::id(j),
                             TrackingMesh<NUM_NODES>::lineNo(i),TrackingMesh<NUM_NODES>::lineNo(j));
 
@@ -640,7 +640,7 @@ void SurfaceMesh<NUM_NODES,NUM_NEIGH_MAX>::qualityCheck()
         if(-dot > curvature_)
         {
             if(TrackingMesh<NUM_NODES>::verbose() || !curvature_tolerant_)
-                fprintf(this->screen,"%s: Mesh %s: The minumum angle of mesh element %d (line %d) is lower than the specified curvature. "
+                if (this->screen) fprintf(this->screen,"%s: Mesh %s: The minumum angle of mesh element %d (line %d) is lower than the specified curvature. "
                                   "Increase mesh quality or decrease curvature (currently %f°)\n",
                                   curvature_tolerant_?"WARNING:":"ERROR",this->mesh_id_,TrackingMesh<NUM_NODES>::id(i),
                                   TrackingMesh<NUM_NODES>::lineNo(i),acos(curvature_)*180./M_PI);
@@ -652,7 +652,7 @@ void SurfaceMesh<NUM_NODES,NUM_NEIGH_MAX>::qualityCheck()
 
     if(this->nBelowAngleSoftLimit() > 0 && 0 == me)
     {
-        fprintf(this->screen,"Mesh %s: %d elements have high aspect ratio (soft limit: smallest angle > %f ° required)\n",
+        if (this->screen) fprintf(this->screen,"Mesh %s: %d elements have high aspect ratio (soft limit: smallest angle > %f ° required)\n",
                 this->mesh_id_,this->nBelowAngleSoftLimit(),this->angleSoftLimit());
         this->error->warning(FLERR,"Fix mesh: Mesh contains highly skewed element, moving mesh (if used) will not parallelize well");
     }
@@ -668,7 +668,7 @@ void SurfaceMesh<NUM_NODES,NUM_NEIGH_MAX>::qualityCheck()
         if(-dot > minAngle_hardLimit_)
         {
              if(TrackingMesh<NUM_NODES>::verbose())
-                fprintf(this->screen,"Mesh %s: element %d (line %d) has a really unreasonably high aspect ratio (hard limit: smallest angle must be > %f °) \n",
+                if (this->screen) fprintf(this->screen,"Mesh %s: element %d (line %d) has a really unreasonably high aspect ratio (hard limit: smallest angle must be > %f °) \n",
                         this->mesh_id_,TrackingMesh<NUM_NODES>::id(i),TrackingMesh<NUM_NODES>::lineNo(i),this->angleHardLimit());
              nBelowAngle_hardLimit++;
         }
@@ -678,7 +678,7 @@ void SurfaceMesh<NUM_NODES,NUM_NEIGH_MAX>::qualityCheck()
     MPI_Sum_Scalar(nBelowAngle_hardLimit,this->world);
     if(nBelowAngle_hardLimit > 0 && 0 == me)
     {
-        fprintf(this->screen,"Mesh %s: %d mesh elements have a really unreasonably high aspect ratio (hard limit: smallest angle must be > %f °)  \n",
+        if (this->screen) fprintf(this->screen,"Mesh %s: %d mesh elements have a really unreasonably high aspect ratio (hard limit: smallest angle must be > %f °)  \n",
                 this->mesh_id_,nBelowAngle_hardLimit,this->angleHardLimit());
         this->error->one(FLERR,"Fix mesh: Bad mesh, cannot continue. You will need to fix or remove these element. Remedies:\n"
                                 " - You can use the 'element_exclusion_list' feature to remove elements with too many neighbors and elements with angles below the hard limit\n");
@@ -687,7 +687,7 @@ void SurfaceMesh<NUM_NODES,NUM_NEIGH_MAX>::qualityCheck()
     if(this->nTooManyNeighs() > 0 && 0 == me)
     {
         
-        fprintf(this->screen,"Mesh %s: %d mesh elements have more than %d neighbors \n",
+        if (this->screen) fprintf(this->screen,"Mesh %s: %d mesh elements have more than %d neighbors \n",
                 this->mesh_id_,this->nTooManyNeighs(),NUM_NEIGH_MAX);
         this->error->one(FLERR,"Fix mesh: Bad mesh, cannot continue. Possibly corrupt elements with too many neighbors. Remedies:\n"
                                " - You can use the 'element_exclusion_list' feature to remove elements with too many neighbors and elements with angles below the hard limit\n"
@@ -696,7 +696,7 @@ void SurfaceMesh<NUM_NODES,NUM_NEIGH_MAX>::qualityCheck()
 
     if(nOverlapping() > 0)
     {
-        fprintf(this->screen,"WARNING: Mesh %s: proc %d has %d element pairs that are coplanar, "
+        if (this->screen) fprintf(this->screen,"WARNING: Mesh %s: proc %d has %d element pairs that are coplanar, "
                 "share an edge and overlap (but are not duplicate)\n",
                 this->mesh_id_,me,nOverlapping());
     }
@@ -980,14 +980,14 @@ bool SurfaceMesh<NUM_NODES,NUM_NEIGH_MAX>::coplanarNeighsOverlap(int iSrf,int iE
         {
             
             int nlocal = this->sizeLocal();
-            fprintf(this->screen,"WARNING: Mesh %s: elements %d and %d are coplanar, "
+            if (this->screen) fprintf(this->screen,"WARNING: Mesh %s: elements %d and %d are coplanar, "
                     "share an edge and overlap (but are not duplicate)\n",
                     this->mesh_id_,TrackingMesh<NUM_NODES>::id(iSrf),TrackingMesh<NUM_NODES>::id(jSrf));
             if(iSrf < nlocal)
-                fprintf(this->screen,"INFO: Mesh %s: element %d corresponds to line # %d\n",
+                if (this->screen) fprintf(this->screen,"INFO: Mesh %s: element %d corresponds to line # %d\n",
                     this->mesh_id_,TrackingMesh<NUM_NODES>::id(iSrf),TrackingMesh<NUM_NODES>::lineNo(iSrf));
             if(jSrf < nlocal)
-                fprintf(this->screen,"INFO: Mesh %s: element %d corresponds to line # %d\n",
+                if (this->screen) fprintf(this->screen,"INFO: Mesh %s: element %d corresponds to line # %d\n",
                     this->mesh_id_,TrackingMesh<NUM_NODES>::id(jSrf),TrackingMesh<NUM_NODES>::lineNo(jSrf));
         }
 
@@ -1071,7 +1071,7 @@ void SurfaceMesh<NUM_NODES,NUM_NEIGH_MAX>::handleSharedEdge(int iSrf, int iEdge,
         {
             nTooManyNeighs_++;
             if(TrackingMesh<NUM_NODES>::verbose())
-                fprintf(this->screen,"Mesh %s: element id %d (line %d) has %d neighs, but only %d expected\n",
+                if (this->screen) fprintf(this->screen,"Mesh %s: element id %d (line %d) has %d neighs, but only %d expected\n",
                         this->mesh_id_,TrackingMesh<NUM_NODES>::id(iSrf),TrackingMesh<NUM_NODES>::lineNo(iSrf),nNeighs_(iSrf)+1,NUM_NEIGH_MAX);
             if(MultiNodeMesh<NUM_NODES>::elementExclusionList())
             {
@@ -1084,7 +1084,7 @@ void SurfaceMesh<NUM_NODES,NUM_NEIGH_MAX>::handleSharedEdge(int iSrf, int iEdge,
         {
             nTooManyNeighs_++;
             if(TrackingMesh<NUM_NODES>::verbose())
-                fprintf(this->screen,"Mesh %s: element id %d (line %d) has %d neighs, but only %d expected\n",
+                if (this->screen) fprintf(this->screen,"Mesh %s: element id %d (line %d) has %d neighs, but only %d expected\n",
                         this->mesh_id_,TrackingMesh<NUM_NODES>::id(jSrf),TrackingMesh<NUM_NODES>::lineNo(jSrf),nNeighs_(jSrf)+1,NUM_NEIGH_MAX);
             if(MultiNodeMesh<NUM_NODES>::elementExclusionList())
             {

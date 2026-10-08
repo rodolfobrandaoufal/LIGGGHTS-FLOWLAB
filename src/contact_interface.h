@@ -175,8 +175,45 @@ struct SurfacesIntersectData : SurfacesCloseData {
   // NULL by default.
   const double *en_full;
 
-  SurfacesIntersectData() : Fn(0.0), Ft(0.0), vtr_pred_shift(NULL), en_full(NULL) {}
+  // finding R2-P01: for a wall contact, the angular velocity of the wall
+  // (rotating mesh or primitive wall with rotational 'shear'); the rolling
+  // and twisting models use the spin of i relative to it. NULL for static
+  // and translating walls and for particle-particle contacts.
+  const double *omega_wall;
+
+  SurfacesIntersectData() : Fn(0.0), Ft(0.0), vtr_pred_shift(NULL), en_full(NULL), omega_wall(NULL) {}
 };
+
+// R2-P01: the rolling spin (wr1, wr2, wr3) of a wall contact, relative to the
+// wall when it rotates. The surface models scale wr like the tangential
+// velocity (cri/r for spheres, 1 for non-spherical particles); the wall spin
+// is scaled the same way. Without wall spin, wr is returned unchanged.
+inline void wallRollingSpin(const SurfacesIntersectData & sidata, double & w1, double & w2, double & w3)
+{
+  w1 = sidata.wr1;
+  w2 = sidata.wr2;
+  w3 = sidata.wr3;
+  if (sidata.omega_wall) {
+    const double s = sidata.is_non_spherical ? 1.0 : sidata.cri*sidata.rinv;
+    w1 -= s*sidata.omega_wall[0];
+    w2 -= s*sidata.omega_wall[1];
+    w3 -= s*sidata.omega_wall[2];
+  }
+}
+
+// R2-P01: angular velocity of particle i relative to the wall (omega_i
+// itself when the wall does not rotate).
+inline void wallRelativeOmega(const SurfacesIntersectData & sidata, const double * const omega_i, double * w)
+{
+  w[0] = omega_i[0];
+  w[1] = omega_i[1];
+  w[2] = omega_i[2];
+  if (sidata.omega_wall) {
+    w[0] -= sidata.omega_wall[0];
+    w[1] -= sidata.omega_wall[1];
+    w[2] -= sidata.omega_wall[2];
+  }
+}
 
 struct ForceData {
   double delta_F[3];       // total force acting on particle

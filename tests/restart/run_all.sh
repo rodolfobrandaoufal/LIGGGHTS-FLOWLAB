@@ -11,7 +11,8 @@ BIN=${1:-}; REF=${2:-}; W=${3:-$(mktemp -d)}
 [ -n "$BIN" ] && [ -x "$BIN" ] || { echo "SKIP: binary '$BIN' not found"; exit 77; }
 command -v mpirun >/dev/null || { echo "SKIP: no mpirun"; exit 77; }
 BIN=$(readlink -f "$BIN"); [ -n "$REF" ] && REF=$(readlink -f "$REF")
-CPUS=${RESTART_CPUS:-10-19}; NPMAX=${RESTART_NPMAX:-8}
+. "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../lib/cpus.sh"
+CPUS=${RESTART_CPUS:-$(liggghts_cpus 10-19)}; NPMAX=${RESTART_NPMAX:-8}
 mkdir -p "$W"; W=$(readlink -f "$W")
 CMP="python3 $HERE/../newton/compare.py"
 CMPC="python3 $HERE/cmp_compress.py"

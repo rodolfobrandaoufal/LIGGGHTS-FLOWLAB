@@ -138,7 +138,7 @@ int InputMultisphere::clmpfile(double **xclmp,double *rclmp,int *atomtypeclmp,in
     //skip empty lines
     if(narg == 0)
     {
-        if (me == 0) fprintf(screen,"Note: Skipping empty line or comment line in clump file\n");
+        if (me == 0 && screen) fprintf(screen,"Note: Skipping empty line or comment line in clump file\n");
         continue;
     }
 

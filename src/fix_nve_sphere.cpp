@@ -104,7 +104,7 @@ FixNVESphere::FixNVESphere(LAMMPS *lmp, int narg, char **arg) :
             useAM_ = true;
             CAddRhoFluid_        = atof(arg[iarg]);
             onePlusCAddRhoFluid_ = 1.0 + CAddRhoFluid_;
-            fprintf(screen,"cfd_coupling_force_implicit will consider added mass with CAddRhoFluid = %f\n",
+            if (screen) fprintf(screen,"cfd_coupling_force_implicit will consider added mass with CAddRhoFluid = %f\n",
                     CAddRhoFluid_);
       }
       else error->all(FLERR,"Illegal fix nve/sphere command");

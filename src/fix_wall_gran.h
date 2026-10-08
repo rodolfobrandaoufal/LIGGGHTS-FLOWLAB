@@ -295,6 +295,12 @@ class FixWallGran : public Fix, public LIGGGHTS::IContactHistorySetup {
   double vshear_;
   double shearAxisVec_[3];
 
+  // R2-P01: 'wall_spin_legacy on' ignores the spin of rotating walls in the
+  // rolling and twisting models (behaviour before the fix)
+  bool wall_spin_legacy_;
+  inline const double *primitiveWallSpin() const
+  { return (shear_ && shearAxis_ >= 0 && !wall_spin_legacy_) ? shearAxisVec_ : NULL; }
+
   // distance in order to calculate interaction with
   // rough wall
   //double skinDistance_;

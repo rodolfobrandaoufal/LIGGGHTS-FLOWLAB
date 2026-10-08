@@ -584,8 +584,8 @@ namespace ContactModels
        normal as LAMMPS pair granular 'twisting marshall' (Marshall, Ann.
        Rev. Fluid Mech. 2009): spring-dashpot-slider on the twist angle with
        k = kt a^2/2, gamma = gammat a^2/2 and limit 2/3 a mu |Fn|, where
-       a = sqrt(deltan reff) is the contact radius. For walls the wall spin
-       is taken as zero. */
+       a = sqrt(deltan reff) is the contact radius. For walls the spin of
+       a rotating wall (sidata.omega_wall, R2-P01) is subtracted. */
     inline void twistingMarshall(const SurfacesIntersectData & sidata, const bool update_history,
                                  const double xmu, ForceData & i_forces, ForceData & j_forces)
     {
@@ -593,6 +593,8 @@ namespace ContactModels
         double wn = sidata.omega_i[0]*en[0] + sidata.omega_i[1]*en[1] + sidata.omega_i[2]*en[2];
         if (!sidata.is_wall)
             wn -= sidata.omega_j[0]*en[0] + sidata.omega_j[1]*en[1] + sidata.omega_j[2]*en[2];
+        else if (sidata.omega_wall)
+            wn -= sidata.omega_wall[0]*en[0] + sidata.omega_wall[1]*en[1] + sidata.omega_wall[2]*en[2];
 
         const double reff = sidata.is_wall ? sidata.radi : sidata.radi*sidata.radj/sidata.radsum;
         const double a2 = (sidata.deltan > 0.0 ? sidata.deltan : 0.0) * reff;

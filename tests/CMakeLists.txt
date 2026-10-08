@@ -59,6 +59,13 @@ IF(NOT ASAN_BIN AND LIGGGHTS_SANITIZE)
   SET(ASAN_BIN "${BIN}")
 ENDIF()
 SET(REF_BIN "${LIGGGHTS_TEST_REFERENCE_BIN}")
+# R2-T03: an empty variable vanishes from a COMMAND line, so suites that take
+# further positional arguments after the reference get '-' (= no reference)
+IF(REF_BIN)
+  SET(REF_ARG "${REF_BIN}")
+ELSE()
+  SET(REF_ARG "-")
+ENDIF()
 
 SET(test_env "ASAN_OPTIONS=detect_leaks=0")
 # OpenMP builds: without this, an unset OMP_NUM_THREADS gives one thread per
@@ -327,16 +334,25 @@ ENDIF()
 IF(EXISTS "${LIGGGHTS_TESTS_DIR}/twist/run_all.sh")
   LIGGGHTS_TEST(twist_suite LABELS physics TIMEOUT 1200 PROCESSORS 1
     ENV "TMPDIR=${LIGGGHTS_TEST_WORK}"
-    COMMAND ${LIGGGHTS_BASH} ${LIGGGHTS_TESTS_DIR}/twist/run_all.sh ${BIN} ${REF_BIN} ${LIGGGHTS_TEST_WORK}/twist)
+    COMMAND ${LIGGGHTS_BASH} ${LIGGGHTS_TESTS_DIR}/twist/run_all.sh ${BIN} ${REF_ARG} ${LIGGGHTS_TEST_WORK}/twist)
 ELSE()
   LIGGGHTS_SKIPPED_TEST(twist_suite "tests/twist/run_all.sh not present" physics)
+ENDIF()
+
+#---------------------------------------------------------------------------
+# R2-P01 rolling/twisting resistance against rotating mesh and primitive walls
+IF(EXISTS "${LIGGGHTS_TESTS_DIR}/wallspin/run_all.sh")
+  LIGGGHTS_TEST(wallspin_suite LABELS physics TIMEOUT 1200 PROCESSORS 1
+    COMMAND ${LIGGGHTS_BASH} ${LIGGGHTS_TESTS_DIR}/wallspin/run_all.sh ${BIN} - ${LIGGGHTS_TEST_WORK}/wallspin)
+ELSE()
+  LIGGGHTS_SKIPPED_TEST(wallspin_suite "tests/wallspin/run_all.sh not present" physics)
 ENDIF()
 
 #---------------------------------------------------------------------------
 # S-19 public coarsegraining command
 IF(EXISTS "${LIGGGHTS_TESTS_DIR}/cg/run_all.sh")
   LIGGGHTS_TEST(cg_suite LABELS physics TIMEOUT 1800 PROCESSORS 1
-    COMMAND ${LIGGGHTS_BASH} ${LIGGGHTS_TESTS_DIR}/cg/run_all.sh ${BIN} ${REF_BIN} ${LIGGGHTS_TEST_WORK}/cg)
+    COMMAND ${LIGGGHTS_BASH} ${LIGGGHTS_TESTS_DIR}/cg/run_all.sh ${BIN} ${REF_ARG} ${LIGGGHTS_TEST_WORK}/cg)
 ELSE()
   LIGGGHTS_SKIPPED_TEST(cg_suite "tests/cg/run_all.sh not present" physics)
 ENDIF()

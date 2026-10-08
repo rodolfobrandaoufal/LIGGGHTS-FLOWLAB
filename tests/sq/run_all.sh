@@ -32,7 +32,8 @@ mkdir -p "$W"; W=$(readlink -f "$W")
 has_sq() { (cd "$W" && "$1" -h 2>/dev/null) | awk '$0=="* Atom styles:"{p=1;next} /^\* /{p=0} p' | grep -qw superquadric; }
 has_sq "$BIN" || { echo "SKIP: $BIN is not an SQ build (configure with -DENABLE_SQ=ON)"; exit 77; }
 if [ -n "$REF" ] && ! has_sq "$REF"; then echo "NOTE: $REF is not an SQ build, ignored"; REF=; fi
-CPUS=${SQ_CPUS:-${LIGGGHTS_TEST_CPUS:-14-27}}
+. "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../lib/cpus.sh"
+CPUS=${SQ_CPUS:-${LIGGGHTS_TEST_CPUS:-$(liggghts_cpus 14-27)}}
 export OMP_NUM_THREADS=1
 NEWTON="off"; [ "${SQ_NEWTON:-1}" = 1 ] && NEWTON="off on"
 rc=0

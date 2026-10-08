@@ -38,10 +38,12 @@ wallstyle args for wallstyle {primitive} = {type} or {xplane} or {yplane} or {zp
     c1,c2 = coordinates of center axis in other 2 dims (distance units) :pre
 
 zero or more general_keyword/value pairs may be appended :l
-general_keyword =  {shear} or {store_force} or {store_force_contact} or {store_force_contact_stress} :l
+general_keyword =  {shear} or {store_force} or {store_force_contact} or {store_force_contact_stress} or {wall_spin_legacy} :l
   {shear} values = dim vshear
     dim = {x} or {y} or {z}
-    vshear = magnitude of shear velocity (velocity units)
+    vshear = wall velocity (velocity units) or, for a cylinder spinning about its axis, angular velocity (1/time units)
+  {wall_spin_legacy} value = {on} or {off}
+    on = ignore the spin of rotating walls in the rolling and twisting models (behaviour before the modernization branch)
   {temperature} value = T0
     T0 = Temperature of the wall (temperature units)
   {contact_area} values = 'overlap' or 'constant \[value\]' or 'projection'
@@ -104,10 +106,20 @@ with velocity vshear. The dimension must be tangential to walls with a planar
 wallstyle, e.g. in the y or z directions for an {xplane} wall. For {zcylinder}
 walls, a dimension of z means the cylinder is moving in the z-direction along
 it's axis. A dimension of x or y means the cylinder is spinning around the
-z-axis, either in the clockwise direction for vshear > 0 or counter-clockwise
-for vshear < 0. In this case, vshear is the tangential velocity of the wall
-at whatever radius has been defined. The same applies to {xcylinder} and
+z-axis with angular velocity vshear (counter-clockwise seen from +z for
+vshear > 0, right-hand rule); the wall velocity at a contact is vshear times
+the radius of the cylinder. The same applies to {xcylinder} and
 {ycylinder} accordingly.
+
+The rolling-resistance models and twisting resistance (twisting_marshall)
+use the angular velocity of the particle relative to the wall. For mesh
+walls it is derived from the node velocities of the contacted element when
+the mesh is rotated by "fix move/mesh"_fix_move_mesh.html; for primitive
+cylinders it is the angular velocity given by {shear}. With
+{wall_spin_legacy on} the wall spin is ignored and the velocity of a
+spinning cylinder is taken at the particle centre, as before the
+modernization branch (finding R2-P01). Default: {off}. The keyword has to
+come before the model keywords.
 
 NOTE: The keywords wiggle or shear can NOT be used for {wallstyle mesh}.
 For a moving a granular wall with {wallstyle mesh}, use the more flexible
@@ -192,3 +204,4 @@ Models for use with this command are described "here"_Section_gran_models.html
 {rolling_friction} = 'off'
 {cohesion} = 'off'
 {surface} = 'default'
+{wall_spin_legacy} = 'off'

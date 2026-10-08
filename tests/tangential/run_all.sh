@@ -9,7 +9,8 @@ HERE=$(cd "$(dirname "$0")" && pwd)
 BIN=${1:-}; REF=${2:-}; W=${3:-$(mktemp -d)}
 [ -n "$BIN" ] && [ -x "$BIN" ] || { echo "SKIP: binary '$BIN' not found"; exit 77; }
 BIN=$(readlink -f "$BIN"); [ -n "$REF" ] && REF=$(readlink -f "$REF")
-CPUS=${LIGGGHTS_TEST_CPUS:-0-5}; export LIGGGHTS_TEST_CPUS=$CPUS
+. "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../lib/cpus.sh"
+CPUS=${LIGGGHTS_TEST_CPUS:-$(liggghts_cpus 0-5)}; export LIGGGHTS_TEST_CPUS=$CPUS
 mkdir -p "$W"; W=$(readlink -f "$W")
 rc=0
 ALL="tangential_rescale on tangential_rotate on tangential_incremental on coulomb_total on"

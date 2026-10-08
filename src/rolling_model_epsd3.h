@@ -103,9 +103,9 @@ namespace ContactModels
       if(sidata.contact_flags) *sidata.contact_flags |= CONTACT_ROLLING_MODEL;
 
       if(sidata.is_wall) {
-        const double wr1 = sidata.wr1;
-        const double wr2 = sidata.wr2;
-        const double wr3 = sidata.wr3;
+        // R2-P01: spin relative to a rotating wall
+        double wr1, wr2, wr3;
+        wallRollingSpin(sidata, wr1, wr2, wr3);
         double radius = sidata.radi;
 
         #ifdef SUPERQUADRIC_ACTIVE_FLAG

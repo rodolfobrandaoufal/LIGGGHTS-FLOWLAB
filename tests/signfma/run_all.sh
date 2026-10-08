@@ -22,7 +22,8 @@ W=${3:-$(mktemp -d)}
 [ -x "$BIN" ] || { echo "SKIP: binary $BIN not found"; exit 77; }
 for t in python3 taskset cmp; do command -v $t >/dev/null || { echo "SKIP: $t missing"; exit 77; }; done
 BIN=$(readlink -f "$BIN"); [ -n "$REF" ] && REF=$(readlink -f "$REF")
-CPUS=${SIGNFMA_CPUS:-${LIGGGHTS_TEST_CPUS:-0-7}}
+. "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../lib/cpus.sh"
+CPUS=${SIGNFMA_CPUS:-${LIGGGHTS_TEST_CPUS:-$(liggghts_cpus 0-7)}}
 export OMP_NUM_THREADS=1
 mkdir -p "$W"; rc=0
 

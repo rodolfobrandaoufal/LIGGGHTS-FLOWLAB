@@ -205,7 +205,7 @@ FixMassflowMesh::FixMassflowMesh(LAMMPS *lmp, int narg, char **arg) :
     }
 
     if(fp_ && 1 < comm->nprocs && 0 == comm->me)
-      fprintf(screen,"**FixMassflowMesh: > 1 process - "
+      if (screen) fprintf(screen,"**FixMassflowMesh: > 1 process - "
                      " will write to multiple files\n");
     if(fp_)
     {

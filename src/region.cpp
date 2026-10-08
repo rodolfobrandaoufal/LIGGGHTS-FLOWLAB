@@ -498,7 +498,7 @@ void Region::options(int narg, char **arg)
 
 void Region::reset_random(int new_seed)
 {
-    if(comm->me == 0) fprintf(screen,"INFO: Resetting random generator for region %s\n",id);
+    if (comm->me == 0 && screen) fprintf(screen,"INFO: Resetting random generator for region %s\n",id);
     random->reset(new_seed + comm->me);
 }
 

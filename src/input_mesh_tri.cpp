@@ -118,13 +118,13 @@ void InputMeshTri::meshtrifile(const char *filename, class TriMesh *mesh,bool ve
 
   if(is_stl)
   {
-      if (comm->me == 0) fprintf(screen,"\nReading STL file '%s' (mesh processing step 1/3) \n",filename);
+      if (comm->me == 0 && screen) fprintf(screen,"\nReading STL file '%s' (mesh processing step 1/3) \n",filename);
       meshtrifile_stl(mesh,region,filename);
       
   }
   else if(is_vtk)
   {
-      if (comm->me == 0) fprintf(screen,"\nReading VTK file '%s' (mesh processing step 1/3) \n",filename);
+      if (comm->me == 0 && screen) fprintf(screen,"\nReading VTK file '%s' (mesh processing step 1/3) \n",filename);
       meshtrifile_vtk(mesh,region);
   }
   else error->all(FLERR,"Illegal command, need either an STL file or a VTK file as input for triangular mesh.");
@@ -197,14 +197,14 @@ void InputMeshTri::meshtrifile_vtk(class TriMesh *mesh,class Region *region)
     nLines++;
 
     if (0 == (nLines % 100000) && comm->me == 0)
-        fprintf(screen,"   successfully read a chunk of 100000 elements in VTK file\n");
+        if (screen) fprintf(screen,"   successfully read a chunk of 100000 elements in VTK file\n");
 
     // parse one line from the file
     parse_nonlammps();
     // skip empty lines
     if(narg == 0){
          if (me == 0 && verbose_)
-            fprintf(screen,"Note: Skipping empty line in VTK mesh file\n");
+            if (screen) fprintf(screen,"Note: Skipping empty line in VTK mesh file\n");
       continue;
     }
 
@@ -373,7 +373,7 @@ void InputMeshTri::meshtrifile_stl(class TriMesh *mesh,class Region *region, con
     nLines++;
 
     if (0 == (nLines % 100000) && comm->me == 0)
-        fprintf(screen,"   successfully read a chunk of 100000 elements in STL file '%s'\n",filename);
+        if (screen) fprintf(screen,"   successfully read a chunk of 100000 elements in STL file '%s'\n",filename);
 
     // parse one line from the stl file
 
@@ -382,7 +382,7 @@ void InputMeshTri::meshtrifile_stl(class TriMesh *mesh,class Region *region, con
     // skip empty lines
     if(narg==0){
          if (me == 0 && verbose_)
-            fprintf(screen,"Note: Skipping empty line in STL file\n");
+            if (screen) fprintf(screen,"Note: Skipping empty line in STL file\n");
       continue;
     }
 
@@ -392,7 +392,7 @@ void InputMeshTri::meshtrifile_stl(class TriMesh *mesh,class Region *region, con
         {
             fclose(nonlammps_file);
             if (verbose_)
-                fprintf(screen,"Note: solid keyword not found, assuming binary stl file\n");
+                if (screen) fprintf(screen,"Note: solid keyword not found, assuming binary stl file\n");
         }
         nonlammps_file = NULL;
         meshtrifile_stl_binary(mesh, region, filename);
@@ -406,7 +406,7 @@ void InputMeshTri::meshtrifile_stl(class TriMesh *mesh,class Region *region, con
         error->all(FLERR,"Corrupt or unknown STL file: New solid object begins without closing prior solid object.");
       insideSolidObject=true;
       if (me == 0 && verbose_){
-         fprintf(screen,"Solid body detected in STL file\n");
+         if (screen) fprintf(screen,"Solid body detected in STL file\n");
        }
     }
     else if (strcmp(arg[0],"endsolid") == 0)
@@ -415,7 +415,7 @@ void InputMeshTri::meshtrifile_stl(class TriMesh *mesh,class Region *region, con
          error->all(FLERR,"Corrupt or unknown STL file: End of solid object found, but no begin.");
        insideSolidObject=false;
        if (me == 0 && verbose_) {
-         fprintf(screen,"End of solid body detected in STL file.\n");
+         if (screen) fprintf(screen,"End of solid body detected in STL file.\n");
        }
     }
 
@@ -573,7 +573,7 @@ void InputMeshTri::meshtrifile_stl_binary(class TriMesh *mesh, class Region *reg
                 addTriangle(mesh, &vert[0], &vert[3], &vert[6], count);
                 nElems++;
                 if (0 == (nElems % 100000) && comm->me == 0)
-                    fprintf(screen,"   successfully read a chunk of 100000 elements in STL file '%s'\n",filename);
+                    if (screen) fprintf(screen,"   successfully read a chunk of 100000 elements in STL file '%s'\n",filename);
             }
         }
 
@@ -791,7 +791,7 @@ void InputMeshTri::generate_box(const GeneratorParameters * params,
     VERIFY(count == num_of_facets);
 
     if(me == 0){
-        fprintf(screen, "box mesh generated: %u triangels\n", count);
+        if (screen) fprintf(screen, "box mesh generated: %u triangels\n", count);
     }
 }
 
@@ -871,7 +871,7 @@ void InputMeshTri::generate_cylinder(const GeneratorParameters * params, class T
     VERIFY(count == num_of_facets);
 
     if(me == 0){
-        fprintf(screen, "cylinder mesh generated: %u triangels\n", count);
+        if (screen) fprintf(screen, "cylinder mesh generated: %u triangels\n", count);
     }
 
     free(ring);
@@ -1010,7 +1010,7 @@ void InputMeshTri::generate_pipe(const GeneratorParameters * params, class TriMe
     VERIFY(count == num_of_facets);
 
     if(me == 0){
-        fprintf(screen, "pipe mesh generated: %u triangels\n", count);
+        if (screen) fprintf(screen, "pipe mesh generated: %u triangels\n", count);
     }
 
     free(inner_ring);
@@ -1065,7 +1065,7 @@ void InputMeshTri::generate_disk(const GeneratorParameters * params, class TriMe
 #undef RINGY
 
     if(me == 0){
-        fprintf(screen, "disk mesh generated: %u triangels\n", count);
+        if (screen) fprintf(screen, "disk mesh generated: %u triangels\n", count);
     }
 
     free(ring);
@@ -1098,7 +1098,7 @@ void InputMeshTri::generate_plane(const GeneratorParameters * params, class TriM
                                -size, -size, 0);
 
     if(me == 0){
-        fprintf(screen, "plane mesh generated: %u triangels\n", count);
+        if (screen) fprintf(screen, "plane mesh generated: %u triangels\n", count);
     }
 }
 

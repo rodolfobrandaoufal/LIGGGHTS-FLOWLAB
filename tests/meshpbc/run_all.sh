@@ -19,7 +19,8 @@ BIN=${1:-}; REF=${2:-}; W=${3:-$(mktemp -d)}
 [ -n "$BIN" ] && [ -x "$BIN" ] || { echo "SKIP: binary '$BIN' not found"; exit 77; }
 command -v mpirun >/dev/null || { echo "SKIP: no mpirun"; exit 77; }
 BIN=$(readlink -f "$BIN"); [ -n "$REF" ] && REF=$(readlink -f "$REF")
-CPUS=${MESHPBC_CPUS:-0-9}; NPMAX=${MESHPBC_NPMAX:-9}
+. "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../lib/cpus.sh"
+CPUS=${MESHPBC_CPUS:-$(liggghts_cpus 0-9)}; NPMAX=${MESHPBC_NPMAX:-9}
 mkdir -p "$W"; W=$(readlink -f "$W")
 CMPA="python3 $HERE/compare_atoms.py"
 CMPB="python3 $HERE/../newton/compare.py"

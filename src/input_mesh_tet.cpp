@@ -184,7 +184,7 @@ void InputMeshTet::meshtetfile_vtk(class RegTetMesh *mesh)
     // skip empty lines
     if(narg == 0){
          if (me == 0 && verbose_)
-            fprintf(screen,"Note: Skipping empty line in VTK mesh file\n");
+            if (screen) fprintf(screen,"Note: Skipping empty line in VTK mesh file\n");
       continue;
     }
 

@@ -193,7 +193,7 @@ void FixSPHDensitySum::post_integrate_eval()
     W = SPH_KERNEL_NS::sph_kernel(kernel_id,0.,sli,sliInv);
     if (W < 0.)
     {
-      fprintf(screen,"s = %f, W = %f\n",s,W);
+      if (screen) fprintf(screen,"s = %f, W = %f\n",s,W);
       error->one(FLERR,"Illegal kernel used, W < 0");
     }
 
@@ -267,7 +267,7 @@ void FixSPHDensitySum::post_integrate_eval()
       W = SPH_KERNEL_NS::sph_kernel(kernel_id,s,slCom,slComInv);
       if (W < 0.)
       {
-        fprintf(screen,"s = %f, W = %f\n",s,W);
+        if (screen) fprintf(screen,"s = %f, W = %f\n",s,W);
         error->one(FLERR,"Illegal kernel used, W < 0");
       }
 
