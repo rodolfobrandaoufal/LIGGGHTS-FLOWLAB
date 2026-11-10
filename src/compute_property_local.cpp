@@ -67,6 +67,7 @@ enum{NONE,NEIGH,PAIR,BOND,ANGLE,DIHEDRAL,IMPROPER};
 ComputePropertyLocal::ComputePropertyLocal(LAMMPS *lmp, int &iarg, int narg, char **arg) :
   Compute(lmp, iarg, narg, arg)
 {
+  list = NULL;
   if (narg < iarg+1) error->all(FLERR,"Illegal compute property/local command");
 
   local_flag = 1;
@@ -376,6 +377,8 @@ int ComputePropertyLocal::count_pairs(int allflag, int forceflag)
 
   // invoke half neighbor list (will copy or build if necessary)
 
+  // no list before the first neighbor build of a run (review UR-04)
+  if (!list) error->compute_error(FLERR,this,"neighbor list not available yet: the compute was invoked before the first run (e.g. through a v_ value of fix property/global, which is evaluated at init)");
   if (allflag == 0) neighbor->build_one(list->index);
 
   inum = list->inum;

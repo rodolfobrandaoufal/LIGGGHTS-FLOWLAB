@@ -20,5 +20,9 @@ $BIN -in $D/in.friction_ramp_preno -log frp.log > /dev/null 2>&1;       chk fric
 mkdir -p ss && (cd ss && $BIN -in $D/in.stiffness_switch -log log > /dev/null 2>&1); chk stiffness_switch python3 $D/check_stiffness_switch.py ss/traj.txt
 mkdir -p ts && (cd ts && $BIN -in $D/in.timestep_consistency -log log > /dev/null 2>&1); chk timestep_consistency python3 $D/check_timestep_consistency.py ts/ts.txt
 for np in 1 2; do WORKDIR=$W/val$np chk validation_np$np $D/check_validation.sh $B $np; done
+# review UR-04: clean error instead of a segfault; UR-05: compute booked on the evaluation step
+$BIN -in $D/in.compute_neigh_init -log cni.log > cni.out 2>&1; cni_rc=$?
+chk compute_neigh_init_error sh -c "[ $cni_rc -ne 0 ] && [ $cni_rc -lt 128 ] && grep -q 'neighbor list not available yet' cni.out && echo 'clean error, exit $cni_rc'"
+$BIN -in $D/in.compute_every -log ce.log > ce.out 2>&1; chk compute_every_booking sh -c "[ $? -eq 0 ] && echo 'run completed'"
 [ $fail = 0 ] && echo "ALL PASS ($B)" || echo "SOME FAILED ($B)"
 exit $fail

@@ -59,6 +59,8 @@ using namespace LAMMPS_NS;
 #define BUFFACTOR 1.5
 #define BUFMIN 1000
 #define BUFEXTRA 1000
+#define BUFATOM 1000   // datums of one atom besides maxexchange_fix (AtomVec,
+                       // fix property/atom, ...), as BUFMIN in Comm::init()
 
 /* ----------------------------------------------------------------------
    sort the receive list (sending procs and message sizes) by rank
@@ -180,9 +182,11 @@ void Irregular::migrate_atoms()
       if (proclist[nsendatom] != me) {
         if (nsend > maxsend) grow_send(nsend,1);
         // one atom may carry more than BUFEXTRA datums (many contact
-        // history partners): make room for the largest possible atom
-        if (nsend + comm->maxexchange_atom + comm->maxexchange_fix > maxsend + BUFEXTRA)
-          grow_send(nsend + comm->maxexchange_atom + comm->maxexchange_fix,1);
+        // history partners): make room for the largest possible atom,
+        // including the AtomVec and per-atom fix data (review UR-06)
+        const int maxatom = BUFATOM + comm->maxexchange_atom + comm->maxexchange_fix;
+        if (nsend + maxatom > maxsend + BUFEXTRA)
+          grow_send(nsend + maxatom,1);
         sizes[nsendatom] = avec->pack_exchange(i,&buf_send[nsend]);
         nsend += sizes[nsendatom];
         nsendatom++;

@@ -115,6 +115,7 @@ class FixContactHistory : public Fix {
   virtual void pre_exchange();
   virtual void min_setup_pre_exchange();
   void min_pre_exchange();
+  virtual void post_run();
 
   virtual double memory_usage();
   virtual void grow_arrays(int);

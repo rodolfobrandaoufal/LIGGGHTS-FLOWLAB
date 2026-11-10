@@ -628,7 +628,9 @@ void FixPropertyGlobal::update_variable_values()
                     error->fix_error(FLERR,this,"time-dependent per-atomtype property matrix must remain symmetric");
     }
 
-    modify->addstep_compute(update->ntimestep + update_every);
+    // next evaluation: the next multiple of update_every (pre_force), also
+    // when this one ran at setup on another step (review UR-05)
+    modify->addstep_compute((update->ntimestep/update_every)*update_every + update_every);
 
     // C-01/F-01: publish the change and let the registry refresh, in place,
     // the property copies (and derived quantities) the contact models read.

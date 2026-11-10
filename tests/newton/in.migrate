@@ -9,9 +9,12 @@
 #   reneighbored every few steps. No relative motion => both springs must stay
 #   constant; a history reset (e.g. a record lost on an ownership change) sets
 #   the contact force back to the normal force only.
-# Variables: nw (newton flag), nmove (phase 2 steps)
+# Variables: nw (newton flag), nmove (phase 2 steps), extra (1: create a
+#   third, non-touching atom between the two runs; the history of the pair
+#   must survive the atom being appended over the ghost slots, review UR-01)
 variable nw index on
 variable nmove index 6000
+variable extra index 0
 hard_particles yes
 atom_style granular
 atom_modify map array
@@ -42,6 +45,7 @@ set atom 2 vx -0.016 vy  0.012 vz 0.0 omegax -2.0 omegay -1.0 omegaz 1.0
 compute pgl all pair/gran/local id force history
 thermo 1000000
 run 100
+if "${extra} > 0" then "create_atoms 1 single 0.010 0.003 0.003 units box" "set atom 3 diameter 0.002 density 2500"
 set atom * vx 0 vy 0 vz 0 omegax 0 omegay 0 omegaz 0
 # phase 2: rigid translation, 16 mm per 1000 steps in x (one box length per 2000 steps)
 fix mv all move linear 16.0 3.0 0.0

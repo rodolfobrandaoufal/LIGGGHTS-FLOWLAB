@@ -40,3 +40,6 @@ __pycache__/
 /audit/scripts/**/*.out
 /audit/scripts/**/*.so
 /audit/scripts/perf/vec/
+
+# Generated inputs of the benchmark decks (benchmarks/cases/*/prepare.sh)
+/benchmarks/cases/*/generated/

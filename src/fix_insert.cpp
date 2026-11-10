@@ -88,6 +88,8 @@ FixInsert::FixInsert(LAMMPS *lmp, int narg, char **arg) :
   setup_flag = false;
   rng_restart_pending_ = false;
   rng_restart_state_[0] = rng_restart_state_[1] = 0;
+  rng_gauss_pending_ = false;
+  rng_gauss_state_[0] = rng_gauss_state_[1] = rng_gauss_state_[2] = rng_gauss_state_[3] = 0.0;
 
   fix_distribution = NULL;
   fix_multisphere = NULL;
@@ -376,6 +378,14 @@ void FixInsert::setup(int vflag)
       RanPark *rng_region = insertion_region_rng();
       if(rng_region && rng_restart_state_[1] > 0)
           rng_region->reset(rng_restart_state_[1]);
+      // reset() dropped the cached gaussian; restore it (review UR-03)
+      if(rng_gauss_pending_)
+      {
+          random->set_gaussian_cache(static_cast<int>(rng_gauss_state_[0]),rng_gauss_state_[1]);
+          if(rng_region && rng_restart_state_[1] > 0)
+              rng_region->set_gaussian_cache(static_cast<int>(rng_gauss_state_[2]),rng_gauss_state_[3]);
+          rng_gauss_pending_ = false;
+      }
       if(!restart_extra_.empty())
           unpack_restart_extra(&restart_extra_[0]);
       restart_extra_.clear();
@@ -1018,8 +1028,19 @@ void FixInsert::write_restart(FILE *fp)
       MPI_Gather(&extra_me[0],nextra,MPI_DOUBLE,&extra_all[0],nextra,MPI_DOUBLE,0,world);
   }
 
+  // third extension (review UR-03): marker -4, nprocs, then per proc the
+  // cached gaussian (save flag, value) of the insertion and of the region
+  // generator; RanPark::state() does not include it
+  double gauss_me[4];
+  gauss_me[0] = random->gaussian_saved();
+  gauss_me[1] = random->gaussian_second();
+  gauss_me[2] = rng_region ? rng_region->gaussian_saved() : 0;
+  gauss_me[3] = rng_region ? rng_region->gaussian_second() : 0.0;
+  std::vector<double> gauss_all(4*nprocs);
+  MPI_Gather(gauss_me,4,MPI_DOUBLE,&gauss_all[0],4,MPI_DOUBLE,0,world);
+
   int n = 0;
-  std::vector<double> list(7 + 2*nprocs + (nextra > 0 ? 2 + nextra*nprocs : 0));
+  std::vector<double> list(7 + 2*nprocs + (nextra > 0 ? 2 + nextra*nprocs : 0) + 2 + 4*nprocs);
   list[n++] = static_cast<double>(random->state());
   list[n++] = static_cast<double>(ninserted);
   list[n++] = static_cast<double>(first_ins_step);
@@ -1036,6 +1057,10 @@ void FixInsert::write_restart(FILE *fp)
     for (int i = 0; i < nextra*nprocs; i++)
       list[n++] = extra_all[i];
   }
+  list[n++] = -4.0;
+  list[n++] = static_cast<double>(nprocs);
+  for (int i = 0; i < 4*nprocs; i++)
+    list[n++] = gauss_all[i];
 
   if (comm->me == 0) {
     int size = n * sizeof(double);
@@ -1079,6 +1104,18 @@ void FixInsert::restart(char *buf)
       if(nextra > 0 && list[m] == -3.0 && static_cast<int>(list[m+1]) == nextra)
           restart_extra_.assign(list + m + 2 + nextra*comm->me,
                                 list + m + 2 + nextra*(comm->me+1));
+
+      // third extension: cached gaussians, after the second extension if
+      // the record has one (its size is in the record). Older records read
+      // 0 here (end of record or Modify's zero padding)
+      const int m3 = (list[m] == -3.0) ? m + 2 + static_cast<int>(list[m+1])*comm->nprocs : m;
+      rng_gauss_pending_ = false;
+      if(list[m3] == -4.0 && static_cast<int>(list[m3+1]) == comm->nprocs)
+      {
+          for (int k = 0; k < 4; k++)
+              rng_gauss_state_[k] = list[m3+2+4*comm->me+k];
+          rng_gauss_pending_ = true;
+      }
       if(rng_restart_pending_ && comm->me == 0)
       {
           if(screen) fprintf(screen,"Fix %s: random sequences continued from restart file\n",id);

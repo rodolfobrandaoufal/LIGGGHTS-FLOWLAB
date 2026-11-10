@@ -72,6 +72,7 @@ using namespace LAMMPS_NS;
 ComputePairGranLocal::ComputePairGranLocal(LAMMPS *lmp, int &iarg, int narg, char **arg) :
   Compute(lmp, iarg, narg, arg)
 {
+  list = NULL;
   if (narg < iarg) error->all(FLERR,"Illegal compute pair/gran/local or wall/gran/local command");
 
   local_flag = 1;
@@ -371,6 +372,8 @@ int ComputePairGranLocal::count_pairs(int & nCountSurfacesIntersect)
   //neighbor->build_one(list->index); 
 
   list = pairgran->list; 
+  // no list before the first neighbor build of a run (review UR-04)
+  if (!list) error->compute_error(FLERR,this,"neighbor list not available yet: the compute was invoked before the first run (e.g. through a v_ value of fix property/global, which is evaluated at init)");
   inum = list->inum;
   ilist = list->ilist;
   numneigh = list->numneigh;

@@ -75,6 +75,7 @@ class FixContactHistoryMesh : public FixContactHistory {
   void setup_pre_exchange();
   void min_setup_pre_exchange();
   void pre_exchange();
+  void post_run() {} // mesh history lives in per-atom arrays already
 
   void setup_pre_force(int dummy);
   void setup_pre_neighbor();

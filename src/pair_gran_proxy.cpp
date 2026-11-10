@@ -50,6 +50,8 @@
 #include "contact_models.h"
 #include "utils.h"
 #include <string>
+#include <sstream>
+#include <vector>
 
 #ifdef LIGGGHTS_OMP
 #include "thr_granular.h"
@@ -85,13 +87,7 @@ void PairGranProxy::settings(int nargs, char ** args)
   impl = LIGGGHTS::PairStyles::Factory::instance().create("gran", variant, lmp, this);
 
 #ifdef LIGGGHTS_OMP
-  // OpenMP (roadmap C2): contact-model options that are not thread-safe
-  {
-    const std::string why = LIGGGHTS::ThrGranular::unsafe_model_keywords(thr_nargs, thr_args);
-    LIGGGHTS::ThrGranular::set_unsafe(static_cast<PairGran*>(this), why);
-    if (!why.empty() && LIGGGHTS::ThrGranular::config(lmp).nthreads > 1)
-      LIGGGHTS::ThrGranular::fallback_warning(lmp, static_cast<PairGran*>(this), "pair gran", why);
-  }
+  update_thread_safety(thr_nargs, thr_args);
 #endif
 
   if(impl) {
@@ -104,6 +100,21 @@ void PairGranProxy::settings(int nargs, char ** args)
                       + LIGGGHTS::Utils::gran_whitelist_remedy(variant);
     error->all(FLERR, msg.c_str());
   }
+}
+
+/* OpenMP (roadmap C2): contact-model options that are not thread-safe run
+   the serial kernel. Without OpenMP this does nothing. */
+
+void PairGranProxy::update_thread_safety(int nargs, char ** args)
+{
+#ifdef LIGGGHTS_OMP
+  const std::string why = LIGGGHTS::ThrGranular::unsafe_model_keywords(nargs, args);
+  LIGGGHTS::ThrGranular::set_unsafe(static_cast<PairGran*>(this), why);
+  if (!why.empty() && LIGGGHTS::ThrGranular::config(lmp).nthreads > 1)
+    LIGGGHTS::ThrGranular::fallback_warning(lmp, static_cast<PairGran*>(this), "pair gran", why);
+#else
+  (void) nargs; (void) args;
+#endif
 }
 
 void PairGranProxy::init_granular()
@@ -151,6 +162,15 @@ void PairGranProxy::read_restart_settings(FILE * fp, const int major, const int 
 
   if(impl) {
     impl->read_restart_settings(fp, selected);
+    // same thread-safety decision as settings() (review UR-07). The restart
+    // stores the model hashcode only (options are back at their defaults),
+    // so the model keywords are rebuilt from it
+    std::istringstream kw(LIGGGHTS::Utils::gran_hashcode_to_keywords(selected));
+    std::vector<std::string> words;
+    for (std::string w; kw >> w; ) words.push_back(w);
+    std::vector<char*> argv;
+    for (size_t i = 0; i < words.size(); i++) argv.push_back(const_cast<char*>(words[i].c_str()));
+    update_thread_safety(static_cast<int>(argv.size()), argv.empty() ? NULL : &argv[0]);
   } else {
     // 'selected' was broadcast above, so this branch is taken collectively
     std::string msg = std::string("Contact model stored in the restart file is not available in this binary:\n    pair_style gran ")

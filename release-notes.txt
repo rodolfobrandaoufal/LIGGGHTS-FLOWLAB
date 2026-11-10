@@ -11,6 +11,32 @@ Modernization branch (LIGGGHTS-FLOWLAB): changed defaults
    earlier versions at round-off level. Earlier behaviour:
    "atom_modify sort_bin_factor 0.5".
 
+ 2026-11-10 (v7 phase 0, review UR-03)  restarts of fix insert/* with
+   "vel gaussian" continue the gaussian sequence: the cached second value
+   of the generator is now stored in the restart file. A restarted run is
+   then bitwise equal to the uninterrupted one; before, insertion velocities
+   diverged after a restart written with an odd count of gaussians. Restart
+   files of earlier versions are still read (without the cached value). No
+   option restores the old behaviour.
+
+ 2026-11-10 (v7 phase 0)  fixes without a change of default results:
+   - UR-01: newton pair on with contact history no longer stops with
+     "neighbor list is out of date" when atoms were created between runs
+     (the history is stored at the end of each run).
+   - UR-02/UR-11: package omp with fewer threads than requested (OMP_DYNAMIC,
+     OMP_THREAD_LIMIT) runs with unchanged results instead of stopping
+     (deterministic mode) or adding stale per-thread forces (deterministic no).
+   - UR-04: a v_ value of fix property/global that depends on a compute with
+     a neighbor list (e.g. contact/atom) stops with an error message on the
+     first run instead of a segmentation fault.
+   - UR-05: "every N" with a compute that needs an energy or virial tally no
+     longer fails with "Energy was not tallied" when a run starts on a step
+     that is not a multiple of N.
+   - UR-06: Irregular (balance, migration) reserves room for the whole data
+     of one atom, not only its fix data.
+   - UR-07: a thread-unsafe contact model restored by read_restart (without
+     a new pair_style) runs the serial kernel under package omp.
+
  2026-10-06 (phase I)  atoms moved between processors by Irregular
    (displace_atoms, balance, fix balance, insertion, read_restart, ...)
    are unpacked in processor order instead of message arrival order.

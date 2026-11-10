@@ -64,6 +64,22 @@ kd=$(ke "$W/box_d4/run.out"); kf=$(ke "$W/box_f4a/run.out")
 if awk -v a="$kd" -v b="$kf" 'BEGIN{d=(a-b)/a; if(d<0)d=-d; exit !(a>0 && d<1e-9)}'
 then echo "PASS box: deterministic no, final KE rel. deviation $(awk -v a=$kd -v b=$kf 'BEGIN{d=(a-b)/a;printf "%.2e", d<0?-d:d}') < 1e-9"
 else echo "FAIL box: deterministic no, KE $kf vs $kd"; [ $rc = 0 ] && rc=1; fi
+# 3b. team smaller than requested (review UR-02, UR-11): package omp 4 with
+#     OMP_THREAD_LIMIT=2; deterministic results must not depend on the team
+OMP_THREAD_LIMIT=2 run box_lim2 in.box 1 1 "$BIN" -var nt 4 -var det yes
+same box_base box_lim2 "box: package omp 4 with OMP_THREAD_LIMIT=2, deterministic == serial"
+OMP_THREAD_LIMIT=2 run box_lim2f in.box 1 1 "$BIN" -var nt 4 -var det no
+kl=$(ke "$W/box_lim2f/run.out")
+if awk -v a="$kd" -v b="$kl" 'BEGIN{d=(a-b)/a; if(d<0)d=-d; exit !(a>0 && d<1e-9)}'
+then echo "PASS box: package omp 4 with OMP_THREAD_LIMIT=2, deterministic no, KE within 1e-9"
+else echo "FAIL box: OMP_THREAD_LIMIT=2 deterministic no, KE $kl vs $kd"; [ $rc = 0 ] && rc=1; fi
+# 3c. thread-unsafe model restored from a restart file (review UR-07)
+run easo_w in.easo_write 1 1 "$BIN"
+mkdir -p "$W/easo_r"; cp "$W/easo_w/easo.restart" "$W/easo_r/" 2>/dev/null
+run easo_r in.easo_read 1 1 "$BIN"
+if grep -q "threading disabled.*easo/capillary/viscous" "$W/easo_r/run.out"
+then echo "PASS easo/capillary/viscous from a restart file runs the serial kernel"
+else echo "FAIL easo/capillary/viscous from a restart file runs threaded"; [ $rc = 0 ] && rc=1; fi
 # 4. chute deck (mesh walls)
 run chute_np1 in.chute 1 1 "$BIN"
 run chute_np1_t4 in.chute 1 1 "$BIN" -var nt 4

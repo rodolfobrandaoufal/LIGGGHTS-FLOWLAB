@@ -78,6 +78,9 @@ public:
   virtual bool contact_match(const std::string mtype, const std::string model);
 
   virtual int64_t hashcode();
+
+private:
+  void update_thread_safety(int nargs, char ** args);
 };
 }
 

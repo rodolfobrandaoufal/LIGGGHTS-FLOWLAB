@@ -60,6 +60,12 @@ class RanPark : public Random {
   void reset(int, double *);
   int state();
 
+  // cached second value of gaussian(), so that a restart can continue the
+  // gaussian sequence (reset() clears it; review UR-03)
+  int gaussian_saved() const { return save; }
+  double gaussian_second() const { return second; }
+  void set_gaussian_cache(int s, double v) { save = s; second = v; }
+
  private:
   int save;
   double second;

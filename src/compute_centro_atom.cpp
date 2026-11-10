@@ -69,6 +69,7 @@ using namespace LAMMPS_NS;
 ComputeCentroAtom::ComputeCentroAtom(LAMMPS *lmp, int &iarg, int narg, char **arg) :
   Compute(lmp, iarg, narg, arg)
 {
+  list = NULL;
   if (narg != iarg+1) error->all(FLERR,"Illegal compute centro/atom command");
 
   if (strcmp(arg[iarg],"fcc") == 0)
@@ -151,6 +152,8 @@ void ComputeCentroAtom::compute_peratom()
 
   // invoke full neighbor list (will copy or build if necessary)
 
+  // no list before the first neighbor build of a run (review UR-04)
+  if (!list) error->compute_error(FLERR,this,"neighbor list not available yet: the compute was invoked before the first run (e.g. through a v_ value of fix property/global, which is evaluated at init)");
   neighbor->build_one(list->index);
 
   inum = list->inum;

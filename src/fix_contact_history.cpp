@@ -298,6 +298,21 @@ void FixContactHistory::setup_pre_exchange()
 }
 
 /* ----------------------------------------------------------------------
+   store the history in the atom arrays at the end of a run, while the
+   neighbor list and the ghosts still match the atoms (as LAMMPS
+   FixNeighHistory::post_run). commands between runs (create_atoms,
+   delete_atoms, ...) may append atoms over the ghost slots or reorder
+   the atoms; setup_pre_exchange() of the next run then finds
+   computeflag 0 and does not read the outdated list (review UR-01)
+------------------------------------------------------------------------- */
+
+void FixContactHistory::post_run()
+{
+  if (computeflag_ && *computeflag_)
+    FixContactHistory::pre_exchange();
+}
+
+/* ----------------------------------------------------------------------
    copy contacthistory partner info from neighbor lists to atom arrays
    so can be migrated or stored with atoms
 ------------------------------------------------------------------------- */

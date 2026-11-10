@@ -23,7 +23,7 @@ run() { # dir np bin deck [-var ...]
   rm -rf "$d"; mkdir -p "$d"
   [ -f "$W/gen/bed.restart" ] && cp "$W/gen/bed.restart" "$d/rs.restart"
   (cd "$d" && OMP_NUM_THREADS=1 taskset -c $CPUS mpirun --oversubscribe -np $np "$b" -in "$HERE/$deck" \
-       -var tdir "$HERE" "$@" -log log > out 2>&1) || { echo "RUN FAILED: $1"; grep -m3 ERROR "$d/out"; return 1; }
+       -var tdir "$HERE" "$@" -log log > out 2>&1) || { echo "RUN FAILED: ${d##*/}"; grep -m3 ERROR "$d/out"; return 1; }
 }
 nps() { for n in 1 2 4 8 16; do [ $n -le $NPMAX ] && echo $n; done; }
 
@@ -58,6 +58,14 @@ for np in $(nps); do
   out=$($CMP $W/mig_off_1 $W/mig_on_$np 1e-12 pairs6000.txt -) && pass "migrate np $np per-contact history vs newton off ($out)" || fail "migrate np $np history: $out"
 done
 out=$(const_check $W/mig_off_1/traj.txt) && pass "migrate np 1 newton off: springs constant ($out)" || fail "migrate newton off: $out"
+
+echo "== 1a. as 1, with an atom created between the two runs (appended over the ghost slots;"
+echo "       review UR-01: the history must be stored at the end of the first run) =="
+for np in $(nps); do
+  [ $np -gt 4 ] && continue
+  run mig_x_$np $np "$BIN" in.migrate -var nw on -var extra 1 -var nmove 2000 || { rc=1; continue; }
+  out=$(const_check $W/mig_x_$np/traj.txt) && pass "create_atoms between runs np $np newton on: springs constant ($out)" || fail "create_atoms between runs np $np: $out"
+done
 
 echo "== 1b. tumbling contact (frame-indifferent tangential spring, tests/tangential/check_spin.py):"
 echo "       the pair rotates about the corner of the processor grid, so the pair changes owner AND"

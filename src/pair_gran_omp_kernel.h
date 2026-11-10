@@ -309,6 +309,10 @@ bool Granular<ContactModel>::compute_force_thr_t(PairGran * pg, int eflag, int v
   #pragma omp parallel num_threads(nthr)
   {
     const int tid = omp_get_thread_num();
+    // the team may be smaller than nthr (OMP_DYNAMIC, thread limit): the
+    // blocked parts and the per-thread slices are then distributed over the
+    // threads present, with unchanged results (review UR-02, UR-11)
+    const int nteam = omp_get_num_threads();
     ThrGranular::PairState::Scratch & scr = st.scratch[tid];
     if (!scr.sidata) {
       scr.sidata = aligned_malloc<SurfacesIntersectData>(32);
@@ -570,16 +574,15 @@ bool Granular<ContactModel>::compute_force_thr_t(PairGran * pg, int eflag, int v
     // only on request ("package omp N chunk M"); default static blocks
     // (contiguous rows, better cache locality)
     if (blocked) {
-      // blocked deterministic mode. Thread tid owns rows [rowstart[tid],
-      // rowstart[tid+1]) and the atoms of these rows. The contributions to an
-      // atom are then added in the serial order: first the j-side of cross
-      // pairs from earlier rows, then the pairs of the own rows (cross pairs
-      // there contribute their buffered i-side), then the j-side of cross
-      // pairs from later rows.
-      if (omp_get_num_threads() != nthr)
-        error->one(FLERR, "pair gran (OpenMP): got fewer threads than requested (OMP_DYNAMIC?)");
+      // blocked deterministic mode. Part b of nthr owns rows [rowstart[b],
+      // rowstart[b+1]) and the atoms of these rows; thread tid runs the parts
+      // tid, tid+nteam, ... The contributions to an atom are then added in
+      // the serial order: first the j-side of cross pairs from earlier rows,
+      // then the pairs of the own rows (cross pairs there contribute their
+      // buffered i-side), then the j-side of cross pairs from later rows.
       // phase 1: evaluate the cross pairs of the own rows
-      for (int c = bk.cstart[tid]; c < bk.cstart[tid+1]; c++) {
+      for (int b = tid; b < nthr; b += nteam)
+      for (int c = bk.cstart[b]; c < bk.cstart[b+1]; c++) {
         cur_cross = c;
         row(bk.c_ii[c], bk.c_jj[c], bk.c_jj[c]+1, M_CROSS);
       }
@@ -600,10 +603,12 @@ bool Granular<ContactModel>::compute_force_thr_t(PairGran * pg, int eflag, int v
         }
       };
       // phase 2
-      add_jside(2*tid);
-      for (int ii = bk.rowstart[tid]; ii < bk.rowstart[tid+1]; ii++)
-        row(ii, 0, -1, M_BLOCK);
-      add_jside(2*tid+1);
+      for (int b = tid; b < nthr; b += nteam) {
+        add_jside(2*b);
+        for (int ii = bk.rowstart[b]; ii < bk.rowstart[b+1]; ii++)
+          row(ii, 0, -1, M_BLOCK);
+        add_jside(2*b+1);
+      }
     } else if (det && chunk > 0) {
       #pragma omp for schedule(dynamic,chunk)
       for (int ii = 0; ii < inum; ii++)
@@ -650,10 +655,11 @@ bool Granular<ContactModel>::compute_force_thr_t(PairGran * pg, int eflag, int v
         }
       }
     } else if (computeflag && !det) {
-      // reduce the per-thread arrays in thread order
+      // reduce the per-thread arrays in thread order (only the slices of
+      // the threads present were zeroed and filled)
       #pragma omp for schedule(static)
       for (int k = 0; k < natom; k++) {
-        for (int t = 0; t < nthr; t++) {
+        for (int t = 0; t < nteam; t++) {
           const double * const b = fbuf + ((size_t)t*natom + k)*6;
           f[k][0] += b[0];
           f[k][1] += b[1];

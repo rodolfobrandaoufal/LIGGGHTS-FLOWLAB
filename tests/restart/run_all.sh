@@ -27,7 +27,7 @@ run() {
   cp "$W/gen/gen.restart" "$d/" 2>/dev/null
   [ "$rs" != "-" ] && cp "$rs" "$d/mid.restart"
   (cd "$d" && OMP_NUM_THREADS=1 taskset -c $CPUS mpirun --oversubscribe -np $np "$b" -in "$HERE/$deck" \
-       -var tdir "$HERE" "$@" -log log > out 2>&1) || { echo "RUN FAILED: $1"; grep -m3 ERROR "$d/out"; return 1; }
+       -var tdir "$HERE" "$@" -log log > out 2>&1) || { echo "RUN FAILED: ${d##*/}"; grep -m3 ERROR "$d/out"; return 1; }
 }
 # restart files equal except for the version string (build date, commit)
 same_restart() { python3 - "$1" "$2" <<'PY'
@@ -98,6 +98,14 @@ for ins in 1 2; do for np in 1 4; do
   na=$(awk '$1==5000 && NF==7 {print $2}' $W/$n.r/log | tail -1)
   same $n.c $n.r && pass "insert/$( [ $ins = 1 ] && echo pack || echo rate/region ) np $np: restart chain bitwise ($na atoms)" \
                  || fail "insert ins=$ins np $np: restart chain differs"
+done; done
+echo "== 2b. as 2 with gaussian insertion velocities: the cached second gaussian is restored (review UR-03) =="
+for ins in 1 2; do for np in 1 4; do
+  [ $np -le $NPMAX ] || continue; n=insg${ins}_$np
+  run $n.c $np "$BIN" in.insert - -var mode 1 -var ins $ins -var gauss 1 && \
+  run $n.r $np "$BIN" in.insert $W/$n.c/mid.restart -var mode 2 -var ins $ins -var gauss 1 || { rc=1; continue; }
+  same $n.c $n.r && pass "insert/$( [ $ins = 1 ] && echo pack || echo rate/region ) vel gaussian np $np: restart chain bitwise" \
+                 || fail "insert ins=$ins vel gaussian np $np: restart chain differs"
 done; done
 run ins0_1.c 1 "$BIN" in.insert - -var mode 1 -var ins 0 && run ins0_1.r 1 "$BIN" in.insert $W/ins0_1.c/mid.restart -var mode 2 -var ins 0 && {
   same ins0_1.c ins0_1.r && pass "insert/stream np 1: restart chain bitwise" \

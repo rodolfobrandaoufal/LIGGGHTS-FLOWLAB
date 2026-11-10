@@ -1,0 +1,26 @@
+# Review UR-07: package omp 4 after read_restart without pair_style: the restored
+# model must still be routed to the serial kernel (warning 'threading disabled')
+package omp 4
+atom_style    granular
+atom_modify   map array
+boundary      f f f
+newton        off
+communicate   single vel yes
+units         si
+read_restart  easo.restart
+neighbor      0.0005 bin
+neigh_modify  delay 0
+timestep      1e-6
+fix  m1 all property/global youngsModulus peratomtype 1.e7 1.e7
+fix  m2 all property/global poissonsRatio peratomtype 0.3 0.3
+fix  m3 all property/global coefficientRestitution peratomtypepair 2 0.5 0.5 0.5 0.5
+fix  m4 all property/global coefficientFriction peratomtypepair 2 0.5 0.5 0.5 0.5
+fix  m5 all property/global characteristicVelocity scalar 1.0
+fix  l1 all property/global surfaceLiquidContentInitial scalar 0.01
+fix  l2 all property/global liquidSurfaceTension scalar 0.072
+fix  l3 all property/global fluidViscosity scalar 0.001
+fix  l4 all property/global contactAngle peratomtype 0.5 0.3
+fix  l5 all property/global minSeparationDistanceRatio scalar 0.01
+fix  l6 all property/global maxSeparationDistanceRatio scalar 1.1
+thermo 10
+run 20

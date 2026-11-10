@@ -235,6 +235,10 @@ class FixInsert : public Fix {
   virtual class RanPark *insertion_region_rng() { return NULL; }
   bool rng_restart_pending_;
   int rng_restart_state_[2];
+  // cached gaussian of the insertion and the region generator (save flag,
+  // value) from the third extension of the record (review UR-03)
+  bool rng_gauss_pending_;
+  double rng_gauss_state_[4];
 
   // optional per-proc state of a derived fix that must be restored together
   // with the random sequences (e.g. the Monte Carlo insertion fraction of
